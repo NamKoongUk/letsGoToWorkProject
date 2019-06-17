@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="shortcut icon" href="${ contextPath }/resources/images/favicon.ico">
 <title>LetsGoToWork</title>
 </head>
 <body>

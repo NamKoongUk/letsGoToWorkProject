@@ -9,6 +9,7 @@
 <title>LetsGoToWork</title>
 <!-- bootstrap CDN -->
 <jsp:include page="../common/tools.jsp"></jsp:include>
+<link rel="shortcut icon" href="${ contextPath }/resources/images/favicon.ico">
 </head>
 <body>
 	<!-- 로그인시 -->
@@ -23,7 +24,7 @@
 					<a class="navbar-brand" href="${ contextPath }">Logo 자리</a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
-					<ul class="nav navbar-nav visible-sm visible-md visible-lg">
+					<ul class="nav navbar-nav visible-lg visible-md">
 						<li><a href="approval.ap">결재관리</a></li>
 						<li><a href="employee.em">인사관리</a></li>
 						<li><a href="mail.ma">웹메일</a></li>
@@ -36,61 +37,6 @@
 							<div class="dropdown">
 								<button class="btn btn-primary dropdown-toggle" type="button"
 									data-toggle="dropdown">전자결재</button>
-								<ul class="dropdown-menu" >
-									<li><a href="#">HTML</a></li>
-									<li><a href="#">CSS</a></li>
-									<li><a href="#">JavaScript</a></li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<div class="dropdown">
-								<button class="btn btn-primary dropdown-toggle" type="button"
-									data-toggle="dropdown">인사관리</button>
-								<ul class="dropdown-menu" >
-									<li><a href="#">HTML</a></li>
-									<li><a href="#">CSS</a></li>
-									<li><a href="#">JavaScript</a></li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<div class="dropdown">
-								<button class="btn btn-primary dropdown-toggle" type="button"
-									data-toggle="dropdown">웹메일</button>
-								<ul class="dropdown-menu" >
-									<li><a href="#">HTML</a></li>
-									<li><a href="#">CSS</a></li>
-									<li><a href="#">JavaScript</a></li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<div class="dropdown">
-								<button class="btn btn-primary dropdown-toggle" type="button"
-									data-toggle="dropdown">일정관리</button>
-								<ul class="dropdown-menu" >
-									<li><a href="#">HTML</a></li>
-									<li><a href="#">CSS</a></li>
-									<li><a href="#">JavaScript</a></li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<div class="dropdown">
-								<button class="btn btn-primary dropdown-toggle" type="button"
-									data-toggle="dropdown">메신저</button>
-								<ul class="dropdown-menu" >
-									<li><a href="#">HTML</a></li>
-									<li><a href="#">CSS</a></li>
-									<li><a href="#">JavaScript</a></li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<div class="dropdown">
-								<button class="btn btn-primary dropdown-toggle" type="button"
-									data-toggle="dropdown">커뮤니티</button>
 								<ul class="dropdown-menu" >
 									<li><a href="#">HTML</a></li>
 									<li><a href="#">CSS</a></li>

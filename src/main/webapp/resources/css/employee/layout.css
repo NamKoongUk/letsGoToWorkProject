@@ -151,26 +151,3 @@ footer {
 	background: #80aaff !important;
 	border: 1px solid #80aaff;
 }
-
-
-/* 테이블 정의 */
-.content{
-	padding: 20px;
-}
-.listTable{
-	border-collapse: collapse;
-	width : 90%;
-}
-.listTable * {
-	text-align: center;
-	padding: 8px 20px;
-}
-.listTable tr{
-	border: 3px solid rgba(191, 191, 191, .8);
-}
-.listTable tr:nth-child(1){
-	background: rgba(191, 191, 191, .5);
-}
-.listTable tr *:nth-child(1){
-	padding: 5px 10px;
-}
