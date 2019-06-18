@@ -39,7 +39,7 @@ public interface ApprovalDao {
 
 	ArrayList<HashMap<String, Object>> showSaveDcm(PageInfo pi, SqlSession session);
 
-	ArrayList<Employee> showAppManager(SqlSession session);
+	ArrayList<Employee> showAppManager(SqlSession session);ㅁ
 
 	int insertApprovalMng(SqlSession session, int eid);
 
