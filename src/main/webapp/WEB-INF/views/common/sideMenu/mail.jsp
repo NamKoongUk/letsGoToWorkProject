@@ -22,6 +22,7 @@
 		<br>
 		<li><button class="grayBtn">휴지통</button></li>
 		<br><br>
-		<li><a href="#">환경설정</a></li>			
+		<li><a href="#">환경설정</a></li>
+		<!-- 환경설정에 공용메일 관리 추가하기  -->	
 	</ul>
 </div>
