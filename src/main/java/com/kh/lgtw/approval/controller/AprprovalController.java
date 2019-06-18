@@ -37,7 +37,7 @@ public class AprprovalController {
 		
 		
 		
-		ArrayList<HashMap<String, Object>> list = as.showAllPrograssDocument(pi);
+		// ArrayList<HashMap<String, Object>> list = as.showAllPrograssDocument(pi);
 		
 		return "";
 	}
@@ -53,7 +53,7 @@ public class AprprovalController {
 		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
 		pi.setEid(e.getEid());
 		
-		ArrayList<HashMap<String, Object>> list = as.showWaitDcm(pi);
+		// ArrayList<HashMap<String, Object>> list = as.showWaitDcm(pi);
 		
 		
 		return "";
@@ -70,7 +70,7 @@ public class AprprovalController {
 		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
 		pi.setEid(e.getEid());
 		
-		ArrayList<HashMap<String, Object>> list = as.showIntendedDcm(pi);
+		// ArrayList<HashMap<String, Object>> list = as.showIntendedDcm(pi);
 		
 		return "";
 	}
@@ -86,7 +86,7 @@ public class AprprovalController {
 		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
 		pi.setEid(e.getEid());
 		
-		ArrayList<HashMap<String, Object>> list = as.showProgressgDcm(pi);
+		// ArrayList<HashMap<String, Object>> list = as.showProgressgDcm(pi);
 		
 		return "";
 	}
@@ -102,7 +102,7 @@ public class AprprovalController {
 		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
 		pi.setEid(e.getEid());
 		
-		ArrayList<HashMap<String, Object>> list = as.showFinishDcm(pi);
+		// ArrayList<HashMap<String, Object>> list = as.showFinishDcm(pi);
 		
 		return "";
 	}
@@ -118,7 +118,7 @@ public class AprprovalController {
 		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
 		pi.setEid(e.getEid());
 		
-		ArrayList<HashMap<String, Object>> list = as.showWaitReceptionDcm(pi);
+		// ArrayList<HashMap<String, Object>> list = as.showWaitReceptionDcm(pi);
 		
 		return "";
 	}
@@ -134,7 +134,7 @@ public class AprprovalController {
 		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
 		pi.setEid(e.getEid());
 		
-		ArrayList<HashMap<String, Object>> list = as.showWaitCirculationDcm(pi);
+		// ArrayList<HashMap<String, Object>> list = as.showWaitCirculationDcm(pi);
 		
 		return "";
 	}
@@ -151,7 +151,7 @@ public class AprprovalController {
 		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
 		pi.setEid(e.getEid());
 		
-		ArrayList<HashMap<String, Object>> list = as.showAllFinishDcm(pi);
+		// ArrayList<HashMap<String, Object>> list = as.showAllFinishDcm(pi);
 		
 		return "";
 	}
@@ -167,7 +167,7 @@ public class AprprovalController {
 		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
 		pi.setEid(e.getEid());
 		
-		ArrayList<HashMap<String, Object>> list = as.showWriteDcm(pi);
+		// ArrayList<HashMap<String, Object>> list = as.showWriteDcm(pi);
 		
 		return "";
 	}
@@ -183,7 +183,7 @@ public class AprprovalController {
 		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
 		pi.setEid(e.getEid());
 		
-		ArrayList<HashMap<String, Object>> list = as.showFinApprovaldDcm(pi);
+		// ArrayList<HashMap<String, Object>> list = as.showFinApprovaldDcm(pi);
 		
 		return "";
 	}
@@ -199,7 +199,7 @@ public class AprprovalController {
 		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
 		pi.setEid(e.getEid());
 		
-		ArrayList<HashMap<String, Object>> list = as.showReceptionDcm(pi);
+		// ArrayList<HashMap<String, Object>> list = as.showReceptionDcm(pi);
 		
 		return "";
 	}
@@ -215,7 +215,7 @@ public class AprprovalController {
 		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
 		pi.setEid(e.getEid());
 		
-		ArrayList<HashMap<String, Object>> list = as.showCirculationDcm(pi);
+		// ArrayList<HashMap<String, Object>> list = as.showCirculationDcm(pi);
 		
 		return "";
 	}
@@ -231,7 +231,7 @@ public class AprprovalController {
 		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
 		pi.setEid(e.getEid());
 		
-		ArrayList<HashMap<String, Object>> list = as.showRefuseDcm(pi);
+		// ArrayList<HashMap<String, Object>> list = as.showRefuseDcm(pi);
 		
 		return "";
 	}
@@ -247,7 +247,7 @@ public class AprprovalController {
 		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
 		pi.setEid(e.getEid());
 		
-		ArrayList<HashMap<String, Object>> list = as.showSaveDcm(pi);
+		// ArrayList<HashMap<String, Object>> list = as.showSaveDcm(pi);
 		
 		return "";
 	}
@@ -257,7 +257,7 @@ public class AprprovalController {
 	@RequestMapping("showAppManager.ap")
 	public String showAppManager(Model model) {
 		
-		ArrayList<Employee> list = as.showAppManager();
+		// ArrayList<Employee> list = as.showAppManager();
 		
 		return "";
 	}
@@ -265,7 +265,7 @@ public class AprprovalController {
 	@RequestMapping("insertApprovalMng.ap")
 	public String insertApprovalMng(int eid) {
 		
-		int result = as.insertApprovalMng(eid);
+		// int result = as.insertApprovalMng(eid);
 		
 		return "";
 	}
@@ -284,7 +284,7 @@ public class AprprovalController {
 	@RequestMapping("showFormManagement.ap")
 	public String showFormManagement(Model model) {
 		
-		ArrayList<AppForm> list = as.showFormManagement();
+		// ArrayList<AppForm> list = as.showFormManagement();
 		
 		return "";
 	}
@@ -293,7 +293,7 @@ public class AprprovalController {
 	@RequestMapping("insertAppForm.ap")
 	public String insertAppForm(AppForm form) {
 		
-		int result = as.insertAppForm(form);
+		// int result = as.insertAppForm(form);
 		
 		return "";
 	}
@@ -302,7 +302,7 @@ public class AprprovalController {
 	@RequestMapping("delteAppForm.ap")
 	public String delteAppForm(AppForm form) {
 		
-		int result = as.delteAppForm(form);
+		// int result = as.delteAppForm(form);
 		
 		return "";
 	}
@@ -311,7 +311,7 @@ public class AprprovalController {
 	@RequestMapping("updateAppForm.ap")
 	public String updateAppForm(AppForm form) {
 		
-		int result = as.updateAppForm(form);
+		// int result = as.updateAppForm(form);
 		
 		return "";
 	}
@@ -320,7 +320,7 @@ public class AprprovalController {
 	@RequestMapping("updateUseForm.ap")
 	public String updateUseForm(AppForm form) {
 		
-		int result = as.updateUseForm(form);
+		// int result = as.updateUseForm(form);
 		
 		return "";
 	}
@@ -329,7 +329,7 @@ public class AprprovalController {
 	@RequestMapping("updateNotUserForm.ap")
 	public String updateNotUserForm(AppForm form) {
 		
-		int result = as.updateNotUserForm(form);
+		// int result = as.updateNotUserForm(form);
 		
 		return "";
 	}
@@ -337,7 +337,7 @@ public class AprprovalController {
 	@RequestMapping("selectOfferDcm.ap")
 	public String selectOfferDcm(Model model) {
 		
-		ArrayList<AppForm> list = as.selectOfferDcm();
+		// ArrayList<AppForm> list = as.selectOfferDcm();
 		
 		return "";
 	}
@@ -345,7 +345,7 @@ public class AprprovalController {
 	@RequestMapping("selectOneOfferDcm.ap")
 	public String selectOneOfferDcm(Model model, int afNo) {
 		
-		AppForm form = as.selectOneOfferDcm(afNo);
+		// AppForm form = as.selectOneOfferDcm(afNo);
 		
 		return "";
 	}
@@ -353,7 +353,7 @@ public class AprprovalController {
 	@RequestMapping("saveOfferDcm.ap")
 	public String saveOfferDcm(Model model, int[] afNo) {
 		
-		int result = as.saveOfferDcm(afNo);
+		// int result = as.saveOfferDcm(afNo);
 		
 		return "";
 	}
@@ -362,7 +362,7 @@ public class AprprovalController {
 	@RequestMapping("showAllDcm.ap")
 	public String showAllDcm(Model model) {
 		
-		ArrayList<HashMap<String, Object>> list = as.showAllDcm();
+		// ArrayList<HashMap<String, Object>> list = as.showAllDcm();
 		
 		return "";
 	}
@@ -371,7 +371,7 @@ public class AprprovalController {
 	@RequestMapping("showDeleteDcm.ap")
 	public String showDeleteDcm(Model model) {
 		
-		ArrayList<HashMap<String, Object>> list = as.showDeleteDcm();
+		//ArrayList<HashMap<String, Object>> list = as.showDeleteDcm();
 		
 		return "";
 	}
@@ -381,7 +381,7 @@ public class AprprovalController {
 	@RequestMapping("showDetailDcm.ap")
 	public String showDetailDcm(Model model, String adNo) {
 		
-		HashMap<String, Object> hmap = as.showDetailDcm(adNo);
+		// HashMap<String, Object> hmap = as.showDetailDcm(adNo);
 		
 		return "";
 	}
@@ -390,7 +390,7 @@ public class AprprovalController {
 	@RequestMapping("approvalDcm.ap")
 	public String approvalDcm(String adNo, int eid) {
 		
-		int result = as.approvalDcm(adNo, eid);
+		// int result = as.approvalDcm(adNo, eid);
 		
 		return "";
 	}
@@ -399,7 +399,7 @@ public class AprprovalController {
 	@RequestMapping("confirmDcm.ap")
 	public String confirmDcm(String adNo, int eid) {
 		
-		int result = as.confirmDcm(adNo, eid);
+		// int result = as.confirmDcm(adNo, eid);
 		
 		return "";
 	}
@@ -408,7 +408,7 @@ public class AprprovalController {
 	@RequestMapping("updateDcm.ap")
 	public String updateDcm(String adNo, int eid) {
 		
-		int result = as.updateDcm(adNo, eid);
+		// int result = as.updateDcm(adNo, eid);
 		
 		return "";
 	}
@@ -418,7 +418,7 @@ public class AprprovalController {
 	@RequestMapping("showWriteForm.ap")
 	public String showWriteForm(Model model) {
 		
-		int[] afNoArr = as.showWriteForm();
+		// int[] afNoArr = as.showWriteForm();
 		
 		return "";
 	}
@@ -426,7 +426,7 @@ public class AprprovalController {
 	@RequestMapping("selectDcmForm.ap")
 	public String selectDcmForm(int afNo) {
 		
-		AppForm form = as.selectDcmForm(afNo);
+		// AppForm form = as.selectDcmForm(afNo);
 		
 		return "";
 	}
@@ -438,7 +438,7 @@ public class AprprovalController {
 		
 		int eid = e.getEid();
 		
-		ArrayList<SignLine> list = as.selectApprovalLine(eid);
+		// ArrayList<SignLine> list = as.selectApprovalLine(eid);
 		
 		return "";
 	}
@@ -447,7 +447,7 @@ public class AprprovalController {
 	@RequestMapping("selectReferenceEmp.ap")
 	public String selectReferenceEmp(String name) {
 		
-		ArrayList<Employee> list = as.selectReferenceEmp(name);
+		// ArrayList<Employee> list = as.selectReferenceEmp(name);
 		
 		return "";
 	}
@@ -455,7 +455,7 @@ public class AprprovalController {
 	@RequestMapping("saveApprovalDcm.ap")
 	public String saveApprovalDcm(AppDocument ad,HttpSession session) {
 
-		int result = as.saveApprovalDcm(ad);
+		// int result = as.saveApprovalDcm(ad);
 		
 		return "";
 	}
@@ -463,7 +463,7 @@ public class AprprovalController {
 	@RequestMapping("insertApprovalDcm.ap")
 	public String insertApprovalDcm(AppDocument ad, int[] eid) {
 
-		int result = as.insertApprovalDcm(ad, eid);
+		// int result = as.insertApprovalDcm(ad, eid);
 		
 		return "";
 	}
