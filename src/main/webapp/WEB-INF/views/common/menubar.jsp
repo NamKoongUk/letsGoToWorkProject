@@ -9,7 +9,6 @@
 <title>LetsGoToWork</title>
 <!-- bootstrap CDN -->
 <jsp:include page="../common/tools.jsp"></jsp:include>
-<link rel="shortcut icon" href="${ contextPath }/resources/images/favicon.ico">
 </head>
 <body>
 	<!-- 로그인시 -->
