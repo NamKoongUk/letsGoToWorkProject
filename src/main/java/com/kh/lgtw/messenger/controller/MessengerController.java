@@ -67,9 +67,9 @@ public class MessengerController {
 		return "";
 	}
 	//쪽지 전송페이지(페이지전환)
-		@RequestMapping("/showMessenger")
+		@RequestMapping("showMessenger.me")
 		public String showMessenger(Model model) {
-			return "messenger/messengerSend";
+			return "";
 		}
 	
 }
