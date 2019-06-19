@@ -23,12 +23,11 @@
 					<option>보고서</option>
 					<option>휴가신청서</option>
 				</select>
-				<button class="btn btn-primary" style="float:right; margin-left:10px;">확인</button>
 				<select class="form-control" style="width:150px;display:inline-block; float:right;">
-					<option>선택</option>
-					<option>결재</option>
-					<option>반려</option>
-					<option>합의</option>
+					<option>전체</option>
+					<option>품의서</option>
+					<option>보고서</option>
+					<option>휴가신청서</option>
 				</select>
 				<table class="table table-hover">
 				    <thead>
@@ -45,8 +44,6 @@
 				      <!-- 조회해온 값 넣기 -->
 				    </tbody>
 		  		</table>
-		  		
-		  		<div class="pagingArea"></div>
 			</div>
 		</section>
 	</div>
