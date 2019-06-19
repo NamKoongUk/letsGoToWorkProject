@@ -5,7 +5,7 @@
 
 <div class="col-sm-2 sidenav visible-sm visible-md visible-lg">
 	<ul>
-		<li><button>글쓰기</button></li>
+		<li><button onclick="location.href='showWriteForm.ap'">글쓰기</button></li>
 		<hr>
 		<li><a href="#">Link</a></li>
 		<li><a href="#">Link</a></li>
