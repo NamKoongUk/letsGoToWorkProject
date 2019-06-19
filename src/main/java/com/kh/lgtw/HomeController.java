@@ -40,10 +40,7 @@ public class HomeController {
 		return "community/communityMain";
 	}
 	
-	@RequestMapping("employee.em")
-	public String employeeHome() {
-		return "employee/employeeMain";
-	}
+	
 	
 	@RequestMapping("messenger.me")
 	public String messengerHome() {

@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.kh.lgtw.employee.model.dao.EmployeeDao;
 import com.kh.lgtw.employee.model.vo.Employee;
-
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
 //	@Autowired
 //	private EmployeeDao empDao;
