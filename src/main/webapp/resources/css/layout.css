@@ -49,7 +49,7 @@
 	font-size: 1.5em;	
 	color: white;
 }
-.sidenav li:hover{
+.sidenav li:hover a, .sidenav li:hover{
 	background: white;
 	color: 	rgb(0, 60, 179);
 }
