@@ -18,6 +18,7 @@ public class EmployeeController {
 	private EmployeeService emplService;
 	
 	//화면전환
+
 	//조직도
 	@RequestMapping("employee.em")
 	public String employeeHome() {
@@ -33,6 +34,7 @@ public class EmployeeController {
 	public String showEmpPage() {
 		return "employee/myEmpPage";
 	}
+
 	//휴가신청
 	@RequestMapping("showReqHoliday.em")
 	public String showReqHolidayList() {
@@ -61,12 +63,6 @@ public class EmployeeController {
 		return "employee/attendStatus";
 	}
 	
-	
-	
-	
-	
-	
-
 	//로그인
 	@RequestMapping("login.em")
 	public String loginCheck(Employee employee, HttpServletRequest request) {

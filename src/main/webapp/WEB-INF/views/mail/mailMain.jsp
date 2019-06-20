@@ -29,12 +29,27 @@
 		color: black;
 	}
 	.searchArea{
+		height : 50px;
 		margin-left: 7%;
 		margin-bottom : 20px;
 	}
-	.searchArea > *{
-		height : 20px;
-		width: 15% !important;
+	.searchArea *{
+		height : 35px !important;;
+		margin-right : 10px;
+		width : 15% !important;
+	}
+	.searchArea .serarhValue{
+		width: 30% !important;
+	}
+	.searchArea .searchBtn{
+		border: 3px solid lightgray ;
+		background : lightgray;
+		font-weight : bold;
+	}
+	.searchBtn:hover{
+		background : white;
+		font-weight : bold;
+		color : black;
 	}
 	.form-control{
 		display: inline-block;
@@ -58,8 +73,8 @@
 						<option value="writer">작성자</option>
 						<option value="content">내용</option>
 					</select> &nbsp;&nbsp;&nbsp;
-					<input type="text" name="serarhValue" class="form-control"/>&nbsp;
-					<button></button>
+					<input type="text" name="serarhValue" class="form-control serarhValue"/>&nbsp;
+					<input type="submit" value="검색하기" class="form-control searchBtn"/>
 				</div>
 				<div class="tableArea" align="center">
 					<table class="listTable">

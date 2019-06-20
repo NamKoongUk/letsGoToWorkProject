@@ -13,14 +13,9 @@ import com.kh.lgtw.community.model.vo.CommunityPost;
 @Controller
 public class CommunityController { 
 	
-
-
-	
 	
 //	@Autowired
 //	private CommunityService cs; 
-//		 
-//	
     // 게시판 조회용 메소드
 	
 	

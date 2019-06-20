@@ -69,7 +69,6 @@
 					<li><a href="showMyPage.em">내 정보 관리</a></li>
 				</ul>
 		</li>
-		
 		<li>
 			<a href="#">휴가/근태</a>
 			<ul>

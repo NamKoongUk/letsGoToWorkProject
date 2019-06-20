@@ -9,8 +9,8 @@
 	
 	<annotation-driven />
 
-	<!-- <resources mapping="/resources/**" location="/resources/" /> -->
-	<!-- employee Servlet -->
+	<resources mapping="/resources/**" location="/resources/" />
+
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />

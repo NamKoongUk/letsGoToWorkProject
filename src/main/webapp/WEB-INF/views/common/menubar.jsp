@@ -24,12 +24,12 @@
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav visible-lg visible-md">
-						<li><a href="${ contextPath }/showWaitDcm.ap">결재관리</a></li>
-						<li><a href="employee.em">인사관리</a></li>
-						<li><a href="mail.ma">웹메일</a></li>
-						<li><a href="scheduler.sc">일정관리</a></li>
+						<li><a href="${contextPath}/approval.ap">결재관리</a></li>
+						<li><a href="${contextPath}/employee.em">인사관리</a></li>
+						<li><a href="${contextPath}/mail.ma">웹메일</a></li>
+						<li><a href="${contextPath}/scheduler.sc">일정관리</a></li>
 						<li><a href="${contextPath}/messenger.me">메신저</a></li>
-						<li><a href="community.co">커뮤니티</a></li>
+						<li><a href="${contextPath}/community.co">커뮤니티</a></li>
 					</ul>
 					<ul class="nav navbar-nav visible-xs">
 						<li>
@@ -66,5 +66,15 @@
 		<jsp:forward page="../main/loginMain.jsp"/>
 	</c:if> --%>
 
+	
+	<script>
+		// textarea클릭시 안에 내용을 지워주는 코드 
+		$(function(){
+			$("textarea").click(function(){
+				console.log("텍스트 area선택")
+				$(this).text("");
+			})
+		})
+	</script>
 </body>
 </html>
