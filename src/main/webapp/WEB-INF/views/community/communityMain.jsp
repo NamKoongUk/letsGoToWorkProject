@@ -8,7 +8,9 @@
 <title>LetsGoToWork</title>
 </head>
 <body>
+	<jsp:include page="../common/menubar.jsp"/>	
 	<div class="row wrap">
+		
 		<jsp:include page="../common/sideMenu/community.jsp"/>
 		
 		<section class="col-sm-10">

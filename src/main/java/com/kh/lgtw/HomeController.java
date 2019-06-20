@@ -35,10 +35,10 @@ public class HomeController {
 		return "approval/approvalMain";
 	}
 	
-	@RequestMapping("community.co")
-	public String communityHome() {
-		return "community/communityMain";
-	}
+	/*
+	 * @RequestMapping("community.co") public String communityHome() { return
+	 * "community/communityMain"; }
+	 */
 	
 	
 	@RequestMapping("messenger.me")
