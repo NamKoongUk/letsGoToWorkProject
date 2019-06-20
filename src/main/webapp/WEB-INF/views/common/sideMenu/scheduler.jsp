@@ -5,13 +5,42 @@
 
 <div class="col-sm-2 sidenav visible-sm visible-md visible-lg">
 	<ul>
-		<li><button>글쓰기</button></li>
-		<hr>
-		<li><a href="#">Link</a></li>
-		<li><a href="#">Link</a></li>
-		<li><a href="#">Link</a></li>
-		<li><a href="#">Link</a></li>
-		<li><a href="#">Link</a></li>
-		<li><a href="#">Link</a></li>			
+		<li><button>일정추가</button></li>			
 	</ul>
+	<hr>
+	<div style="height:200px; margin-top:10px;">
+		<table id="empScheduler">
+			<thead>
+				<tr>
+					<th colspan="2" style="text-align:center"><b>개인일정</b></th>
+					<th><button>+</button></th>
+				</tr>
+			</thead>
+			<tbody>
+			
+			</tbody>
+		</table>
+	</div>
+	
+	<hr>
+	
+	<div style="height:200px; margin-top:10px;">
+		<table id="groupScheduler">
+			<thead>
+				<tr>
+					<th colspan="2" style="text-align:center"><b>공유일정</b></th>
+					<th><button>+</button></th>
+				</tr>
+			</thead>
+			<tbody>
+			
+			</tbody>
+		</table>
+	</div>
+	
 </div>
+
+<script>
+	
+</script>
+

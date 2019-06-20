@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.kh.lgtw.scheduler.model.dao.SchedulerDao;
 
 @Service
-public class SchedulerServiceImpl {
+public class SchedulerServiceImpl implements SchedulerService{
 	@Autowired
 	private SchedulerDao sd;
 	
