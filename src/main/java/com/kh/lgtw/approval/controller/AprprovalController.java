@@ -1,11 +1,14 @@
 package com.kh.lgtw.approval.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,7 @@ import com.kh.lgtw.approval.model.service.ApprovalService;
 import com.kh.lgtw.approval.model.vo.AppDocument;
 import com.kh.lgtw.approval.model.vo.AppForm;
 import com.kh.lgtw.approval.model.vo.PageInfo;
+import com.kh.lgtw.approval.model.vo.SignForm;
 import com.kh.lgtw.approval.model.vo.SignLine;
 import com.kh.lgtw.employee.model.vo.Employee;
 
@@ -25,118 +29,123 @@ public class AprprovalController {
 	
 	//------------------------진행중인 문서------------------------------
 	//진행중인 전체문서 이동
+	@RequestMapping("approval.ap")
+	public String approvalHome() {
+		return "approval/approvalMain";
+	}
+	
 	@RequestMapping("showAllPrograssDcm.ap")
 	public String showAllPrograssDocument(HttpServletRequest request, Model model) {
 		
-		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-		
-		PageInfo pi = new PageInfo();
-		pi.setSortInfo(request.getParameter("sortInfo"));
-		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-		pi.setEid(e.getEid());
+//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+//		
+//		PageInfo pi = new PageInfo();
+//		pi.setSortInfo(request.getParameter("sortInfo"));
+//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
+//		pi.setEid(e.getEid());
 		
 		
 		
 		// ArrayList<HashMap<String, Object>> list = as.showAllPrograssDocument(pi);
 		
-		return "";
+		return "progressDcm/allProgressDcm";
 	}
 	
 	//결재대기문서 이동
 	@RequestMapping("showWaitDcm.ap")
 	public String showWaitDcm(HttpServletRequest request, Model model) {
 		
-		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-		
-		PageInfo pi = new PageInfo();
-		pi.setSortInfo(request.getParameter("sortInfo"));
-		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-		pi.setEid(e.getEid());
+//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+//		
+//		PageInfo pi = new PageInfo();
+//		pi.setSortInfo(request.getParameter("sortInfo"));
+//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
+//		pi.setEid(e.getEid());
 		
 		// ArrayList<HashMap<String, Object>> list = as.showWaitDcm(pi);
 		
 		
-		return "";
+		return "progressDcm/approvalMain";
 	}
 	
 	//처리예정문서 이동
 	@RequestMapping("showIntendedDcm.ap")
 	public String showIntendedDcm(HttpServletRequest request, Model model) {
 		
-		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-		
-		PageInfo pi = new PageInfo();
-		pi.setSortInfo(request.getParameter("sortInfo"));
-		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-		pi.setEid(e.getEid());
+//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+//		
+//		PageInfo pi = new PageInfo();
+//		pi.setSortInfo(request.getParameter("sortInfo"));
+//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
+//		pi.setEid(e.getEid());
 		
 		// ArrayList<HashMap<String, Object>> list = as.showIntendedDcm(pi);
 		
-		return "";
+		return "progressDcm/intendedDcm";
 	}
 	
 	//처리중인문서 이동
 	@RequestMapping("showProgressgDcm.ap")
 	public String showProgressgDcm(HttpServletRequest request, Model model) {
 		
-		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-		
-		PageInfo pi = new PageInfo();
-		pi.setSortInfo(request.getParameter("sortInfo"));
-		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-		pi.setEid(e.getEid());
-		
+//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+//		
+//		PageInfo pi = new PageInfo();
+//		pi.setSortInfo(request.getParameter("sortInfo"));
+//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
+//		pi.setEid(e.getEid());
+//		
 		// ArrayList<HashMap<String, Object>> list = as.showProgressgDcm(pi);
 		
-		return "";
+		return "progressDcm/approvalProgressDcm";
 	}
 	
 	//완료문서 이동
 	@RequestMapping("showFinishDcm.ap")
 	public String showFinishDcm(HttpServletRequest request, Model model) {
-		
-		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-		
-		PageInfo pi = new PageInfo();
-		pi.setSortInfo(request.getParameter("sortInfo"));
-		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-		pi.setEid(e.getEid());
+//		
+//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+//		
+//		PageInfo pi = new PageInfo();
+//		pi.setSortInfo(request.getParameter("sortInfo"));
+//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
+//		pi.setEid(e.getEid());
 		
 		// ArrayList<HashMap<String, Object>> list = as.showFinishDcm(pi);
 		
-		return "";
+		return "progressDcm/finishDcm";
 	}
 	
 	//수신대기 문서 이동
 	@RequestMapping("showWaitReceptionDcm.ap")
 	public String showWaitReceptionDcm(HttpServletRequest request, Model model) {
 		
-		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-		
-		PageInfo pi = new PageInfo();
-		pi.setSortInfo(request.getParameter("sortInfo"));
-		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-		pi.setEid(e.getEid());
+//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+//		
+//		PageInfo pi = new PageInfo();
+//		pi.setSortInfo(request.getParameter("sortInfo"));
+//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
+//		pi.setEid(e.getEid());
 		
 		// ArrayList<HashMap<String, Object>> list = as.showWaitReceptionDcm(pi);
 		
-		return "";
+		return "progressDcm/waitReceptionDcm";
 	}
 	
 	//회람대기 문서 이동
 	@RequestMapping("showWaitCirculationDcm.ap")
 	public String showWaitCirculationDcm(HttpServletRequest request, Model model) {
 		
-		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-		
-		PageInfo pi = new PageInfo();
-		pi.setSortInfo(request.getParameter("sortInfo"));
-		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-		pi.setEid(e.getEid());
+//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+//		
+//		PageInfo pi = new PageInfo();
+//		pi.setSortInfo(request.getParameter("sortInfo"));
+//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
+//		pi.setEid(e.getEid());
 		
 		// ArrayList<HashMap<String, Object>> list = as.showWaitCirculationDcm(pi);
 		
-		return "";
+		return "progressDcm/waitCirculationDcm";
 	}
 	
 	//-------------------------완료문서-----------------------------
@@ -144,112 +153,112 @@ public class AprprovalController {
 	@RequestMapping("showAllFinishDcm.ap")
 	public String showAllFinishDcm(HttpServletRequest request, Model model) {
 		
-		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-		
-		PageInfo pi = new PageInfo();
-		pi.setSortInfo(request.getParameter("sortInfo"));
-		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-		pi.setEid(e.getEid());
+//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+//		
+//		PageInfo pi = new PageInfo();
+//		pi.setSortInfo(request.getParameter("sortInfo"));
+//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
+//		pi.setEid(e.getEid());
 		
 		// ArrayList<HashMap<String, Object>> list = as.showAllFinishDcm(pi);
 		
-		return "";
+		return "finDcm/allFinishDcm";
 	}
 	
 	//완료문서-기안한문서
 	@RequestMapping("showWriteDcm.ap")
 	public String showWriteDcm(HttpServletRequest request, Model model) {
 		
-		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-		
-		PageInfo pi = new PageInfo();
-		pi.setSortInfo(request.getParameter("sortInfo"));
-		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-		pi.setEid(e.getEid());
+//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+//		
+//		PageInfo pi = new PageInfo();
+//		pi.setSortInfo(request.getParameter("sortInfo"));
+//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
+//		pi.setEid(e.getEid());
 		
 		// ArrayList<HashMap<String, Object>> list = as.showWriteDcm(pi);
 		
-		return "";
+		return "finDcm/userWriteDcm";
 	}
 	
 	//완료문서-결재문서
 	@RequestMapping("showFinApprovaldDcm.ap")
 	public String showFinApprovaldDcm(HttpServletRequest request, Model model) {
 		
-		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-		
-		PageInfo pi = new PageInfo();
-		pi.setSortInfo(request.getParameter("sortInfo"));
-		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-		pi.setEid(e.getEid());
+//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+//		
+//		PageInfo pi = new PageInfo();
+//		pi.setSortInfo(request.getParameter("sortInfo"));
+//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
+//		pi.setEid(e.getEid());
 		
 		// ArrayList<HashMap<String, Object>> list = as.showFinApprovaldDcm(pi);
 		
-		return "";
+		return "finDcm/finApprovalDcm";
 	}
 	
 	//완료문서-수신문서
 	@RequestMapping("showReceptionDcm.ap")
 	public String showReceptionDcm(HttpServletRequest request, Model model) {
 		
-		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-		
-		PageInfo pi = new PageInfo();
-		pi.setSortInfo(request.getParameter("sortInfo"));
-		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-		pi.setEid(e.getEid());
+//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+//		
+//		PageInfo pi = new PageInfo();
+//		pi.setSortInfo(request.getParameter("sortInfo"));
+//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
+//		pi.setEid(e.getEid());
 		
 		// ArrayList<HashMap<String, Object>> list = as.showReceptionDcm(pi);
 		
-		return "";
+		return "finDcm/receptionDcm";
 	}
 	
 	//완료문서-회람/참조 문서
 	@RequestMapping("showCirculationDcm.ap")
 	public String showCirculationDcm(HttpServletRequest request, Model model) {
 		
-		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-		
-		PageInfo pi = new PageInfo();
-		pi.setSortInfo(request.getParameter("sortInfo"));
-		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-		pi.setEid(e.getEid());
+//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+//		
+//		PageInfo pi = new PageInfo();
+//		pi.setSortInfo(request.getParameter("sortInfo"));
+//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
+//		pi.setEid(e.getEid());
 		
 		// ArrayList<HashMap<String, Object>> list = as.showCirculationDcm(pi);
 		
-		return "";
+		return "finDcm/circulationDcm";
 	}
 	
 	//완료문서-반려문서
 	@RequestMapping("showRefuseDcm.ap")
 	public String showRefuseDcm(HttpServletRequest request, Model model) {
 		
-		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-		
-		PageInfo pi = new PageInfo();
-		pi.setSortInfo(request.getParameter("sortInfo"));
-		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-		pi.setEid(e.getEid());
+//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+//		
+//		PageInfo pi = new PageInfo();
+//		pi.setSortInfo(request.getParameter("sortInfo"));
+//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
+//		pi.setEid(e.getEid());
 		
 		// ArrayList<HashMap<String, Object>> list = as.showRefuseDcm(pi);
 		
-		return "";
+		return "finDcm/refuseDcm";
 	}
 	
 	//완료문서-임시저장문서
 	@RequestMapping("showSaveDcm.ap")
 	public String showSaveDcm(HttpServletRequest request, Model model) {
 		
-		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-		
-		PageInfo pi = new PageInfo();
-		pi.setSortInfo(request.getParameter("sortInfo"));
-		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-		pi.setEid(e.getEid());
+//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+//		
+//		PageInfo pi = new PageInfo();
+//		pi.setSortInfo(request.getParameter("sortInfo"));
+//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
+//		pi.setEid(e.getEid());
 		
 		// ArrayList<HashMap<String, Object>> list = as.showSaveDcm(pi);
 		
-		return "";
+		return "finDcm/saveDcm";
 	}
 	
 	//------------------------관리자설정-----------------------------
@@ -286,7 +295,23 @@ public class AprprovalController {
 		
 		// ArrayList<AppForm> list = as.showFormManagement();
 		
-		return "";
+		return "managerOption/formManagement";
+	}
+	
+	//결재양식 선택
+	@RequestMapping("selectSignForm.ap")
+	public void selectSignForm(HttpServletResponse response, SignForm sf) {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		SignForm signForm = as.selectSignForm(sf);
+		
+		try {
+			response.getWriter().print(mapper.writeValueAsString(signForm));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//양식생성
@@ -295,7 +320,7 @@ public class AprprovalController {
 		
 		// int result = as.insertAppForm(form);
 		
-		return "";
+		return "managerOption/insertAppForm";
 	}
 	
 	//양식 삭제
@@ -420,7 +445,7 @@ public class AprprovalController {
 		
 		// int[] afNoArr = as.showWriteForm();
 		
-		return "approval/writeApprovalPage";
+		return "writeApprovalPage";
 	}
 	//문서양식 불러오기
 	@RequestMapping("selectDcmForm.ap")

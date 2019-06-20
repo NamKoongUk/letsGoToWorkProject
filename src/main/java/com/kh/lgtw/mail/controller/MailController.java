@@ -12,6 +12,18 @@ import com.kh.lgtw.mail.model.vo.Mail;
 @Controller
 public class MailController {
 	
+	 @RequestMapping("mail.ma")
+		public String mailHome() {
+		return "mail/mailMain";
+		// return "redirect:mail/allList.ma";
+	}
+	 
+	// 부재중 설정페이지로 이동 
+	 @RequestMapping("settingAbsence.ma")
+	 public String mailSettingHome() {
+		 return "mail/settings";
+	 }
+	
 	// 전체 메일함 조회
 	@RequestMapping("mail/allList.ma") // HomeController를 여기로 리다이렉트 시키기 
 	public String selectMailList(int currentPage, Model model) {
