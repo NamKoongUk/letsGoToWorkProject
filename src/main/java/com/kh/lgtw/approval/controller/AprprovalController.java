@@ -420,7 +420,7 @@ public class AprprovalController {
 		
 		// int[] afNoArr = as.showWriteForm();
 		
-		return "";
+		return "approval/writeApprovalPage";
 	}
 	//문서양식 불러오기
 	@RequestMapping("selectDcmForm.ap")
