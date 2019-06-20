@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Approval">
+	<resultMap type="SignForm" id="signFormResultSet">
+		<id property="signCode" column="SIGN_CODE"/>
+		<result property="signName" column="SIGN_NAME"/>
+		<result property="signContent" column="SIGN_CONTENT"/>
+	</resultMap>
+	
+	<select id="selectSignForm" resultMap="signFormResultSet" parameterType="SignForm">
+		SELECT *
+		FROM SIGN_FORM
+		WHERE SIGN_CODE = #{signCode}
+	</select>
+	
+	
+</mapper>  

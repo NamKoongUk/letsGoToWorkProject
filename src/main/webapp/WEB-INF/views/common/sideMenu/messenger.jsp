@@ -23,6 +23,11 @@
 			<button style="margin-top:8px;" onclick="callMessenger()">메신저</button>
 		</li>
 	</ul>
+	<form id="chatForm">
+		<input type="hidden" name="hidden1" value="우기기기" />
+		<input type="hidden" name="hidden2" value="123123" />
+		<input type="hidden" name="hidden3" value="555" />
+	</form>
 	
 </div>
 
@@ -37,9 +42,15 @@
 	}
 	
 	function MessengerSend(){
-		location.href="${contextPath}" + "/messenger/showMessenger";
+		location.href="${contextPath}/messenger/showMessenger";
 	}
 	function callMessenger(){
-		window.open("http://localhost:3000", "네이버새창", "width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
+		var chatForm = document.getElementById("chatForm");
+		window.open("about:blank", "chatRoom", "width=400, height=500, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
+		chatForm.action="http://localhost:3000";
+		chatForm.target="chatRoom";
+		chatForm.method="post";
+		chatForm.submit();
+		
 	}
 </script>

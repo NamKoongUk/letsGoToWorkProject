@@ -29,4 +29,30 @@ public class HomeController {
 		
 		return "home";
 	}
+	
+	@RequestMapping("approval.ap")
+	public String approvalHome() {
+		return "approval/approvalMain";
+	}
+	
+	/*
+	 * @RequestMapping("community.co") public String communityHome() { return
+	 * "community/communityMain"; }
+	 */
+	
+	
+	@RequestMapping("messenger.me")
+	public String messengerHome() {
+		return "messenger/messengerMain";
+	}
+	
+	@RequestMapping("scheduler.sc")
+	public String schedulerHome() {
+		return "scheduler/schedulerMain";
+	}
+	
+	@RequestMapping("mail.ma")
+	public String mailHome() {
+		return "mail/mailMain";
+	}
 }

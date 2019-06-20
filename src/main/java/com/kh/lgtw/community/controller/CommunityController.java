@@ -1,6 +1,7 @@
 package com.kh.lgtw.community.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.lgtw.community.model.service.CommunityService;
@@ -9,25 +10,45 @@ import com.kh.lgtw.community.model.vo.CommunityAttachment;
 import com.kh.lgtw.community.model.vo.CommunityComment;
 import com.kh.lgtw.community.model.vo.CommunityPost;
 
+@Controller
 public class CommunityController { 
 	
-
+	
 //	@Autowired
 //	private CommunityService cs; 
-
+    // 게시판 조회용 메소드
+	
+	
 	@RequestMapping("community.co")
-		public String communityHome() {
+	public String communityHome() {
 		return "community/communityMain";
 	}
 	
-//  // 게시판 조회용 메소드	
-//	public String SelectCommunity (Community cm  ) {
-//		Community com; 
-//		
-//		com = cs.SelectCommunity(cm);
-//		
-//		return ""; 
-//	}
+	
+	@RequestMapping("communityList.co")
+	public String SelectCommunity ( ) {
+		return "community/communityList"; 
+	}
+
+	@RequestMapping("communityInsert.co")
+	public String InsertCommunity() {
+		return "community/communityInsert";	
+		
+	}
+	
+	@RequestMapping("temporaryList.co")
+	public String TemporaryList() {
+		return "community/temporaryList";	
+	} 
+	
+	@RequestMapping("managebulletinList.co")
+	public String ManagebulletinList () {
+		return "community/managebulletinList";
+	}
+
+
+
+}
 //	
 //	//게시판 수정메소드 뷰페이지 이동
 //	public String showUpdateView() {
@@ -187,4 +208,4 @@ public class CommunityController {
 //			
 		
 
-}
+/* } */

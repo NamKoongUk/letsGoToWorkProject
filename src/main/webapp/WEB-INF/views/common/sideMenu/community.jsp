@@ -7,11 +7,11 @@
 	<ul>
 		<li><button>글쓰기</button></li>
 		<hr>
-		<li><a href="#">Link</a></li>
-		<li><a href="#">Link</a></li>
-		<li><a href="#">Link</a></li>
-		<li><a href="#">Link</a></li>
-		<li><a href="#">Link</a></li>
-		<li><a href="#">Link</a></li>			
+		<li><a href="temporaryList.co">임시작성한 게시글</a></li>
+		<li><a href="communityList.co">게시판</a></li>
+		<li><a href="communityInsert.co">게시판 만들기</a></li>
+		<li><a href="managebulletinList.co">게시판 관리</a></li>
+		<!-- <li><a href="#">Link</a></li>
+		<li><a href="#">Link</a></li> -->			
 	</ul>
 </div>

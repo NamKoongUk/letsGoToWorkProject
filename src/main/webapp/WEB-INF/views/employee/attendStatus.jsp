@@ -8,14 +8,15 @@
 <title>LetsGoToWork</title>
 </head>
 <body>
-	<jsp:include page="../common/menubar.jsp"/>	
+	<jsp:include page="../common/menubar.jsp"/>
 	<div class="row wrap">
-		
-		<jsp:include page="../common/sideMenu/community.jsp"/>
+		<jsp:include page="../common/sideMenu/employee.jsp"/>
 		
 		<section class="col-sm-10">
-			<h1 class="title">커뮤니티 메인입니다.</h1>
-			
+			<h1 class="title">근태현황</h1>
+			<button type="button" class="btn btn-primary" onclick="location.href='showAttendStatus.em'">근태현황</button>
+			<button type="button" class="btn btn-primary" onclick="location.href='showHoliCalender.em'">근태 수정 내역</button>
+			<hr>
 			<div class="content">
 				
 			</div>
