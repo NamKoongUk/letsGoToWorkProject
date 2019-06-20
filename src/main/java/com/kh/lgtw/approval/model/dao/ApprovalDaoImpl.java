@@ -9,11 +9,18 @@ import org.springframework.stereotype.Repository;
 import com.kh.lgtw.approval.model.vo.AppDocument;
 import com.kh.lgtw.approval.model.vo.AppForm;
 import com.kh.lgtw.approval.model.vo.PageInfo;
+import com.kh.lgtw.approval.model.vo.SignForm;
 import com.kh.lgtw.approval.model.vo.SignLine;
 import com.kh.lgtw.employee.model.vo.Employee;
 
 @Repository
 public class ApprovalDaoImpl implements ApprovalDao{
+
+	@Override
+	public SignForm selectSignForm(SqlSession session, SignForm sf) {
+		
+		return session.selectOne("Approval.selectSignForm",sf);
+	}
 	
 //	//진행중인 전체문서 조회
 //	@Override

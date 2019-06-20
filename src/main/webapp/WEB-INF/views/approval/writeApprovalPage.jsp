@@ -10,9 +10,7 @@
 	.head{
 		background:#e8e8e8;
 	}
-	.table{
-		text-align:center;
-	}
+
 	td{
 		vertical-align:middle !important;
 		font-size:7;

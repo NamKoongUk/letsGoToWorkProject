@@ -11,6 +11,7 @@ import com.kh.lgtw.approval.model.dao.ApprovalDao;
 import com.kh.lgtw.approval.model.vo.AppDocument;
 import com.kh.lgtw.approval.model.vo.AppForm;
 import com.kh.lgtw.approval.model.vo.PageInfo;
+import com.kh.lgtw.approval.model.vo.SignForm;
 import com.kh.lgtw.approval.model.vo.SignLine;
 import com.kh.lgtw.employee.model.vo.Employee;
 
@@ -18,8 +19,8 @@ import com.kh.lgtw.employee.model.vo.Employee;
 public class ApprovalServiceImpl implements ApprovalService{
 	@Autowired
 	private ApprovalDao ad;
-//	@Autowired
-//	private SqlSession session;
+	@Autowired
+	private SqlSession session;
 //	
 //	//진행중인 전체문서 이동
 //	@Override
@@ -126,6 +127,13 @@ public class ApprovalServiceImpl implements ApprovalService{
 //		// TODO Auto-generated method stub
 //		return ad.showFormManagement(session);
 //	}
+	//결재 양식 가져오기
+	@Override
+	public SignForm selectSignForm(SignForm sf) {
+		
+		return ad.selectSignForm(session, sf);
+	}
+	
 //	//양식생성
 //	@Override
 //	public int insertAppForm(AppForm form) {
@@ -256,5 +264,6 @@ public class ApprovalServiceImpl implements ApprovalService{
 //		
 //		return result;
 //	}
+	
 	
 }

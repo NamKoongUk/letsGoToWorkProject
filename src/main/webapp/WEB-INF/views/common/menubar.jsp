@@ -24,7 +24,7 @@
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav visible-lg visible-md">
-						<li><a href="approval.ap">결재관리</a></li>
+						<li><a href="${ contextPath }/showWaitDcm.ap">결재관리</a></li>
 						<li><a href="employee.em">인사관리</a></li>
 						<li><a href="mail.ma">웹메일</a></li>
 						<li><a href="scheduler.sc">일정관리</a></li>
