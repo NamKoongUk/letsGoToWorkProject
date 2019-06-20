@@ -795,13 +795,15 @@ Docs & License: https://fullcalendar.io/
     var _m38 = {
         code: "ko",
         buttonText: {
-            prev: "이전달",
-            next: "다음달",
-            today: "오늘",
+        	prevYear: "<<",
+            prev: "<",
+            next: ">",
+            nextYear: ">>",
+            today: "Today",
             month: "월",
             week: "주",
             day: "일",
-            list: "일정목록"
+            list: "일정"
         },
         weekLabel: "주",
         allDayText: "종일",

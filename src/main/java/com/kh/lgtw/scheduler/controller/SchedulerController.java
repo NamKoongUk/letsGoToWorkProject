@@ -1,23 +1,20 @@
 package com.kh.lgtw.scheduler.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.scheduler.model.service.SchedulerService;
-import com.kh.lgtw.scheduler.model.vo.Scheduler;
 
 @Controller
 public class SchedulerController {
 	@Autowired
 	private SchedulerService ss;
+	
+	@RequestMapping("scheduler.sc")
+	public String schedulerHome() {
+		return "scheduler/schedulerMain";
+	}
 	
 	//전체 공통 조회용 컨트롤러
 //	@RequestMapping("allSelectSchedule.sc")
