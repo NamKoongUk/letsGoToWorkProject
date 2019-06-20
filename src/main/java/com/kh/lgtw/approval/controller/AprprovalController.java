@@ -29,10 +29,10 @@ public class AprprovalController {
 	
 	//------------------------진행중인 문서------------------------------
 	//진행중인 전체문서 이동
-	@RequestMapping("approval.ap")
-	public String approvalHome() {
-		return "approval/approvalMain";
-	}
+//	@RequestMapping("approval.ap")
+//	public String approvalHome() {
+//		return "approval/approvalMain";
+//	}
 	
 	@RequestMapping("showAllPrograssDcm.ap")
 	public String showAllPrograssDocument(HttpServletRequest request, Model model) {

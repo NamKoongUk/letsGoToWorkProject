@@ -24,11 +24,11 @@
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav visible-lg visible-md">
-						<li><a href="${contextPath}/approval.ap">결재관리</a></li>
+						<li><a href="${contextPath}/showWaitDcm.ap">결재관리</a></li>
 						<li><a href="${contextPath}/employee.em">인사관리</a></li>
 						<li><a href="${contextPath}/mail.ma">웹메일</a></li>
 						<li><a href="${contextPath}/scheduler.sc">일정관리</a></li>
-						<li><a href="${contextPath}/messenger.me">메신저</a></li>
+						<li><a href="${contextPath}/messenger">메신저</a></li>
 						<li><a href="${contextPath}/community.co">커뮤니티</a></li>
 					</ul>
 					<ul class="nav navbar-nav visible-xs">

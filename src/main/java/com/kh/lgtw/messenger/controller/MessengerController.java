@@ -27,6 +27,11 @@ public class MessengerController {
 	@Autowired
 	private MessengerService ms;
 	
+	@RequestMapping("")
+	public String showMain() {
+		return "messenger/messengerMain";
+	}
+	
 	@GetMapping("/new1/{bno}")
 	public @ResponseBody ResponseEntity<String> test(@PathVariable String bno) {
 		
