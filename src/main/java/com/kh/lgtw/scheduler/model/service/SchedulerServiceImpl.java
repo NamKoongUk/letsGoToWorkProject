@@ -1,6 +1,5 @@
 package com.kh.lgtw.scheduler.model.service;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +10,14 @@ public class SchedulerServiceImpl implements SchedulerService{
 	@Autowired
 	private SchedulerDao sd;
 	
-//	@Autowired 
-//	private SqlSession sqlSession;
+
+//	@Override
+//	public int insertMemberScheduler(Scheduler sc) {
+//			
+//		return sd.insertMemberScheduler(sqlSession, sc);
+//	}
+	
+
 	 
 	
 	

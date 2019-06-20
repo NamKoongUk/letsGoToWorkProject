@@ -13,7 +13,7 @@
 			<thead>
 				<tr>
 					<th colspan="2" style="text-align:center"><b>개인일정</b></th>
-					<th><button>+</button></th>
+					<th><button data-toggle="modal" data-target="#empSchedulerModal">+</button></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -29,7 +29,7 @@
 			<thead>
 				<tr>
 					<th colspan="2" style="text-align:center"><b>공유일정</b></th>
-					<th><button>+</button></th>
+					<th><button data-toggle="modal" data-target="#groupSchedulerModal">+</button></th>
 				</tr>
 			</thead>
 			<tbody>

@@ -27,7 +27,7 @@
 						<li><a href="approval.ap">결재관리</a></li>
 						<li><a href="employee.em">인사관리</a></li>
 						<li><a href="mail.ma">웹메일</a></li>
-						<li><a href="scheduler.sc">일정관리</a></li>
+						<li><a href="${ contextPath }/scheduler.sc">일정관리</a></li>
 						<li><a href="${contextPath}/messenger.me">메신저</a></li>
 						<li><a href="community.co">커뮤니티</a></li>
 					</ul>
