@@ -1,6 +1,7 @@
 package com.kh.lgtw.community.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.lgtw.community.model.service.CommunityService;
 import com.kh.lgtw.community.model.vo.Community;
@@ -13,9 +14,13 @@ public class CommunityController {
 
 //	@Autowired
 //	private CommunityService cs; 
-//		 
-//	
-//    // 게시판 조회용 메소드	
+
+	@RequestMapping("community.co")
+		public String communityHome() {
+		return "community/communityMain";
+	}
+	
+//  // 게시판 조회용 메소드	
 //	public String SelectCommunity (Community cm  ) {
 //		Community com; 
 //		

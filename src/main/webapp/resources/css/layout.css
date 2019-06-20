@@ -49,9 +49,10 @@
 	font-size: 1.5em;	
 	color: white;
 }
-.sidenav li:hover a, .sidenav li:hover{
+.sidenav li:hover a, .sidenav li:not(.mailSelect):hover{
 	background: white;
 	color: 	rgb(0, 60, 179);
+	text-decoration : none;
 }
 .sidenav li button{
 	/* background : #002266; */
@@ -71,6 +72,19 @@
 .sidenav .grayBtn{
 	background: lightGray;
 	color: #002266;
+}
+
+/* 채채 커스텀 */
+.mailSelect > select{
+	height : 70%;
+	color : black;
+	font-size: .8em;
+	padding: 5px 5px;
+}
+.mailSelect option{x
+    -moz-appearance: none;
+	color : black;
+	padding-top : 100px;
 }
 
 section{
@@ -168,9 +182,13 @@ footer {
 .listTable tr{
 	border: 3px solid rgba(191, 191, 191, .8);
 }
-.listTable tr:nth-child(1){
+.listTable tr:nth-child(1)/* , 
+.listTable tr:nth-child(1):hover */{
 	background: rgba(191, 191, 191, .5);
 }
 .listTable tr *:nth-child(1){
 	padding: 5px 10px;
+}
+.listTable tr:not(:nth-child(1)):hover{
+	background : rgba(230, 230, 230, .5);
 }

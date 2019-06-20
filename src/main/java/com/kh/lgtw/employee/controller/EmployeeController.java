@@ -18,19 +18,20 @@ public class EmployeeController {
 	private EmployeeService emplService;
 	
 	//화면전환
-		@RequestMapping("employee.em")
-		public String employeeHome() {
-			return "employee/deptGroup";
-		}
-		@RequestMapping("showEmployeeList.em")
-		public String showEmployeeList() {
-			return "employee/employeeList";
-		}
-		@RequestMapping("showMyPage.em")
-		public String showEmpPage() {
-			return "employee/myEmpPage";
-		}
-	
+	@RequestMapping("employee.em")
+	public String employeeHome() {
+		return "employee/employeeMain";
+		// return "employee/deptGroup";
+	}
+	@RequestMapping("showEmployeeList.em")
+	public String showEmployeeList() {
+		return "employee/employeeList";
+	}
+	@RequestMapping("showMyPage.em")
+	public String showEmpPage() {
+		return "employee/myEmpPage";
+	}
+		
 	
 	//로그인
 	@RequestMapping("login.em")
