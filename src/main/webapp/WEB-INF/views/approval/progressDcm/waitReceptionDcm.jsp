@@ -8,13 +8,14 @@
 <title>LetsGoToWork</title>
 </head>
 <body>
-	<jsp:include page="../common/menubar.jsp"/>
+	<jsp:include page="../../common/menubar.jsp"/>
 	
 	<div class="row wrap">
-		<jsp:include page="../common/sideMenu/approval.jsp"/>
+		<jsp:include page="../../common/sideMenu/approval.jsp"/>
 		
 		<section class="col-sm-10">
-			<h3 class="title">대기문서</h3>
+		<!-- 진행중인문서-수신문서 -->
+			<h3 class="title">수신문서</h3>
 			<hr>
 			<div class="content">
 				<select class="form-control" style="width:150px; display:inline-block;">
@@ -23,16 +24,15 @@
 					<option>보고서</option>
 					<option>휴가신청서</option>
 				</select>
+				<button onclick="" style="float:right; margin-left:8px;" class="btn btn-primary">확인</button>
 				<select class="form-control" style="width:150px;display:inline-block; float:right;">
-					<option>전체</option>
-					<option>품의서</option>
-					<option>보고서</option>
-					<option>휴가신청서</option>
+					<option>선택</option>
+					<option>결재</option>
+					<option>반려</option>
 				</select>
 				<table class="table table-hover">
 				    <thead>
 				      <tr>
-				        <th><input type="checkbox" id="check"></th>
 				        <th>문서번호</th>
 				        <th>제목</th>
 				        <th>기안자</th>
@@ -48,6 +48,6 @@
 		</section>
 	</div>
 	
-	<jsp:include page="../common/footer.jsp" />
+	<jsp:include page="../../common/footer.jsp" />
 </body>
 </html>

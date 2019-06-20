@@ -6,10 +6,13 @@ import java.util.HashMap;
 import com.kh.lgtw.approval.model.vo.AppDocument;
 import com.kh.lgtw.approval.model.vo.AppForm;
 import com.kh.lgtw.approval.model.vo.PageInfo;
+import com.kh.lgtw.approval.model.vo.SignForm;
 import com.kh.lgtw.approval.model.vo.SignLine;
 import com.kh.lgtw.employee.model.vo.Employee;
 
 public interface ApprovalService {
+
+	SignForm selectSignForm(SignForm sf);
 
 //	ArrayList<HashMap<String, Object>> showAllPrograssDocument(PageInfo pi);
 //
