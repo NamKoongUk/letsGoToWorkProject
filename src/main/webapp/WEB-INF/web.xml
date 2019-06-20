@@ -43,4 +43,21 @@
     <servlet-name>Messenger</servlet-name>
     <url-pattern>/messenger</url-pattern>
   </servlet-mapping>
+  
+  <!-- employee Servlet -->
+  <servlet>
+    <servlet-name>employee</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+    	<param-name>contextConfigLocation</param-name>
+    	<param-value>/WEB-INF/config/employee-servlet.xml</param-value>
+    </init-param>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>employee</servlet-name>
+    <url-pattern>*.em</url-pattern>
+  </servlet-mapping>
+  
+  
 </web-app>
