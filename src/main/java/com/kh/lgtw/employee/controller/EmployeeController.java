@@ -18,20 +18,55 @@ public class EmployeeController {
 	private EmployeeService emplService;
 	
 	//화면전환
-		@RequestMapping("employee.em")
-		public String employeeHome() {
-			return "employee/deptGroup";
-		}
-		@RequestMapping("showEmployeeList.em")
-		public String showEmployeeList() {
-			return "employee/employeeList";
-		}
-		@RequestMapping("showMyPage.em")
-		public String showEmpPage() {
-			return "employee/myEmpPage";
-		}
+	//조직도
+	@RequestMapping("employee.em")
+	public String employeeHome() {
+		return "employee/deptGroup";
+	}
+	//직원목록페이지
+	@RequestMapping("showEmployeeList.em")
+	public String showEmployeeList() {
+		return "employee/employeeList";
+	}
+	//내 정보 페이지
+	@RequestMapping("showMyPage.em")
+	public String showEmpPage() {
+		return "employee/myEmpPage";
+	}
+	//휴가신청
+	@RequestMapping("showReqHoliday.em")
+	public String showReqHolidayList() {
+		return "employee/reqHoliday";
+	}
+	
+	//휴가 현황 페이지
+	@RequestMapping("showHolidayList.em")
+	public String showHolidayList() {
+		return "employee/holidayList";
+	}
+	//휴가 캘린더
+	@RequestMapping("showHoliCalender.em")
+	public String showHolidayCalender() {
+		return "employee/holiCalendar";
+	}
+	//휴가 관리 페이지
+	@RequestMapping("showHolidayAdmin.em")
+	public String showHolidayAdminPage() {
+		return "employee/holidayAdmin";
+	}
+	
+	//근태 현황 페이지
+	@RequestMapping("showAttendStatus.em")
+	public String showAttendStatus() {
+		return "employee/attendStatus";
+	}
 	
 	
+	
+	
+	
+	
+
 	//로그인
 	@RequestMapping("login.em")
 	public String loginCheck(Employee employee, HttpServletRequest request) {
