@@ -16,6 +16,6 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.kh.lgtw.employee" />
+	<context:component-scan base-package="com.kh.lgtw.mail" />
 	
 </beans:beans>

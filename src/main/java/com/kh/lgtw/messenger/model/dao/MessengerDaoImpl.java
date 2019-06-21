@@ -9,7 +9,6 @@ public class MessengerDaoImpl implements MessengerDao {
 
 	@Override
 	public String sendMessenger(Map<String, Object> params) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

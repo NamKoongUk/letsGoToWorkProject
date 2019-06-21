@@ -14,17 +14,14 @@ import com.kh.lgtw.community.model.vo.CommunityPost;
 @Controller
 public class CommunityController { 
 	
-//	@Autowired
-//	private CommunityService cs; 
+	@Autowired private CommunityService cs; 
 	@Autowired SqlSession sqlSession;
-    // 게시판 조회용 메소드
-	
-	
+
+	// 게시판 조회용 메소드
 	@RequestMapping("community.co")
 	public String communityHome() {
 		return "community/communityMain";
 	}
-	
 	
 	@RequestMapping("communityList.co")
 	public String SelectCommunity ( ) {
@@ -34,7 +31,6 @@ public class CommunityController {
 	@RequestMapping("communityInsert.co")
 	public String InsertCommunity() {
 		return "community/communityInsert";	
-		
 	}
 	
 	@RequestMapping("temporaryList.co")
@@ -56,8 +52,6 @@ public class CommunityController {
 	public String CommunityPostList() {
 		return "community/communityPostList";
 	}
-
-
 
 }
 //	

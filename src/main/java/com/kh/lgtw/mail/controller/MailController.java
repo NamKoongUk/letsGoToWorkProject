@@ -2,21 +2,29 @@ package com.kh.lgtw.mail.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.kh.lgtw.mail.model.service.MailService;
 import com.kh.lgtw.mail.model.vo.Mail;
 
 @Controller
 public class MailController {
 	
-	 @RequestMapping("mail.ma")
-		public String mailHome() {
-		return "mail/mailMain";
-		// return "redirect:mail/allList.ma";
+	@Autowired private MailService ms; 
+	
+	@RequestMapping("mail.ma")
+	public String mailHome() {
+		return "redirect:allList.ma";
 	}
+	 
+	 @RequestMapping("sendMailForm.ma")
+	 public String sendMailForm() {
+		 return "mail/sendMailForm";
+	 }
 	 
 	// 부재중 설정페이지로 이동 
 	 @RequestMapping("settingAbsence.ma")
@@ -25,9 +33,9 @@ public class MailController {
 	 }
 	
 	// 전체 메일함 조회
-	@RequestMapping("mail/allList.ma") // HomeController를 여기로 리다이렉트 시키기 
-	public String selectMailList(int currentPage, Model model) {
-		return null;
+	@RequestMapping("allList.ma") // HomeController를 여기로 리다이렉트 시키기 
+	public String selectMailList(/* int currentPage, Model model */) {
+		return "mail/mailMain";
 	}
 	
 	// 하나로 합친다면 
@@ -35,7 +43,6 @@ public class MailController {
 	public String mailList(HttpServletRequest request) {
 		
 		String pageType = request.getParameter("pageType");
-		
 		// 비즈니스 로직 
 		
 		switch(pageType) {
@@ -95,15 +102,6 @@ public class MailController {
 	public String sendReserveMail() {
 		return "";
 	}
-	
-	
-	
-	
-	
-
-	
-	
-	
 	
 	// 전체 메일함 검색
 	@RequestMapping("searchList.ma") // HomeController를 여기로 리다이렉트 시키기 

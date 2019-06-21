@@ -9,16 +9,40 @@
 <title>LetsGoToWork</title>
 <!-- bootstrap CDN -->
 <jsp:include page="../common/tools.jsp"></jsp:include>
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"> -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+	.loginEmpInfo button{
+		width: 40px;
+		height : 30px;
+	}
+	.loginEmpInfo{
+		float : right;
+		margin : 10px ;
+	}
+	.empIcon{
+		cursor : pointer;
+		width: 30px;
+		margin-right: 5px;
+		margin-bottom : 5px;
+		color : white;
+	}
+	.empInfo{
+		cursor : pointer;
+	}
+	
+</style>
 </head>
 <body>
 	<!-- 로그인시 -->
 	<c:if test="true"> 
 	<header>
 		<nav class="navbar navbar-inverse">
-			<div class="container-fluid">
+			<div class="container-fluid navbar-inline" >
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse"data-target="#myNavbar">
-						<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar">
+						</span>
 					</button>
 					<a class="navbar-brand" href="${ contextPath }">Logo 자리</a>
 				</div>
@@ -31,42 +55,19 @@
 						<li><a href="${contextPath}/messenger">메신저</a></li>
 						<li><a href="${contextPath}/community.co">커뮤니티</a></li>
 					</ul>
-					<ul class="nav navbar-nav visible-xs">
-						<li>
-							<div class="dropdown">
-								<button class="btn btn-primary dropdown-toggle" type="button"
-									data-toggle="dropdown">전자결재</button>
-								<ul class="dropdown-menu" >
-									<li><a href="#">HTML</a></li>
-									<li><a href="#">CSS</a></li>
-									<li><a href="#">JavaScript</a></li>
-								</ul>
-							</div>
-						</li>
-					</ul>
-					<script>
-						function approval(){
-						}
-						</script>
-					<ul class="nav navbar-nav navbar-right">
-						<li><span class=""><c:out value="${ loginUser.nickName }"/>님</span></li>
-						<!-- <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
-								Login</a></li>
-						<li><a href="#"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li> -->
-					</ul>
+					<c:if test="${ empty loginEmp }"></c:if>
+					<c:if test="${ !empty loginEmp }">
+						<div class="loginEmpInfo">
+							<img src="${ contextPath }/resources/images/user.png" class="empIcon">
+							<span class="empInfo">${ loginEmp.empName }님 환영합니다.<%-- ${ loginEmp.empNo } --%></span>
+						</div>
+					</c:if>
 				</div>
 			</div>
 		</nav>
 		
-		<!-- 여기 이 navArea역할은? -->
 	</header>
 	</c:if>
-	<%-- <c:if test="${ empty loginUser }">
-		<jsp:include page="../main/loginMain.jsp"/>
-		<jsp:forward page="../main/loginMain.jsp"/>
-	</c:if> --%>
-
-	
 	<script>
 		// textarea클릭시 안에 내용을 지워주는 코드 
 		$(function(){
@@ -75,6 +76,11 @@
 				$(this).text("");
 			})
 		})
+		
+		// 로그아웃
+		$(".empInfo").click(function(){
+			location.href="${ contextPath }/logout.em";
+		});
 	</script>
 </body>
 </html>

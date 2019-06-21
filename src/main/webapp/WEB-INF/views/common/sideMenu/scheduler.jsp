@@ -5,7 +5,7 @@
 
 <div class="col-sm-2 sidenav visible-sm visible-md visible-lg">
 	<ul>
-		<li><button>일정추가</button></li>			
+		<li><button style="height : 100%;">일정추가</button></li>			
 	</ul>
 	<hr>
 	<div style="height:200px; margin-top:10px;">

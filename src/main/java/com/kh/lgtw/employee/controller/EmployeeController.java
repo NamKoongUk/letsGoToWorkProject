@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.service.EmployeeService;
@@ -40,6 +41,13 @@ public class EmployeeController {
 		}
 	}
 
+	// 로그아웃
+	@RequestMapping(value="logout.em")
+	public String logout(SessionStatus status) {
+		status.setComplete();
+		return "redirect:index.jsp";
+	}
+	
 	//조직도
 	@RequestMapping("employee.em")
 	public String employeeHome() {

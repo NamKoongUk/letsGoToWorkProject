@@ -30,7 +30,7 @@
 	}
 	.searchArea{
 		height : 50px;
-		margin-left: 7%;
+		margin-left: 3%;
 		margin-bottom : 20px;
 	}
 	.searchArea *{
@@ -64,7 +64,7 @@
 		<jsp:include page="../common/sideMenu/mail.jsp"/>
 		
 		<section class="col-sm-10">
-		<br><br><br><br>
+		<br><br>
 			<!-- <h1 class="title"> 메인입니다.</h1> -->
 			<div class="content" align="center">
 				<div class="searchArea form-group" align="left">
@@ -80,12 +80,12 @@
 					<table class="listTable">
 						<!-- 가져가서 여기 width로 설정하셔요 -->
 						<tr>
-							<th width="5%"><input type="checkbox"/></th>
-							<th width="10%">읽음여부</th>
-							<th width="18%">이름</th>
-							<th width="12%">메일종류</th>
+							<th><input type="checkbox"/></th>
+							<th width="7%">읽음여부</th>
+							<th width="16%">이름</th>
+							<th width="14%">메일종류</th>
 							<th>제목</th>
-							<th width="15%">날짜</th>
+							<th width="18%">날짜</th>
 						</tr>
 						<tr>
 							<td><input type="checkbox"/></td>
