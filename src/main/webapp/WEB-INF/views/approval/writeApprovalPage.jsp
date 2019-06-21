@@ -13,7 +13,7 @@
 
 	td{
 		vertical-align:middle !important;
-		font-size:7;
+		font-size:12px;
 	}
 	
 
@@ -71,11 +71,38 @@
 			    <tbody>
 	  		</table>
 			<table class="table table-bordered">
-	 			<tr>
-	 				<td width="100px" style="background:#e8e8e8">회람</td>
-	 				<td align="left"><input type="text" name="empName"></td>
-	 			</tr>
-	 		</table>
+				<tr>
+					<td rowspan="3" width="80px">결재</td>
+					<td width="80px">이지현</td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+				</tr>
+				<tr height="80px">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</table>
 			<div id="area" class="content" style="visibility:hidden;">
 				<form class="form-horizontal" role="form" id="editorForm" method="post" action="/">
 					<a href="#">결재선설정</a><br>
@@ -133,7 +160,7 @@
                 case 'image': //Image Properties dialog
                     //dialogDefinition.removeContents('info');
                     dialogDefinition.removeContents('Link');
-                    dialogDefinition.removeContents('advanced');
+                    dialogDefinition.removeContents('advanced'); 
                     break;
             }
         });
