@@ -34,7 +34,7 @@
 				     
 				      
 				      <tr>
-				        <td>안전 교육일정</td>
+				        <td><a href="communityPostDetails.co">안전교육 일정</a></td>
 				        <td>강형석</td>
 				        <td>2019-06-20</td>
 				      </tr>
