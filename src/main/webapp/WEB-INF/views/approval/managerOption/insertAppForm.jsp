@@ -28,7 +28,7 @@
 			<hr>
 			<div class="content">
 				<form class="form-horizontal" role="form" id="editorForm" method="post" action="/">
-					<table class="table table-hover">
+					<table class="table table-hover table-bordered">
 						<tr>
 				        <td class="head">양식명</td>
 				        <td>
@@ -114,8 +114,11 @@
 						</td>
 				      </tr>
 					</table>
-					<div id="area">
+					<div id="signFormArea">
+						
+					</div>
 					
+					<div id="area">
 						<label>상세 내용</label>
 					    <div class="form-group">
 					        <div class="form-group">
@@ -138,18 +141,27 @@
 	</div>
 	<script>
 	function selectSignForm(){
-		var signForm = $("input[name='signForm']:checked").val();
-		alert(signForm);
+		var signCode = $("input[name='signForm']:checked").val();
+		alert(signCode);
 		
 		$.ajax({
 			url:"selectSignForm.ap",
 			type:"post",
-			data:{signForm:signForm},
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
+			data:{signCode:signCode},
 			success:function(data){
 				alert(data);
+				console.log(data);
+				var appForm = data;
+				$("#signFormArea").html(appForm);
 			}
 		});
-		
+	}
+	
+	function replaceAll(str, searchStr, replaceStr) {
+		console.log("searcnStr : " + searchStr);
+		console.log("replaceStr : " + replaceStr);
+	  return str.split(searchStr).join(replaceStr);
 	}
 	
 	$(function(){
@@ -161,14 +173,12 @@
 	});
 
     $(function(){
-         
         CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
             width:'100%',
             height:'400px',
             filebrowserImageUploadUrl: '${ contextPath }/reources/images', //여기 경로로 파일을 전달하여 업로드 시킨다.
             defaultLanguage:'kor'
         });
-         
          
         CKEDITOR.on('dialogDefinition', function( ev ){
             var dialogName = ev.data.name;

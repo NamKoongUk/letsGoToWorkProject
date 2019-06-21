@@ -32,7 +32,7 @@
 			</button>
 			<div id="Demo3" class="w3-container w3-hide w3-animate-opacity contentSelectArea">
 				<ul>
-					<li><a href="#">조직관리</a></li>
+					<li><a href="showdeptGroupAdmin.em">조직관리</a></li>
 					<li><a href="#">사용자 관리</a></li>
 					<li><a href="#">직무/부서장 관리</a></li>
 					<li><a href="#">인사관리자</a></li>
