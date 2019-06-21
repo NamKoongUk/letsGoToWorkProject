@@ -3,10 +3,14 @@ package com.kh.lgtw.employee.model.dao;
 import java.util.ArrayList;
 
 import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 
+import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.vo.Employee;
 
 public interface EmployeeDao{
+
+	Employee loginCheck(SqlSession sqlSession, Employee employee) throws LoginException;
 
 //	Employee loginEmpl(Employee employee, SqlSession sqlSession);
 //

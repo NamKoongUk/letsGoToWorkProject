@@ -1,5 +1,6 @@
 package com.kh.lgtw.community.controller;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +14,9 @@ import com.kh.lgtw.community.model.vo.CommunityPost;
 @Controller
 public class CommunityController { 
 	
-	
 //	@Autowired
 //	private CommunityService cs; 
+	@Autowired SqlSession sqlSession;
     // 게시판 조회용 메소드
 	
 	
