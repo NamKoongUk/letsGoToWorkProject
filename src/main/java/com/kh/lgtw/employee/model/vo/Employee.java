@@ -28,16 +28,9 @@ public class Employee {
 		this.empPhone = empPhone;
 	}
 
+	
 	public int getEmpNo() {
 		return empNo;
-	}
-
-	public int getEmpNo() {
-		return empNo;
-	}
-
-	public void setEmpNo(int empNo) {
-		this.empNo = empNo;
 	}
 
 	public String getEmpId() {
