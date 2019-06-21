@@ -48,13 +48,13 @@
 				        <option>2019.12</option>
 				</select>
 				<br>
-				<select class="form-control" id="sel2">
-				        <option>--휴가종류--</option>
-				        <option>연차</option>
-				        <option>병가</option>
-				        <option>포상</option>
-				        <option>교육</option>
-				      </select>
+					<select class="form-control" id="sel2">
+					        <option>--휴가종류--</option>
+					        <option>연차</option>
+					        <option>병가</option>
+					        <option>포상</option>
+					        <option>교육</option>
+					</select>
 				<br>
 				<table class="table">
 					    <thead>

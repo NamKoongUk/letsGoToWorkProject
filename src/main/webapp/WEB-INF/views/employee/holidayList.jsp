@@ -8,11 +8,11 @@
 <title>LetsGoToWork</title>
 <style>
 	.holiP{
-		font-size:180%;
+		font-size:150%;
 	    font-weight:bold;
 	}
 	#havaHoli{
-		font-size:130%;
+		font-size:110%;
 		font-weight:bold;
 	}
 	#sel1{
