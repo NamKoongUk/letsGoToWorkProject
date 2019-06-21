@@ -125,7 +125,6 @@
 				
 				
 				<!-- 개인캘린더 추가 모달 -->
-				<form action="" method="get">
 				<div class="modal fade" id="empSchedulerModal" role="dialog">
 			    <div class="modal-dialog">
 			    
@@ -145,28 +144,31 @@
 							<td>색상</td>
 							<td>
 			          			<div id="empScColor">
-									<button type="button" class="label on" name="schedulerColor"><span class="c1" > </span></button>
-									<button type="button" class="label" name="schedulerColor"><span class="c2"></span></button>
-									<button type="button" class="label" name="schedulerColor"><span class="c3"></span></button>
-									<button type="button" class="label" name="schedulerColor"><span class="c4"></span></button>
-									<button type="button" class="label" name="schedulerColor"><span class="c5"></span></button>
-									<button type="button" class="label" name="schedulerColor"><span class="c6"></span></button>
-									<button type="button" class="label" name="schedulerColor"><span class="c7"></span></button>
+									<button type="button" class="label on" name="schedulerColor" value="red"><span class="c1"></span></button>
+									<button type="button" class="label" name="cc"><span class="c2"></span></button>
+									<button type="button" class="label" name="cc"><span class="c3"></span></button>
+									<button type="button" class="label" name="cc"><span class="c4"></span></button>
+									<button type="button" class="label" name="cc"><span class="c5"></span></button>
+									<button type="button" class="label" name="cc"><span class="c6"></span></button>
+									<button type="button" class="label" name="cc"><span class="c7"></span></button>
 									<br>
 								</div>
 			          		</td>
 						</tr>
 			          </table>
 			        </div>
+			        
 			        <div class="modal-footer">
-			          <button type="submit" class="btn">생성</button>
+			          <button type="submit" class="btn" onclick="return createEmpSC()">생성</button>
 			          <button type="reset" class="btn" data-dismiss="modal">취소</button>
 			        </div>
 			      </div>
+			      <script>
+			      	
+			      </script>
 			      
 			    </div>
 			  </div>
-			  </form>
 			  
 			  <!-- 그룹캘린더 추가 모달 -->
 				<!-- <form action="" method="get">
@@ -286,7 +288,19 @@
 		$(".label").click(function(){
 			$(".label").removeClass("on");
 			$(this).addClass("on");
+			$(this).siblings().attr("name", "cc");
+			$(this).attr("name","schedulerColor");
+			console.log($(this).attr("name"));
+			console.log($(this).val());
 		});
+		
+		function createEmpSC(){
+      		var colorVal = $("[name=schedulerColor]").val();
+      		var nameVal = $("[name=schedulerName]").val();
+      		
+      		location.href="${ contextPath }/insertMemberScheduler.sc?schedulerName=" + nameVal 
+      								+ "&schedulerColor=" + colorVal;
+      	};
 		
 		/* document.addEventListener('DOMContentLoaded', function() {  
 		

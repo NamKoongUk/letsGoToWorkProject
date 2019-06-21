@@ -7,8 +7,12 @@
 	<!-- <resultMap id="내가쓸 이름" type="vo풀네임">
 		<id column="" property="PK"/>
 		<result column="" property="필드 명"/>
-	</resultMap>
+	</resultMap> -->
 	
-	쿼리문 작성
-	<select id="구분이름" parameterType="매개변수 타입"> </select> -->
+	<!-- 쿼리문 영역 -->
+	<insert id="insertMemberScheduler" parameterType="Scheduler">
+		INSERT INTO SCHEDULER
+		VALUES(SEQ_SCHEDULER_NO.NEXTVAL, #{schedulerName}, '개인', 0, #{schedulerColor})
+	</insert>
 </mapper>
+ 
