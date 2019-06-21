@@ -44,7 +44,8 @@
 							<td>사용자 권한: </td>
 							<td><input type="text" name=""  id="" ></td> 
 							
-							<td>&nbsp; <button id="btn">추가</button> </td> 
+							<td>&nbsp; <button id="btn" onclick="">추가</button> </td> 
+							
 							 
 							
 							

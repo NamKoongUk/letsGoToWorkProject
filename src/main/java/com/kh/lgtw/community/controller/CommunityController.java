@@ -56,6 +56,11 @@ public class CommunityController {
 	public String CommunityPostList() {
 		return "community/communityPostList";
 	}
+	
+	@RequestMapping("communityPostDetails.co")
+	public String CommunityPostDetails() {
+		return "community/communityPostDetails";
+	}
 
 
 
