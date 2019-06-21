@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.lgtw.approval.model.service.ApprovalService;
 import com.kh.lgtw.approval.model.vo.AppDocument;
@@ -299,19 +300,15 @@ public class AprprovalController {
 	}
 	
 	//결재양식 선택
-	@RequestMapping("selectSignForm.ap")
-	public void selectSignForm(HttpServletResponse response, SignForm sf) {
+	@RequestMapping(value = "selectSignForm.ap",  produces = "application/text; charset=utf8")
+	public @ResponseBody String selectSignForm(HttpServletResponse response, SignForm sf) {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
 		SignForm signForm = as.selectSignForm(sf);
+		System.out.println(signForm.getSignContent());
 		
-		try {
-			response.getWriter().print(mapper.writeValueAsString(signForm));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		return signForm.getSignContent();
 	}
 	
 	//양식생성
