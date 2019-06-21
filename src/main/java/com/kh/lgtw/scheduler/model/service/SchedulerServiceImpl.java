@@ -23,6 +23,11 @@ public class SchedulerServiceImpl implements SchedulerService{
 		return sd.insertMemberScheduler(sqlSession, sc);
 	}
 
+  @Override
+	public ArrayList<Scheduler> selectSchedulerList(int empNo) {
+		return sd.selectSchedulerList(sqlSession, empNo);
+	}
+
 	@Override
 	public HashMap<String, ArrayList<Object>> allSelectSchedule(int empNo) {
 		return null;

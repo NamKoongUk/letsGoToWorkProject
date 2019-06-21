@@ -5,10 +5,10 @@ import java.sql.Date;
 
 public class AppForm implements Serializable{
 	private int afNo;
-	private String agName;
+	private String afName;
 	private String afAlias;
 	private String afComment;
-	private Date afDate;
+	private String afDate;
 	private String afContent;
 	private String securityCode;
 	private String signCode;
@@ -17,11 +17,11 @@ public class AppForm implements Serializable{
 	
 	public AppForm() {}
 
-	public AppForm(int afNo, String agName, String afAlias, String afComment, Date afDate, String afContent,
+	public AppForm(int afNo, String afName, String afAlias, String afComment, String afDate, String afContent,
 			String securityCode, String signCode, String signName, String signContent) {
 		super();
 		this.afNo = afNo;
-		this.agName = agName;
+		this.afName = afName;
 		this.afAlias = afAlias;
 		this.afComment = afComment;
 		this.afDate = afDate;
@@ -40,12 +40,12 @@ public class AppForm implements Serializable{
 		this.afNo = afNo;
 	}
 
-	public String getAgName() {
-		return agName;
+	public String getAfName() {
+		return afName;
 	}
 
-	public void setAgName(String agName) {
-		this.agName = agName;
+	public void setAfName(String afName) {
+		this.afName = afName;
 	}
 
 	public String getAfAlias() {
@@ -64,11 +64,11 @@ public class AppForm implements Serializable{
 		this.afComment = afComment;
 	}
 
-	public Date getAfDate() {
+	public String getAfDate() {
 		return afDate;
 	}
 
-	public void setAfDate(Date afDate) {
+	public void setAfDate(String afDate) {
 		this.afDate = afDate;
 	}
 
@@ -114,7 +114,7 @@ public class AppForm implements Serializable{
 
 	@Override
 	public String toString() {
-		return "AppForm [afNo=" + afNo + ", agName=" + agName + ", afAlias=" + afAlias + ", afComment=" + afComment
+		return "AppForm [afNo=" + afNo + ", afName=" + afName + ", afAlias=" + afAlias + ", afComment=" + afComment
 				+ ", afDate=" + afDate + ", afContent=" + afContent + ", securityCode=" + securityCode + ", signCode="
 				+ signCode + ", signName=" + signName + ", signContent=" + signContent + "]";
 	}

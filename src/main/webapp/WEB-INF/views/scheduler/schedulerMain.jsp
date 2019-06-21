@@ -71,11 +71,6 @@
   position: relative;
   	left: -3px;
   	display : block;
-  	/*margin: 0;
-  	padding: 0;
-  	position : relative;
-  	top: 0;
-  	left : 0; */
   	height : 15px !important;
   	width : 15px !important;
   }
@@ -110,6 +105,9 @@
   	background:lightgray;
   	border:1px solid black;
   }
+  .modal-body td{
+  	padding-top:5px;
+  }
 </style>
 </head>
 <body>
@@ -132,12 +130,12 @@
 			      <div class="modal-content">
 			        <div class="modal-header">
 			          <button type="button" class="close" data-dismiss="modal">&times;</button>
-			          <h4 class="modal-title" align="center">개인 일정표 추가</h4>
+			          <h4 class="modal-title" align="center">개인 캘린더 추가</h4>
 			        </div>
 			        <div class="modal-body">
 			          <table>
 			          	<tr>
-			          		<td width="20%">일정표 이름</td>
+			          		<td width="20%">캘린더 이름</td>
 			          		<td width="50%"><input type="text" name="schedulerName"></td>
 						</tr>
 						<tr>
@@ -145,12 +143,12 @@
 							<td>
 			          			<div id="empScColor">
 									<button type="button" class="label on" name="schedulerColor" value="red"><span class="c1"></span></button>
-									<button type="button" class="label" name="cc"><span class="c2"></span></button>
-									<button type="button" class="label" name="cc"><span class="c3"></span></button>
-									<button type="button" class="label" name="cc"><span class="c4"></span></button>
-									<button type="button" class="label" name="cc"><span class="c5"></span></button>
-									<button type="button" class="label" name="cc"><span class="c6"></span></button>
-									<button type="button" class="label" name="cc"><span class="c7"></span></button>
+									<button type="button" class="label" name="cc" value="orange"><span class="c2"></span></button>
+									<button type="button" class="label" name="cc" value="yellow"><span class="c3"></span></button>
+									<button type="button" class="label" name="cc" value="green"><span class="c4"></span></button>
+									<button type="button" class="label" name="cc" value="blue"><span class="c5"></span></button>
+									<button type="button" class="label" name="cc" value="navy"><span class="c6"></span></button>
+									<button type="button" class="label" name="cc" value="purple"><span class="c7"></span></button>
 									<br>
 								</div>
 			          		</td>
@@ -163,10 +161,67 @@
 			          <button type="reset" class="btn" data-dismiss="modal">취소</button>
 			        </div>
 			      </div>
-			      <script>
-			      	
-			      </script>
-			      
+			    </div>
+			  </div>
+			  
+			  <!-- 일정추가 모달 -->
+				<div class="modal fade" id="insertScheduleModal" role="dialog">
+			    <div class="modal-dialog">
+			    
+			      <!-- Modal content-->
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			          <h4 class="modal-title" align="center"><b>일정 추가</b></h4>
+			        </div>
+			        <div class="modal-body">
+			          <table>
+			          	<tr>
+			          		<td width="20%"><b>캘린더</b></td>
+			          		<td colspan="2" width="70%">
+			          			<select name="schedulerName" id="ismSelect">
+			          				
+			          			</select>
+			          		</td>
+						</tr>
+						<tr>
+							<td><b>일정명</b></td>
+							<td colspan="2"><input type="text" name="scheduleName"></td>
+						</tr>
+						<tr>
+							<td><b>시작</b></td>
+							<td>
+								<input type="date" name="startDate"> &nbsp;&nbsp;
+								<input type="time" name="startTime">
+							</td>
+							<td width="20%">
+								<input type="checkbox" id="allDateBtn"> 종일
+							</td>
+							
+						</tr>
+						<tr>
+							<td><b>종료</b></td>
+							<td colspan="3">
+								<input type="date" name="endDate"> &nbsp;&nbsp;
+								<input type="time" name="endTime">
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3"><b>내용</b></td>
+						</tr>
+						<tr>
+							<td colspan="3">
+								<textarea cols="70%" rows="10" style="resize: none;" name="scheduleContent"></textarea>
+							</td>
+						</tr>
+			          </table>
+			        </div>
+			        
+			        <div class="modal-footer">
+			          <button type="submit" class="btn" onclick="return createSchedule()">생성</button>
+			          <button type="reset" class="btn" data-dismiss="modal">취소</button>
+			        </div>
+			      </div>
 			    </div>
 			  </div>
 			  
@@ -298,9 +353,34 @@
       		var colorVal = $("[name=schedulerColor]").val();
       		var nameVal = $("[name=schedulerName]").val();
       		
-      		location.href="${ contextPath }/insertMemberScheduler.sc?schedulerName=" + nameVal 
-      								+ "&schedulerColor=" + colorVal;
+      		console.log($("[name=schedulerName]").val());
+      		
+      		if($("[name=schedulerName]").val() == ""){
+      			alert("캘린더 이름을 입력해주세요!");
+      			return false;
+      		}else{
+      			location.href="${ contextPath }/insertMemberScheduler.sc?schedulerName=" + nameVal 
+					+ "&schedulerColor=" + colorVal;
+      		}
       	};
+      	
+      	function selectSchedulerList(){
+      		console.log("실행되는지");
+      		$.ajax({
+      		    url:"${contextPath}/selectSchedulerList.sc",
+      			success:function(data){
+      				console.log(data);
+      				var $selectArea = $("#ismSelect");
+      				for(var key in data){
+      					var $option = $("<option>").text(data[key]);
+      					console.log(data[key]);
+      					$selectArea.append($option);
+      				}
+      			}
+      		});
+      	}
+      	
+      	
 		
 		/* document.addEventListener('DOMContentLoaded', function() {  
 		

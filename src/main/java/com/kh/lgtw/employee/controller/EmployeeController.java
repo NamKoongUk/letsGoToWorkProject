@@ -110,6 +110,41 @@ public class EmployeeController {
 		return "employee/deptClctvRegister";
 	}
 	
+	//직원관리
+	@RequestMapping("showEmployeeAdmin.em")
+	public String showEmployeeAdmin() {
+		return "employee/employeeAdmin";
+	}
+	
+	//직원일괄등록
+	@RequestMapping("showEmpClctvRegister.em")
+	public String showEmpClctvRegister() {
+		return "employee/empClctvRegister";
+	}
+	
+	//직원 상세 등록
+	@RequestMapping("showEmpOneRegister.em")
+	public String showEmpOneRegister() {
+		return "employee/empOneRegister";
+	}
+	
+	//직원 일괄 수정
+	@RequestMapping("showUpdateEmpClctv.em")
+	public String showUpdateEmpClctv() {
+		return "employee/updateEmpClctv";
+	}
+	
+	//직급,팀장 추가
+	@RequestMapping("showlevelCaptain.em")
+	public String showlevelCaptain() {
+		return "employee/levelCaptainAdmin";
+	
+	//인사관리자
+	}
+	@RequestMapping("showPrsnlManager.em")
+	public String showPrsnlManager() {
+		return "employee/prsnlManagerAdmin";
+	}
 	
 	
 	//로그인

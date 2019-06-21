@@ -17,7 +17,7 @@
 			<h3 class="title">양식관리</h3>
 			<hr>
 			<div class="content">
-				<a href="insertAppForm.ap">양식생성</a> &nbsp;&nbsp;
+				<a href="${ contextPath }/selectAppForm.ap">양식생성</a> &nbsp;&nbsp;
 				<a href="#">제공양식</a><br><br>
 				
 				<a href="#">삭제</a>&nbsp;&nbsp;
@@ -40,7 +40,32 @@
 			</div>
 		</section>
 	</div>
-	
 	<jsp:include page="../../common/footer.jsp" />
+	
+	
+	<script>
+		$(function(){		
+			if(${ requestScope.result } > 0){
+				alert("${ requestScope.msg }");
+				location.href="${ contextPath }/showFormManagement.ap"
+			}		
+		});
+	</script>
+	
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

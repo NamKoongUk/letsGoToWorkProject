@@ -2,13 +2,14 @@ package com.kh.lgtw.scheduler.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.scheduler.model.service.SchedulerService;
@@ -35,13 +36,24 @@ public class SchedulerController {
 		return "";
 	}
 	
+	//스케쥴러 목록 조회용
+	@RequestMapping(value = "selectSchedulerList.sc",  produces = "application/text; charset=utf8")
+	public @ResponseBody ArrayList<Scheduler> selectSchedulerList(HttpSession session){
+		Employee e = (Employee) session.getAttribute("loginEmp");
+		int empNo = e.getEmpNo();
+		
+		ArrayList<Scheduler> list = ss.selectSchedulerList(empNo);
+		
+		return list;
+	}
+	
 	//개인스케쥴러 추가 (ModelAndView로 바뀔 수 있음)
 	@RequestMapping("insertMemberScheduler.sc")
-	public String insertMemberScheduler(Scheduler sc, Model model) {
-		//Employee e =  (Employee) session.getAttribute("loginUser");
-		//int empNo = e.getEmpNo();
+	public String insertMemberScheduler(Scheduler sc, HttpSession session, Model model) {
+		Employee e =  (Employee) session.getAttribute("loginEmp");
+		int empNo = e.getEmpNo();
 		
-		//sc.setCreateEmpNo(empNo);
+		sc.setCreateEmpNo(empNo);
 		
 		System.out.println(sc.getSchedulerColor());
 		System.out.println(sc);
@@ -50,7 +62,7 @@ public class SchedulerController {
 		
 		if(result > 0) {
 			System.out.println("추가성공!!");
-			return "main/main";
+			return "scheduler/schedulerMain";
 		}else {
 			System.out.println("추가 실패!");
 			return "main/main";

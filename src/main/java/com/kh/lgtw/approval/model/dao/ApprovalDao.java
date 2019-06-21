@@ -48,7 +48,7 @@ public interface ApprovalDao {
 //
 //	ArrayList<AppForm> showFormManagement(SqlSession session);
 //
-//	int insertAppForm(SqlSession session, AppForm form);
+	int insertAppForm(SqlSession session, AppForm form);
 //
 //	int delteAppForm(SqlSession session, AppForm form);
 //

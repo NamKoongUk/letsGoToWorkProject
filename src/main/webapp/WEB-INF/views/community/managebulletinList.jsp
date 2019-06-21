@@ -88,7 +88,7 @@
 				        <td>강형석</td>
 				        <td>2019-06-20</td>
 				        <td>""/10</td>
-				      	<td><a>수정</a></td>
+				      	<td><a onclick="revision();">수정</a></td>
 				        <td><a>삭제</a></td>
 				      </tr> 
 				   
@@ -100,7 +100,17 @@
 			 
 			 </div> 
 				
-		</section>
+		</section> 
+		
+		
+		<script> 
+			function revision() {
+				
+				alert("수정되었습니다");
+			}
+			
+		
+		</script>
 		
 		
 	

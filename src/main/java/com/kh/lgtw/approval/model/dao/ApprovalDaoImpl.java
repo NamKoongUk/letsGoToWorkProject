@@ -126,12 +126,12 @@ public class ApprovalDaoImpl implements ApprovalDao{
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
-//	//양식생성
-//	@Override
-//	public int insertAppForm(SqlSession session, AppForm form) {
-//		// TODO Auto-generated method stub
-//		return 0;
-//	}
+	//양식생성
+	@Override
+	public int insertAppForm(SqlSession session, AppForm form) {
+
+		return session.insert("Approval.insertAppForm", form);
+	}
 //	//양식 삭제
 //	@Override
 //	public int delteAppForm(SqlSession session, AppForm form) {
