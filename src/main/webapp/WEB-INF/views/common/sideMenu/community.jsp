@@ -5,7 +5,7 @@
 
 <div class="col-sm-2 sidenav visible-sm visible-md visible-lg">
 	<ul>
-		<li><button>글쓰기</button></li>
+		<li><button type="button" onclick="location.href='communityPostInsert.co'">글쓰기</button></li>
 		<hr>
 		<li><a href="temporaryList.co">임시작성한 게시글</a></li>
 		<li><a href="communityList.co">게시판</a></li>

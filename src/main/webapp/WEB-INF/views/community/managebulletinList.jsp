@@ -11,14 +11,12 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  
-  
-  <style>
+
+   <style>
   	.table{font-size:150%; }
   
   	#searcArea{font-size:150%;}
   </style>
-  
 
 </head>
 <body>
@@ -29,11 +27,12 @@
 		<jsp:include page="../common/sideMenu/community.jsp"/>
 		
 		<section class="col-sm-10">
-			<h1 class="title">게시판 </h1> 
+			<h1 class="title">게시판  관리</h1> 
+			<hr>
 			
 			<div class="content" >
 			
-				<div id="searcArea" align="center">
+				<!-- <div id="searcArea" align="center">
 			   	<label>검색조건</label>
 			   	<select id="searchCondition" name="searchCondition">
 			   	   
@@ -48,7 +47,7 @@
 			   	
 			   	<button onclick=""> 검색하기 </button> 
 			   	
-			  </div>
+			  </div> -->
 						
 				
 				
@@ -61,24 +60,37 @@
 			        <th>게시판 이름</th>
 			        <th>게시판 작성자</th>
 			        <th>게시판 작성일자</th>
+			        <th>게시글 게시글수</th>
+			        <th>게시글 수정</th> 
+			        <th>게시글 삭제</th>
+			         
 			      </tr>
 			    </thead>
 			    <tbody>
 				     <tr>
-				        <td><a href="communityPostList.co">교육일정</a></td>
+				        <td>교육일정</td>
 				        <td>강형석</td>
-				        <td>2019-06-20</td>
+				        <td>2019-06-20</td> 
+				        <td>""/10</td>
+				        <td><a>수정</a></td>
+				        <td><a>삭제</a></td>
 				      </tr>
 				      <tr>
 				        <td>공지 사항</td>
 				        <td>강형석</td>
 				        <td>2019-06-20</td>
+				        <td>""/10</td>
+				        <td><a>수정</a></td>
+				        <td><a>삭제</a></td>
 				      </tr>
 				      <tr>
 				        <td>회사내 모임  일정</td>
 				        <td>강형석</td>
 				        <td>2019-06-20</td>
-				      </tr>
+				        <td>""/10</td>
+				      	<td><a>수정</a></td>
+				        <td><a>삭제</a></td>
+				      </tr> 
 				   
 				   	 </tbody> 
 				 

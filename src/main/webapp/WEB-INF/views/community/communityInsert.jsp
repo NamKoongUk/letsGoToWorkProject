@@ -51,12 +51,7 @@
 							
 						</tr> 
 						
-						<tr style="border:solid 40px black;"> 
-						 	
-						  
-						
-						
-						</tr>
+					
 						
 						
 						
