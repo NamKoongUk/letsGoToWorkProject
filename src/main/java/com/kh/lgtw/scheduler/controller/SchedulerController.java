@@ -1,10 +1,16 @@
 package com.kh.lgtw.scheduler.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.scheduler.model.service.SchedulerService;
+import com.kh.lgtw.scheduler.model.vo.Scheduler;
 
 @Controller
 public class SchedulerController {
@@ -28,17 +34,27 @@ public class SchedulerController {
 //	}
 	
 	//개인스케쥴러 추가 (ModelAndView로 바뀔 수 있음)
-//	@RequestMapping("insertMemberScheduler.sc")
-//	public String insertMemberScheduler(HttpSession session, Scheduler sc) {
-//		Employee e =  (Employee) session.getAttribute("loginUser");
-//		int eid = e.getEid();
-//		
-//		sc.setCreateEmpNo(eid);
-//		
-//		int result = ss.insertMemberScheduler(sc);
-//		
-//		return "";
-//	}
+	@RequestMapping("insertMemberScheduler.sc")
+	public String insertMemberScheduler(Scheduler sc, Model model) {
+		//Employee e =  (Employee) session.getAttribute("loginUser");
+		//int empNo = e.getEmpNo();
+		
+		//sc.setCreateEmpNo(empNo);
+		
+		System.out.println(sc.getSchedulerColor());
+		System.out.println(sc);
+		
+		int result = ss.insertMemberScheduler(sc);
+		
+		if(result > 0) {
+			System.out.println("추가성공!!");
+			return "main/main";
+		}else {
+			System.out.println("추가 실패!");
+			return "main/main";
+		}
+		
+	}
 	
 	//개인스케쥴러 수정
 //	@RequestMapping("updateMemberScheduler.sc")
