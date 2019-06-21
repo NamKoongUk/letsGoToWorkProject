@@ -16,6 +16,9 @@
 	table{
 		margin-left:5%;
 	}
+	#saveArea{
+		margin-left:65%;
+	}
 
 </style>
 </head>
@@ -85,8 +88,10 @@
 							<td>개인정보 공개</td>
 							<td><input type="checkbox"></td>
 						</tr>
-					
 					</table>
+					<div id="saveArea">
+						<button type="button" class="btn btn-primary" onclick="location.href=''">저장</button>
+					</div>
 				</form>
 			</div>
 		</section>

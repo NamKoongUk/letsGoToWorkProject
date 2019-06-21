@@ -63,6 +63,26 @@ public class EmployeeController {
 		return "employee/attendStatus";
 	}
 	
+	//근태 수정 페이지
+	@RequestMapping("showUpdateAttenStatus.em")
+	public String showUpdateAttenStatus() {
+		return "employee/updateAttendStatus";
+	}
+	
+	//조직도 관리
+	@RequestMapping("showdeptGroupAdmin.em")
+	public String showdeptGroupAdmin() {
+		return "employee/deptGroupAdmin";
+	}
+	
+	//조직도 일괄등록
+	@RequestMapping("showdpClctvRegister.em")
+	public String showdpClctvRegister() {
+		return "employee/deptClctvRegister";
+	}
+	
+	
+	
 	//로그인
 	@RequestMapping("login.em")
 	public String loginCheck(Employee employee, HttpServletRequest request) {
