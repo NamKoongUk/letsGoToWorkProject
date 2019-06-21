@@ -45,6 +45,16 @@ public class CommunityController {
 	@RequestMapping("managebulletinList.co")
 	public String ManagebulletinList () {
 		return "community/managebulletinList";
+	} 
+	
+	@RequestMapping("communityPostInsert.co")
+	public String CommunityPostInsert(){
+		return "community/communityPostInsert";
+	}
+	
+	@RequestMapping("communityPostList.co")
+	public String CommunityPostList() {
+		return "community/communityPostList";
 	}
 
 
