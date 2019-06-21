@@ -15,5 +15,10 @@
 		WHERE SIGN_CODE = #{signCode}
 	</select>
 	
+	<insert id="insertAppForm" parameterType="AppForm">
+		INSERT INTO APP_FORM
+		VALUES(SEQ_AF_NO.NEXTVAL, #{afName}, #{afAlias}, #{afComment}, #{afDate}, #{afContent}, #{securityCode}, #{signCode})
+	</insert>
+	
 	
 </mapper>  

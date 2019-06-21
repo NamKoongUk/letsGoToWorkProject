@@ -135,11 +135,11 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 	
 //	//양식생성
-//	@Override
-//	public int insertAppForm(AppForm form) {
-//		// TODO Auto-generated method stub
-//		return ad.insertAppForm(session, form);
-//	}
+	@Override
+	public int insertAppForm(AppForm form) {
+		// TODO Auto-generated method stub
+		return ad.insertAppForm(session, form);
+	}
 //	//양식 삭제
 //	@Override
 //	public int delteAppForm(AppForm form) {
