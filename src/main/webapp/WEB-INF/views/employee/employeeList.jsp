@@ -29,9 +29,6 @@
 	margin-bottom:1%;
     position: relative;
 	}
-	
-	
-	
 	.image img {
     display: block;
 	} */
