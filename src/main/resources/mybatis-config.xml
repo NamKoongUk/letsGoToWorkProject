@@ -3,12 +3,50 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+	<settings>
+		<!-- 빈값이 들어오면 NULL로 인식한다. -->
+		<setting value="NULL" name="jdbcTypeForNull"/>
+	</settings>
+	
+	<!-- VO 등록하는 곳 -->
 	<typeAliases>
+		<!-- Approval VO -->
+		<typeAlias type="com.kh.lgtw.approval.model.vo.AppDocument" alias="AppDocument"/>
+		<typeAlias type="com.kh.lgtw.approval.model.vo.AppForm" alias="AppForm"/>
+		<typeAlias type="com.kh.lgtw.approval.model.vo.PageInfo" alias="PageInfo"/>
 		<typeAlias type="com.kh.lgtw.approval.model.vo.SignForm" alias="SignForm"/>
+		<typeAlias type="com.kh.lgtw.approval.model.vo.SignLine" alias="SignLine"/>
+		
+		<!-- Community VO -->
+		<typeAlias type="com.kh.lgtw.community.model.vo.Community" alias="Community"/>
+		<typeAlias type="com.kh.lgtw.community.model.vo.CommunityAttachment" alias="CommunityAttachment"/>
+		<typeAlias type="com.kh.lgtw.community.model.vo.CommunityComment" alias="CommunityComment"/>
+		<typeAlias type="com.kh.lgtw.community.model.vo.CommunityPost" alias="CommunityPost"/>
+		
+		<!-- Employee VO -->				
+		<typeAlias type="com.kh.lgtw.employee.model.vo.Employee" alias="Employee"/>
+		
+		<!-- Mail VO -->
+		<typeAlias type="com.kh.lgtw.mail.model.vo.CommonMail" alias="CommonMail"/>
+		<typeAlias type="com.kh.lgtw.mail.model.vo.Mail" alias="Mail"/>
+		
+		<!-- Messenger VO -->
+		<typeAlias type="com.kh.lgtw.messenger.model.vo.Messenger" alias="Messenger"/>
+		<typeAlias type="com.kh.lgtw.messenger.model.vo.SearchCondition" alias="SearchCondition"/>
+		
+		<!-- Scheduler VO-->
+		<typeAlias type="com.kh.lgtw.scheduler.model.vo.Schedule" alias="Schedule"/>
+		<typeAlias type="com.kh.lgtw.scheduler.model.vo.Scheduler" alias="Scheduler"/>
 	</typeAliases>
 	
+	<!-- mapper파일 등록 -->	
 	<mappers>
 		<mapper resource="mappers/approval-mapper.xml"/>
+		<mapper resource="mappers/community-mapper.xml"/>
+		<mapper resource="mappers/employee-mapper.xml"/>
+		<mapper resource="mappers/mail-mapper.xml"/>
+		<mapper resource="mappers/messenger-mapper.xml"/>
+		<mapper resource="mappers/scheduler-mapper.xml"/>
 	</mappers>
-	
 </configuration>
+
