@@ -46,7 +46,7 @@ public interface ApprovalService {
 //
 //	ArrayList<AppForm> showFormManagement();
 //
-//	int insertAppForm(AppForm form);
+	int insertAppForm(AppForm form);
 //
 //	int delteAppForm(AppForm form);
 //

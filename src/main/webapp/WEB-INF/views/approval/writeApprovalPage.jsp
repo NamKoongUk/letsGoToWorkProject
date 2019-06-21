@@ -70,10 +70,10 @@
 			      </tr>
 			    <tbody>
 	  		</table>
-			<table class="table table-bordered">
-				<tr>
-					<td rowspan="3" width="80px">결재</td>
-					<td width="80px">이지현</td>
+			<table class="table table-bordered" style="text-align:center">
+				<tr id="jobName">
+					<td rowspan="3" width="80px" style="background:#e8e8e8;">결재</td>
+					<td width="80px" height="30px"></td>
 					<td width="80px"></td>
 					<td width="80px"></td>
 					<td width="80px"></td>
@@ -82,7 +82,17 @@
 					<td width="80px"></td>
 					<td width="80px"></td>
 				</tr>
-				<tr height="80px">
+				<tr height="75px" id="approval">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr height="30px" id="empName">
 					<td></td>
 					<td></td>
 					<td></td>
@@ -93,16 +103,196 @@
 					<td></td>
 				</tr>
 				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td style="background:#e8e8e8;">참조</td>
+					<td colspan="8" id="circleEmpName">
+						<input type="text" name="circle" style="float:left">
+					</td>
+				</tr>
+				<tr>
+					<td style="background:#e8e8e8;">수신</td>
+					<td colspan="8" id="receptionEmpName">
+						<input type="text" name="reception" style="float:left">
+					</td>
 				</tr>
 			</table>
+			<table class="table table-bordered"><tr><td width="100px" style="background:#e8e8e8">회람</td><td align="left"><input type="text" name="empName"></td></tr></table>
+			
+			<table class="table table-bordered" style="text-align:center">
+				<tr id="jobName">
+					<td rowspan="3" width="80px" style="background:#e8e8e8;">결재</td>
+					<td width="80px" height="30px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+				</tr>
+				<tr height="75px" id="approval">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr height="30px" id="empName">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="background:#e8e8e8;">합의</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="background:#e8e8e8;">참조</td>
+					<td colspan="8" id="circleEmpName">
+						<input type="text" name="reception" style="float:left">
+					</td>
+				</tr>
+			</table>
+			
+			<table class="table table-bordered" style="text-align:center">
+				<tr id="jobName">
+					<td rowspan="3" width="80px" style="background:#e8e8e8;">결재</td>
+					<td width="80px" height="30px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+				</tr>
+				<tr height="75px" id="approval">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr height="30px" id="empName">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				
+				<tr>
+					<td style="background:#e8e8e8;" rowspan="3">재무합의</td>
+					<td width="80px" height="30px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+				</tr>
+				<tr height="75px" id="approval">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr height="30px" id="empName">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr id="agreement">
+					<td style="background:#e8e8e8;">합의</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="background:#e8e8e8;">참조</td>
+					<td colspan="8" id="circleEmpName">
+						<input type="text" name="reception" style="float:left">
+					</td>
+				</tr>
+			</table>
+			
+			
+			<table class="table table-bordered" style="text-align:center">
+				<tr id="jobName">
+					<td rowspan="3" width="80px" style="background:#e8e8e8;">신청</td>
+					<td width="80px" height="30px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td rowspan="3" width="80px" style="background:#e8e8e8;">처리</td>
+					<td width="80px"></td>
+					<td width="80px"></td>
+					<td width="80px"></td>					
+				</tr>
+				<tr height="75px" id="approval">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+
+				</tr>
+				<tr height="30px" id="empName">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+
+				</tr>
+				<tr>
+					<td style="background:#e8e8e8;">참조</td>
+					<td colspan="8" id="circleEmpName">
+						<input type="text" name="circle" style="float:left">
+					</td>
+				</tr>
+			</table>
+			
+			
 			<div id="area" class="content" style="visibility:hidden;">
 				<form class="form-horizontal" role="form" id="editorForm" method="post" action="/">
 					<a href="#">결재선설정</a><br>

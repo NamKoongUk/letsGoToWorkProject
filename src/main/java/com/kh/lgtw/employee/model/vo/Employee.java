@@ -33,6 +33,10 @@ public class Employee {
 		return empNo;
 	}
 
+	public void setEmpNo(int empNo) {
+		this.empNo = empNo;
+	}
+
 	public String getEmpId() {
 		return empId;
 	}
@@ -55,10 +59,6 @@ public class Employee {
 
 	public String getEmpPhone() {
 		return empPhone;
-	}
-
-	public void setEmpNo(int empNo) {
-		this.empNo = empNo;
 	}
 
 	public void setEmpId(String empId) {

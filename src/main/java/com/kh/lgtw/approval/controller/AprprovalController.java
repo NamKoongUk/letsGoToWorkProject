@@ -303,21 +303,37 @@ public class AprprovalController {
 	@RequestMapping(value = "selectSignForm.ap",  produces = "application/text; charset=utf8")
 	public @ResponseBody String selectSignForm(HttpServletResponse response, SignForm sf) {
 		
-		ObjectMapper mapper = new ObjectMapper();
+		//ObjectMapper mapper = new ObjectMapper();
 		
 		SignForm signForm = as.selectSignForm(sf);
-		System.out.println(signForm.getSignContent());
+		//System.out.println(signForm.getSignContent());
 		
 		return signForm.getSignContent();
 	}
 	
-	//양식생성
-	@RequestMapping("insertAppForm.ap")
-	public String insertAppForm(AppForm form) {
-		
-		// int result = as.insertAppForm(form);
+	//양식생성으로 이동
+	@RequestMapping("selectAppForm.ap")
+	public String selectAppForm() {
 		
 		return "managerOption/insertAppForm";
+	}
+	
+	//양식 리다이렉트
+	@ RequestMapping("redirectFormManager.ap")
+	public String redirectFormManager() {
+		return "redirect:showFormManagement.ap";
+	}
+	
+	//양식생성
+	@RequestMapping("insertAppForm.ap")
+	public String insertAppForm(AppForm form, Model model) {
+		
+		System.out.println(form);
+		
+		int result = as.insertAppForm(form);
+		model.addAttribute("result", result);
+		model.addAttribute("msg", "양식 작성이 완료되었습니다.");
+		return "managerOption/formManagement";
 	}
 	
 	//양식 삭제
@@ -456,9 +472,9 @@ public class AprprovalController {
 	@RequestMapping("selectApprovalLine.ap")
 	public String selectApprovalLine(HttpSession session, Model model) {
 		
-		Employee e = (Employee)session.getAttribute("loginUser");
-		
-		int eid = e.getEid();
+//		Employee e = (Employee)session.getAttribute("loginUser");
+//		
+//		int eid = e.getEid();
 		
 		// ArrayList<SignLine> list = as.selectApprovalLine(eid);
 		

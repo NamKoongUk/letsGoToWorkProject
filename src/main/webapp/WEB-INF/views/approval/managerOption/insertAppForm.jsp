@@ -27,7 +27,7 @@
 			<h3 class="title"> 양식생성</h3>
 			<hr>
 			<div class="content">
-				<form class="form-horizontal" role="form" id="editorForm" method="post" action="/">
+				<form class="form-horizontal" role="form" id="editorForm" method="post" action="${ contextPath }/insertAppForm.ap">
 					<table class="table table-hover table-bordered">
 						<tr>
 				        <td class="head">양식명</td>
@@ -47,37 +47,60 @@
 						<td class="head">결재양식</td>
 						<td>
 							<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#myModal">선택</button>
+							<input type="hidden" name="signCode"/>
 							 <!-- Modal -->
-							  <div class="modal fade" id="myModal" role="dialog">
+							  <div class="modal fade" id="myModal" role="dialog" style="left: -180px;">
 							    <div class="modal-dialog">
 							    
 							      <!-- Modal content-->
-							      <div class="modal-content">
+							      <div class="modal-content" style="width:800px; align:center">
 							        <div class="modal-header">
 							          <button type="button" class="close" data-dismiss="modal">&times;</button>
 							          <h4 class="modal-title">결재 양식선택</h4>
 							        </div>
-							        <div class="modal-body">
+							        <div class="modal-body" >
 							          <div class="form-group">
-							          	<div class="col-sm-6">
-							          		<label><input type="radio" name="signForm">결재</label>
-							          		결재양식 넣기
+							          	<div class="row">
+							          		<div class="col-sm-1"></div>
+								          	<div class="col-sm-4">
+								          		<label><input type="radio" name="signForm" value="normalApproval">결재
+								          		<br>
+								          		<img src="${ contextPath }/resources/images/approval/normal.PNG" width="300px" height="100px">
+								          		</label>
+								          	</div>
+								          	<div class="col-sm-1"></div>
+								          	<div class="col-sm-4">
+								          		<label><input type="radio" name="signForm" value="agreementApproval">재무포함 결재
+								          		<br>
+								          		<img src="${ contextPath }/resources/images/approval/agree.PNG" width="300px" height="100px">
+								          		</label>
+								          	</div>
+								  
 							          	</div>
-							          	<div class="col-sm-6">
-							          		<label><input type="radio" name="signForm">재무포함 결재</label>
-							          		결재양식 넣기
+							          	<div class="row">
+							          		<div class="col-sm-1"></div>
+								          	<div class="col-sm-4">
+								          		<label><input type="radio" name="signForm" value="applyDcm">신청
+								          		<br>
+								          		<img src="${ contextPath }/resources/images/approval/apply.PNG" width="300px" height="100px">
+								          		</label>
+								          	</div>
+								          	<div class="col-sm-1"></div>
+								          	<div class="col-sm-4">
+								          		<label><input type="radio" name="signForm" value="approvalSend">결재후송신
+								          		<br>
+								          		<img src="${ contextPath }/resources/images/approval/send.PNG" width="300px" height="100px">
+								          		</label>
+								          	</div>
 							          	</div>
-							          	<div class="col-sm-6">
-							          		<label><input type="radio" name="signForm">신청</label>
-							          		결재양식 넣기
-							          	</div>
-							          	<div class="col-sm-6">
-							          		<label><input type="radio" name="signForm">결재후송신</label>
-							          		결재양식 넣기
-							          	</div>
-							          	<div class="col-sm-6">
-							          		<label><input type="radio" name="signForm" value="circle">회람</label>
-							          		결재양식 넣기
+							          	<div class="row">
+								          	<div class="col-sm-1"></div>
+								          	<div class="col-sm-4">
+								          		<label><input type="radio" name="signForm" value="circle">회람
+								          		<br>
+								          		<img src="${ contextPath }/resources/images/approval/circle.PNG" width="300px" height="100px">
+								          		</label>
+								          	</div>
 							          	</div>
 							          </div>
 							        </div>
@@ -96,20 +119,20 @@
 				        <td>
 							<select class="form-control" name="afDate">
 								<option>선택</option>
-								<option>1년</option>
-								<option>3년</option>
-								<option>5년</option>
-								<option>10년</option>
+								<option value="1years">1년</option>
+								<option value="3years">3년</option>
+								<option value="5years">5년</option>
+								<option value="10years">10년</option>
 							</select>
 						</td>
 						<td class="head">보안등급</td>
 						<td>
 							<select class="form-control" name="securityCode">
 								<option>선택</option>
-								<option>S등급</option>
-								<option>A등급</option>
-								<option>B등급</option>
-								<option>C등급</option>
+								<option value="s">S등급</option>
+								<option value="a">A등급</option>
+								<option value="b">B등급</option>
+								<option value="c">C등급</option>
 							</select>
 						</td>
 				      </tr>
@@ -123,7 +146,7 @@
 					    <div class="form-group">
 					        <div class="form-group">
 					            <div class="col-lg-12">
-					                <textarea name="ckeditor" id="ckeditor"></textarea>
+					                <textarea name="afContent" id="ckeditor"></textarea>
 					            </div>
 					        </div>
 					        <div class="form-group">
@@ -154,6 +177,8 @@
 				console.log(data);
 				var appForm = data;
 				$("#signFormArea").html(appForm);
+				$("input[name='signCode']").val(signCode);
+				console.log($("input[name='signCode']").val());
 			}
 		});
 	}
