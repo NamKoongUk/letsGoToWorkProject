@@ -3,7 +3,6 @@ package com.kh.lgtw.employee.model.vo;
 import java.sql.Date;
 
 public class Employee {
-
 	private int empNo;
 	private String empId;
 	private String empPwd;
@@ -14,11 +13,9 @@ public class Employee {
 	
 	public Employee() {}
 
-
 	public Employee(int empNo, String empId, String empPwd, String empName, Date empBirth, String gender,
 			String empPhone) {
 		super();
-
 		this.empNo = empNo;
 		this.empId = empId;
 		this.empPwd = empPwd;
@@ -28,19 +25,15 @@ public class Employee {
 		this.empPhone = empPhone;
 	}
 
-	
-	public int getEmpNo() {
+  public int getEmpNo() {
 		return empNo;
 	}
-
 	public void setEmpNo(int empNo) {
 		this.empNo = empNo;
 	}
-
 	public String getEmpId() {
 		return empId;
 	}
-
 	public String getEmpPwd() {
 		return empPwd;
 	}
@@ -92,6 +85,4 @@ public class Employee {
 				+ ", empBirth=" + empBirth + ", gender=" + gender + ", empPhone=" + empPhone + "]";
 
 	}
-
-	
 }
