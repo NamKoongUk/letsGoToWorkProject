@@ -8,16 +8,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.service.EmployeeService;
 import com.kh.lgtw.employee.model.vo.Employee;
 
 @Controller
+@SessionAttributes("loginEmp")
 public class EmployeeController {
+	
 	@Autowired
 	private EmployeeService emplService;
 	
 	//화면전환
+
+	//로그인
+	@RequestMapping(value="login.em", method=RequestMethod.POST)
+	public String loginCheck(Employee employee, Model model) {
+		
+		try {
+			Employee loginEmp = emplService.loginCheck(employee);
+			
+			model.addAttribute("loginEmp", loginEmp);
+			return "main/main";
+			
+		} catch (LoginException e) {
+			model.addAttribute("msg", e.getMessage());
+			return "common/errorPage";
+		}
+	}
 
 	//조직도
 	@RequestMapping("employee.em")
@@ -64,17 +85,17 @@ public class EmployeeController {
 	}
 	
 	//로그인
-	@RequestMapping("login.em")
-	public String loginCheck(Employee employee, HttpServletRequest request) {
-		
-		//Employee loginUser = emplService.loginEmpl(employee);
-		
-		return "";
-	}
+	/*
+	 * @RequestMapping("login.em") public String loginCheck(Employee employee,
+	 * HttpServletRequest request) {
+	 * 
+	 * //Employee loginUser = emplService.loginEmpl(employee);
+	 * 
+	 * return ""; }
+	 */
 	//사원 조회
 	@RequestMapping("selectEmpl.em")
 	public String selectEmployee(Model model) {
-		
 		//ArrayList<Employee> empList = emplService.selectEmlList();
 		
 		return "";

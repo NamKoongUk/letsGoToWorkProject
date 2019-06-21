@@ -11,4 +11,16 @@
 	
 	쿼리문 작성
 	<select id="구분이름" parameterType="매개변수 타입"> </select> -->
+	<resultMap id="loginResultSet" type="com.kh.lgtw.employee.model.vo.Employee">
+		<id column="EMPNO" property="empNo"/>
+		<result column="EMP_ID" property="empId"/>
+		<result column="EMP_PWD" property="empPwd"/>
+		<result column="EMP_NAME" property="empName"/>
+	</resultMap>
+	
+	<select id="loginCheck" resultMap="loginResultSet" parameterType="Employee">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE STATUS = 'Y' 
+	</select>
 </mapper>

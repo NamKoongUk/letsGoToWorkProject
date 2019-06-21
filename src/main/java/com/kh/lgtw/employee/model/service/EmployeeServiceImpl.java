@@ -3,19 +3,27 @@ package com.kh.lgtw.employee.model.service;
 import java.util.ArrayList;
 
 import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.lgtw.employee.model.dao.EmployeeDao;
+import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.vo.Employee;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-//	@Autowired
-//	private EmployeeDao empDao;
-//	private SqlSession sqlSession;
-//
-//	@Override
+
+	@Autowired SqlSession sqlSession; 
+	@Autowired private EmployeeDao empDao;
+	
+	// 로그인 확인용
+	@Override
+	public Employee loginCheck(Employee employee) throws LoginException {
+		return empDao.loginCheck(sqlSession, employee);
+	}
+
+	//	@Override
 //	public Employee loginEmpl(Employee employee) {
 //		// TODO Auto-generated method stub
 //		return empDao.loginEmpl(employee,sqlSession);

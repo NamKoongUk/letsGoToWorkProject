@@ -2,9 +2,12 @@ package com.kh.lgtw.employee.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.vo.Employee;
 
 public interface EmployeeService {
+
+	Employee loginCheck(Employee employee) throws LoginException;
 
 //	Employee loginEmpl(Employee employee);
 //

@@ -3,12 +3,27 @@ package com.kh.lgtw.employee.model.dao;
 import java.util.ArrayList;
 
 import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.vo.Employee;
 
 @Repository
 public class EmployeeDaoImpl implements EmployeeDao{
+	
+	// 로그인 확인
+		@Override
+		public Employee loginCheck(SqlSession sqlSession, Employee employee) throws LoginException {
+
+			Employee loginEmp = sqlSession.selectOne("Employee.loginCheck", employee);
+			
+			if(loginEmp == null) {
+				throw new LoginException("로그인 정보가 일치하지 않습니다.");
+			}
+			
+			return loginEmp;
+		}
 
 //	@Override
 //	public Employee loginEmpl(Employee employee, SqlSession sqlSession) {

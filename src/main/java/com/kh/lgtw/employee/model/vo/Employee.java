@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class Employee {
 	private int eid;
+	private int empNo;
 	private String empId;
 	private String empPwd;
 	private String empName;
@@ -13,10 +14,11 @@ public class Employee {
 	
 	public Employee() {}
 
-	public Employee(int eid, String empId, String empPwd, String empName, Date empBirth, String gender,
+	public Employee(int eid, int empNo, String empId, String empPwd, String empName, Date empBirth, String gender,
 			String empPhone) {
 		super();
 		this.eid = eid;
+		this.empNo = empNo;
 		this.empId = empId;
 		this.empPwd = empPwd;
 		this.empName = empName;
@@ -31,6 +33,14 @@ public class Employee {
 
 	public void setEid(int eid) {
 		this.eid = eid;
+	}
+
+	public int getEmpNo() {
+		return empNo;
+	}
+
+	public void setEmpNo(int empNo) {
+		this.empNo = empNo;
 	}
 
 	public String getEmpId() {
@@ -83,7 +93,7 @@ public class Employee {
 
 	@Override
 	public String toString() {
-		return "Employee [eid=" + eid + ", empId=" + empId + ", empPwd=" + empPwd + ", empName=" + empName
-				+ ", empBirth=" + empBirth + ", gender=" + gender + ", empPhone=" + empPhone + "]";
+		return "Employee [eid=" + eid + ", empNo=" + empNo + ", empId=" + empId + ", empPwd=" + empPwd + ", empName="
+				+ empName + ", empBirth=" + empBirth + ", gender=" + gender + ", empPhone=" + empPhone + "]";
 	}
 }

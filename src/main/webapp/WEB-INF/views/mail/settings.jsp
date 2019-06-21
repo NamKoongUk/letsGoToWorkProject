@@ -125,8 +125,8 @@
 							</table>
 						</div>
 					</div> <!-- 부재중 설정 -->
+					<br><br><br>
 					<div id="sign" class="tab-pane fade in active" align="center">
-						<h3>서명설정</h3>
 						<form id="signFrom" action="updateSign.ap"  >
 							<table id="signTable">
 								<tr><td>
@@ -145,6 +145,8 @@
 					</div>
 					<div id="officeMail" class="tab-pane fade">
 						<h3>공용메일 설정</h3>
+						<!-- 공용메일 설정 폼을 만들고 -->
+						<!--  -->
 					</div>
 				</div>
 			</div>
