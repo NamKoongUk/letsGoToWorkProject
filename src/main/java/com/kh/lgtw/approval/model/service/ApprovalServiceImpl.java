@@ -3,6 +3,7 @@ package com.kh.lgtw.approval.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import com.kh.lgtw.approval.model.dao.ApprovalDao;
 import com.kh.lgtw.approval.model.vo.AppDocument;
 import com.kh.lgtw.approval.model.vo.AppForm;
 import com.kh.lgtw.approval.model.vo.PageInfo;
+import com.kh.lgtw.approval.model.vo.Security;
 import com.kh.lgtw.approval.model.vo.SignForm;
 import com.kh.lgtw.approval.model.vo.SignLine;
 import com.kh.lgtw.employee.model.vo.Employee;
@@ -156,24 +158,20 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return ad.deleteAppForm(session, afNo);
 	}
-//	//양식 수정
-//	@Override
-//	public int updateAppForm(AppForm form) {
-//		// TODO Auto-generated method stub
-//		return ad.updateAppForm(session, form);
-//	}
-//	//사용 전환
-//	@Override
-//	public int updateUseForm(AppForm form) {
-//		// TODO Auto-generated method stub
-//		return ad.updateUseForm(session, form);
-//	}
-//	//미사용 전환
-//	@Override
-//	public int updateNotUserForm(AppForm form) {
-//		// TODO Auto-generated method stub
-//		return ad.updateNotUserForm(session, form);
-//	}
+	//양식 수정
+	@Override
+	public int updateAppForm(AppForm form) {
+		// TODO Auto-generated method stub
+		return ad.updateAppForm(session, form);		
+	}
+	//사용 미사용 전환
+	@Override
+	public int statusUpdateAppForm(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return ad.statusUpdateAppForm(session, map);
+	}
+	
+
 //	//제공양식 보기
 //	@Override
 //	public ArrayList<AppForm> selectOfferDcm() {
@@ -204,6 +202,14 @@ public class ApprovalServiceImpl implements ApprovalService{
 //		// TODO Auto-generated method stub
 //		return ad.showDeleteDcm(session);
 //	}
+	//옵션 보안등급 조회
+	@Override
+	public ArrayList<Security> selectSecurity() {
+		// TODO Auto-generated method stub
+		ArrayList<Security> list = ad.selectSecurity(session);
+
+		return ad.selectSecurity(session);
+	}
 //	//-----------------------------문서 상세보기 및 결재기능--------------------------------------
 //	//문서 상세보기
 //	@Override
@@ -230,11 +236,11 @@ public class ApprovalServiceImpl implements ApprovalService{
 //		return ad.updateDcm(session, eid, adNo);
 //	}
 //	//작성하기 폼 이동
-//	@Override
-//	public int[] showWriteForm() {
-//		// TODO Auto-generated method stub
-//		return ad.showWriteForm(session);
-//	}
+	@Override
+	public ArrayList<HashMap<String, Object>> selectFormList() {
+		// TODO Auto-generated method stub
+		return ad.selectFormList(session);
+	}
 //	//문서양식 불러오기
 //	@Override
 //	public AppForm selectDcmForm(int afNo) {
@@ -274,6 +280,23 @@ public class ApprovalServiceImpl implements ApprovalService{
 //		
 //		return result;
 //	}
+	@Override
+	public ArrayList<HashMap<String, Object>> selectJob() {
+		// TODO Auto-generated method stub
+		return ad.selectJob(session);
+	}
+	@Override
+	public int updateGrade(Map<String, String> grade) {
+		// TODO Auto-generated method stub
+		return ad.updateGrade(session, grade);
+	}
+	@Override
+	public HashMap<String, Object> selectWriteForm(int afNo) {
+		// TODO Auto-generated method stub
+		return ad.selectWriteForm(afNo, session);
+	}
+	
+	
 
 	
 	

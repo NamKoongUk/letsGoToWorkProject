@@ -11,11 +11,31 @@
 
 	<resources mapping="/resources/**" location="/resources/" />
 
+	<beans:bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+	 	<beans:property name="order" value="1" />
+	 </beans:bean>
+
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- 파일 업로드를 위해 bean등록 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="100000000"/>
+		<beans:property name="maxInMemorySize" value="100000000"/>
+	</beans:bean>
+	
+	<beans:bean id="excelDownloadView" class="com.kh.lgtw.employee.model.util.ExcelDownloadView"></beans:bean>
+	
+	<!-- ajax할 때 jsonView 설정 -->
+	<beans:bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView">
+		
+	</beans:bean>
+	 
+	 
 	<context:component-scan base-package="com.kh.lgtw.employee" />
+	
+	
 	
 </beans:beans>

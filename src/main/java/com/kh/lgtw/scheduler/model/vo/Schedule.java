@@ -2,6 +2,7 @@ package com.kh.lgtw.scheduler.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class Schedule implements Serializable{
 	private int scheduleNo;
@@ -16,14 +17,13 @@ public class Schedule implements Serializable{
 	private Date createDate;
 	private Date modifyDate;
 	private int schedulerNo;
-	private String schdulerName;
-	private String schedulerColor;
+	private ArrayList<Scheduler> schedulerList;
 	
 	public Schedule() {}
 
-	public Schedule(int scheduleNo, String startDate, String endDate, String startTime, String endTime, String scheduleName,
-			String scheduleContent, String status, int writer, Date createDate, Date modifyDate, int schedulerNo,
-			String schdulerName, String schedulerColor) {
+	public Schedule(int scheduleNo, String startDate, String endDate, String startTime, String endTime,
+			String scheduleName, String scheduleContent, String status, int writer, Date createDate, Date modifyDate,
+			int schedulerNo, ArrayList<Scheduler> schedulerList) {
 		super();
 		this.scheduleNo = scheduleNo;
 		this.startDate = startDate;
@@ -37,8 +37,7 @@ public class Schedule implements Serializable{
 		this.createDate = createDate;
 		this.modifyDate = modifyDate;
 		this.schedulerNo = schedulerNo;
-		this.schdulerName = schdulerName;
-		this.schedulerColor = schedulerColor;
+		this.schedulerList = schedulerList;
 	}
 
 	public int getScheduleNo() {
@@ -89,12 +88,8 @@ public class Schedule implements Serializable{
 		return schedulerNo;
 	}
 
-	public String getSchdulerName() {
-		return schdulerName;
-	}
-
-	public String getSchedulerColor() {
-		return schedulerColor;
+	public ArrayList<Scheduler> getSchedulerList() {
+		return schedulerList;
 	}
 
 	public void setScheduleNo(int scheduleNo) {
@@ -145,12 +140,8 @@ public class Schedule implements Serializable{
 		this.schedulerNo = schedulerNo;
 	}
 
-	public void setSchdulerName(String schdulerName) {
-		this.schdulerName = schdulerName;
-	}
-
-	public void setSchedulerColor(String schedulerColor) {
-		this.schedulerColor = schedulerColor;
+	public void setSchedulerList(ArrayList<Scheduler> schedulerList) {
+		this.schedulerList = schedulerList;
 	}
 
 	@Override
@@ -158,9 +149,12 @@ public class Schedule implements Serializable{
 		return "Schedule [scheduleNo=" + scheduleNo + ", startDate=" + startDate + ", endDate=" + endDate
 				+ ", startTime=" + startTime + ", endTime=" + endTime + ", scheduleName=" + scheduleName
 				+ ", scheduleContent=" + scheduleContent + ", status=" + status + ", writer=" + writer + ", createDate="
-				+ createDate + ", modifyDate=" + modifyDate + ", schedulerNo=" + schedulerNo + ", schdulerName="
-				+ schdulerName + ", schedulerColor=" + schedulerColor + "]";
+				+ createDate + ", modifyDate=" + modifyDate + ", schedulerNo=" + schedulerNo + ", schedulerList="
+				+ schedulerList + "]";
 	}
+
+	
+	
 
 	
 

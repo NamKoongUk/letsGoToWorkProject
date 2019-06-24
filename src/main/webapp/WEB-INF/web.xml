@@ -2,40 +2,82 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:root-context.xml</param-value>
-	</context-param>
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-	<servlet>
-		<servlet-name>appServlet</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/config/action-servlet.xml</param-value>
-		</init-param>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>appServlet</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:root-context.xml
+			/WEB-INF/config/spring-security.xml</param-value>
+  </context-param>
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <servlet>
+    <servlet-name>appServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/config/action-servlet.xml</param-value>
+    </init-param>
+    <!-- <load-on-startup>1</load-on-startup> -->
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MailController</display-name>
+    <servlet-name>MailController</servlet-name>
+    <servlet-class>com.kh.lgtw.mail.controller.MailController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MailController</servlet-name>
+    <url-pattern>/MailController</url-pattern>
+  </servlet-mapping>
+   
+   <servlet>
+    <servlet-name>Messenger</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+    	<param-name>contextConfigLocation</param-name>
+    	<param-value>/WEB-INF/config/messenger-servlet.xml</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Messenger</servlet-name>
+    <url-pattern>/messenger</url-pattern>
+  </servlet-mapping>
+  
+  <!-- employee Servlet -->
+  <servlet>
+    <servlet-name>employee</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+    	<param-name>contextConfigLocation</param-name>
+    	<param-value>/WEB-INF/config/employee-servlet.xml</param-value>
+    </init-param>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>employee</servlet-name>
+    <url-pattern>*.em</url-pattern>
+  </servlet-mapping>
+  
+  <!-- approval Servlet -->
+  <servlet>
+    <servlet-name>approval</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+    	<param-name>contextConfigLocation</param-name>
+    	<param-value>/WEB-INF/config/approval-servlet.xml</param-value>
+    </init-param>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>approval</servlet-name>
+    <url-pattern>*.ap</url-pattern>
+  </servlet-mapping>
 
-	<servlet>
-		<servlet-name>Messenger</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/config/messenger-servlet.xml</param-value>
-		</init-param>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Messenger</servlet-name>
-		<url-pattern>/messenger</url-pattern>
-	</servlet-mapping>
-
-	<!-- Mail Servlet -->
+<!-- Mail Servlet -->
 	<servlet>
 		<servlet-name>RestMail</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -61,40 +103,8 @@
 		<servlet-name>Mail</servlet-name>
 		<url-pattern>*.ma</url-pattern>
 	</servlet-mapping>
-	
-	
-
-	<!-- employee Servlet -->
-	<servlet>
-		<servlet-name>employee</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/config/employee-servlet.xml</param-value>
-		</init-param>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>employee</servlet-name>
-		<url-pattern>*.em</url-pattern>
-	</servlet-mapping>
-
-	<!-- approval Servlet -->
-	<servlet>
-		<servlet-name>approval</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/config/approval-servlet.xml</param-value>
-		</init-param>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>approval</servlet-name>
-		<url-pattern>*.ap</url-pattern>
-	</servlet-mapping>
-
-	<!-- 인코딩 필터 추가  -->
-	<!-- request, response에서 한글 인코딩 해주는 필터 -->
+  
+  	<!-- 인코딩 필터 추가 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>

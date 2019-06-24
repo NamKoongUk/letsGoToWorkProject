@@ -25,6 +25,11 @@ public class EmployeeDaoImpl implements EmployeeDao{
 			return loginEmp;
 		}
 
+		@Override
+		public int inSertEmpOne(SqlSession sqlSession, Employee employee) {
+			return sqlSession.insert("Employee.insertEmpOne",employee);
+		}
+
 //	@Override
 //	public Employee loginEmpl(Employee employee, SqlSession sqlSession) {
 //		// TODO Auto-generated method stub

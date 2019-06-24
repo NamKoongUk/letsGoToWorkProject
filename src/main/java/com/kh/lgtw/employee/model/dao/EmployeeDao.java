@@ -12,6 +12,8 @@ public interface EmployeeDao{
 
 	Employee loginCheck(SqlSession sqlSession, Employee employee) throws LoginException;
 
+	int inSertEmpOne(SqlSession sqlSession, Employee employee);
+
 //	Employee loginEmpl(Employee employee, SqlSession sqlSession);
 //
 //	ArrayList<Employee> selectEmpList(SqlSession sqlSession);
