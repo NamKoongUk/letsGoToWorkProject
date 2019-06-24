@@ -22,12 +22,22 @@
 	
 	<!-- 캘린더 리스트 조회용 -->
 	<select id="selectSchedulerList" parameterType="_int" resultMap="schedulerResultSet">
-		SELECT SC.SCHEDULER_NAME
+		SELECT SC.SCHEDULER_NO, SC.SCHEDULER_NAME
 		FROM SCHEDULER SC
 		LEFT JOIN GROUP_MEMBER GM ON (SC.SCHEDULER_NO = GM.SCHEDULER_NO)
 		WHERE SC.CREATE_EMPNO = #{empNo}
 		OR (GM.EMPNO = #{empNo} AND GM.AUTHORITY = 'Y')
 	</select>
+	
+	<!-- 일정추가 쿼리문 -->
+	<insert id="insertSchedule" parameterType="Schedule">
+		INSERT INTO SCHEDULE
+		VALUES(SEQ_SCHEDULE_NO.NEXTVAL, #{startDate}, #{endDate}, #{startTime}, #{endTime},
+		       #{scheduleName}, #{scheduleContent}, 'Y', #{writer}, SYSDATE, SYSDATE, #{schedulerNo})
+	</insert>
+	
+	
+	
 	
 </mapper>
  

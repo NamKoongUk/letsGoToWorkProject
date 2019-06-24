@@ -1,7 +1,10 @@
 package com.kh.lgtw.scheduler.model.service;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,9 +61,10 @@ public class SchedulerServiceImpl implements SchedulerService{
 		return 0;
 	}
 
+	//일정 추가용 메소드
 	@Override
-	public int insertSchedule() {
-		return 0;
+	public int insertSchedule(Schedule schedule) {
+		return sd.insertSchedule(sqlSession, schedule);
 	}
 
 	@Override

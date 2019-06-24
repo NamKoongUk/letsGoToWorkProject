@@ -1,9 +1,13 @@
 package com.kh.lgtw.scheduler.model.dao;
 
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.kh.lgtw.scheduler.model.vo.Schedule;
 import com.kh.lgtw.scheduler.model.vo.Scheduler;
 
 public interface SchedulerDao {
@@ -11,6 +15,8 @@ public interface SchedulerDao {
 	int insertMemberScheduler(SqlSession sqlSession, Scheduler sc);
 
 	ArrayList<Scheduler> selectSchedulerList(SqlSession sqlSession, int empNo);
+
+	int insertSchedule(SqlSession sqlSession, Schedule schedule);
 
 	
 

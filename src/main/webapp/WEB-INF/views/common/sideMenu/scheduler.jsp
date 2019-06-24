@@ -5,7 +5,7 @@
 
 <div class="col-sm-2 sidenav visible-sm visible-md visible-lg">
 	<ul>
-		<li><button data-toggle="modal" data-target="#insertScheduleModal">일정추가</button></li>			
+		<li><button data-toggle="modal" data-target="#insertScheduleModal" onclick="selectSchedulerList()">일정추가</button></li>			
 	</ul>
 	<hr>
 	<div style="height:200px; margin-top:10px;">
@@ -13,7 +13,7 @@
 			<thead>
 				<tr>
 					<th colspan="2" style="text-align:center"><b>개인일정</b></th>
-					<th><button onclick="selectSchedulerList()" data-toggle="modal" data-target="#empSchedulerModal"
+					<th><button data-toggle="modal" data-target="#empSchedulerModal"
 					             >+</button></th>
 				</tr>
 			</thead>

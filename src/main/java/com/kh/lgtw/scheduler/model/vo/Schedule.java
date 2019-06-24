@@ -5,22 +5,25 @@ import java.sql.Date;
 
 public class Schedule implements Serializable{
 	private int scheduleNo;
-	private Date startDate;
-	private Date endDate;
+	private String startDate;
+	private String endDate;
 	private String startTime;
 	private String endTime;
 	private String scheduleName;
 	private String scheduleContent;
 	private String status;
-	private String writer;
+	private int writer;
 	private Date createDate;
 	private Date modifyDate;
 	private int schedulerNo;
+	private String schdulerName;
+	private String schedulerColor;
 	
 	public Schedule() {}
 
-	public Schedule(int scheduleNo, Date startDate, Date endDate, String startTime, String endTime, String scheduleName,
-			String scheduleContent, String status, String writer, Date createDate, Date modifyDate, int schedulerNo) {
+	public Schedule(int scheduleNo, String startDate, String endDate, String startTime, String endTime, String scheduleName,
+			String scheduleContent, String status, int writer, Date createDate, Date modifyDate, int schedulerNo,
+			String schdulerName, String schedulerColor) {
 		super();
 		this.scheduleNo = scheduleNo;
 		this.startDate = startDate;
@@ -34,17 +37,19 @@ public class Schedule implements Serializable{
 		this.createDate = createDate;
 		this.modifyDate = modifyDate;
 		this.schedulerNo = schedulerNo;
+		this.schdulerName = schdulerName;
+		this.schedulerColor = schedulerColor;
 	}
 
 	public int getScheduleNo() {
 		return scheduleNo;
 	}
 
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
@@ -68,7 +73,7 @@ public class Schedule implements Serializable{
 		return status;
 	}
 
-	public String getWriter() {
+	public int getWriter() {
 		return writer;
 	}
 
@@ -84,15 +89,23 @@ public class Schedule implements Serializable{
 		return schedulerNo;
 	}
 
+	public String getSchdulerName() {
+		return schdulerName;
+	}
+
+	public String getSchedulerColor() {
+		return schedulerColor;
+	}
+
 	public void setScheduleNo(int scheduleNo) {
 		this.scheduleNo = scheduleNo;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 
@@ -116,7 +129,7 @@ public class Schedule implements Serializable{
 		this.status = status;
 	}
 
-	public void setWriter(String writer) {
+	public void setWriter(int writer) {
 		this.writer = writer;
 	}
 
@@ -132,13 +145,26 @@ public class Schedule implements Serializable{
 		this.schedulerNo = schedulerNo;
 	}
 
+	public void setSchdulerName(String schdulerName) {
+		this.schdulerName = schdulerName;
+	}
+
+	public void setSchedulerColor(String schedulerColor) {
+		this.schedulerColor = schedulerColor;
+	}
+
 	@Override
 	public String toString() {
 		return "Schedule [scheduleNo=" + scheduleNo + ", startDate=" + startDate + ", endDate=" + endDate
 				+ ", startTime=" + startTime + ", endTime=" + endTime + ", scheduleName=" + scheduleName
 				+ ", scheduleContent=" + scheduleContent + ", status=" + status + ", writer=" + writer + ", createDate="
-				+ createDate + ", modifyDate=" + modifyDate + ", schedulerNo=" + schedulerNo + "]";
+				+ createDate + ", modifyDate=" + modifyDate + ", schedulerNo=" + schedulerNo + ", schdulerName="
+				+ schdulerName + ", schedulerColor=" + schedulerColor + "]";
 	}
+
+	
+
+	
 	
 	
 	
