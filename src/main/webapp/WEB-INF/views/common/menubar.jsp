@@ -9,7 +9,6 @@
 <title>LetsGoToWork</title>
 <!-- bootstrap CDN -->
 <jsp:include page="../common/tools.jsp"></jsp:include>
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"> -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 	.loginEmpInfo button{
@@ -19,6 +18,8 @@
 	.loginEmpInfo{
 		float : right;
 		margin : 10px ;
+		padding-top : 10px;
+		font-weight : bold;
 	}
 	.empIcon{
 		cursor : pointer;
@@ -44,7 +45,10 @@
 						<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar">
 						</span>
 					</button>
-					<a class="navbar-brand" href="${ contextPath }">Logo 자리</a>
+					<a class="navbar-brand" href="${ contextPath }">
+						<%-- <img src="${ contextPath }/resources/images/logo1.PNG" width="85px" style="position: relative; top: -15px"/> --%>
+						<img src="${ contextPath }/resources/images/logo3.png" width="85px" style="position: relative; top: -10px; left: 15px;"/>
+					</a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav visible-lg visible-md">
@@ -59,7 +63,7 @@
 					<c:if test="${ !empty loginEmp }">
 						<div class="loginEmpInfo">
 							<img src="${ contextPath }/resources/images/user.png" class="empIcon">
-							<span class="empInfo">${ loginEmp.empName }님 환영합니다.<%-- ${ loginEmp.empNo } --%></span>
+							<span class="empInfo">${ loginEmp.empName }님<%-- ${ loginEmp.empNo } --%></span>
 						</div>
 					</c:if>
 				</div>

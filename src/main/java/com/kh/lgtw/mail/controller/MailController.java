@@ -1,41 +1,80 @@
 package com.kh.lgtw.mail.controller;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.kh.lgtw.approval.model.vo.PageInfo;
+import com.kh.lgtw.common.Pagination;
 import com.kh.lgtw.mail.model.service.MailService;
 import com.kh.lgtw.mail.model.vo.Mail;
 
 @Controller
+//@RestController
 public class MailController {
 	
 	@Autowired private MailService ms; 
 	
+	// 전체 메일 리스트
 	@RequestMapping("mail.ma")
 	public String mailHome() {
 		return "redirect:allList.ma";
 	}
 	 
-	 @RequestMapping("sendMailForm.ma")
-	 public String sendMailForm() {
-		 return "mail/sendMailForm";
-	 }
+	// 메일 전송포맷
+	@RequestMapping("sendMailForm.ma")
+	public String sendMailForm() {
+		return "mail/sendMailForm";
+	}
+	
+	// 메일 상세페이지
+	@RequestMapping("mail/detail.ma")
+	public String mailDetail() {
+		// 파라미터 값으로 받아야 함
+		
+		return "mail/mailDetail";
+	}
 	 
-	// 부재중 설정페이지로 이동 
-	 @RequestMapping("settingAbsence.ma")
+	// 환경설정 페이지로 이동
+	 @RequestMapping("setting.ma")
 	 public String mailSettingHome() {
 		 return "mail/settings";
 	 }
 	
 	// 전체 메일함 조회
 	@RequestMapping("allList.ma") // HomeController를 여기로 리다이렉트 시키기 
-	public String selectMailList(/* int currentPage, Model model */) {
-		return "mail/mailMain";
+	public String selectMailList(HttpServletRequest request, Model model) {
+		
+		int currentPage = 1;
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		
+		int listCount = ms.getMailListCount();
+		// System.out.println("메일 갯수 조회 : " + listCount);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		ArrayList<Mail> list = ms.selectMailList(pi);
+		// System.out.println("메일 리스트 조회  : " + list);
+
+		if(list != null) {
+			model.addAttribute("list", list);
+			model.addAttribute("pi", pi);
+			
+			return "mail/mailMain";
+		}else {
+			model.addAttribute("msg", "리스트 조회에 실패!");
+			
+			return "common/errorPage";
+		}
 	}
 	
 	// 하나로 합친다면 
@@ -56,12 +95,26 @@ public class MailController {
 	}
 	
 	// 메일 - 읽음처리
-	@RequestMapping("updateRead.ma")
-	public String updateReadMail(HttpServletRequest request) { 
+	// @RequestMapping("updateStatus.ma")
+	@RequestMapping(value="mail/updateStatus",  produces="application/json; charset=utf8")
+	public String updateMailStatus(@RequestBody Map<String ,Object> map ) { 
 		// 읽음처리할 메일의 id 값들을 배열로 받아서 처리한다. 
 		// 페이징 처리도 잊지 말기 
-		// request 페이지 이름값 받기 
-		return "";
+		// request 페이지 이름값 받기
+		
+		System.out.println("넘어온다.");
+		System.out.println(map);
+		System.out.println(map.get("checkList"));
+		System.out.println(map.get("type"));
+		
+		try {
+			int result = ms.updateMailStatus(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// new ResponseEntity</*내가 보낼 타입*/>(success 에 들어가는 값, 3항연산자를 해서 값이 넘어 갔을때는 -> 내가 statsus를 지정 status);
+		return null;
 	}
 	
 	// 메일 - 삭제처리

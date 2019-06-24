@@ -7,7 +7,7 @@ public class Pagination {
 		PageInfo pi = null;
 		
 		int limit = 10;
-		int buttonCount = 10;
+		int buttonCount = 5;
 		int maxPage;
 		int startPage;
 		int endPage;
@@ -22,9 +22,8 @@ public class Pagination {
 			endPage = maxPage;
 		}
 		
-		pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
+		pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage, buttonCount);
 		
 		return pi;
-		
 	}
 }

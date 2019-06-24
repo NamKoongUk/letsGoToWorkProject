@@ -6,5 +6,3 @@
 <link rel="stylesheet" href="${ contextPath }/resources/css/layout.css">
 <link rel="shortcut icon" href="${ contextPath }/resources/images/favicon.ico">
 
-<!-- fontAwsome -->
-

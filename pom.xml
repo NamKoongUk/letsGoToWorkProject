@@ -160,6 +160,14 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.13</version>
 		</dependency>
+		
+		<!-- jackson converter 채채 -->
+		<!-- https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-jackson -->
+		<!-- <dependency>
+		    <groupId>com.squareup.retrofit2</groupId>
+		    <artifactId>converter-jackson</artifactId>
+		    <version>2.3.0</version>
+		</dependency> -->
 
 		<!-- 암호화 라이브러리 -->
 		<dependency>
@@ -197,6 +205,10 @@
 		    <artifactId>json-lib-ext-spring</artifactId>
 		    <version>1.0.2</version>
 		</dependency>
+		
+		
+		
+		
 
 	</dependencies>
 	<build>

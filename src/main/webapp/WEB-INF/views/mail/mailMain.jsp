@@ -64,97 +64,135 @@
 		<jsp:include page="../common/sideMenu/mail.jsp"/>
 		
 		<section class="col-sm-10">
-		<br><br>
-			<!-- <h1 class="title"> 메인입니다.</h1> -->
+		<br>
 			<div class="content" align="center">
-				<div class="searchArea form-group" align="left">
-					<select class="searhKind form-control">
+				<form class="searchArea form-group" align="left" action="mail/search.ma">
+					<select class="searhType form-control">
 						<option value="name">이름</option>
 						<option value="writer">작성자</option>
 						<option value="content">내용</option>
 					</select> &nbsp;&nbsp;&nbsp;
 					<input type="text" name="serarhValue" class="form-control serarhValue"/>&nbsp;
 					<input type="submit" value="검색하기" class="form-control searchBtn"/>
-				</div>
+				</form>
 				<div class="tableArea" align="center">
 					<table class="listTable">
-						<!-- 가져가서 여기 width로 설정하셔요 -->
 						<tr>
-							<th><input type="checkbox"/></th>
-							<th width="7%">읽음여부</th>
+							<th><input type="checkbox" id="wholeCheck"/></th>
+							<th width="5%">읽음여부</th>
 							<th width="16%">이름</th>
 							<th width="14%">메일종류</th>
 							<th>제목</th>
 							<th width="18%">날짜</th>
 						</tr>
-						<tr>
-							<td><input type="checkbox"/></td>
-							<td><img src="${ contextPath }/resources/images/mail/readMailN.PNG" width="70px"></td>
-							<td>김채연 사원</td>
-							<td>보낸메일</td>
-							<td>안녕하세요 임시자료에욧</td>
-							<td>2019-01-01</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"/></td>
-							<td><img src="${ contextPath }/resources/images/mail/readMailY.PNG" width="70px"></td>
-							<td>gora7@naver.com</td>
-							<td>받은메일</td>
-							<td>메일메일메일</td>
-							<td>2019-02-03</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"/></td>
-							<td><img src="${ contextPath }/resources/images/mail/readMailN.PNG" width="70px"></td>
-							<td>김채연 사원</td>
-							<td>보낸메일</td>
-							<td>안녕하세요 임시자료에욧</td>
-							<td>2019-01-01</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"/></td>
-							<td><img src="${ contextPath }/resources/images/mail/readMailY.PNG" width="70px"></td>
-							<td>gora7@naver.com</td>
-							<td>받은메일</td>
-							<td>메일메일메일</td>
-							<td>2019-02-03</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"/></td>
-							<td><img src="${ contextPath }/resources/images/mail/readMailN.PNG" width="70px"></td>
-							<td>김채연 사원</td>
-							<td>보낸메일</td>
-							<td>안녕하세요 임시자료에욧</td>
-							<td>2019-01-01</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"/></td>
-							<td><img src="${ contextPath }/resources/images/mail/readMailY.PNG" width="70px"></td>
-							<td>gora7@naver.com</td>
-							<td>받은메일</td>
-							<td>메일메일메일</td>
-							<td>2019-02-03</td>
-						</tr>
+						<c:forEach items="${ list }" var="mail">
+							<tr>
+								<td><input type="checkbox" name="check"/>
+									<input type="hidden" name="mailNo" value="${ mail.mailNo }"/>
+								</td>
+								<td>
+									<c:if test="${ mail.rStatus == 'Y' }">
+										<img src="${ contextPath }/resources/images/mail/readMailY.PNG" width="50px">
+									</c:if>
+									<c:if test="${ mail.rStatus == 'N' }">
+										<img src="${ contextPath }/resources/images/mail/readMailN.PNG" width="70px">
+									</c:if>
+								</td>
+								<td>${ mail.sendMail }</td>
+								<td>${ mail.mailType }</td>
+								<td>${ mail.mTitle }</td>
+								<td>${ mail.sendDate }</td>							
+							</tr>
+						</c:forEach>
 					</table>
 					<br>
 					<div class="bottomBtn" align="right"> 
-						<button>읽음</button>
-						<button>삭제</button>
+						<button onclick="changeStatus('read');">읽음</button>
+						<button onclick="changeStatus('delete');">삭제</button>
 					</div>
 					<div class="paging">
 						<ul class="pagination">
-							<li><a href="#"><</a></li>
-							<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
+							<c:if test="${ pi.startPage > 1 }">
+								<li><a href="${ contextPath }/allList.ma?currentPate=${ pi.startPage - pi.buttonCount }"><<</a></li>
+							</c:if>
+							<c:if test="${ pi.startPage <= 1 }">
+								<li><a href="#"><<</a></li>
+							</c:if>
+							<c:if test="${ pi.startPage != pi.currentPage }">
+								<li><a href="${ contextPath }/allList.ma?currentPate=${ pi.currentPage - 1}"><</a></li>
+							</c:if>
+							<c:if test="${ pi.startPage == pi.currentPage }">
+								<li><a href="#"><</a></li>
+							</c:if>
+							<c:forEach var="pageNum" begin="${ pi.startPage }" end="${ pi.endPage }" step="1">
+								<c:if test="${ pageNum == pi.currentPage }">
+									<li class="active"><a>${ pageNum }</a></li>
+								</c:if>
+								<c:if test="${ pageNum != pi.currentPage }">
+									<li><a href="${ contextPath }/allList.ma?currentPage=${ pageNum }">${ pageNum }</a></li>
+								</c:if>
+							</c:forEach>
+							<c:if test="${ pi.endPage != currentPage }">
+								<li><a href="${ contextPath }/allList.ma?currentPage=${ pi.currentPage + 1 }">></a></li>
+							</c:if>
+							<c:if test="${ pi.endPage == currentPage }">
+								<li><a href="#">></a></li>
+							</c:if>
+							<c:if test="${ pi.endPage != pi.maxPage }">
+								<li><a href="${ contextPath }/allList.ma?currentPage=${ pi.endPage + 1 }">>></a></li>
+							</c:if>
+							<c:if test="${ pi.endPage == pi.maxPage }">
+								<li><a href="#">>></a></li>
+							</c:if>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</section>
 	</div>
+	<script>
+		// 메일 상세 페이지 이동
+		$(".listTable").find("tr:not(:nth-child(1)) td:not(:nth-child(1))").click(function(){
+			var mailNo = $(this).parent().find("td:nth-child(1) > [name=mailNo]").val();
+			location.href='${ contextPath }/mail/detail.ma?mailNo=' + mailNo;
+		});
+		
+		// 체크박스 전체 선택 및 해제 
+		$("#wholeCheck").click(function(){
+			if($(this).prop("checked")){
+				$("[name=check]").prop("checked", true);
+			}else{
+				$("[name=check]").prop("checked", false);
+			}
+		});
+		
+		// 체크박스 값 변경 
+		function changeStatus(type){
+			console.log(type);
+			
+			checkList = [];
+			
+			$("input[name=check]:checked").each(function(){
+				checkList.push($(this).siblings("[name=mailNo]").val());
+				console.log(checkList);
+				console.log(typeof checkList);
+			});
+			
+			var data = {checkList: checkList, type:type};
+			console.log(JSON.stringify(data));
+			
+			console.log("checkList : " + checkList);
+			$.ajax({
+				url : "${ contextPath }/mail/updateStatus",
+				data :  JSON.stringify(data), 
+				contentType : "application/json; charset=utf-8",
+				type:"post",
+				success:function(data){
+					console.log("성공 : " + data);
+				}
+			});
+		}
+	</script>
 	
 	<jsp:include page="../common/footer.jsp" />
 </body>

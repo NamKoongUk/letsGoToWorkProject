@@ -9,6 +9,7 @@ public class PageInfo implements Serializable{
 	private int maxPage;
 	private int startPage;
 	private int endPage;
+	private int buttonCount = 5;
 	private String sortInfo;
 	private String sort;
 	private String filterInfo;
@@ -16,10 +17,8 @@ public class PageInfo implements Serializable{
 	
 	public PageInfo() {}
 
-	
-
-	public PageInfo(int currentPage, int listCount, int limit, int maxPage, int startPage, int endPage, String sortInfo,
-			String sort, String filterInfo, int eid) {
+	public PageInfo(int currentPage, int listCount, int limit, int maxPage, int startPage, int endPage, int buttonCount,
+			String sortInfo, String sort, String filterInfo, int eid) {
 		super();
 		this.currentPage = currentPage;
 		this.listCount = listCount;
@@ -27,12 +26,13 @@ public class PageInfo implements Serializable{
 		this.maxPage = maxPage;
 		this.startPage = startPage;
 		this.endPage = endPage;
+		this.buttonCount = buttonCount;
 		this.sortInfo = sortInfo;
 		this.sort = sort;
 		this.filterInfo = filterInfo;
 		this.eid = eid;
 	}
-	
+
 	public PageInfo(int currentPage, int listCount, int limit, int maxPage, int startPage, int endPage) {
 		super();
 		this.currentPage = currentPage;
@@ -43,7 +43,25 @@ public class PageInfo implements Serializable{
 		this.endPage = endPage;
 	}
 
+	public PageInfo(int currentPage, int listCount, int limit, int maxPage, int startPage, int endPage,
+			int buttonCount) {
+		super();
+		this.currentPage = currentPage;
+		this.listCount = listCount;
+		this.limit = limit;
+		this.maxPage = maxPage;
+		this.startPage = startPage;
+		this.endPage = endPage;
+		this.buttonCount = buttonCount;
+	}
 
+	public int getButtonCount() {
+		return buttonCount;
+	}
+
+	public void setButtonCount(int buttonCount) {
+		this.buttonCount = buttonCount;
+	}
 
 	public int getCurrentPage() {
 		return currentPage;
@@ -127,17 +145,10 @@ public class PageInfo implements Serializable{
 		this.eid = eid;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "PageInfo [currentPage=" + currentPage + ", listCount=" + listCount + ", limit=" + limit + ", maxPage="
-				+ maxPage + ", startPage=" + startPage + ", endPage=" + endPage + ", sortInfo=" + sortInfo + ", sort="
-				+ sort + ", filterInfo=" + filterInfo + ", eid=" + eid + "]";
+				+ maxPage + ", startPage=" + startPage + ", endPage=" + endPage + ", buttonCount=" + buttonCount
+				+ ", sortInfo=" + sortInfo + ", sort=" + sort + ", filterInfo=" + filterInfo + ", eid=" + eid + "]";
 	}
-
-
-
-	
-	
 }
