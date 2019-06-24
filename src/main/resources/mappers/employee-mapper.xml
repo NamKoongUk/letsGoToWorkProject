@@ -11,16 +11,45 @@
 	
 	쿼리문 작성
 	<select id="구분이름" parameterType="매개변수 타입"> </select> -->
-	<resultMap id="loginResultSet" type="com.kh.lgtw.employee.model.vo.Employee">
+	<resultMap id="employeeResultSet" type="com.kh.lgtw.employee.model.vo.Employee">
 		<id column="EMPNO" property="empNo"/>
 		<result column="EMP_ID" property="empId"/>
 		<result column="EMP_PWD" property="empPwd"/>
 		<result column="EMP_NAME" property="empName"/>
+		<result column="BIRTH" property="empBirth"/>
+		<result column="GENDER" property="gender"/>
+		<result column="EMP_PHONE" property="empPhone"/>
+		<result column="OFFICE_TEL" property="officeTel"/>
+		<result column="ADDRESS" property="address"/>
+		<result column="EMAIL" property="email"/>
+		<result column="MANAGER_TYPE" property="managerType"/>
+		<result column="STATUS" property="status"/>
+		<result column="ENROLL_DATE" property="enrollDate"/>
+		<result column="RETIREMENT_DATE" property="retirementDate"/>
+		<result column="OTHER_INFO" property="otherInfo"/>
+		<result column="PERSONAL_INFO_CHECK" property="personalInfoCheck"/>
+		<result column="REF_EMPNO" property="refEmpNo"/>
+		<result column="LSTART_DATE" property="lstartDate"/>
+		<result column="LEND_DATE" property="lendDate"/>
+		<result column="LEAVE_TERM" property="leaveTerm"/>
+		<result column="LEAVE_REASON" property="leaveReason"/>
+		<result column="RETIREMENT_REASON" property="retirementReason"/>
+		<result column="LEAVE_TYPE" property="leaveType"/>
+		<result column="DUTY_CODE" property="dutyCode"/>
+
 	</resultMap>
 	
-	<select id="loginCheck" resultMap="loginResultSet" parameterType="Employee">
+	<select id="loginCheck" resultMap="employeeResultSet" parameterType="Employee">
 		SELECT *
 		FROM EMPLOYEE
 		WHERE STATUS = 'Y' 
 	</select>
+	
+	<insert id="insertEmpOne" parameterType="Employee">
+		INSERT INTO EMPLOYEE(EMPNO, EMP_ID, EMP_PWD, EMP_NAME, BIRTH, GENDER, 
+							EMP_PHONE, OFFICE_TEL, ADDRESS, EMAIL, STATUS, ENROLL_DATE, OTHER_INFO, PERSONAL_INFO_CHECK, DUTY_CODE)
+		VALUES(SEQ_EMPNO.NEXTVAL, #{empId}, #{empPwd}, #{empName}, #{empBirth}, #{gender}, #{empPhone}, #{officeTel}, 
+									#{address}, #{email}, DEFAULT, DEFAULT, #{otherInfo}, #{personalInfoCheck}, DEFAULT)
+	</insert>
+	
 </mapper>
