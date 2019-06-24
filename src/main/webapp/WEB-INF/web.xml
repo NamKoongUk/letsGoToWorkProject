@@ -76,6 +76,33 @@
     <servlet-name>approval</servlet-name>
     <url-pattern>*.ap</url-pattern>
   </servlet-mapping>
+
+<!-- Mail Servlet -->
+	<servlet>
+		<servlet-name>RestMail</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/mail-servlet.xml</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RestMail</servlet-name>
+		<url-pattern>/mail</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Mail</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/mail-servlet.xml</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Mail</servlet-name>
+		<url-pattern>*.ma</url-pattern>
+	</servlet-mapping>
   
   	<!-- 인코딩 필터 추가 -->
 	<filter>
@@ -91,3 +118,4 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 </web-app>
+

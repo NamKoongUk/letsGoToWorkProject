@@ -37,6 +37,8 @@
 		<!-- Scheduler VO-->
 		<typeAlias type="com.kh.lgtw.scheduler.model.vo.Schedule" alias="Schedule"/>
 		<typeAlias type="com.kh.lgtw.scheduler.model.vo.Scheduler" alias="Scheduler"/>
+		
+		<!-- 기타 VO -->
 	</typeAliases>
 	
 	<!-- mapper파일 등록 -->	

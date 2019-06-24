@@ -4,11 +4,33 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Mail">
-	<!-- <resultMap id="내가쓸 이름" type="vo풀네임">
-		<id column="" property="PK"/>
-		<result column="" property="필드 명"/>
+	<resultMap type="com.kh.lgtw.mail.model.vo.Mail" id="resultMailSet">
+		<id property="mailNo" column="Mail_No"/>
+		<result property="mTitle" column="MTITLE"/>
+		<result property="mContent" column="MCONTENT"/>
+		<result property="sendMail" column="SEND_MAIL"/>
+		<result property="reciveMail" column="RECIVE_MAIL"/>
+		<result property="dStatus" column="DSTATUS"/>
+		<result property="sendDate" column="SEND_DATE"/>
+		<result property="rStatus" column="RSTATUS"/>
+		<result property="mailType" column="MAIL_TYPE"/>
+		<result property="mSize" column="MSIZE"/>
+		<result property="reservationCheck" column="RESERVATION_CHECK"/>
+		<result property="reservationDate" column="RESERVATION_DATE"/>
+		<result property="reservateionTime" column="RESERVATION_TIME"/>
 	</resultMap>
 	
-	쿼리문 작성
-	<select id="구분이름" parameterType="매개변수 타입"> </select> -->
+	<!-- 쿼리문 -->
+	<!-- 페이징-리스트 갯수 조회 -->
+	<select id="getMailListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM MAIL
+		WHERE DSTATUS = 'N' 
+	</select>
+	
+	<select id="selectMailList" parameterType="PageInfo" resultMap="resultMailSet">
+		SELECT * 
+		FROM MAIL 
+		WHERE DSTATUS = 'N'
+	</select>
 </mapper>

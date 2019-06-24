@@ -47,48 +47,38 @@
 	
 	<div class="row wrap">
 		<jsp:include page="../common/sideMenu/mail.jsp"/>
-		
-		<section class="col-sm-10"><br><br>
-			<h3 class="title" align="center">메일작성</h3>
+
+		<section class="col-sm-10">
+			<br>
+			<br>
 			<div class="content">
-				<form id="mailForm" action="insertSendMail.ma" align="center">
+				<div class="btnArea" align="left">
+					<button class="btn btn-md">답장</button>
+					<button class="btn btn-md">전달</button>
+					<button class="btn btn-md">삭제</button>
+				</div>
+				<div id="detailInfoArea">
+					<h3 align="center">메일 제목이 들어가는 곳</h3>
 					<table id="mailTable" align="center">
 						<tr>
-							<th width="15%">받는사람</th>
-							<td>
-								<input type="email" name="email" class="form-control"/>
-								<!-- <span class="plusEmail"> + </span> -->
-							</td>
-							<td width="100px" style="padding: 0; text-align:right"><button class="btn btn-md">주소록</button></td>
+							<!-- 받은 메일이나 보낸 메일에 따라 다르다. -->
+							<th>보낸사람 / 받는사람</th>
+							<td>김채연 이사</td>
+							<th>보낸 날짜 / 받은날짜</th>
+							<td>2019-02-01</td>
 						</tr>
 						<tr>
-							<th>보내는 사람</th>
-							<td colspan="2">
-								<select class="form-control">
-									<option>사원명 or 공용메일명  + (이메일)</option>
-								</select>
+							<th>첨부파일</th>
+							<td colspan="3">
+								파일 원본이름이름
+								<span class="fileSize"></span>
 							</td>
 						</tr>
 						<tr>
 							<th>내용</th>
-							<td colspan="2">내용내용</td>
-						</tr>
-						<tr>	
-							<th>첨부파일</th>
-							<td colspan="2">
-								<div><input type="file" name="mailAttachment" class="form-control"/> 
-										<span class="fileSize"></span></div>
-								<div><input type="file" name="mailAttachment" class="form-control"/> <span class="fileSize"></span></div>
-								<div><input type="file" name="mailAttachment" class="form-control"/> <span class="fileSize"></span></div>
-							</td>
+							<td colspan="3">내용내용</td>
 						</tr>
 					</table>
-				</form>
-				
-				<div class="btnArea" align="center">
-					<button class="btn btn-md">전송</button>
-					<button class="btn btn-md">임시보관</button>
-					<button class="btn btn-md">취소</button>
 				</div>
 			</div>
 		</section>
@@ -105,7 +95,6 @@
 		$("[name=mailAttachment]").change(function(){
 			var size = $($(this)[0].files)[0].size;
 			console.log("현재 파일의 사이즈는 " + size);
-			// size = 1000000000000000000000000000000000;
 			if(size > 1024 * 1024 * 20){
 				alert("이미지 파일의 용량이 너무 큽니다. \n20MB이하의 파일만 첨부해주세요.");
 				$(this).val("");
