@@ -32,6 +32,16 @@ public class PageInfo implements Serializable{
 		this.filterInfo = filterInfo;
 		this.eid = eid;
 	}
+	
+	public PageInfo(int currentPage, int listCount, int limit, int maxPage, int startPage, int endPage) {
+		super();
+		this.currentPage = currentPage;
+		this.listCount = listCount;
+		this.limit = limit;
+		this.maxPage = maxPage;
+		this.startPage = startPage;
+		this.endPage = endPage;
+	}
 
 
 

@@ -2,6 +2,7 @@ package com.kh.lgtw.approval.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.kh.lgtw.approval.model.vo.AppDocument;
 import com.kh.lgtw.approval.model.vo.AppForm;
@@ -44,11 +45,11 @@ public interface ApprovalService {
 //
 //	int insertApprovalMng(int eid);
 //
-//	ArrayList<AppForm> showFormManagement();
+	ArrayList<AppForm> showFormManagement(PageInfo pi);
 //
 	int insertAppForm(AppForm form);
 //
-//	int delteAppForm(AppForm form);
+	int deleteAppForm(List<String> afNo);
 //
 //	int updateAppForm(AppForm form);
 //
@@ -58,7 +59,7 @@ public interface ApprovalService {
 //
 //	ArrayList<AppForm> selectOfferDcm();
 //
-//	AppForm selectOneOfferDcm(int afNo);
+	AppForm selectOneAppFormDcm(int afNo);
 //
 //	int saveOfferDcm(int[] afNo);
 //
@@ -87,5 +88,7 @@ public interface ApprovalService {
 //	int insertApprovalDcm(AppDocument ad, int []eid);
 //
 //	ArrayList<HashMap<String, Object>> showRefuseDcm(PageInfo pi);
+
+	int getFormManagementListCount();
 
 }
