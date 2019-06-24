@@ -2,6 +2,7 @@ package com.kh.lgtw.approval.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,12 +122,19 @@ public class ApprovalServiceImpl implements ApprovalService{
 //		// TODO Auto-generated method stub
 //		return ad.insertApprovalMng(session, eid);
 //	}
-//	//양식관리
-//	@Override
-//	public ArrayList<AppForm> showFormManagement() {
-//		// TODO Auto-generated method stub
-//		return ad.showFormManagement(session);
-//	}
+	//양식관리
+	@Override
+	public ArrayList<AppForm> showFormManagement(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return ad.showFormManagement(session, pi);
+	}
+	//양식관리 페이징
+	@Override
+	public int getFormManagementListCount() {
+		// TODO Auto-generated method stub
+		return ad.getFormManagementListCount(session);
+	}
+	
 	//결재 양식 가져오기
 	@Override
 	public SignForm selectSignForm(SignForm sf) {
@@ -140,12 +148,14 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return ad.insertAppForm(session, form);
 	}
-//	//양식 삭제
-//	@Override
-//	public int delteAppForm(AppForm form) {
-//		// TODO Auto-generated method stub
-//		return ad.delteAppForm(session, form);
-//	}
+	//
+	
+	//양식 삭제
+	@Override
+	public int deleteAppForm(List<String> afNo) {
+		// TODO Auto-generated method stub
+		return ad.deleteAppForm(session, afNo);
+	}
 //	//양식 수정
 //	@Override
 //	public int updateAppForm(AppForm form) {
@@ -170,12 +180,12 @@ public class ApprovalServiceImpl implements ApprovalService{
 //		// TODO Auto-generated method stub
 //		return ad.selectOfferDcm(session);
 //	}
-//	//양식상세
-//	@Override
-//	public AppForm selectOneOfferDcm(int afNo) {
-//		// TODO Auto-generated method stub
-//		return ad.selectOneOfferDcm(session, afNo);
-//	}
+	//양식상세
+	@Override
+	public AppForm selectOneAppFormDcm(int afNo) {
+		// TODO Auto-generated method stub
+		return ad.selectOneAppFormDcm(session, afNo);
+	}
 //	//제공양식저장
 //	@Override
 //	public int saveOfferDcm(int[] afNo) {
@@ -264,6 +274,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 //		
 //		return result;
 //	}
+
 	
 	
 }

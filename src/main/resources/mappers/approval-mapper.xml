@@ -9,6 +9,32 @@
 		<result property="signContent" column="SIGN_CONTENT"/>
 	</resultMap>
 	
+	<resultMap type="com.kh.lgtw.approval.model.vo.AppForm" id="appFormResultSet">
+		<id property="afNo" column="AF_NO"/>
+		<result property="afName" column="AF_NAME"/>
+		<result property="afAlias" column="AF_ALIAS"/>
+		<result property="afComment" column="AF_COMMENT"/>
+		<result property="afDate" column="AF_DATE"/>
+		<result property="afContent" column="AF_CONTENT"/>
+		<result property="securityCode" column="SECURITY_CODE"/>
+		<result property="signCode" column="SIGN_CODE"/>
+		<result property="afStatus" column="AF_STATUS"/>
+	</resultMap>
+	
+	<resultMap type="com.kh.lgtw.approval.model.vo.AppForm" id="appFormResultSet2">
+		<id property="afNo" column="AF_NO"/>
+		<result property="afName" column="AF_NAME"/>
+		<result property="afAlias" column="AF_ALIAS"/>
+		<result property="afComment" column="AF_COMMENT"/>
+		<result property="afDate" column="AF_DATE"/>
+		<result property="afContent" column="AF_CONTENT"/>
+		<result property="securityCode" column="SECURITY_CODE"/>
+		<result property="signCode" column="SIGN_CODE"/>
+		<result property="afStatus" column="AF_STATUS"/>
+		<result property="signName" column="SIGN_NAME"/>
+		<result property="signContent" column="SIGN_CONTENT"/>
+	</resultMap>
+	
 	<select id="selectSignForm" resultMap="signFormResultSet" parameterType="SignForm">
 		SELECT *
 		FROM SIGN_FORM
@@ -17,8 +43,43 @@
 	
 	<insert id="insertAppForm" parameterType="AppForm">
 		INSERT INTO APP_FORM
-		VALUES(SEQ_AF_NO.NEXTVAL, #{afName}, #{afAlias}, #{afComment}, #{afDate}, #{afContent}, #{securityCode}, #{signCode})
+		VALUES(SEQ_AF_NO.NEXTVAL, #{afName}, #{afAlias}, #{afComment}, #{afDate}, #{afContent}, #{securityCode}, #{signCode}, default)
 	</insert>
 	
+	<select id="selectAppForm" resultMap="appFormResultSet">
+		SELECT *
+		FROM APP_FORM
+		ORDER BY AF_NO DESC
+	</select>
+	
+	<select id="selectAppFormListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM APP_FORM
+	</select>
+	
+	<select id="selectOneAppFormDcm" resultMap="appFormResultSet2" parameterType="_int">
+		SELECT *
+		FROM APP_FORM AF
+		JOIN SIGN_FORM SF ON(AF.SIGN_CODE = SF.SIGN_CODE)
+		WHERE AF_NO = #{afNo}
+	</select>
+	
+	<delete id="deleteAppForm" parameterType="_int">
+			DELETE FROM APP_FORM 
+			WHERE AF_NO = #{afNo}
+	</delete>
 	
 </mapper>  
+
+
+
+
+
+
+
+
+
+
+
+
+

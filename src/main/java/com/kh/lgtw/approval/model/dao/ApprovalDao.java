@@ -2,6 +2,7 @@ package com.kh.lgtw.approval.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -46,11 +47,11 @@ public interface ApprovalDao {
 //
 //	int insertApprovalMng(SqlSession session, int eid);
 //
-//	ArrayList<AppForm> showFormManagement(SqlSession session);
+	ArrayList<AppForm> showFormManagement(SqlSession session, PageInfo pi);
 //
 	int insertAppForm(SqlSession session, AppForm form);
 //
-//	int delteAppForm(SqlSession session, AppForm form);
+	int deleteAppForm(SqlSession session, List<String> afNo);
 //
 //	int updateAppForm(SqlSession session, AppForm form);
 //
@@ -60,7 +61,7 @@ public interface ApprovalDao {
 //
 //	ArrayList<AppForm> selectOfferDcm(SqlSession session);
 //
-//	AppForm selectOneOfferDcm(SqlSession session, int afNo);
+	AppForm selectOneAppFormDcm(SqlSession session, int afNo);
 //
 //	int saveOfferDcm(SqlSession session, int[] afNo);
 //
@@ -91,5 +92,7 @@ public interface ApprovalDao {
 //	int insertApprovalList(SqlSession session, AppDocument aDcm, int[] eid);
 //
 //	ArrayList<HashMap<String, Object>> showRefuseDcm(PageInfo pi, SqlSession session);
+
+	int getFormManagementListCount(SqlSession session);
 
 }

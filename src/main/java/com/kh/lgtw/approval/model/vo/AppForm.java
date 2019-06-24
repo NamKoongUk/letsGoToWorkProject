@@ -12,13 +12,14 @@ public class AppForm implements Serializable{
 	private String afContent;
 	private String securityCode;
 	private String signCode;
+	private String afStatus;
 	private String signName;
 	private String signContent;
 	
 	public AppForm() {}
 
 	public AppForm(int afNo, String afName, String afAlias, String afComment, String afDate, String afContent,
-			String securityCode, String signCode, String signName, String signContent) {
+			String securityCode, String signCode, String afStatus, String signName, String signContent) {
 		super();
 		this.afNo = afNo;
 		this.afName = afName;
@@ -28,6 +29,7 @@ public class AppForm implements Serializable{
 		this.afContent = afContent;
 		this.securityCode = securityCode;
 		this.signCode = signCode;
+		this.afStatus = afStatus;
 		this.signName = signName;
 		this.signContent = signContent;
 	}
@@ -96,6 +98,14 @@ public class AppForm implements Serializable{
 		this.signCode = signCode;
 	}
 
+	public String getAfStatus() {
+		return afStatus;
+	}
+
+	public void setAfStatus(String afStatus) {
+		this.afStatus = afStatus;
+	}
+
 	public String getSignName() {
 		return signName;
 	}
@@ -116,8 +126,10 @@ public class AppForm implements Serializable{
 	public String toString() {
 		return "AppForm [afNo=" + afNo + ", afName=" + afName + ", afAlias=" + afAlias + ", afComment=" + afComment
 				+ ", afDate=" + afDate + ", afContent=" + afContent + ", securityCode=" + securityCode + ", signCode="
-				+ signCode + ", signName=" + signName + ", signContent=" + signContent + "]";
+				+ signCode + ", status=" + afStatus + ", signName=" + signName + ", signContent=" + signContent + "]";
 	}
+
+	
 	
 	
 }

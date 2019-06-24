@@ -2,7 +2,9 @@ package com.kh.lgtw.approval.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -121,23 +123,44 @@ public class ApprovalDaoImpl implements ApprovalDao{
 //		return 0;
 //	}
 //	//양식관리
-//	@Override
-//	public ArrayList<AppForm> showFormManagement(SqlSession session) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	public ArrayList<AppForm> showFormManagement(SqlSession session, PageInfo pi) {
+		
+		ArrayList<AppForm> list = null;
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		
+		return (ArrayList)session.selectList("Approval.selectAppForm", null, rowBounds);
+	}
+	//양식관리 리스트카운트 조회
+	@Override
+	public int getFormManagementListCount(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.selectAppFormListCount");
+	}
+	
 	//양식생성
 	@Override
 	public int insertAppForm(SqlSession session, AppForm form) {
 
 		return session.insert("Approval.insertAppForm", form);
 	}
-//	//양식 삭제
-//	@Override
-//	public int delteAppForm(SqlSession session, AppForm form) {
-//		// TODO Auto-generated method stub
-//		return 0;
-//	}
+	//양식 삭제
+	@Override
+	public int deleteAppForm(SqlSession session, List<String> afNo) {
+		// TODO Auto-generated method stub
+		int result = 0;
+		
+		for(int i = 0; i < afNo.size(); i++) {
+			int afNumber = Integer.parseInt(afNo.get(i));
+			session.delete("Approval.deleteAppForm", afNumber);
+			result += 1;
+		}
+		
+		return result;
+	}
 //	//양식 수정
 //	@Override
 //	public int updateAppForm(SqlSession session, AppForm form) {
@@ -162,12 +185,12 @@ public class ApprovalDaoImpl implements ApprovalDao{
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
-//	//양식상세
-//	@Override
-//	public AppForm selectOneOfferDcm(SqlSession session, int afNo) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	//양식상세
+	@Override
+	public AppForm selectOneAppFormDcm(SqlSession session, int afNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.selectOneAppFormDcm", afNo);
+	}
 //	//제공양식저장
 //	@Override
 //	public int saveOfferDcm(SqlSession session, int[] afNo) {
@@ -252,6 +275,8 @@ public class ApprovalDaoImpl implements ApprovalDao{
 //		// TODO Auto-generated method stub
 //		return 0;
 //	}
+
+
 	
 
 }

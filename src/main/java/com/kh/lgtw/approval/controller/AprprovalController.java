@@ -2,7 +2,9 @@ package com.kh.lgtw.approval.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.lgtw.approval.model.service.ApprovalService;
@@ -21,6 +24,7 @@ import com.kh.lgtw.approval.model.vo.AppForm;
 import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.approval.model.vo.SignForm;
 import com.kh.lgtw.approval.model.vo.SignLine;
+import com.kh.lgtw.common.Pagination;
 import com.kh.lgtw.employee.model.vo.Employee;
 
 @Controller
@@ -292,11 +296,44 @@ public class AprprovalController {
 	
 	//양식관리
 	@RequestMapping("showFormManagement.ap")
-	public String showFormManagement(Model model) {
+	public String showFormManagement(Model model, HttpServletRequest request) {
 		
-		// ArrayList<AppForm> list = as.showFormManagement();
+		int currentPage = 1;
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
 		
+		int listCount = as.getFormManagementListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+//		System.out.println(pi);
+		
+		ArrayList<AppForm> list = as.showFormManagement(pi);
+		
+		if(request.getParameter("result") != null) {
+			model.addAttribute("result", Integer.parseInt(request.getParameter("result")));
+			model.addAttribute("msg", "작성이 완료되었습니다.");
+		}else {
+			model.addAttribute("result", 0);
+		}
+		
+//		System.out.println("showFormManagement : " + list);
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
 		return "managerOption/formManagement";
+	}
+	
+	//양식상세
+	@RequestMapping("selectOneAppFormDcm.ap")
+	public String selectOneOfferDcm(Model model, int afNo) {
+		System.out.println(afNo);
+		AppForm form = as.selectOneAppFormDcm(afNo);
+		System.out.println(form);
+		
+		model.addAttribute("form",form);
+		
+		return "managerOption/formDetail";
 	}
 	
 	//결재양식 선택
@@ -318,12 +355,7 @@ public class AprprovalController {
 		return "managerOption/insertAppForm";
 	}
 	
-	//양식 리다이렉트
-	@ RequestMapping("redirectFormManager.ap")
-	public String redirectFormManager() {
-		return "redirect:showFormManagement.ap";
-	}
-	
+
 	//양식생성
 	@RequestMapping("insertAppForm.ap")
 	public String insertAppForm(AppForm form, Model model) {
@@ -331,18 +363,23 @@ public class AprprovalController {
 		System.out.println(form);
 		
 		int result = as.insertAppForm(form);
-		model.addAttribute("result", result);
-		model.addAttribute("msg", "양식 작성이 완료되었습니다.");
-		return "managerOption/formManagement";
+		
+		return "redirect:showFormManagement.ap?result=" + result;
 	}
 	
 	//양식 삭제
-	@RequestMapping("delteAppForm.ap")
-	public String delteAppForm(AppForm form) {
+	@RequestMapping(value = "deleteAppForm.ap", produces = "application/text; charset=utf8")
+	public @ResponseBody String deleteAppForm(@RequestParam(value = "afNoArr")List<String> afNo) {
 		
-		// int result = as.delteAppForm(form);
+//		System.out.println(afNo);
 		
-		return "";
+		int result = as.deleteAppForm(afNo);
+		
+		if(result > 0) {
+			return afNo.size() + "개의 양식의 삭제가 완료되었습니다.";
+		}else {
+			return "삭제에 실패했습니다.";
+		}
 	}
 	
 	//양식 수정
@@ -379,14 +416,7 @@ public class AprprovalController {
 		
 		return "";
 	}
-	//양식상세
-	@RequestMapping("selectOneOfferDcm.ap")
-	public String selectOneOfferDcm(Model model, int afNo) {
-		
-		// AppForm form = as.selectOneOfferDcm(afNo);
-		
-		return "";
-	}
+
 	//제공양식저장
 	@RequestMapping("saveOfferDcm.ap")
 	public String saveOfferDcm(Model model, int[] afNo) {
