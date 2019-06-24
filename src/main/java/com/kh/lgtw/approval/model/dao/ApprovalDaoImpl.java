@@ -3,6 +3,7 @@ package com.kh.lgtw.approval.model.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.lgtw.approval.model.vo.AppDocument;
 import com.kh.lgtw.approval.model.vo.AppForm;
 import com.kh.lgtw.approval.model.vo.PageInfo;
+import com.kh.lgtw.approval.model.vo.Security;
 import com.kh.lgtw.approval.model.vo.SignForm;
 import com.kh.lgtw.approval.model.vo.SignLine;
 import com.kh.lgtw.employee.model.vo.Employee;
@@ -161,18 +163,19 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		
 		return result;
 	}
-//	//양식 수정
-//	@Override
-//	public int updateAppForm(SqlSession session, AppForm form) {
-//		// TODO Auto-generated method stub
-//		return 0;
-//	}
-//	//사용 전환
-//	@Override
-//	public int updateUseForm(SqlSession session, AppForm form) {
-//		// TODO Auto-generated method stub
-//		return 0;
-//	}
+	//양식 수정
+	@Override
+	public int updateAppForm(SqlSession session, AppForm form) {
+		// TODO Auto-generated method stub
+		return session.update("Approval.updateAppForm", form);
+	}
+	
+	//사용 미사용 전환
+	@Override
+	public int statusUpdateAppForm(SqlSession session, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return session.update("Approval.statusUpdateAppForm", map);
+	}
 //	//미사용 전환
 //	@Override
 //	public int updateNotUserForm(SqlSession session, AppForm form) {
@@ -209,6 +212,18 @@ public class ApprovalDaoImpl implements ApprovalDao{
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
+	//보안등급 불러오기
+	@Override
+	public ArrayList<Security> selectSecurity(SqlSession session) {
+		// TODO Auto-generated method stub
+		return (ArrayList)session.selectList("Approval.selectSecurity");
+	}
+	//직급 불러오기
+	@Override
+	public ArrayList<HashMap<String, Object>> selectJob(SqlSession session) {
+		// TODO Auto-generated method stub
+		return (ArrayList)session.selectList("Approval.selectJob");
+	}
 //	//문서 상세보기
 //	@Override
 //	public HashMap<String, Object> showDetailDcm(SqlSession session, String adNo) {
@@ -233,12 +248,18 @@ public class ApprovalDaoImpl implements ApprovalDao{
 //		// TODO Auto-generated method stub
 //		return 0;
 //	}
-//	//작성하기 폼 이동
-//	@Override
-//	public int[] showWriteForm(SqlSession session) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	//작성하기 폼 이동
+	@Override
+	public ArrayList<HashMap<String, Object>> selectFormList(SqlSession session) {
+		// TODO Auto-generated method stub
+		return (ArrayList)session.selectList("Approval.selectFormList");
+	}
+	//작성폼 불러오기
+	@Override
+	public HashMap<String, Object> selectWriteForm(int afNo, SqlSession session) {
+		// TODO Auto-generated method stub
+		return (HashMap)session.selectOne("Approval.selectWriteForm", afNo);
+	}
 //	//문서양식 불러오기
 //	@Override
 //	public AppForm selectDcmForm(SqlSession session, int afNo) {
@@ -275,6 +296,25 @@ public class ApprovalDaoImpl implements ApprovalDao{
 //		// TODO Auto-generated method stub
 //		return 0;
 //	}
+
+	@Override
+	public int updateGrade(SqlSession session, Map<String, String> grade) {
+		// TODO Auto-generated method stub
+		int result = 0;
+		
+		int result1 = session.update("Approval.updateAgrade", grade.get("aGrade"));
+		int result2 = session.update("Approval.updateBgrade", grade.get("bGrade"));
+		
+		result = result1 + result2;
+		
+		return result;
+	}
+
+
+
+
+
+
 
 
 	

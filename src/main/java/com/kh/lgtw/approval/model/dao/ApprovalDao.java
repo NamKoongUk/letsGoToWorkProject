@@ -3,12 +3,14 @@ package com.kh.lgtw.approval.model.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.lgtw.approval.model.vo.AppDocument;
 import com.kh.lgtw.approval.model.vo.AppForm;
 import com.kh.lgtw.approval.model.vo.PageInfo;
+import com.kh.lgtw.approval.model.vo.Security;
 import com.kh.lgtw.approval.model.vo.SignForm;
 import com.kh.lgtw.approval.model.vo.SignLine;
 import com.kh.lgtw.employee.model.vo.Employee;
@@ -53,11 +55,10 @@ public interface ApprovalDao {
 //
 	int deleteAppForm(SqlSession session, List<String> afNo);
 //
-//	int updateAppForm(SqlSession session, AppForm form);
+	int updateAppForm(SqlSession session, AppForm form);
 //
-//	int updateUseForm(SqlSession session, AppForm form);
+	int statusUpdateAppForm(SqlSession session, Map<String, Object> map);
 //
-//	int updateNotUserForm(SqlSession session, AppForm form);
 //
 //	ArrayList<AppForm> selectOfferDcm(SqlSession session);
 //
@@ -77,7 +78,7 @@ public interface ApprovalDao {
 //
 //	int updateDcm(SqlSession session, int eid, String adNo);
 //
-//	int[] showWriteForm(SqlSession session);
+	ArrayList<HashMap<String, Object>> selectFormList(SqlSession session);
 //
 //	AppForm selectDcmForm(SqlSession session, int afNo);
 //
@@ -94,5 +95,13 @@ public interface ApprovalDao {
 //	ArrayList<HashMap<String, Object>> showRefuseDcm(PageInfo pi, SqlSession session);
 
 	int getFormManagementListCount(SqlSession session);
+
+	ArrayList<Security> selectSecurity(SqlSession session);
+
+	ArrayList<HashMap<String, Object>> selectJob(SqlSession session);
+
+	int updateGrade(SqlSession session, Map<String, String> grade);
+
+	HashMap<String, Object> selectWriteForm(int afNo, SqlSession session);
 
 }
