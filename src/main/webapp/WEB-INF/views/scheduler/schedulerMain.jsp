@@ -38,36 +38,70 @@
       locale: initialLocaleCode,
       buttonIcons: false,
       navLinks: true,
+      selectable: true,
       businessHours: true,
       editable: true,
       eventLimit: true,
       events: [ {
+    	  id: 1,
           title: 'Business Lunch',
           start: '2019-06-03',
           end: '2019-06-07'
         } ],
-        dateClick:function(event) {
-            changeDate = event.dateStr;
-            
-            var sysdate = new Date();
-            var checkdate = new Date(changeDate);
-            
-            changeDateForm = changeDate + "T01:00";
-            console.log(changeDateForm);
-            if(sysdate > checkdate){
-               window.alert("현재 일자보다 더 큰 일자를 선택하세요");
-            }else{
-            	
-            }
-            
-            if($("#productName").val() == ""){
-               window.alert("예약을 수정할 이벤트를 먼저 클릭하세요");
-            }else{
-               $("#reservationTime").val(changeDateForm);
-            }
-            
-             
-         }
+      select: function(info) {
+    	  var startDate = info.startStr;
+    	  var endDate = info.endStr;
+    	  $("#insertScheduleBtn").trigger('click');
+    	  $("[name=startDate]").val(startDate);
+    	  $("[name=endDate]").val(endDate);
+      },
+      eventClick: function(info) {
+    	  console.log("ajax 들어옴!");
+          var eventObj = info.event;
+          $("#selectDetailSchedule").trigger('click');
+          $.ajax({
+        	 url:"selectScheduleDetail.sc",
+        	 data:{
+        		 scheduleNo:eventObj.id
+        	 },
+        	 type:"get",
+        	 success:function(data){
+        		 console.log("ajax 성공 진입!");
+        		 console.log(data);
+        		 
+        		 var startDate = data.startDate.split(" ");
+        		 console.log(startDate);
+        		 
+        		 var endDate = data.endDate.split(" ");
+        		 console.log(endDate);
+        		 
+        		 $("#selectDetailSchedule > input, #selectDetailSchedule > textarea").val("");
+        		 $("#dtscNo").val(data.schedulerNo);
+        		 $("#dtScrName").val(data.schedulerList[0].schedulerName);
+        		 $("#dtScName").val(data.scheduleName);
+        		 $("#dtscSD").val(startDate[0]);
+        		 $("#dtscST").val(data.startTime);
+        		 $("#dtscED").val(endDate[0]);
+        		 $("#dtscET").val(data.endTime);
+        		 $("#dtscContent").val(data.scheduleContent);
+        	 }
+          });
+          
+          
+          /* if (eventObj.url) {
+          
+        	  alert(
+              'Clicked ' + eventObj.title + '.\n' +
+              'Will open ' + eventObj.url + ' in a new tab'
+            );
+
+            window.open(eventObj.url);
+
+            info.jsEvent.preventDefault(); // prevents browser from following link in current tab.
+          } else {
+            alert('Clicked ' + eventObj.title);
+          } */
+      }
       
       
     });
@@ -253,6 +287,68 @@
 			  </div>
 			  </form>
 			  
+			  <!-- 일정 상세보기 모달 -->
+			  <button style="display:none" id="selectDetailSchedule" data-toggle="modal" data-target="#detailScheduleModal"></button>
+			  <form action="" method="post">
+				<div class="modal fade" id="detailScheduleModal" role="dialog">
+			    <div class="modal-dialog">
+			    
+			      <!-- Modal content-->
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			          <h4 class="modal-title" align="center"><b>일정 정보</b></h4>
+			        </div>
+			        
+			        <div class="modal-body">
+			          <table>
+			          	<tr>
+			          		<td width="20%"><b>캘린더</b></td>
+			          		<td>
+			          			<input type="hidden" name="schedulerNo" id="dtscNo">
+			          			<input type="text" name="schedulerName" id="dtScrName" readonly>
+			          		</td>
+						</tr>
+						<tr>
+							<td><b>일정명</b></td>
+							<td colspan="2"><input type="text" name="scheduleName" id="dtScName" readonly></td>
+						</tr>
+						<tr>
+							<td><b>시작</b></td>
+							<td>
+								<input type="date" name="startDate" id="dtscSD" readonly> &nbsp;&nbsp;
+								<input type="time" name="startTime" id="dtscST" readonly>
+							</td>
+						</tr>
+						<tr>
+							<td><b>종료</b></td>
+							<td colspan="3">
+								<input type="date" name="endDate" id="dtscED" readonly> &nbsp;&nbsp;
+								<input type="time" name="endTime" id="dtscET" readonly>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3"><b>내용</b></td>
+						</tr>
+						<tr>
+							<td colspan="3">
+								<textarea cols="70%" rows="10" style="resize: none;" name="scheduleContent" id="dtscContent" readonly></textarea>
+							</td>
+						</tr>
+			          </table>
+			        </div>
+			        
+			        <div class="modal-footer">
+			          <button type="submit" class="btn">수정</button>
+			          <button type="reset" class="btn">삭제</button>
+			        </div>
+			        
+			      </div>
+			    </div>
+			  </div>
+			  </form>
+			  
+			  
 			  <!-- 그룹캘린더 추가 모달 -->
 				<!-- <form action="" method="get">
 				<div class="modal fade" id="groupSchedulerModal" role="dialog">
@@ -424,20 +520,15 @@
 			}
       	});
       	
-      	
-		
-		/* document.addEventListener('DOMContentLoaded', function() {  
-		
-		var calendar = new FullCalendar.Calendar(calendarEl, {
-
-			  dateClick: function(info) {
-			    alert('Date: ' + info.dateStr);
-			    alert('Resource ID: ' + info.resource.id);
-			  }
-
-			});
-		
-		)}; */
+      	/* $(function(){
+      		console.log("온로드 펑션입니다.");
+      		$().ajax({
+      			url:"allSelectSchedule.sc",
+      			success:function(data){
+      				alert("성공");
+      			}
+      		});
+      	}); */
 	</script>
 	
 	

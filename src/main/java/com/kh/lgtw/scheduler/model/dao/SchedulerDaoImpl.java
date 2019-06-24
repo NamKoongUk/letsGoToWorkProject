@@ -2,6 +2,7 @@ package com.kh.lgtw.scheduler.model.dao;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,66 @@ public class SchedulerDaoImpl implements SchedulerDao{
 		return sqlSession.insert("Scheduler.insertSchedule", schedule);
 	}
 
+	@Override
+	public HashMap<String, ArrayList<Object>> allSelectSchedule(SqlSession sqlSession, int empNo) {
+		HashMap<String, ArrayList<Object>> allList = null;
+		
+		ArrayList<Object> empScList = (ArrayList)sqlSession.selectList("Scheduler.selectEmpSc", empNo);
+		ArrayList<Object> gpList = (ArrayList)sqlSession.selectList("Scheduler.selectGpSc", empNo);
+		ArrayList<Object> scList = (ArrayList)sqlSession.selectList("Scheduler.selectSc", empNo);
+		
+		allList.put("empScList", empScList);
+		allList.put("empScList", empScList);
+		allList.put("empScList", empScList);
+		
+		return allList;
+	}
+
+	@Override
+	public Schedule selectScheduleDetail(SqlSession sqlSession, Schedule schedule) {
+		System.out.println("다오 진입 : " + schedule);
+		return sqlSession.selectOne("Scheduler.selectScheduleDetail", schedule);
+	}
+
+	
+
 	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

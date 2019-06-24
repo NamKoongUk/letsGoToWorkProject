@@ -31,9 +31,11 @@ public class SchedulerServiceImpl implements SchedulerService{
 		return sd.selectSchedulerList(sqlSession, empNo);
 	}
 
+  	//전체 조회용 메소드
 	@Override
 	public HashMap<String, ArrayList<Object>> allSelectSchedule(int empNo) {
-		return null;
+		
+		return sd.allSelectSchedule(sqlSession, empNo);
 	}
 
 	@Override
@@ -67,9 +69,10 @@ public class SchedulerServiceImpl implements SchedulerService{
 		return sd.insertSchedule(sqlSession, schedule);
 	}
 
+	//일정 상세보기용 메소드
 	@Override
-	public Schedule selectScheduleDetail() {
-		return null;
+	public Schedule selectScheduleDetail(Schedule schedule) {
+		return sd.selectScheduleDetail(sqlSession, schedule);
 	}
 
 	@Override

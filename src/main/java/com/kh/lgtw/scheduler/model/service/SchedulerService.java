@@ -26,7 +26,7 @@ public interface SchedulerService {
 
 	int insertSchedule(Schedule schedule);
 
-	Schedule selectScheduleDetail();
+	Schedule selectScheduleDetail(Schedule schedule);
 
 	int updateSchedule();
 
