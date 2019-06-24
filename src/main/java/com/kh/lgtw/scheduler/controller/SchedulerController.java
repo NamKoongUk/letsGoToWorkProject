@@ -1,23 +1,34 @@
 package com.kh.lgtw.scheduler.controller;
 
+import java.awt.PageAttributes.MediaType;
 import java.io.IOException;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.SimpleFormatter;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
+import com.kh.lgtw.approval.model.vo.SignForm;
 import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.scheduler.model.service.SchedulerService;
 import com.kh.lgtw.scheduler.model.vo.Schedule;
@@ -35,12 +46,13 @@ public class SchedulerController {
 	
 	//전체 공통 조회용 컨트롤러
 	@RequestMapping("allSelectSchedule.sc")
-	public String allSelectSchedule(HttpSession session) {
+	public HashMap<String, ArrayList<Object>> allSelectSchedule(HttpSession session) {
 		Employee e =  (Employee) session.getAttribute("loginUser");
 		int empNo = e.getEmpNo();
 		
 		HashMap<String, ArrayList<Object>> allList = ss.allSelectSchedule(empNo);
-		return "";
+		
+		return allList;
 	}
 	
 	//스케쥴러 목록 조회용
@@ -145,11 +157,28 @@ public class SchedulerController {
 		}
 	}
 	
+	
 	//일정 상세정보 조회
-	@RequestMapping("selectScheduleDetail.sc")
-	public String selectScheduleDetail() {
-		Schedule schedule = ss.selectScheduleDetail();
-		return "";
+	@RequestMapping(value="selectScheduleDetail.sc")
+	public void selectScheduleDetail(HttpSession session,@RequestParam int scheduleNo,
+										HttpServletResponse response) {
+		Employee e = (Employee) session.getAttribute("loginEmp");
+		Schedule schedule = new Schedule();
+		schedule.setWriter(e.getEmpNo());
+		schedule.setScheduleNo(scheduleNo);
+		  
+		Schedule selectOne = ss.selectScheduleDetail(schedule);
+		
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		
+		System.out.println(selectOne);
+		
+		try {
+			new Gson().toJson(selectOne, response.getWriter());
+		} catch (JsonIOException | IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 	
 	//일정 수정

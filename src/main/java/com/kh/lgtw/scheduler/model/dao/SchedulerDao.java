@@ -2,6 +2,7 @@ package com.kh.lgtw.scheduler.model.dao;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,12 @@ public interface SchedulerDao {
 	ArrayList<Scheduler> selectSchedulerList(SqlSession sqlSession, int empNo);
 
 	int insertSchedule(SqlSession sqlSession, Schedule schedule);
+
+	HashMap<String, ArrayList<Object>> allSelectSchedule(SqlSession sqlSession, int empNo);
+
+	Schedule selectScheduleDetail(SqlSession sqlSession, Schedule schedule);
+
+	
 
 	
 
