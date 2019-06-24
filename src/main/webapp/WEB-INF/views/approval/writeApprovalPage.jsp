@@ -35,12 +35,10 @@
 			        <td class="head">문서종류</td>
 			        <td>
 						<select class="form-control" id="dcmType">
-							<option>선택</option>
-							<option value="test1">test</option>
-							<option value="test2">test2</option>
-							<%-- <c:forEach>
-								조회해온 값 출력(양식)
-							</c:forEach> --%>
+							<option value="">선택</option>
+							<c:forEach var="af" items="${ requestScope.list }">
+								<option value="${ af.afNo }">${ af.afName }</option>
+							</c:forEach>
 						</select>
 					</td>
 					<td class="head">작성자</td>
@@ -51,246 +49,26 @@
 			        <td>
 						<select class="form-control">
 							<option>선택</option>
-							<option>1년</option>
-							<option>3년</option>
-							<option>5년</option>
-							<option>10년</option>
+							<option value="1">1년</option>
+							<option value="3">3년</option>
+							<option value="5">5년</option>
+							<option value="10">10년</option>
 						</select>
 					</td>
 					<td class="head">보안등급</td>
 					<td>
 						<select class="form-control">
 							<option>선택</option>
-							<option>S등급</option>
-							<option>A등급</option>
-							<option>B등급</option>
-							<option>C등급</option>
+							<option value="s">S등급</option>
+							<option value="a">A등급</option>
+							<option value="b">B등급</option>
+							<option value="c">C등급</option>
 						</select>
 					</td>
 			      </tr>
 			    <tbody>
 	  		</table>
-			<table class="table table-bordered" style="text-align:center">
-				<tr id="jobName">
-					<td rowspan="3" width="80px" style="background:#e8e8e8;">결재</td>
-					<td width="80px" height="30px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-				</tr>
-				<tr height="75px" id="approval">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr height="30px" id="empName">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td style="background:#e8e8e8;">참조</td>
-					<td colspan="8" id="circleEmpName">
-						<input type="text" name="circle" style="float:left">
-					</td>
-				</tr>
-				<tr>
-					<td style="background:#e8e8e8;">수신</td>
-					<td colspan="8" id="receptionEmpName">
-						<input type="text" name="reception" style="float:left">
-					</td>
-				</tr>
-			</table>
-			<table class="table table-bordered"><tr><td width="100px" style="background:#e8e8e8">회람</td><td align="left"><input type="text" name="empName"></td></tr></table>
 			
-			<table class="table table-bordered" style="text-align:center">
-				<tr id="jobName">
-					<td rowspan="3" width="80px" style="background:#e8e8e8;">결재</td>
-					<td width="80px" height="30px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-				</tr>
-				<tr height="75px" id="approval">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr height="30px" id="empName">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td style="background:#e8e8e8;">합의</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td style="background:#e8e8e8;">참조</td>
-					<td colspan="8" id="circleEmpName">
-						<input type="text" name="reception" style="float:left">
-					</td>
-				</tr>
-			</table>
-			
-			<table class="table table-bordered" style="text-align:center">
-				<tr id="jobName">
-					<td rowspan="3" width="80px" style="background:#e8e8e8;">결재</td>
-					<td width="80px" height="30px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-				</tr>
-				<tr height="75px" id="approval">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr height="30px" id="empName">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				
-				<tr>
-					<td style="background:#e8e8e8;" rowspan="3">재무합의</td>
-					<td width="80px" height="30px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-				</tr>
-				<tr height="75px" id="approval">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr height="30px" id="empName">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr id="agreement">
-					<td style="background:#e8e8e8;">합의</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td style="background:#e8e8e8;">참조</td>
-					<td colspan="8" id="circleEmpName">
-						<input type="text" name="reception" style="float:left">
-					</td>
-				</tr>
-			</table>
-			
-			
-			<table class="table table-bordered" style="text-align:center">
-				<tr id="jobName">
-					<td rowspan="3" width="80px" style="background:#e8e8e8;">신청</td>
-					<td width="80px" height="30px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td rowspan="3" width="80px" style="background:#e8e8e8;">처리</td>
-					<td width="80px"></td>
-					<td width="80px"></td>
-					<td width="80px"></td>					
-				</tr>
-				<tr height="75px" id="approval">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-
-				</tr>
-				<tr height="30px" id="empName">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-
-				</tr>
-				<tr>
-					<td style="background:#e8e8e8;">참조</td>
-					<td colspan="8" id="circleEmpName">
-						<input type="text" name="circle" style="float:left">
-					</td>
-				</tr>
-			</table>
 			
 			
 			<div id="area" class="content" style="visibility:hidden;">
@@ -326,9 +104,19 @@
 <script>
 	$(function(){
 		$("#dcmType").change(function(){
-			console.log($(this).val());
-			console.log($("#area").css("visibility"));
-			$("#area").attr('style','visibility:visible');
+			var afNo = $(this).val();
+			console.log(afNo);
+			
+			$.ajax({
+				url:"${contextPath}/selectWriteForm.ap",
+				data:{afNo:afNo},
+				contentType:"application/json;charset=UTF-8",
+				type:"get",
+				success:function(data){
+					alert(data);
+				}
+			});
+				
 		});
 	});
 

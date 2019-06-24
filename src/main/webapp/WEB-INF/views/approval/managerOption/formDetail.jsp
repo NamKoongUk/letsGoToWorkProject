@@ -26,7 +26,7 @@
 			<h3 class="title">상세보기</h3>
 			<hr>
 			<div class="content">
-				<a>양식수정</a> &nbsp;&nbsp; <a>양식삭제</a>
+				<a href="#" id="appFormUpdate">양식수정</a> &nbsp;&nbsp; <a href="#" id="appFormDelete">양식삭제</a>
 				<br><br>
 					<table class="table table-hover table-bordered">
 						<tr>
@@ -72,7 +72,57 @@
 			</div>
 		</section>
 	</div>
-
+	
 	<jsp:include page="../../common/footer.jsp" />
+	<input type="hidden" id="afNo" value="${ requestScope.form.afNo }">
+	<script>
+		$(function(){
+			$("#appFormUpdate").click(function(){
+				var afNo = $("#afNo").val();
+				location.href="${contextPath}/showUpdateAppForm.ap?afNo=" + afNo;
+			});
+			
+			$("#appFormDelete").click(function(){
+				var afNo = $("#afNo").val();
+				var afNoArr = new Array();
+				afNoArr.push(afNo);
+				if(confirm("삭제하시겠습니까?")){
+					$.ajax({
+						url:"${contextPath}/deleteAppForm.ap",
+						type:"post",
+						data:{afNoArr:afNoArr},
+						traditional : true,
+						success:function(data){
+							
+							alert(data);
+							location.href = "${contextPath}/showFormManagement.ap";
+						}
+					});				
+				}else {
+					alert("취소되었습니다.");
+				}
+				
+			});
+		});
+	</script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

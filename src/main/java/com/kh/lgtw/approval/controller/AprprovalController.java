@@ -1,20 +1,20 @@
 package com.kh.lgtw.approval.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -22,10 +22,9 @@ import com.kh.lgtw.approval.model.service.ApprovalService;
 import com.kh.lgtw.approval.model.vo.AppDocument;
 import com.kh.lgtw.approval.model.vo.AppForm;
 import com.kh.lgtw.approval.model.vo.PageInfo;
+import com.kh.lgtw.approval.model.vo.Security;
 import com.kh.lgtw.approval.model.vo.SignForm;
-import com.kh.lgtw.approval.model.vo.SignLine;
 import com.kh.lgtw.common.Pagination;
-import com.kh.lgtw.employee.model.vo.Employee;
 
 @Controller
 public class AprprovalController {
@@ -283,16 +282,35 @@ public class AprprovalController {
 		
 		return "";
 	}
-	//기본설정
+	//기본설정 화면보기
 	@RequestMapping("showOption.ap")
-	public String showOption() {
-		return "";
+	public String showOption(Model model) {
+		
+		ArrayList<Security> list = as.selectSecurity();
+		ArrayList<HashMap<String, Object>> jobList = as.selectJob();
+//		System.out.println(list);
+//		System.out.println(jobList);
+		model.addAttribute("list", list);
+		model.addAttribute("jobList", jobList);
+		
+		return "managerOption/selectOption";
 	}
 	//옵션 변경
-	@RequestMapping("updateOption.ap")
-	public String updateOption() {
-		return "";
+	@RequestMapping(value = "updateOption.ap", produces = "application/text; charset=utf8")
+	public @ResponseBody String updateOption(@RequestBody Map<String,String> grade) {
+		System.out.println(grade);
+		int result = as.updateGrade(grade);
+		
+		System.out.println(result);
+		
+		if(result > 0) {
+			return "수정이 완료되었습니다.";	
+		}else {
+			return "수정에 실패했습니다.";
+		}
+		
 	}
+	//등급별 권한 변경
 	
 	//양식관리
 	@RequestMapping("showFormManagement.ap")
@@ -382,32 +400,43 @@ public class AprprovalController {
 		}
 	}
 	
+	//양식 수정 페이지로 이동
+	@RequestMapping("showUpdateAppForm.ap")
+	public String showUpdateAppForm(int afNo, Model model) {
+		
+		AppForm form = as.selectOneAppFormDcm(afNo);
+		model.addAttribute("form",form);
+		
+		return "managerOption/updateAppForm";
+	}
+	
 	//양식 수정
 	@RequestMapping("updateAppForm.ap")
 	public String updateAppForm(AppForm form) {
 		
-		// int result = as.updateAppForm(form);
+		System.out.println(form);
+		int result = as.updateAppForm(form);
 		
-		return "";
+		if(result > 0) {
+			return "redirect:showFormManagement.ap?result=" + result;
+		}else {
+			return "redirect:showFormManagement.ap?result=" + 0;			
+		}
+		 
 	}
 	
 	//사용 전환
-	@RequestMapping("updateUseForm.ap")
-	public String updateUseForm(AppForm form) {
+	@RequestMapping(value = "statusUpdateAppForm.ap", produces = "application/text; charset=utf8")
+	public @ResponseBody String statusUpdateAppForm(@RequestBody Map<String,Object> map) {
+		System.out.println(map);
+		//System.out.println(choice);
+		//System.out.println(afNo);
 		
-		// int result = as.updateUseForm(form);
-		
-		return "";
+		 int result = as.statusUpdateAppForm(map);
+		 System.out.println("result : " + result);
+		return "성공";
 	}
-	
-	//미사용 전환
-	@RequestMapping("updateNotUserForm.ap")
-	public String updateNotUserForm(AppForm form) {
-		
-		// int result = as.updateNotUserForm(form);
-		
-		return "";
-	}
+
 	//제공양식 보기
 	@RequestMapping("selectOfferDcm.ap")
 	public String selectOfferDcm(Model model) {
@@ -486,10 +515,24 @@ public class AprprovalController {
 	@RequestMapping("showWriteForm.ap")
 	public String showWriteForm(Model model) {
 		
-		// int[] afNoArr = as.showWriteForm();
+		ArrayList<HashMap<String, Object>> list = as.selectFormList();
+		model.addAttribute("list", list);
+//		System.out.println(list);
 		
 		return "writeApprovalPage";
 	}
+	
+	//작성하기위한 폼 불러오기
+	@RequestMapping(value = "selectWriteForm.ap", produces="application/ajax; charset=utf8", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> selectWriteForm(@RequestParam(value = "afNo") int afNo) {
+		System.out.println(afNo);
+		Map<String, Object> map = as.selectWriteForm(afNo);
+		System.out.println(map);
+		
+		return map;
+	}
+	
 	//문서양식 불러오기
 	@RequestMapping("selectDcmForm.ap")
 	public String selectDcmForm(int afNo) {

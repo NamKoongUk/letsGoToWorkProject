@@ -3,10 +3,12 @@ package com.kh.lgtw.approval.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.kh.lgtw.approval.model.vo.AppDocument;
 import com.kh.lgtw.approval.model.vo.AppForm;
 import com.kh.lgtw.approval.model.vo.PageInfo;
+import com.kh.lgtw.approval.model.vo.Security;
 import com.kh.lgtw.approval.model.vo.SignForm;
 import com.kh.lgtw.approval.model.vo.SignLine;
 import com.kh.lgtw.employee.model.vo.Employee;
@@ -51,11 +53,9 @@ public interface ApprovalService {
 //
 	int deleteAppForm(List<String> afNo);
 //
-//	int updateAppForm(AppForm form);
+	int statusUpdateAppForm(Map<String, Object> map);
 //
-//	int updateUseForm(AppForm form);
-//
-//	int updateNotUserForm(AppForm form);
+	int updateAppForm(AppForm form);
 //
 //	ArrayList<AppForm> selectOfferDcm();
 //
@@ -75,7 +75,7 @@ public interface ApprovalService {
 //
 //	int updateDcm(String adNo, int eid);
 //
-//	int[] showWriteForm();
+	ArrayList<HashMap<String, Object>> selectFormList();
 //
 //	AppForm selectDcmForm(int afNo);
 //
@@ -90,5 +90,15 @@ public interface ApprovalService {
 //	ArrayList<HashMap<String, Object>> showRefuseDcm(PageInfo pi);
 
 	int getFormManagementListCount();
+
+	ArrayList<Security> selectSecurity();
+
+	ArrayList<HashMap<String, Object>> selectJob();
+
+	int updateGrade(Map<String, String> grade);
+
+	HashMap<String, Object> selectWriteForm(int afNo);
+
+	
 
 }

@@ -48,7 +48,7 @@
 					<div id="option" class="w3-container w3-hide w3-animate-opacity contentSelectArea">
 						<ul>
 							<li onclick="" class="list">결재관리자</li>
-							<li onclick="" class="list">기본설정</li>
+							<li onclick="location.href='${contextPath}/showOption.ap'" class="list">기본설정</li>
 							<li onclick="location.href='${ contextPath }/showFormManagement.ap'" class="list">양식관리</li>
 							<li onclick="" class="list">전체문서</li>
 							<li onclick="" class="list">삭제문서</li>

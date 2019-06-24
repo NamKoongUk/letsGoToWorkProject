@@ -35,6 +35,36 @@
 		<result property="signContent" column="SIGN_CONTENT"/>
 	</resultMap>
 	
+	<resultMap type="com.kh.lgtw.approval.model.vo.Security" id="securityResultSet">
+		<id property="securityCode" column="SECURITY_CODE"/>
+		<result property="securityGrade" column="SECURITY_GRADE"/>
+		<result property="jobCode" column="JOB_CODE"/>
+		<result property="jobName" column="JOB_NAME"/>
+		<result property="jobLevel" column="JOB_LEVEL"/>
+	</resultMap>
+	
+	<resultMap type="java.util.HashMap" id="jobResultSet">
+		<id property="jobCode" column="JOB_CODE"/>
+		<result property="jobName" column="JOB_NAME"/>
+		<result property="jobLevel" column="JOB_LEVEL"/>
+	</resultMap>
+	
+	<resultMap type="java.util.HashMap" id="writeFormResultSet">
+		<id property="afNo" column="AF_NO"/>
+		<result property="afName" column="AF_NAME"/>
+		<result property="afAlias" column="AF_ALIAS"/>
+		<result property="afComment" column="AF_COMMENT"/>
+		<result property="afDate" column="AF_DATE"/>
+		<result property="afContent" column="AF_CONTENT" jdbcType="CLOB" javaType="java.lang.String"/>
+		<result property="afStatus" column="AF_STATUS"/>
+		<result property="signCode" column="SIGN_CODE"/>
+		<result property="signName" column="SIGN_NAME"/>
+		<result property="signContent" column="SIGN_CONTENT" jdbcType="CLOB" javaType="java.lang.String"/>
+		<result property="securityCode" column="SECURITY_CODE"/>
+		<result property="securityGrade" column="SECURITY_GRADE"/>
+		<result property="jobCode" column="JOB_CODE"/>
+	</resultMap>
+	
 	<select id="selectSignForm" resultMap="signFormResultSet" parameterType="SignForm">
 		SELECT *
 		FROM SIGN_FORM
@@ -68,6 +98,62 @@
 			DELETE FROM APP_FORM 
 			WHERE AF_NO = #{afNo}
 	</delete>
+	
+	<update id="statusUpdateAppForm" parameterType="java.util.Map">
+		<foreach collection="afNoArr" item="afNo" index="index" 
+			open="DECLARE BEGIN" separator=";" close=";END;">
+			UPDATE APP_FORM
+			SET AF_STATUS = #{choice}
+			WHERE AF_NO = #{afNo}
+		</foreach>
+	</update>
+	
+	<update id="updateAppForm" parameterType="AppForm">
+		UPDATE APP_FORM
+		SET AF_NAME = #{afName},
+			AF_ALIAS = #{afAlias},
+			AF_COMMENT = #{afComment},
+			AF_DATE = #{afDate},
+			AF_CONTENT = #{afContent},
+			SECURITY_CODE = #{securityCode},
+			SIGN_CODE = #{signCode}
+		WHERE AF_NO = #{afNo}
+	</update>
+	
+	<select id="selectSecurity" resultMap="securityResultSet">
+		SELECT *
+		FROM SECURITY S
+		JOIN JOB J ON(S.JOB_CODE = J.JOB_CODE)
+	</select>
+	
+	<select id="selectJob" resultMap="jobResultSet">
+		SELECT *
+		FROM JOB
+	</select>
+	
+	<update id="updateAgrade" parameterType="java.lang.String">
+       	UPDATE SECURITY SET JOB_CODE = #{aGrade} WHERE SECURITY_CODE = 'a'
+	</update>
+	<update id="updateBgrade" parameterType="java.lang.String">
+       	UPDATE SECURITY SET JOB_CODE = #{bGrade} WHERE SECURITY_CODE = 'b'
+	</update>
+	
+	<select id="selectFormList" resultMap="writeFormResultSet">
+		SELECT *
+		FROM APP_FORM AF
+		JOIN SIGN_FORM SF ON(AF.SIGN_CODE = SF.SIGN_CODE)
+		JOIN SECURITY S ON(AF.SECURITY_CODE = S.SECURITY_CODE)
+		WHERE AF_STATUS = 'Y'
+	</select>
+	
+	<select id="selectWriteForm" resultMap="writeFormResultSet" parameterType="_int">
+		SELECT *
+		FROM APP_FORM AF
+		JOIN SIGN_FORM SF ON(AF.SIGN_CODE = SF.SIGN_CODE)
+		JOIN SECURITY S ON(AF.SECURITY_CODE = S.SECURITY_CODE)
+		WHERE AF_STATUS = 'Y'
+		AND AF_NO = #{afNo}
+	</select>
 	
 </mapper>  
 
