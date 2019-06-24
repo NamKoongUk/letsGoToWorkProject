@@ -146,6 +146,17 @@ public class EmployeeController {
 		return "employee/prsnlManagerAdmin";
 	}
 	
+	//휴가관리
+	@RequestMapping("showHolidayTotal.em")
+	public String showHolidayTotal() {
+		return "employee/holidayTotalAdmin";
+	}
+	
+	//근태관리
+	@RequestMapping("showAttendTotal.em")
+	public String showAttendTotal() {
+		return "employee/attendTotalAdmin";
+	}
 	
 	//로그인
 	/*

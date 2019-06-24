@@ -43,7 +43,7 @@
 			</button>
 			<div id="Demo4" class="w3-container w3-hide w3-animate-opacity contentSelectArea">
 				<ul>
-					<li><a href="#">휴가 관리</a></li>
+					<li><a href="showHolidayTotal.em">휴가 관리</a></li>
 					<li><a href="#">직원 휴가 관리</a></li>
 				</ul>
 			</div>
@@ -52,7 +52,7 @@
 			</button>
 			<div id="Demo5" class="w3-container w3-hide w3-animate-opacity contentSelectArea">
 				<ul>
-					<li><a href="#">근태관리</a></li>
+					<li><a href="showAttendTotal.em">근태관리</a></li>
 					<li><a href="#">휴직자 관리</a></li>
 					<li><a href="#">근태 예외 설정</a></li>
 					<li><a href="#">직원 근태 관리</a></li>
