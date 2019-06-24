@@ -45,7 +45,31 @@
           title: 'Business Lunch',
           start: '2019-06-03',
           end: '2019-06-07'
-        } ]
+        } ],
+        dateClick:function(event) {
+            changeDate = event.dateStr;
+            
+            var sysdate = new Date();
+            var checkdate = new Date(changeDate);
+            
+            changeDateForm = changeDate + "T01:00";
+            console.log(changeDateForm);
+            if(sysdate > checkdate){
+               window.alert("현재 일자보다 더 큰 일자를 선택하세요");
+            }else{
+            	
+            }
+            
+            if($("#productName").val() == ""){
+               window.alert("예약을 수정할 이벤트를 먼저 클릭하세요");
+            }else{
+               $("#reservationTime").val(changeDateForm);
+            }
+            
+             
+         }
+      
+      
     });
 
     calendar.render();
@@ -165,6 +189,7 @@
 			  </div>
 			  
 			  <!-- 일정추가 모달 -->
+			  <form action="${contextPath}/insertSchedule.sc" method="post">
 				<div class="modal fade" id="insertScheduleModal" role="dialog">
 			    <div class="modal-dialog">
 			    
@@ -174,12 +199,13 @@
 			          <button type="button" class="close" data-dismiss="modal">&times;</button>
 			          <h4 class="modal-title" align="center"><b>일정 추가</b></h4>
 			        </div>
+			        
 			        <div class="modal-body">
 			          <table>
 			          	<tr>
 			          		<td width="20%"><b>캘린더</b></td>
 			          		<td colspan="2" width="70%">
-			          			<select name="schedulerName" id="ismSelect">
+			          			<select name="schedulerNo" id="ismSelect">
 			          				
 			          			</select>
 			          		</td>
@@ -192,7 +218,7 @@
 							<td><b>시작</b></td>
 							<td>
 								<input type="date" name="startDate"> &nbsp;&nbsp;
-								<input type="time" name="startTime">
+								<input type="time" name="startTime" id="startTime">
 							</td>
 							<td width="20%">
 								<input type="checkbox" id="allDateBtn"> 종일
@@ -203,7 +229,7 @@
 							<td><b>종료</b></td>
 							<td colspan="3">
 								<input type="date" name="endDate"> &nbsp;&nbsp;
-								<input type="time" name="endTime">
+								<input type="time" name="endTime" id="endTime">
 							</td>
 						</tr>
 						<tr>
@@ -218,12 +244,14 @@
 			        </div>
 			        
 			        <div class="modal-footer">
-			          <button type="submit" class="btn" onclick="return createSchedule()">생성</button>
+			          <button type="submit" class="btn">생성</button>
 			          <button type="reset" class="btn" data-dismiss="modal">취소</button>
 			        </div>
+			        
 			      </div>
 			    </div>
 			  </div>
+			  </form>
 			  
 			  <!-- 그룹캘린더 추가 모달 -->
 				<!-- <form action="" method="get">
@@ -364,21 +392,37 @@
       		}
       	};
       	
+      	
+      	
       	function selectSchedulerList(){
       		console.log("실행되는지");
       		$.ajax({
       		    url:"${contextPath}/selectSchedulerList.sc",
+      		    type:"post",
       			success:function(data){
-      				console.log(data);
+      				console.log("에이작스 성공까지 들어옴");
       				var $selectArea = $("#ismSelect");
+      				$("#ismSelect > option").remove();
+      				console.log(data);
+      				console.log(data[0].schedulerNo);
       				for(var key in data){
-      					var $option = $("<option>").text(data[key]);
-      					console.log(data[key]);
+      					var $option = $("<option id='tagOption' value='" + data[key].schedulerNo +  "' name='schedulerNo'>").text(data[key].schedulerName);
       					$selectArea.append($option);
       				}
       			}
       		});
       	}
+      	
+      	$("#allDateBtn").click(function(){
+			var check = $(this).is(":checked");
+			if(check){
+				$("#startTime").attr("disabled","disabled");
+				$("#endTime").attr("disabled","disabled");
+			}else{
+				$("#startTime").removeAttr("disabled");
+				$("#endTime").removeAttr("disabled");
+			}
+      	});
       	
       	
 		

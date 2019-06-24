@@ -1,8 +1,13 @@
 package com.kh.lgtw.scheduler.controller;
 
+import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
 import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.scheduler.model.service.SchedulerService;
 import com.kh.lgtw.scheduler.model.vo.Schedule;
@@ -37,15 +44,25 @@ public class SchedulerController {
 	}
 	
 	//스케쥴러 목록 조회용
-	@RequestMapping(value = "selectSchedulerList.sc",  produces = "application/text; charset=utf8")
-	public @ResponseBody ArrayList<Scheduler> selectSchedulerList(HttpSession session){
+	@RequestMapping(value="selectSchedulerList.sc")
+	public void selectSchedulerList(HttpSession session, HttpServletResponse response){
+		System.out.println("컨트롤러 들어옴");
 		Employee e = (Employee) session.getAttribute("loginEmp");
 		int empNo = e.getEmpNo();
 		
 		ArrayList<Scheduler> list = ss.selectSchedulerList(empNo);
+		System.out.println("컨트롤러 리턴 받은 list : " + list);
 		
-		return list;
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		
+		try {
+			new Gson().toJson(list, response.getWriter());
+		} catch (JsonIOException | IOException e1) {
+			e1.printStackTrace();
+		}
 	}
+	
 	
 	//개인스케쥴러 추가 (ModelAndView로 바뀔 수 있음)
 	@RequestMapping("insertMemberScheduler.sc")
@@ -106,9 +123,26 @@ public class SchedulerController {
 	
 	//일정 추가
 	@RequestMapping("insertSchedule.sc")
-	public String insertSchedule() {
-		int result = ss.insertSchedule();
-		return "";
+	public String insertSchedule(HttpSession session, Schedule schedule) {
+		Employee e = (Employee) session.getAttribute("loginEmp");
+		int empNo = e.getEmpNo();
+		
+		schedule.setWriter(empNo);
+		
+		System.out.println(schedule);
+		
+		if(schedule.getStartTime() == null) {
+			schedule.setStartTime("00:00");
+			schedule.setEndTime("23:59");
+		}
+		
+		int result = ss.insertSchedule(schedule);
+		
+		if(result > 0) {
+			return "scheduler/schedulerMain";			
+		}else {
+			return "main/main";
+		}
 	}
 	
 	//일정 상세정보 조회
