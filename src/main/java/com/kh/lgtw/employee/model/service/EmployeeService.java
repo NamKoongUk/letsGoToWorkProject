@@ -9,6 +9,9 @@ public interface EmployeeService {
 
 	Employee loginCheck(Employee employee) throws LoginException;
 
+	int insertEmpOne(Employee employee);
+
+
 //	Employee loginEmpl(Employee employee);
 //
 //	ArrayList<Employee> selectEmlList();

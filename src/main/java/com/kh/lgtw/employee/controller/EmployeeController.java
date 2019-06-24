@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +17,14 @@ import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.service.EmployeeService;
 import com.kh.lgtw.employee.model.vo.Employee;
 
-@Controller
 @SessionAttributes("loginEmp")
+@Controller
 public class EmployeeController {
 	
 	@Autowired
-	private EmployeeService emplService;
-	
+	private EmployeeService empService;
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	//화면전환
 
 	//로그인
@@ -30,7 +32,7 @@ public class EmployeeController {
 	public String loginCheck(Employee employee, Model model) {
 		
 		try {
-			Employee loginEmp = emplService.loginCheck(employee);
+			Employee loginEmp = empService.loginCheck(employee);
 			
 			model.addAttribute("loginEmp", loginEmp);
 			return "main/main";
@@ -258,9 +260,26 @@ public class EmployeeController {
 	
 	//사원 한명 추가 
 	@RequestMapping("insertOneEmpl.em")
-	public String insertEmployee(Employee employee, Model model){
-		//int result = emplService.insertEmp(employee);
-		return "";
+	public String insertEmployee(Employee employee, String zipCode, String address1, String address2, Model model){
+//		System.out.println("주소:" +address1+address2+zipCode);
+		
+		String address = address1 + "|" + address2 + "|" +zipCode;
+		
+		employee.setAddress(address);
+		
+		//System.out.println(employee);
+		
+		employee.setEmpPwd(passwordEncoder.encode(employee.getEmpPwd()));
+		
+		int result = empService.insertEmpOne(employee);
+		
+		if(result>0) {
+			return "redirect:insertOneEmpl.em";
+		}else {
+			return "employee/empOneRegister";
+			
+		}
+		
 	}
 	
 	//직무추가

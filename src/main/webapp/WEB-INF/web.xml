@@ -4,7 +4,8 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:root-context.xml</param-value>
+    <param-value>classpath:root-context.xml
+			/WEB-INF/config/spring-security.xml</param-value>
   </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

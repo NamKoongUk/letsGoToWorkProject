@@ -23,6 +23,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return empDao.loginCheck(sqlSession, employee);
 	}
 
+	@Override
+	public int insertEmpOne(Employee employee) {
+		return empDao.inSertEmpOne(sqlSession, employee);
+	}
+
+	
+
 	//	@Override
 //	public Employee loginEmpl(Employee employee) {
 //		// TODO Auto-generated method stub
