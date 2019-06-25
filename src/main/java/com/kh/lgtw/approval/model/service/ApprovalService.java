@@ -99,6 +99,8 @@ public interface ApprovalService {
 
 	HashMap<String, Object> selectWriteForm(int afNo);
 
+	List<HashMap<String, Object>> autocompleteCircle(String value);
+
 	
 
 }

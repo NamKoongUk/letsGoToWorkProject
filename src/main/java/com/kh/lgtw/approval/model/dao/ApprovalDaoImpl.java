@@ -309,6 +309,13 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		
 		return result;
 	}
+	
+	//자동완성
+	@Override
+	public List<HashMap<String, Object>> autocompleteCircle(String value, SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectList("Approval.selectName", value);
+	}
 
 
 

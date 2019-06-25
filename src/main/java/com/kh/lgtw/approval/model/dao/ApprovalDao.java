@@ -104,4 +104,6 @@ public interface ApprovalDao {
 
 	HashMap<String, Object> selectWriteForm(int afNo, SqlSession session);
 
+	List<HashMap<String, Object>> autocompleteCircle(String value, SqlSession session);
+
 }
