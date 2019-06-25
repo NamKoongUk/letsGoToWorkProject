@@ -1,6 +1,12 @@
 package com.kh.lgtw.employee.model.service;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -10,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import com.kh.lgtw.employee.model.dao.EmployeeDao;
 import com.kh.lgtw.employee.model.exception.LoginException;
+import com.kh.lgtw.employee.model.util.ExcelRead;
+import com.kh.lgtw.employee.model.util.ExcelReadOption;
 import com.kh.lgtw.employee.model.vo.Employee;
 
 @Service
@@ -60,6 +68,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public int insertEmpOne(Employee employee) {
 		return empDao.inSertEmpOne(sqlSession, employee);
 	}
+
+	@Override
+	public int empExcelUpload(File destFile) {
+		return empDao.empExcelUpload(sqlSession, destFile);
+	}
+
 
 	
 

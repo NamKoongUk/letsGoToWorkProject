@@ -1,12 +1,18 @@
 package com.kh.lgtw.employee.model.dao;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.lgtw.employee.model.exception.LoginException;
+import com.kh.lgtw.employee.model.util.ExcelRead;
+import com.kh.lgtw.employee.model.util.ExcelReadOption;
 import com.kh.lgtw.employee.model.vo.Employee;
 
 @Repository
@@ -28,6 +34,27 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	@Override
 	public int inSertEmpOne(SqlSession sqlSession, Employee employee) {
 		return sqlSession.insert("Employee.insertEmpOne",employee);
+	}
+
+	@Override
+	public int empExcelUpload(SqlSession sqlSession, File destFile) {
+		ExcelReadOption excelReadOption = new ExcelReadOption();
+		
+		excelReadOption.setFilePath(destFile.getAbsolutePath());
+		
+		excelReadOption.setOutputColums("아이디","비밀번호","이름","생년월일","성별","핸드폰번호","주소","이메일");
+		
+		excelReadOption.setStartRow(2);
+		
+		List<Map<String,String>>excelContent = ExcelRead.read(excelReadOption);
+		
+		Map<String,Object> paramMap = new HashMap<String, Object>();
+		
+		paramMap.put("excelContent", excelContent);
+		
+		System.out.println("엑셀:"+paramMap.toString());
+		
+		return sqlSession.insert("ExcelEmp.insertEmpExcel",paramMap);
 	}
 
 

@@ -30,6 +30,8 @@
 		<result column="LEAVE_TYPE" property="leaveType"/>
 		<result column="DUTY_CODE" property="dutyCode"/>
 	</resultMap>
+
+
 	
 	<!-- 로그인시 사원 객체 조회 -->
 	<select id="loginCheck" resultMap="employeeResultSet" parameterType="Employee">
@@ -51,5 +53,27 @@
 		VALUES(SEQ_EMPNO.NEXTVAL, #{empId}, #{empPwd}, #{empName}, #{empBirth}, #{gender}, #{empPhone}, #{officeTel}, 
 									#{address}, #{email}, DEFAULT, DEFAULT, #{otherInfo}, #{personalInfoCheck}, DEFAULT)
 	</insert>
+	
+	<insert id="insertEmpExcel" parameterType="map">
+	  	INSERT INTO EMPLOYEE(EMPNO,EMP_ID,EMP_PWD,EMP_NAME,BRITH,
+  						GENDER,EMP_PHONE,ADDRESS,EMAIL,ENROLL_DATE,DUTY_CODE) VALUSE
+  						<foreach collection="excelContent" item="item" separator=",">
+  						(
+  							SEQ_EMPNO.NEXTVAL,
+  							#{item,A},
+  							#{item,B},
+  							#{item,C},
+  							#{item,D},
+  							#{item,E},
+  							#{item,F},
+  							#{item,G},
+  							#{item,H},
+  							DEFAULT,
+  							DEFAULT
+  						)
+  						</foreach>
+  </insert> 
+	
+	
 	
 </mapper>

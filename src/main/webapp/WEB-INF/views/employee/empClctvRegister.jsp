@@ -13,44 +13,8 @@
 	#download {
 		color:#00BFFF;
 	}
-	
-	.filebox input[type="file"] { 
-		position: absolute; 
-		width: 1px; 
-		height: 1px; 
-		padding: 0; 
-		margin: -1px; 
-		overflow: hidden; 
-		clip:rect(0,0,0,0); 
-		border: 0; 
-		
-		}
-	.filebox label { 
-		display: inline-block; 
-		padding: .5em .75em; 
-		color: black; 
-		font-size: inherit; 
-		line-height: normal; 
-		vertical-align: middle; 
-		background-color: skyblue; 
-		cursor: pointer; 
-		border: 1px solid #ebebeb; 
-		border-bottom-color: #e2e2e2; 
-		border-radius: .25em; 
-	}
-	.filebox .upload-name { 
-		display: inline-block; 
-		padding: .5em .75em; /* label의 패딩값과 일치 */ 
-		font-size: inherit; 
-		font-family: inherit; 
-		line-height: normal; 
-		vertical-align: middle; 
-		background-color: #f5f5f5; 
-		border: 1px solid #ebebeb; 
-		border-bottom-color: #e2e2e2; 
-		border-radius: .25em; 
-		-webkit-appearance: none; /* 네이티브 외형 감추기 */ 
-		-moz-appearance: none; appearance: none; 
+	.filebox{
+		float:left;	
 	}
 	
 
@@ -70,23 +34,56 @@
 			<div class="content">
 				<div style="line-height:2.3em">
 					<p>
-						신규 등록할 사용자 정보를 엑셀파일(CSV)로 업로드 하여, 최대 100건까지 일괄 등록할 수 있습니다. <br>
+						신규 등록할 사용자 정보를 엑셀파일로 업로드 하여, 최대 100건까지 일괄 등록할 수 있습니다. <br>
 			
 						등록 양식 샘플을 다운로드 받아, 신규 구성원 정보를 등록하세요. <a id="download">샘플 다운로드</a> <br>
 						
 						관리자가 설정한 비밀번호는 임시비밀번호이며, 사용자가 직접 1회 비밀번호를 변경한 후 오피스를 사용할 수 있습니다.
 						
 					</p>
+					<form  id="excelUploadForm" name="excelUploadForm" enctype="multipart/form-data"
+   						 method="post" action= "empExcelUpload.em">
 						<div class="filebox"> 
-							<input class="upload-name" value="파일선택" disabled="disabled"> 
-							<label for="ex_filename">업로드</label> 
-							<input type="file" id="ex_filename" class="upload-hidden"> 
+							<input class="upload-name" type="file" id="excelFile" name="excelFile"> 
 						</div>
+						<div>
+							<button type="submit" id="addExcelImortBtn" class="btn" onclick="check();"><span>추가</span></button> 
+						</div>
+					</form>
 				</div>
 				
 			</div>
 		</section>
 	</div>
+	<script>
+	function checkFileType(filePath) {
+	    var fileFormat = filePath.split(".");
+
+	    if (fileFormat.indexOf("xls") > -1 || fileFormat.indexOf("xlsx") > -1) {
+	      return true;
+	      } else {
+	      return false;
+	    }
+	  }
+	
+	function check() {
+
+	    var file = $("#excelFile").val();
+
+	    if (file == "" || file == null) {
+	    alert("파일을 선택해주세요.");
+	    return false;
+	    
+	    } else if (!checkFileType(file)) {
+	    alert("엑셀 파일만 업로드 가능합니다.");
+
+	    return false;
+	    }
+	
+	    
+	    
+	  }
+	</script>
 	
 	<jsp:include page="../common/footer.jsp" />
 </body>

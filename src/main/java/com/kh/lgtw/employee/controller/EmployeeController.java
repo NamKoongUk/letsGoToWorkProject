@@ -1,5 +1,7 @@
 package com.kh.lgtw.employee.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.service.EmployeeService;
@@ -304,6 +309,39 @@ public class EmployeeController {
 		//ArrayList<Employee> leaveList = emplService.selctLeaveList();
 		
 		return "";
+	}
+	
+	@RequestMapping("empExcelUpload.em")
+	public ModelAndView empExcelUpload(MultipartFile testFile, MultipartHttpServletRequest request) {
+		System.out.println("업로드 진행");
+		
+		MultipartFile excelFile = request.getFile("excelFile");
+		
+		String excepType = request.getParameter("excepType");
+		
+		System.out.println(excepType);
+		
+		if(excelFile == null || excelFile.isEmpty()) {
+			throw new RuntimeException("엑셀파일을 선택해주세요");
+		}
+		File destFile = new File("C:\\01_FinalProject\\git_workspace\\letsGoToWorkProject\\src\\main\\webapp\\resources\\excelFile"+excelFile.getOriginalFilename());
+		
+		try {
+			excelFile.transferTo(destFile);
+		}catch (Exception e) {
+			throw new RuntimeException(e.getMessage(),e);
+			
+		}
+		
+		int result=empService.empExcelUpload(destFile);
+		
+		destFile.delete();
+		
+		ModelAndView view = new ModelAndView();
+		
+		view.setViewName("employee/empClctvRegister");
+		
+		return view;
 	}
 }
 
