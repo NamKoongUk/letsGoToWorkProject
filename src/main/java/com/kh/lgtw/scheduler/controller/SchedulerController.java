@@ -30,6 +30,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.kh.lgtw.approval.model.vo.SignForm;
 import com.kh.lgtw.employee.model.vo.Employee;
+import com.kh.lgtw.messenger.model.vo.Messenger;
 import com.kh.lgtw.scheduler.model.service.SchedulerService;
 import com.kh.lgtw.scheduler.model.vo.Schedule;
 import com.kh.lgtw.scheduler.model.vo.Scheduler;
@@ -44,16 +45,29 @@ public class SchedulerController {
 		return "scheduler/schedulerMain";
 	}
 	
-	//전체 공통 조회용 컨트롤러
-	@RequestMapping("allSelectSchedule.sc")
-	public HashMap<String, ArrayList<Object>> allSelectSchedule(HttpSession session) {
-		Employee e =  (Employee) session.getAttribute("loginUser");
+	@GetMapping(value="/allSelectSchedule/sc")
+	public @ResponseBody ResponseEntity<HashMap<String, ArrayList<Object>>> allSelectSchedule(HttpSession session) {
+		System.out.println("컨트롤러 잘 들어왔음");
+		Employee e =  (Employee) session.getAttribute("loginEmp");
 		int empNo = e.getEmpNo();
 		
 		HashMap<String, ArrayList<Object>> allList = ss.allSelectSchedule(empNo);
 		
-		return allList;
+		return new ResponseEntity<HashMap<String, ArrayList<Object>>>(allList, HttpStatus.OK);
 	}
+	
+	//전체 공통 조회용 컨트롤러
+//	@RequestMapping("allSelectSchedule.sc")
+//	public HashMap<String, ArrayList<Object>> allSelectSchedule(HttpSession session) {
+//		Employee e =  (Employee) session.getAttribute("loginUser");
+//		int empNo = e.getEmpNo();
+//		
+//		HashMap<String, ArrayList<Object>> allList = ss.allSelectSchedule(empNo);
+//		
+//		return allList;
+//	}
+	
+	
 	
 	//스케쥴러 목록 조회용
 	@RequestMapping(value="selectSchedulerList.sc")
@@ -91,7 +105,7 @@ public class SchedulerController {
 		
 		if(result > 0) {
 			System.out.println("추가성공!!");
-			return "scheduler/schedulerMain";
+			return "redirect:schedulerMain.jsp";
 		}else {
 			System.out.println("추가 실패!");
 			return "main/main";
@@ -151,7 +165,7 @@ public class SchedulerController {
 		int result = ss.insertSchedule(schedule);
 		
 		if(result > 0) {
-			return "scheduler/schedulerMain";			
+			return "redirect:scheduler.sc";			
 		}else {
 			return "main/main";
 		}
