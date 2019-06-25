@@ -27,7 +27,7 @@
     var calendarEl = document.getElementById('calendar');
     var initialLocaleCode = 'ko';
     
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+    calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list'],
       header: {
           left: 'prevYear,prev,next,nextYear today',
@@ -42,18 +42,17 @@
       businessHours: true,
       editable: true,
       eventLimit: true,
-      events: [ {
-    	  id: 1,
-          title: 'Business Lunch',
-          start: '2019-06-03',
-          end: '2019-06-07'
-        } ],
+      events: [],
       select: function(info) {
     	  var startDate = info.startStr;
-    	  var endDate = info.endStr;
+    	  var endDate = new Date(info.endStr);
+    	  console.log(endDate);
+    	  
+    	  endDate.setDate(endDate.getDate() - 1);
+    	  
     	  $("#insertScheduleBtn").trigger('click');
     	  $("[name=startDate]").val(startDate);
-    	  $("[name=endDate]").val(endDate);
+    	  $("[name=endDate]").val(endDate.format("yyyy-MM-dd"));
       },
       eventClick: function(info) {
     	  console.log("ajax 들어옴!");
@@ -87,20 +86,6 @@
         	 }
           });
           
-          
-          /* if (eventObj.url) {
-          
-        	  alert(
-              'Clicked ' + eventObj.title + '.\n' +
-              'Will open ' + eventObj.url + ' in a new tab'
-            );
-
-            window.open(eventObj.url);
-
-            info.jsEvent.preventDefault(); // prevents browser from following link in current tab.
-          } else {
-            alert('Clicked ' + eventObj.title);
-          } */
       }
       
       
@@ -166,6 +151,14 @@
   .modal-body td{
   	padding-top:5px;
   }
+  #colorSp {
+  	position: relative;
+  	display : inline-block;
+  	left: -5px;
+  	bottom : 2px;
+  	height : 10px !important;
+  	width : 10px !important;
+  } 
 </style>
 </head>
 <body>
@@ -177,8 +170,6 @@
 		<section class="col-sm-10">
 			<div class="content">
 				<div id='calendar'></div>
-				
-				
 				
 				<!-- 개인캘린더 추가 모달 -->
 				<div class="modal fade" id="empSchedulerModal" role="dialog">
@@ -520,15 +511,120 @@
 			}
       	});
       	
-      	/* $(function(){
+      	$(function(){
       		console.log("온로드 펑션입니다.");
-      		$().ajax({
-      			url:"allSelectSchedule.sc",
+      		$.ajax({
+      			url:"allSelectSchedule/sc",
+      			type:"get",
       			success:function(data){
       				alert("성공");
+      				console.log(data.empScList);
+      				console.log(data.gpScList);
+      				console.log(data.scList);
+      				$("#empScheduler > tbody > tr").remove();
+  					var $empScheduler = $("#empScheduler");
+  					
+  					$("#groupScheduler > tbody > tr").remove();
+  					var $groupScheduler = $("#groupScheduler");
+  					
+      				for(var key in data.empScList){
+      					var $empTr = $("<tr>");
+      					var $colTd = $("<td colspan='2'>");
+      					var $colBtn = $("<button style='width:5px; height:16px;'>");
+      					var $colSp = $("<span style='background:" + data.empScList[key].schedulerColor + "' id='colorSp'>");
+      					      					
+      					var $nameSp = $("<span style='margin-left:5px;'>").text(data.empScList[key].schedulerName);
+      					
+      					var $settingTd = $("<td align='center'>");
+      					var $settingIm = $("<img src='${contextPath}/resources/images/scheduler/settings.png' style='width:16px; height:16px;'>");
+      					
+      					$colBtn.append($colSp);
+      					$colTd.append($colBtn);
+      					$colTd.append($nameSp);
+      					$empTr.append($colTd);
+      					
+      					$settingTd.append($settingIm);
+      					$empTr.append($settingTd);
+    					
+      					$empScheduler.append($empTr);
+      				}
+      				
+      				for(var key in data.gpScList){
+      					var $gmTr = $("<tr>");
+      					var $colTd = $("<td colspan='2'>");
+      					var $colBtn = $("<button style='width:5px; height:16px;'>");
+      					var $colSp = $("<span style='background-color:" + data.gpScList[key].schedulerColor + "' id='colorSp'>");
+      					      					
+      					var $nameSp = $("<span style='margin-left:5px;'>").text(data.gpScList[key].schedulerName);
+      					
+      					var $settingTd = $("<td align='center'>");
+      					var $settingIm = $("<img src='${contextPath}/resources/images/scheduler/settings.png' style='width:16px; height:16px;'>");
+      					
+      					$colBtn.append($colSp);
+      					$colTd.append($colBtn);
+      					$colTd.append($nameSp);
+      					$gmTr.append($colTd);
+      					
+      					$settingTd.append($settingIm);
+      					$gmTr.append($settingTd);
+    					
+      					$groupScheduler.append($gmTr);
+      				}
+      				
+      				for(var key in data.scList){
+      					var id = data.scList[key].scheduleNo;
+      					var title = data.scList[key].scheduleName;
+      					var startD = data.scList[key].startDate.split(" ");
+      					var endD = data.scList[key].endDate.split(" ");
+      					var color = data.scList[key].schedulerList[0].schedulerColor;
+      					console.log(startD);
+      					var startT = data.scList[key].startTime;
+      					var endT = data.scList[key].endTime;
+      					
+      					var endDate = new Date(endD[0]);
+      					endDate.setDate(endDate.getDate() + 1);
+      					
+      					var event = {
+      							id:id,
+      							title:title,
+      							start:startD[0],
+      							end:endDate.format("yyyy-MM-dd"),
+      							color:color
+      					}
+      					console.log(event);
+      					calendar.addEvent(event);
+      				}
       			}
       		});
-      	}); */
+      	});
+      	
+      	Date.prototype.format = function(f) {
+      	    if (!this.valueOf()) return " ";
+      	 
+      	    var weekName = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+      	    var d = this;
+      	     
+      	    return f.replace(/(yyyy|yy|MM|dd|E|hh|mm|ss|a\/p)/gi, function($1) {
+      	        switch ($1) {
+      	            case "yyyy": return d.getFullYear();
+      	            case "yy": return (d.getFullYear() % 1000).zf(2);
+      	            case "MM": return (d.getMonth() + 1).zf(2);
+      	            case "dd": return d.getDate().zf(2);
+      	            case "E": return weekName[d.getDay()];
+      	            case "HH": return d.getHours().zf(2);
+      	            case "hh": return ((h = d.getHours() % 12) ? h : 12).zf(2);
+      	            case "mm": return d.getMinutes().zf(2);
+      	            case "ss": return d.getSeconds().zf(2);
+      	            case "a/p": return d.getHours() < 12 ? "오전" : "오후";
+      	            default: return $1;
+      	        }
+      	    });
+      	};
+      	 
+      	String.prototype.string = function(len){var s = '', i = 0; while (i++ < len) { s += this; } return s;};
+      	String.prototype.zf = function(len){return "0".string(len - this.length) + this;};
+      	Number.prototype.zf = function(len){return this.toString().zf(len);
+     };
 	</script>
 	
 	

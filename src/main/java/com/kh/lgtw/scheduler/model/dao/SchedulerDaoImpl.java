@@ -39,15 +39,25 @@ public class SchedulerDaoImpl implements SchedulerDao{
 
 	@Override
 	public HashMap<String, ArrayList<Object>> allSelectSchedule(SqlSession sqlSession, int empNo) {
-		HashMap<String, ArrayList<Object>> allList = null;
+		HashMap<String, ArrayList<Object>> allList = new HashMap<String, ArrayList<Object>>();
+		
+		Scheduler scr = new Scheduler();
+		Schedule sc = new Schedule();
+		
+//		scr.setCreateEmpNo(empNo);
+//		sc.setWriter(empNo);
 		
 		ArrayList<Object> empScList = (ArrayList)sqlSession.selectList("Scheduler.selectEmpSc", empNo);
-		ArrayList<Object> gpList = (ArrayList)sqlSession.selectList("Scheduler.selectGpSc", empNo);
+		System.out.println("개인캘린더 목록 : " + empScList);
+		ArrayList<Object> gpScList = (ArrayList)sqlSession.selectList("Scheduler.selectGpSc", empNo);
+		System.out.println("공유캘린더 목록 : " + gpScList);
 		ArrayList<Object> scList = (ArrayList)sqlSession.selectList("Scheduler.selectSc", empNo);
+		System.out.println("일정 목록 : " + scList);
+		
 		
 		allList.put("empScList", empScList);
-		allList.put("empScList", empScList);
-		allList.put("empScList", empScList);
+		allList.put("gpScList", gpScList);
+		allList.put("scList", scList);
 		
 		return allList;
 	}

@@ -30,6 +30,33 @@
 	
 
 	<!-- 쿼리문 영역 -->
+	<!-- 개인캘린더 목록 조회용 -->
+	<select id="selectEmpSc" resultMap="schedulerResultSet" parameterType="_int">
+		SELECT *
+		FROM SCHEDULER
+		WHERE CREATE_EMPNO = #{empNo}
+		AND SCHEDULER_TYPE = '개인'
+	</select>
+	
+	<!-- 공유캘린더 목록 조회용 -->
+	<select id="selectGpSc" resultMap="schedulerResultSet" parameterType="_int">
+		SELECT *
+		FROM SCHEDULER SCR
+		JOIN GROUP_MEMBER GM ON (SCR.SCHEDULER_NO = GM.SCHEDULER_NO)
+		WHERE SCR.SCHEDULER_TYPE = '공용'
+		AND GM.EMPNO = #{empNo}
+		AND GM.AUTHORITY = 'Y' 
+	</select>
+	
+	<!-- 일정 목록 조회용 -->
+	<select id="selectSc" resultMap="scheduleResultSet" parameterType="_int">
+		SELECT *
+		FROM SCHEDULE SC
+		JOIN SCHEDULER SCR ON (SC.SCHEDULER_NO = SCR.SCHEDULER_NO)
+		WHERE SC.WRITER = #{empNo}
+		AND SC.STATUS = 'Y'
+	</select>
+	
 	<!-- 개인캘린더 추가 쿼리문 -->
 	<insert id="insertMemberScheduler" parameterType="Scheduler">
 		INSERT INTO SCHEDULER
