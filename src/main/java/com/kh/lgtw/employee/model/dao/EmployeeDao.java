@@ -1,5 +1,6 @@
 package com.kh.lgtw.employee.model.dao;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import org.apache.ibatis.session.SqlSession;
@@ -15,6 +16,10 @@ public interface EmployeeDao{
 	int inSertEmpOne(SqlSession sqlSession, Employee employee);
 
 	String selectEncPassword(SqlSession sqlSession, Employee employee);
+
+	int empExcelUpload(SqlSession sqlSession, File destFile);
+
+
 
 //	Employee loginEmpl(Employee employee, SqlSession sqlSession);
 //

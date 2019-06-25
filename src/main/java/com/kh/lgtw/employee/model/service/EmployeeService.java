@@ -1,5 +1,6 @@
 package com.kh.lgtw.employee.model.service;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import com.kh.lgtw.employee.model.exception.LoginException;
@@ -10,6 +11,9 @@ public interface EmployeeService {
 	Employee loginCheck(Employee employee) throws LoginException;
 
 	int insertEmpOne(Employee employee);
+
+	int empExcelUpload(File destFile);
+
 
 
 //	Employee loginEmpl(Employee employee);
