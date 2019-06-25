@@ -11,4 +11,51 @@
 	
 	쿼리문 작성
 	<select id="구분이름" parameterType="매개변수 타입"> </select> -->
+	
+	<!--게시판  컬럼 리스트 	 -->
+	<resultMap id="communityResultSet" type="com.kh.lgtw.community.model.vo.Community">
+		<id column="BNO" property="bno"/>
+		<result column="BOARD_NAME" property="boardName"/>
+		<result column="CREATE_USER" property="createUser"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="BOARD_AUTHORITY" property="boardAuthority"/>
+		<result column="STAUS" property="status"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="EMP_NAME" property="createUserName"/>
+	</resultMap>
+	<!--게시글 컬럼 리스트 	 -->
+	<resultMap id="communityPostResultSet" type="com.kh.lgtw.community.model.vo.CommunityPost">
+		<id column="CONTENT_NO" property="contentNO"/>
+		<result column="BNO" property="bno"/>
+		<result column="BWRITER"  property="bwriter"/>
+		<result column="BTITLE" property="btitle"/>
+		<result column="BCONTENT" property="bcontent"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="BCOUNT" property="bcount"/>
+		<result column="BTYPE" property="btype"/>
+		<result column="STATUS" property="status"/>
+	</resultMap>
+	
+<!--게시판 조회 쿼리문 	 -->	
+	<select id="selectCommunityList" resultMap="communityResultSet">
+		SELECT *
+		FROM BOARD B
+		JOIN EMPLOYEE E ON (B.CREATE_USER = E.EMPNO)           
+		
+	</select> 
+	
+<!--게시글 리스트 조회 쿼리문	 -->
+	<select id="selectPostList" resultMap="communityPostResultSet" parameterType="_int">
+	    SELECT  *
+		FROM BOARD B
+		JOIN CONTENT C ON (B.BNO = C.BNO)
+		WHERE B.BNO = #{bno}
+		
+		
+	</select>
+	
+	
+
+
 </mapper>

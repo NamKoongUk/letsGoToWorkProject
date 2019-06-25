@@ -26,6 +26,8 @@
 		
 		<!-- Employee VO -->				
 		<typeAlias type="com.kh.lgtw.employee.model.vo.Employee" alias="Employee"/>
+		<typeAlias type="com.kh.lgtw.employee.model.vo.ExcelEmp" alias="ExcelEmp"/>
+		
 		
 		<!-- Mail VO -->
 		<typeAlias type="com.kh.lgtw.mail.model.vo.CommonMail" alias="CommonMail"/>
@@ -50,6 +52,7 @@
 		<mapper resource="mappers/mail-mapper.xml"/>
 		<mapper resource="mappers/messenger-mapper.xml"/>
 		<mapper resource="mappers/scheduler-mapper.xml"/>
+		<mapper resource="mappers/excelemp-mapper.xml"/>
 	</mappers>
 </configuration>
 

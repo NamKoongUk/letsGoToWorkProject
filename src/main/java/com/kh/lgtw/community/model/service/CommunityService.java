@@ -1,5 +1,7 @@
 package com.kh.lgtw.community.model.service;
 
+import java.util.ArrayList;
+
 import com.kh.lgtw.community.model.vo.Community;
 import com.kh.lgtw.community.model.vo.CommunityAttachment;
 import com.kh.lgtw.community.model.vo.CommunityComment;
@@ -7,6 +9,18 @@ import com.kh.lgtw.community.model.vo.CommunityPost;
 
 public interface CommunityService   
 {
+
+	ArrayList<Community> SelectCommunity();
+
+	ArrayList<CommunityPost> CommunityPostList(int bno);
+
+
+
+	
+
+	
+
+	
 
 //	Community SelectCommunity(Community cm);
 //
