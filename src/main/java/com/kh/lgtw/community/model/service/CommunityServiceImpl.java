@@ -1,5 +1,7 @@
 package com.kh.lgtw.community.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,44 @@ import com.kh.lgtw.community.model.vo.CommunityPost;
 
 @Service
 public class CommunityServiceImpl  implements CommunityService{
+	
+	  @Autowired SqlSessionTemplate sqlSession;
+	 
+	
+	
+	  @Autowired private CommunityDao cd;
+	 
+	
+	
+	  
+	  //게시판 조회용 리스트 메소드
+	  
+	  @Override public ArrayList<Community> SelectCommunity() 
+	  {
+	 
+	  return cd.SelectCommunity(sqlSession); 
+	  }
+
+
+
+
+	@Override
+	public ArrayList<CommunityPost> CommunityPostList(int bno) {
+		// TODO Auto-generated method stub
+		return cd.CommunityPostList(bno , sqlSession);
+	}
+
+
+
+
+	
+
+
+
+
+	
+	 
+	
 //	@Autowired
 //	SqlSessionTemplate sqlSession; 
 //	

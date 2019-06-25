@@ -72,30 +72,50 @@
 				        <td>강형석</td>
 				        <td>2019-06-20</td> 
 				        <td>""/10</td>
-				        <td><a>수정</a></td>
-				        <td><a>삭제</a></td>
+				        <td><button type="button" class="btn btn-info btn-lg" onclick="revision();">수정</button></td>
+				        <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">삭제</button></td>
 				      </tr>
 				      <tr>
 				        <td>공지 사항</td>
 				        <td>강형석</td>
 				        <td>2019-06-20</td>
 				        <td>""/10</td>
-				        <td><a>수정</a></td>
-				        <td><a>삭제</a></td>
+				        <td><button type="button" class="btn btn-info btn-lg" onclick="revision();">수정</button></td>
+				        <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">삭제</button></td>
 				      </tr>
 				      <tr>
 				        <td>회사내 모임  일정</td>
 				        <td>강형석</td>
 				        <td>2019-06-20</td>
 				        <td>""/10</td>
-				      	<td><a onclick="revision();">수정</a></td>
-				        <td><a>삭제</a></td>
+				      	<td><button type="button" class="btn btn-info btn-lg" onclick="revision();">수정</button></td>
+				        <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">삭제</button></td>
 				      </tr> 
 				   
 				   	 </tbody> 
 				 
 				  </table>
-					
+				  
+				  <!-- Modal -->
+				    <div class="modal fade" id="myModal" role="dialog">
+				   		<div class="modal-dialog">
+				    		<div class="modal-content">
+						        <div class="modal-header">
+						          <button type="button" class="close" data-dismiss="modal">&times;</button>
+						          <h4 class="modal-title">게시판 삭제</h4>
+						        </div>
+						        <div class="modal-body">
+						          <p>게시판을 삭제 할까요 ?</p>
+						        </div>
+						        <div class="modal-footer">
+						          <button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+						           <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+								</div>
+							</div>
+													
+						</div>
+					</div>
+							
 				</div>
 			 
 			 </div> 
@@ -106,7 +126,7 @@
 		<script> 
 			function revision() {
 				
-				alert("수정되었습니다");
+				alert("수정페이지 로 이동 하겠습니다.");
 			}
 			
 		

@@ -23,8 +23,8 @@
 			
 			<div class="content">
 			
-					<span><a>수정</a></span>
-					<span><a>삭제</a></span> 
+					<button type="button" class="btn btn-info btn-lg" onclick="revision();">수정</button>
+					<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">삭제</button>
 				<div>	
 						<table class="table table-striped" border="" >	
 								<thead>
@@ -65,32 +65,56 @@
 					 			<th>작성자</th>
 					 			<th>댓글 내용</th>
 					 			<th></th>
-					 			<th></th> 	
+					 			<!-- <th></th>  -->	
 					 		</tr>  
 					 		
 					 		
 					 		<tr>
 					 			<td width=10%>강형석</td>
 					 			<td>확인 했습니다.</td>
-					 			<td><a>작성</a></td>
-					 			<td><a>취소</a></td>
+					 			<td><button type="button" class="btn btn-info btn-lg">확인</button>
+					 				<button type="button" class="btn btn-info btn-lg">취소</button>
+					 		   </td>
+					 			
 					 		 
-					 		</tr>
-					 	</thead>
-					 	
-					 	</table>
-					 
-					 
-					 </div>
-					  	
-					 
-				
-						
-			</div>
+					 	  </tr>
+					 </thead>	
+				</table>
+			  </div>
+			  <div class="modal fade" id="myModal" role="dialog">
+				   		<div class="modal-dialog">
+				    		<div class="modal-content">
+						        <div class="modal-header">
+						          <button type="button" class="close" data-dismiss="modal">&times;</button>
+						          <h4 class="modal-title">게시판 삭제</h4>
+						        </div>
+						        <div class="modal-body">
+						          <p>게시글을 삭제 할까요 ?</p>
+						        </div>
+						        <div class="modal-footer">
+						          <button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+						           <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+								</div>
+							</div>
+													
+						</div>
+					</div>
+			  	
+			  
+			   
+		   </div>
 		</section>
 	</div>
 	
 	<jsp:include page="../common/footer.jsp"/>
+	<script> 
+			function revision() {
+				
+				alert("게시글 이 수정 되었습니다.");
+			}
+			
+		
+		</script>
 
 
 </body>

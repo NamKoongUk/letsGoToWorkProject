@@ -37,50 +37,67 @@
 			   	<label>검색조건</label>
 			   	<select id="searchCondition" name="searchCondition">
 			   	   
-			   	     <option value="writer">게시판 이름</option>
-			   	     <option value="title">게시판 작성자</option>
-			   	     <option value="content">게시판 작성일자</option>
+			   	     <option value="title">게시판 이름</option>
+			   	     <option value="writer">게시판 작성자</option>
+			   	     <option value="createDate">게시판 작성일자</option>
 			   	
 			   	
 			   	</select> 
 			   	
 			   	<input id="searchValue" type="search"/>
 			   	
-			   	<button onclick=""> 검색하기 </button> 
+			   	<button onclick="searchCommunity();"> 검색하기 </button> 
 			   	
-			  </div>
+			  </div> 
+			  
+			  <script> 
+			  	function searchCommunity() {
+			  		var searchCondition = $("#searchCondition").val(); 
+			  		var searchValue =$("#searchValue").val();
+			  		
+			  		location.href = "";
+			  	} 
+			  
+			  
+			  
+			  </script>
 						
 				
 				
 			
 				
 				<div class="container">
-		  <table class="table">
+		  <table id="communityList" class="table">
 			    <thead>
 			      <tr>
+			        <th>게시판 번호</th>
 			        <th>게시판 이름</th>
 			        <th>게시판 작성자</th>
 			        <th>게시판 작성일자</th>
 			      </tr>
 			    </thead>
+			    
+			      <c:forEach var="b" items="${list }">  
 			    <tbody>
-				     <tr>
+				    <!--  <tr>
 				        <td><a href="communityPostList.co">교육일정</a></td>
 				        <td>강형석</td>
 				        <td>2019-06-20</td>
-				      </tr>
+				      </tr> --> 
 				      <tr>
-				        <td>공지 사항</td>
-				        <td>강형석</td>
-				        <td>2019-06-20</td>
-				      </tr>
-				      <tr>
+				        <td>${b.bno}</td>
+				        <td>${b.boardName}</td>
+				        <td>${b.createUserName}</td>
+				        <td>${b.createDate}</td>
+				      </tr> 
+				      <!-- <tr>
 				        <td>회사내 모임  일정</td>
 				        <td>강형석</td>
 				        <td>2019-06-20</td>
-				      </tr>
-				   
-				   	 </tbody> 
+				      </tr> 
+				    -->
+				   	 </tbody>  
+				   	 </c:forEach>  
 				 
 				  </table>
 					
@@ -101,5 +118,21 @@
 	
 	
 	<jsp:include page="../common/footer.jsp" />
+	<script>
+		$(function(){
+			$("#communityList").find("td").mouseenter(function(){
+				$(this).parents("tr").css({"background":"orangered","cursor":"pointer"});	
+			}).mouseout(function(){ 
+				$(this).parents("tr").css({"background":"white"});	
+			}).click(function(){
+				var bno =$(this).parents().children("td").eq(0).text();
+				location.href="communityPostList.co?bno="+bno;
+			
+			});	
+		});
+		
+	
+	</script>
+
 </body>
 </html>
