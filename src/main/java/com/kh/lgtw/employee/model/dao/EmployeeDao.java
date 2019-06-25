@@ -14,6 +14,8 @@ public interface EmployeeDao{
 
 	int inSertEmpOne(SqlSession sqlSession, Employee employee);
 
+	String selectEncPassword(SqlSession sqlSession, Employee employee);
+
 //	Employee loginEmpl(Employee employee, SqlSession sqlSession);
 //
 //	ArrayList<Employee> selectEmpList(SqlSession sqlSession);

@@ -47,7 +47,8 @@
 					</button>
 					<a class="navbar-brand" href="${ contextPath }">
 						<%-- <img src="${ contextPath }/resources/images/logo1.PNG" width="85px" style="position: relative; top: -15px"/> --%>
-						<img src="${ contextPath }/resources/images/logo3.png" width="85px" style="position: relative; top: -10px; left: 15px;"/>
+						<%-- <img src="${ contextPath }/resources/images/logo3.png" width="85px" style="position: relative; top: -10px; left: 15px;"/> --%>
+						<img src="${ contextPath }/resources/images/logo3.png" height="60px;" style="position: relative; top: -10px; left: 15px;"/>
 					</a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
@@ -56,7 +57,7 @@
 						<li><a href="${contextPath}/employee.em">인사관리</a></li>
 						<li><a href="${contextPath}/mail.ma">웹메일</a></li>
 						<li><a href="${contextPath}/scheduler.sc">일정관리</a></li>
-						<li><a href="${contextPath}/messenger">메신저</a></li>
+						<li><a href="${contextPath}/messenger/main">메신저</a></li>
 						<li><a href="${contextPath}/community.co">커뮤니티</a></li>
 					</ul>
 					<c:if test="${ empty loginEmp }"></c:if>

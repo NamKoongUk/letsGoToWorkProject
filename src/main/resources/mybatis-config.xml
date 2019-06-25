@@ -5,7 +5,8 @@
 <configuration>
 	<settings>
 		<!-- 빈값이 들어오면 NULL로 인식한다. -->
-		<setting value="NULL" name="jdbcTypeForNull"/>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+		<setting name="callSettersOnNulls" value="true"/>
 	</settings>
 	
 	<!-- VO 등록하는 곳 -->

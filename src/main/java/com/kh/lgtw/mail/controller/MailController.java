@@ -94,8 +94,7 @@ public class MailController {
 		return null;
 	}
 	
-	// 메일 - 읽음처리
-	// @RequestMapping("updateStatus.ma")
+	// 메일상태처리
 	@RequestMapping(value="mail/updateStatus",  produces="application/json; charset=utf8")
 	public String updateMailStatus(@RequestBody Map<String ,Object> map ) { 
 		// 읽음처리할 메일의 id 값들을 배열로 받아서 처리한다. 

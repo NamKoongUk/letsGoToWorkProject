@@ -13,22 +13,23 @@ import com.kh.lgtw.employee.model.vo.Employee;
 public class EmployeeDaoImpl implements EmployeeDao{
 	
 	// 로그인 확인
-		@Override
-		public Employee loginCheck(SqlSession sqlSession, Employee employee) throws LoginException {
+	@Override
+	public Employee loginCheck(SqlSession sqlSession, Employee employee) throws LoginException {
+		return sqlSession.selectOne("Employee.loginCheck", employee);
+	}
+	
+	// 비밀번호 확인
+	@Override
+	public String selectEncPassword(SqlSession sqlSession, Employee employee) {
+		return sqlSession.selectOne("Employee.selectEncPassword", employee);
+	}
+	
+	// 사원추가
+	@Override
+	public int inSertEmpOne(SqlSession sqlSession, Employee employee) {
+		return sqlSession.insert("Employee.insertEmpOne",employee);
+	}
 
-			Employee loginEmp = sqlSession.selectOne("Employee.loginCheck", employee);
-			
-			if(loginEmp == null) {
-				throw new LoginException("로그인 정보가 일치하지 않습니다.");
-			}
-			
-			return loginEmp;
-		}
-
-		@Override
-		public int inSertEmpOne(SqlSession sqlSession, Employee employee) {
-			return sqlSession.insert("Employee.insertEmpOne",employee);
-		}
 
 //	@Override
 //	public Employee loginEmpl(Employee employee, SqlSession sqlSession) {

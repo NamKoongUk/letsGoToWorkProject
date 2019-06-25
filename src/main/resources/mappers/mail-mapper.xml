@@ -17,7 +17,7 @@
 		<result property="mSize" column="MSIZE"/>
 		<result property="reservationCheck" column="RESERVATION_CHECK"/>
 		<result property="reservationDate" column="RESERVATION_DATE"/>
-		<result property="reservateionTime" column="RESERVATION_TIME"/>
+		<result property="reservationTime" column="RESERVATION_TIME"/>
 	</resultMap>
 	
 	<!-- 쿼리문 -->
@@ -28,9 +28,25 @@
 		WHERE DSTATUS = 'N' 
 	</select>
 	
+	<!-- 메일 리스트 조회 -->
 	<select id="selectMailList" parameterType="PageInfo" resultMap="resultMailSet">
 		SELECT * 
 		FROM MAIL 
 		WHERE DSTATUS = 'N'
 	</select>
+	
+	<!-- 읽음 상태 수정 -->
+	<update id="updateReadStatus">
+		UPDATE MAIL
+		SET RSTATUS = 'Y'
+		WHERE MAIL_NO = #{ mailNo }
+	</update>
+	
+	<!-- 삭제 상태 수정 -->
+	<update id="updateDeleteStatus">
+		UDPATE MAIL
+		SET DSTATUS = 'Y'
+		WHERE MAIL_NO = #{ mailNo }
+	</update>
+	
 </mapper>

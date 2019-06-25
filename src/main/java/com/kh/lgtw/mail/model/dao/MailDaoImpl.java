@@ -24,7 +24,6 @@ public class MailDaoImpl implements MailDao{
 	@Override
 	public ArrayList<Mail> selectMailList(SqlSession session, PageInfo pi) {
 		
-		// 시작번호
 		int offset = (pi.getCurrentPage() - 1)  * pi.getLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
@@ -35,23 +34,28 @@ public class MailDaoImpl implements MailDao{
 	// 메일 상태 변경
 	@Override
 	public int updateMailStatus(SqlSession session, Map<String, Object> map) throws StatusTypeException {
+		int result = 0;
 		
-		int[] arrayNum = (int[]) map.get("checkList");
+		
+		ArrayList<Integer> arrayNum = (ArrayList) map.get("checkList");
 		String type = (String) map.get("type");
 		System.out.println("dao array : " + arrayNum);
 		System.out.println("dao type : " + type);
 		
-		switch(type) {
-		case "read": break;
-		case "delete" : break;
-			default : throw new StatusTypeException("상태 유형이 올바르지 않습니다.");
+		if(type.equals("read")) {
+			for(int i = 0; i < arrayNum.size(); i++) {
+				result += (int) session.update("Mail.updateReadStatus", arrayNum.get(i));
+			}
+		}else if(type.equals("delete")) {
+			for(int i = 0; i < arrayNum.size(); i++) {
+				result += session.update("Mail.updateDeleteStatus", arrayNum.get(i));
+			}
+		}else {
+			throw new StatusTypeException("상태 유형이 올바르지 않습니다.");
 		}
 		
-		for(int i = 0; i < arrayNum.length; i++) {
-			
-		}
-		
-		return 0;
+		System.out.println("type : " + type + " arrayLength : " + arrayNum.size() + " result : " + result);
+		return result;
 	}
 
 }
