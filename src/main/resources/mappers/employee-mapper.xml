@@ -4,19 +4,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Employee">
-	<!-- <resultMap id="내가쓸 이름" type="vo풀네임">
-		<id column="" property="PK"/>
-		<result column="" property="필드 명"/>
-	</resultMap>
-	
-	쿼리문 작성
-	<select id="구분이름" parameterType="매개변수 타입"> </select> -->
 	<resultMap id="employeeResultSet" type="com.kh.lgtw.employee.model.vo.Employee">
 		<id column="EMPNO" property="empNo"/>
 		<result column="EMP_ID" property="empId"/>
 		<result column="EMP_PWD" property="empPwd"/>
 		<result column="EMP_NAME" property="empName"/>
-		<result column="BIRTH" property="empBirth"/>
+		<result column="BIRTH" property="empBirth" />
 		<result column="GENDER" property="gender"/>
 		<result column="EMP_PHONE" property="empPhone"/>
 		<result column="OFFICE_TEL" property="officeTel"/>
@@ -36,13 +29,20 @@
 		<result column="RETIREMENT_REASON" property="retirementReason"/>
 		<result column="LEAVE_TYPE" property="leaveType"/>
 		<result column="DUTY_CODE" property="dutyCode"/>
-
 	</resultMap>
 	
+	<!-- 로그인시 사원 객체 조회 -->
 	<select id="loginCheck" resultMap="employeeResultSet" parameterType="Employee">
 		SELECT *
 		FROM EMPLOYEE
 		WHERE STATUS = 'Y' 
+	</select>
+	
+	<!-- id, pw 확인 -->
+	<select id="selectEncPassword" resultType="java.lang.String" parameterType="Employee">
+		SELECT EMP_PWD
+		FROM EMPLOYEE
+		WHERE EMP_ID = #{empId}
 	</select>
 	
 	<insert id="insertEmpOne" parameterType="Employee">

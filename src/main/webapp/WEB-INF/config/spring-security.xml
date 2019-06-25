@@ -11,5 +11,4 @@
    <beans:bean id="bcryptPasswordEncoder" 
       class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
       
-<!-- 기능은 같은데 스키마가 다름...  -->   
 </beans:beans>

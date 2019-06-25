@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">    
 <div class="col-sm-2 sidenav visible-sm visible-md visible-lg">
-<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<!-- <script src="http://localhost:3000/socket.io/socket.io.js"></script> -->
 	<ul>
 		<li onclick="MessengerSend()"><button>글쓰기</button></li>
 		<hr>

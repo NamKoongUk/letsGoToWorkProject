@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.kh.lgtw.employee.model.dao.EmployeeDao;
@@ -16,12 +17,44 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired SqlSession sqlSession; 
 	@Autowired private EmployeeDao empDao;
+	@Autowired private BCryptPasswordEncoder passwordEncoder;
 	
 	// 로그인 확인용
 	@Override
 	public Employee loginCheck(Employee employee) throws LoginException {
-		return empDao.loginCheck(sqlSession, employee);
+		Employee loginEmp = null;
+		
+		String encPassword = empDao.selectEncPassword(sqlSession, employee);
+		
+		System.out.println("비밀번호 : " + encPassword);
+		System.out.println("암호 2 : " + employee.getEmpPwd());	
+		String pass =  passwordEncoder.encode(employee.getEmpPwd());
+		System.out.println(pass);
+		
+		if(passwordEncoder.matches(employee.getEmpPwd(), encPassword)) {
+			loginEmp = empDao.loginCheck(sqlSession, employee);
+		}else {
+			throw new LoginException("로그인실패!");
+		}
+		
+		return loginEmp;
 	}
+	
+//	@Override
+//	public Member loginMember(Member m) throws LoginException {
+//		Member loginUser = null;
+//		
+//		String encPassword = md.selectEncPassword(sqlSession, m);
+//		
+//		
+//		if(!passwordEncoder.matches(m.getUserPwd(), encPassword)) {
+//			throw new LoginException("로그인실패!");
+//		}else {
+//			loginUser = md.selectMember(sqlSession, m);
+//		}
+//		
+//		return loginUser;
+//	}
 
 	@Override
 	public int insertEmpOne(Employee employee) {
