@@ -51,7 +51,7 @@
 		<section class="col-sm-10"><br><br>
 			<h3 class="title" align="center">메일작성</h3>
 			<div class="content">
-				<form id="mailForm" action="insertSendMail.ma" align="center">
+				<form id="mailForm" action="${ contextPath }/mail/send" method="post" align="center" enctype="multipart/form-data">
 					<table id="mailTable" align="center">
 						<tr>
 							<th width="15%">받는사람</th>
@@ -78,18 +78,19 @@
 							<td colspan="2">
 								<div><input type="file" name="mailAttachment" class="form-control"/> 
 										<span class="fileSize"></span></div>
-								<div><input type="file" name="mailAttachment" class="form-control"/> <span class="fileSize"></span></div>
-								<div><input type="file" name="mailAttachment" class="form-control"/> <span class="fileSize"></span></div>
+								<!-- <div><input type="file" name="mailAttachment" class="form-control"/> <span class="fileSize"></span></div>
+								<div><input type="file" name="mailAttachment" class="form-control"/> <span class="fileSize"></span></div> -->
 							</td>
 						</tr>
 					</table>
+					
 				</form>
-				
 				<div class="btnArea" align="center">
-					<button class="btn btn-md">전송</button>
+					<button class="btn btn-md" type="submit">전송</button>
 					<button class="btn btn-md">임시보관</button>
 					<button class="btn btn-md">취소</button>
 				</div>
+				
 			</div>
 		</section>
 	</div>

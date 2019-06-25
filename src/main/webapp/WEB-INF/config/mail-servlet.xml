@@ -16,6 +16,14 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- multipart/form-data -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<!-- <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" /> -->
+
+		<beans:property name="maxUploadSize" value="100000000"/>
+		<beans:property name="maxInMemorySize" value="100000000"/>
+	</beans:bean>
+	
 	<context:component-scan base-package="com.kh.lgtw.mail"/>
 	
 </beans:beans>

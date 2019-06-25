@@ -58,14 +58,24 @@
 					<button class="btn btn-md">삭제</button>
 				</div>
 				<div id="detailInfoArea">
-					<h3 align="center">메일 제목이 들어가는 곳</h3>
+					<h3 align="center"><c:out value="${ mail.mTitle }"/>
+						<input type="hidden" name="mailNo" value="${ mail.mailNo }"/>
+					</h3>
 					<table id="mailTable" align="center">
 						<tr>
 							<!-- 받은 메일이나 보낸 메일에 따라 다르다. -->
-							<th>보낸사람 / 받는사람</th>
-							<td>김채연 이사</td>
-							<th>보낸 날짜 / 받은날짜</th>
-							<td>2019-02-01</td>
+							<c:if test="${ mail.mailType eq '받은메일'}">
+								<th>보낸사람</th>
+								<td><c:out value="${ mail.sendMail }"/></td>
+								<th>받은날짜</th>
+								<td><c:out value="${ mail.sendDate }"/></td>
+							</c:if>
+							<c:if test="${ mail.mailType eq '보낸메일'}">
+								<th>받는사람</th>
+								<td><c:out value="${ mail.reciveMail }"/></td>
+								<th>보낸날짜</th>
+								<td><c:out value="${ mail.sendDate }"/></td>
+							</c:if>
 						</tr>
 						<tr>
 							<th>첨부파일</th>
@@ -76,9 +86,12 @@
 						</tr>
 						<tr>
 							<th>내용</th>
-							<td colspan="3">내용내용</td>
+							<td colspan="3"><c:out value="${ mail.mContent }"/></td>
 						</tr>
 					</table>
+				</div>
+				<div id="reserveArea">	
+					<
 				</div>
 			</div>
 		</section>

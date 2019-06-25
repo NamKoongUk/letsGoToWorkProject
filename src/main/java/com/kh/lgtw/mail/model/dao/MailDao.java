@@ -17,4 +17,6 @@ public interface MailDao {
 
 	int updateMailStatus(SqlSession session, Map<String, Object> map) throws StatusTypeException;
 
+	Mail selectMailDetail(SqlSession sqlSession, int mailNo);
+
 }

@@ -15,4 +15,6 @@ public interface MailService{
 
 	int updateMailStatus(Map<String, Object> map) throws StatusTypeException;
 
+	Mail selectMailDetail(int mailNo);
+
 }

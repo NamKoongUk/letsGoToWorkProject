@@ -74,15 +74,15 @@
 			<div class="content" style="width:90%; margin: 0 auto" align="center" >
 				<div class="navArea" width=" 80% !important">
 					<ul class="nav nav-tabs">
-						<li><a data-toggle="tab" href="#absence">부재중 설정</a></li>
-						<li class="active"><a data-toggle="tab" href="#sign">서명 설정</a></li>
+						<li class="active"><a data-toggle="tab" href="#absence">부재중 설정</a></li>
+						<li><a data-toggle="tab" href="#sign">서명 설정</a></li>
 						<li><a data-toggle="tab" href="#officeMail">공용메일 설정</a></li>
 					</ul>
 				</div>
 
 				<div class="tab-content">
-					<div id="absence" class="tab-pane fade">
-						<form id="absenceForm" action="insertAbsence.ap" >
+					<div id="absence" class="tab-pane fade in active">
+						<form id="absenceForm" action="${ contextPath }/mail/put/absence" method="post">
 							<table id="absenceTable" width="90%">
 								<tr>
 									<th width="25%">부재중 기간</th>
@@ -94,7 +94,7 @@
 									<th>종류</th>
 									<td>
 										<input list="absenceType" class="form-control"/>
-										<datalist id="absenceType">
+										<datalist id="absenceType" name="aKind">
 											<option value="연차" selected="selected">
 											<option value="휴가">
 											<option value="출장">
@@ -104,12 +104,12 @@
 								</tr>
 								<tr>
 									<th>내용</th>
-									<td colspan="3"><textarea class="form-control" style="resize:none;" cols="20" rows="5">내용을 입력해주세요</textarea></td>
+									<td colspan="3"><textarea class="form-control" style="resize:none;" cols="20" rows="5" name="content">내용을 입력해주세요</textarea></td>
 								</tr>
 							</table>
 							<br>
-							<button class="btn">부재중 추가하기</button>
-						</form><br><br>
+							<button class="btn" onclick="return addAbsence();">부재중 추가하기</button>
+						</form><br>
 						<div class="listArea" align="center">
 							<table class="listTable">
 								<tr>
@@ -126,7 +126,7 @@
 						</div>
 					</div> <!-- 부재중 설정 -->
 					<br><br><br>
-					<div id="sign" class="tab-pane fade in active" align="center">
+					<div id="sign" class="tab-pane fade" align="center">
 						<form id="signFrom" action="updateSign.ap"  >
 							<table id="signTable">
 								<tr><td>
@@ -152,6 +152,21 @@
 			</div>
 		</section>
 	</div>
+	<script>
+		function addAbsence(){
+			var startDate = new Date($("[name=startDate]").val());
+			var endDate = new Date($("[name=endDate]").val());
+			
+			console.log(endDate - startDate);
+			
+			if((endDate - startDate) > 0){
+				return true;
+			}else{
+				alert("만료날짜가 시작날짜보다 빠를 수 없습니다.");
+				return false;
+			}
+		}
+	</script>
 	
 	<jsp:include page="../common/footer.jsp" />
 </body>

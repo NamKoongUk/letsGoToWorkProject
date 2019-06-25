@@ -197,6 +197,10 @@ footer {
 .listTable tr *:nth-child(1){
 	padding: 5px 10px;
 }
+/* tr:not(:nth-child(1)) td:not(:nth-child(1)) */
+.listTable tr:not(:nth-child(1))  td:not(:nth-child(1)):hover{
+	cursor : pointer;
+}
 .listTable tr:not(:nth-child(1)):hover{
 	background : rgba(230, 230, 230, .5);
 }

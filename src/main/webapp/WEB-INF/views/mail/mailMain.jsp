@@ -174,8 +174,6 @@
 			
 			$("input[name=check]:checked").each(function(){
 				checkList.push($(this).siblings("[name=mailNo]").val());
-				console.log(checkList);
-				console.log(typeof checkList);
 			});
 			
 			var data = {checkList: checkList, type:type};
@@ -186,9 +184,13 @@
 				url : "${ contextPath }/mail/updateStatus",
 				data :  JSON.stringify(data), 
 				contentType : "application/json; charset=utf-8",
-				type:"post",
-				success:function(data){
-					console.log("성공 : " + data);
+				type:"POST",
+				dataType: "text", // 서버에서 보내줄 타입	
+				success:function(data, status, request){
+					console.log(request);
+					location.href="${contextPath}/allList.ma?currentPage=${ pi.currentPage }";
+				}, error: function(data){
+					alert("수정이 실패하셨습니다.");
 				}
 			});
 		}

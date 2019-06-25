@@ -44,9 +44,17 @@
 	
 	<!-- 삭제 상태 수정 -->
 	<update id="updateDeleteStatus">
-		UDPATE MAIL
+		UPDATE MAIL
 		SET DSTATUS = 'Y'
 		WHERE MAIL_NO = #{ mailNo }
 	</update>
+	
+	<!-- 메일 상세 페이지 조회 -->
+	<select id="selectMailDetail" parameterType="int" resultMap="resultMailSet">
+		SELECT *
+		FROM MAIL 
+		WHERE DSTATUS = 'N'
+		AND MAIL_NO = #{ mailNo }
+	</select>
 	
 </mapper>
