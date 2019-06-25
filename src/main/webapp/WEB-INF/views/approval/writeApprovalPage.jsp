@@ -25,7 +25,7 @@
 	
 	<div class="row wrap">
 		<jsp:include page="../common/sideMenu/approval.jsp"/>
-		
+			<!-- 프로그래밍 언어: <input id='my-language' type='text'> -->
 		<section class="col-sm-10">
 			<h3 class="title">문서 작성</h3>
 			<hr>
@@ -47,17 +47,17 @@
 			      <tr>
 			        <td class="head">보존기간</td>
 			        <td>
-						<select class="form-control">
+						<select class="form-control" id="date" disabled>
 							<option>선택</option>
-							<option value="1">1년</option>
-							<option value="3">3년</option>
-							<option value="5">5년</option>
-							<option value="10">10년</option>
+							<option value="1years">1년</option>
+							<option value="3years">3년</option>
+							<option value="5years">5년</option>
+							<option value="10years">10년</option>
 						</select>
 					</td>
 					<td class="head">보안등급</td>
 					<td>
-						<select class="form-control">
+						<select class="form-control" id="security" disabled>
 							<option>선택</option>
 							<option value="s">S등급</option>
 							<option value="a">A등급</option>
@@ -73,14 +73,34 @@
 			
 			<div id="area" class="content" style="visibility:hidden;">
 				<form class="form-horizontal" role="form" id="editorForm" method="post" action="/">
-					<a href="#">결재선설정</a><br>
-					<table class="table table-bordered">
-						<!-- 불러온 결재폼 영역 -->
-					</table>
-					<label>내용</label>
-					<div class="approvalFormArea">
-						<table></table>
+					<a href="#" data-toggle="modal" data-target="#myModal">결재선설정</a><br>
+					<div id="myModal" class="modal fade" role="dialog">
+					  <div class="modal-dialog">
+					
+					    <!-- Modal content-->
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal">&times;</button>
+					        <h4 class="modal-title">Modal Header</h4>
+					      </div>
+					      <div class="modal-body">
+					        <p>Some text in the modal.</p>
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					      </div>
+					    </div>
+					
+					  </div>
 					</div>
+					<div class="signArea">
+					<input type="text" id="circleText" value="circle">
+					</div>
+					
+					<label>제목 </label>
+					<input type="text" id="title" class="form-control">
+					<br><br>
+					<label>상세내용</label>
 				    <div class="form-group">
 				        <div class="form-group">
 				            <div class="col-lg-12">
@@ -90,35 +110,127 @@
 				        <div class="form-group">
 				            <div class="col-lg-12" align="right">
 				            	<button type="button" class="btn btn-md btn-default">취소</button>
-				                <button type="submit" class="btn btn-md btn-primary">저장</button>
+				                <button type="button" class="btn btn-md btn-primary">저장</button>
 				            </div>
 				        </div>
 				    </div>
 				</form>
-	 		
+	 	
 			</div>
 		</section>
 	</div>
 	
 	<jsp:include page="../common/footer.jsp" />
 <script>
+	/* function enterName(){
+		 if(event.keyCode == 13) {
+			console.log("선택");
+			
+			var empName = $("#circleEmp").val();
+			
+			$("#emp").append(empName);
+						
+			$("#circleEmp").val("");
+		} 
+	} */
+	var cnt = 0;
 	$(function(){
 		$("#dcmType").change(function(){
 			var afNo = $(this).val();
 			console.log(afNo);
 			
 			$.ajax({
-				url:"${contextPath}/selectWriteForm.ap",
+				url:"${contextPath}/approval/selectWriteForm",
 				data:{afNo:afNo},
 				contentType:"application/json;charset=UTF-8",
 				type:"get",
 				success:function(data){
-					alert(data);
-				}
-			});
+					/* $("#ckeditor").find("html").children("body").html(data.afContent); */
+					CKEDITOR.instances.ckeditor.setData(data.afContent);
+					/* $("#ckeditor").append(data.afContent); */
+					$(".signArea").html(data.signContent);
+					$("#date").val(data.afDate);
+					$("#security").val(data.securityCode);
+					/* $("#afNo").val(data.afNo); */
+					$("#dcmType").val(data.afNo);
+					$("#area").css("visibility", "visible");
+					/* if($("#circle").attr("id") == "circle"){
+						$("#circleText").attr("type", "text");
+						$("#circle").append($("#circleText"));
+					} */
+					
+					$("#circleEmp").autocomplete({	
+						source : function( request, response ) {
+							console.log("작동!!");
+				             $.ajax({
+				                    type: 'post',
+				                    url: "${contextPath}/approval/autocompleteCircle",
+				                    contentType:"application/json;charset=UTF-8",
+				                    type:"get",
+				                    //request.term = $("#autocomplete").val()
+				                    data: { value : request.term },
+				                    success: function(data) {
+				                        //서버에서 json 데이터 response 후 목록에 뿌려주기 위함
+				                        response(
+				                            $.map(data, function(item) {
+				                            	console.log("item : " + item);
+				                                return {
+				                                    label: item.empName + "(" + item.empId + ")",
+				                                    value: item.empName + "(" + item.empId + ")",
+				                                    empNo: item.empNo
+				                                }
+				                            })
+				                        );
+				                    }
+				               });
+				            },
+				        //조회를 위한 최소글자수
+					    minLength: 1,
+					    delay:100,
+				        select: function ( event, ui ) {
+				        	console.log(ui);
+				        	console.log("선택!!!");
+				            // 만약 검색리스트에서 선택하였을때 선택한 데이터에 의한 이벤트발생
+							var flag = true;
+				        $("#circleEmp").keydown(function(e){   //엔터키를 통해 등록 script를 실행(선택시의 enter와는 별개로 작동한다.)
+			                if(e.keyCode == 13 && flag){
+			                	var $label = $("<label id=" + cnt + ">");
+								console.log("엔터");
+								console.log(ui.item.value);
+								console.log(ui.item.empNo);
+								
+			                 	$label.append(ui.item.value);
+			                 	$label.append($("<input type='hidden' value='" + ui.item.empNo + "'>"));
+			                 	$label.append($("<a href='#' onclick='deleteTag(this);' style='color:red'>x</a>"))
+			                 	
+			                 	$("#emp").append($label);
+			                 	
+			                 	$("#circleEmp").val("");
+			                 	cnt++;
+			                 	$label = "";
+			                 	ui.item = "";
+			                 	
+			                 	flag = false;
+			                }
+				        })
+				            
+					},focus:function(event, ui){return false;} //한글입력시 포커스이동하면 서제스트가 삭제되므로 focus처리
+				});
+			}
 				
 		});
+		
 	});
+	});
+	
+	function deleteTag(a){
+		console.log(a);
+		console.log($(a).parent());
+		$(a).parent().remove();
+	}
+			
+	
+
 
     $(function(){
          
@@ -144,6 +256,7 @@
         });
          
     });
+
 </script>
 </body>
 </html>

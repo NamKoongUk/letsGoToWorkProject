@@ -65,6 +65,12 @@
 		<result property="jobCode" column="JOB_CODE"/>
 	</resultMap>
 	
+	<resultMap type="java.util.HashMap" id="empResultSet">
+		<id property="empNo" column="EMPNO"/>
+		<result column="EMP_ID" property="empId"/>
+		<result column="EMP_NAME" property="empName"/>
+	</resultMap>
+	
 	<select id="selectSignForm" resultMap="signFormResultSet" parameterType="SignForm">
 		SELECT *
 		FROM SIGN_FORM
@@ -153,6 +159,12 @@
 		JOIN SECURITY S ON(AF.SECURITY_CODE = S.SECURITY_CODE)
 		WHERE AF_STATUS = 'Y'
 		AND AF_NO = #{afNo}
+	</select>
+	
+	<select id="selectName" resultMap="empResultSet" parameterType="java.lang.String">
+		SELECT EMPNO, EMP_NAME, EMP_ID
+		FROM EMPLOYEE
+		WHERE EMP_NAME LIKE #{value}||'%'
 	</select>
 	
 </mapper>  

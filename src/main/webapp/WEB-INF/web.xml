@@ -76,6 +76,20 @@
     <servlet-name>approval</servlet-name>
     <url-pattern>*.ap</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>Approval</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+    	<param-name>contextConfigLocation</param-name>
+    	<param-value>/WEB-INF/config/approval-servlet.xml</param-value>
+    </init-param>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>Approval</servlet-name>
+    <url-pattern>/approval</url-pattern>
+  </servlet-mapping>
 
 <!-- Mail Servlet -->
 	<servlet>

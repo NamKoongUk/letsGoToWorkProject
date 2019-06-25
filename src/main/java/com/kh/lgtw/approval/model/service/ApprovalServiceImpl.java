@@ -295,6 +295,11 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return ad.selectWriteForm(afNo, session);
 	}
+	@Override
+	public List<HashMap<String, Object>> autocompleteCircle(String value) {
+		// TODO Auto-generated method stub
+		return ad.autocompleteCircle(value, session);
+	}
 	
 	
 
