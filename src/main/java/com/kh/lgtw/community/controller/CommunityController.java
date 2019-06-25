@@ -1,58 +1,92 @@
 package com.kh.lgtw.community.controller;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.lgtw.community.model.service.CommunityService;
 import com.kh.lgtw.community.model.vo.Community;
-import com.kh.lgtw.community.model.vo.CommunityAttachment;
-import com.kh.lgtw.community.model.vo.CommunityComment;
 import com.kh.lgtw.community.model.vo.CommunityPost;
 
 @Controller
 public class CommunityController { 
 	
-	@Autowired private CommunityService cs; 
-	@Autowired SqlSession sqlSession;
+	 @Autowired private CommunityService cs;
+	  
+	 @Autowired SqlSession sqlSession;
+	 
 
-	// 게시판 조회용 메소드
+	// 게시판  main 조회 메소드
 	@RequestMapping("community.co")
 	public String communityHome() {
+		
 		return "community/communityMain";
 	}
 	
+	
+	// 게시판 리스트 조회용 메소드 
 	@RequestMapping("communityList.co")
-	public String SelectCommunity ( ) {
+	public String SelectCommunity (Model model) {
+		
+		  ArrayList<Community> list; 
+		  
+		  list = cs.SelectCommunity();
+		  System.out.println("list 값 ="+list);
+		  
+		   
+		  for(int i=0 ; i <list.size();i++) {
+			   System.out.println(list.get(i));
+		  }
+		  
+		  model.addAttribute("list", list);
+		  
+		  
 		return "community/communityList"; 
 	}
 
+	// 게시판 생성용 메소드 
 	@RequestMapping("communityInsert.co")
 	public String InsertCommunity() {
 		return "community/communityInsert";	
 	}
 	
+	// 임시저장  리스트 메소드 
 	@RequestMapping("temporaryList.co")
 	public String TemporaryList() {
 		return "community/temporaryList";	
 	} 
-	
+	// 게시판 관리용 메소드
 	@RequestMapping("managebulletinList.co")
 	public String ManagebulletinList () {
 		return "community/managebulletinList";
 	} 
 	
+	// 개시글 생성용 매소드
 	@RequestMapping("communityPostInsert.co")
 	public String CommunityPostInsert(){
 		return "community/communityPostInsert";
 	}
-	
+	// 게시글 조회용 매소드
 	@RequestMapping("communityPostList.co")
-	public String CommunityPostList() {
+	public String CommunityPostList(Model model ,int bno ) 
+	{
+		
+
+		System.out.println("bno 값:"+bno);  
+		
+		ArrayList<CommunityPost> list = cs.CommunityPostList(bno);
+		model.addAttribute("list",list); 
+		
+		System.out.println("CommunityPost="+list);
+		
+		
 		return "community/communityPostList";
 	}
-	
+	// 게시글 상세 조회 메소드
 	@RequestMapping("communityPostDetails.co")
 	public String CommunityPostDetails() {
 		return "community/communityPostDetails";

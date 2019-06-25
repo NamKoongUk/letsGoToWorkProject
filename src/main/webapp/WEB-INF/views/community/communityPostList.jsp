@@ -22,30 +22,37 @@
 			<h1 class="title">게시글</h1> 
 			 	
 			<div class="content">
+			
+			
 			<table class="table">
 				    <thead>
 				      <tr>
-				        <th>게시글 이름</th>
+				        <th>게시글 번호</th>
+				        <th>게시글 제목</th>
 				        <th>게시글 작성자</th>
 				        <th>게시글 작성일자</th>
 				      </tr>
 				    </thead>
+				    
+				    <c:forEach var="c" items="${list }">  
 				    <tbody>
 				     
 				      
 				      <tr>
-				        <td><a href="communityPostDetails.co">안전교육 일정</a></td>
-				        <td>강형석</td>
-				        <td>2019-06-20</td>
+				        <td>${c.contentNO}</td>
+				        <td>${c.btitle}</td>
+				        <td>${c.bwriter}</td>
+						<td>${c.createDate}</td>				        
 				      </tr>
 				      
-				      <tr>
+				     <!--  <tr>
 				        <td>직무 향상 교육</td>
 				        <td>강형석</td>
 				        <td>2019-06-20</td>
-				      </tr>
+				      </tr> -->
 				   
-				   	 </tbody> 
+				   	 </tbody>
+				   	 </c:forEach> 
 				 
 				  </table>
 				

@@ -4,34 +4,49 @@ import java.sql.Date;
 
 public class CommunityPost implements java.io.Serializable 
 {
-	private int bno;//게시판 번호
-	private int psno;//게시글 번호
-	private String pstitle;//게시글제목
-	private String pscontent;//게시글내용
-	private Date pscreateDate;//게시글 작성일자
-	private Date psmodifyDate;//게시글 수정일자
-	private int pscount;//게시글 조회수
-	private String pstype;//게시글 종류
-	private String psstaus;//게시글 상태
+	
+	private int contentNO; //게시글 번호 
+	private int bno;       //게시판 번호
+	private int bwriter;   //게시글 작성자
+	private String btitle; //게시글 제목
+	private String bcontent;//게시글 내용
+	private Date createDate;//게시글 생성일자
+	private Date modifyDate;//게시글 수정일자
+	private int bcount;     //게시글 조회수 
+	private String btype;   //게시글 유형
+	private String status;  //게시글 상태 
 	
 	
 
-	public CommunityPost() {}
+	public CommunityPost () {}
 
 
 
-	public CommunityPost(int bno, int psno, String pstitle, String pscontent, Date pscreateDate, Date psmodifyDate,
-			int pscount, String pstype, String psstaus) {
+	public CommunityPost(int contentNO, int bno, int bwriter, String btitle, String bcontent, Date createDate,
+			Date modifyDate, int bcount, String btype, String status) {
 		super();
+		this.contentNO = contentNO;
 		this.bno = bno;
-		this.psno = psno;
-		this.pstitle = pstitle;
-		this.pscontent = pscontent;
-		this.pscreateDate = pscreateDate;
-		this.psmodifyDate = psmodifyDate;
-		this.pscount = pscount;
-		this.pstype = pstype;
-		this.psstaus = psstaus;
+		this.bwriter = bwriter;
+		this.btitle = btitle;
+		this.bcontent = bcontent;
+		this.createDate = createDate;
+		this.modifyDate = modifyDate;
+		this.bcount = bcount;
+		this.btype = btype;
+		this.status = status;
+	}
+
+
+
+	public int getContentNO() {
+		return contentNO;
+	}
+
+
+
+	public void setContentNO(int contentNO) {
+		this.contentNO = contentNO;
 	}
 
 
@@ -48,108 +63,108 @@ public class CommunityPost implements java.io.Serializable
 
 
 
-	public int getPsno() {
-		return psno;
+	public int getBwriter() {
+		return bwriter;
 	}
 
 
 
-	public void setPsno(int psno) {
-		this.psno = psno;
+	public void setBwriter(int bwriter) {
+		this.bwriter = bwriter;
 	}
 
 
 
-	public String getPstitle() {
-		return pstitle;
+	public String getBtitle() {
+		return btitle;
 	}
 
 
 
-	public void setPstitle(String pstitle) {
-		this.pstitle = pstitle;
+	public void setBtitle(String btitle) {
+		this.btitle = btitle;
 	}
 
 
 
-	public String getPscontent() {
-		return pscontent;
+	public String getBcontent() {
+		return bcontent;
 	}
 
 
 
-	public void setPscontent(String pscontent) {
-		this.pscontent = pscontent;
+	public void setBcontent(String bcontent) {
+		this.bcontent = bcontent;
 	}
 
 
 
-	public Date getPscreateDate() {
-		return pscreateDate;
+	public Date getCreateDate() {
+		return createDate;
 	}
 
 
 
-	public void setPscreateDate(Date pscreateDate) {
-		this.pscreateDate = pscreateDate;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 
 
-	public Date getPsmodifyDate() {
-		return psmodifyDate;
+	public Date getModifyDate() {
+		return modifyDate;
 	}
 
 
 
-	public void setPsmodifyDate(Date psmodifyDate) {
-		this.psmodifyDate = psmodifyDate;
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
 	}
 
 
 
-	public int getPscount() {
-		return pscount;
+	public int getBcount() {
+		return bcount;
 	}
 
 
 
-	public void setPscount(int pscount) {
-		this.pscount = pscount;
+	public void setBcount(int bcount) {
+		this.bcount = bcount;
 	}
 
 
 
-	public String getPstype() {
-		return pstype;
+	public String getBtype() {
+		return btype;
 	}
 
 
 
-	public void setPstype(String pstype) {
-		this.pstype = pstype;
+	public void setBtype(String btype) {
+		this.btype = btype;
 	}
 
 
 
-	public String getPsstaus() {
-		return psstaus;
+	public String getStatus() {
+		return status;
 	}
 
 
 
-	public void setPsstaus(String psstaus) {
-		this.psstaus = psstaus;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 
 
 	@Override
 	public String toString() {
-		return "CommunityPost [bno=" + bno + ", psno=" + psno + ", pstitle=" + pstitle + ", pscontent=" + pscontent
-				+ ", pscreateDate=" + pscreateDate + ", psmodifyDate=" + psmodifyDate + ", pscount=" + pscount
-				+ ", pstype=" + pstype + ", psstaus=" + psstaus + "]";
-	}
+		return "CommunityPost [contentNO=" + contentNO + ", bno=" + bno + ", bwriter=" + bwriter + ", btitle=" + btitle
+				+ ", bcontent=" + bcontent + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", bcount="
+				+ bcount + ", btype=" + btype + ", status=" + status + "]";
+	}  
 	
 	
 	
