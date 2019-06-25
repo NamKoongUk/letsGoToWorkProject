@@ -11,7 +11,7 @@
 				<option value="email3">letsGoToWork3@office.com</option>					
 			</select>
 		</li>
-		<li><button onclick="location.href='${ contextPath }/sendMailForm.ma'" style="height : 100%;">메일작성하기</button></li><hr>
+		<li><button onclick="location.href='${ contextPath }/mail/writeForm'" style="height : 100%;">메일작성하기</button></li><hr>
 				<!-- ${ contextPah }/mail.ma?pageType=all -->
 		<li><a href="${ contextPath }/mail.ma">전체보관함</a></li><hr>
 		<li><a href="${ contextPath }/mail.ma">받은메일함</a></li><hr>

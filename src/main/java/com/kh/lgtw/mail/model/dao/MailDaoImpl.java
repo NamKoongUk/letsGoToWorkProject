@@ -36,7 +36,6 @@ public class MailDaoImpl implements MailDao{
 	public int updateMailStatus(SqlSession session, Map<String, Object> map) throws StatusTypeException {
 		int result = 0;
 		
-		
 		ArrayList<Integer> arrayNum = (ArrayList) map.get("checkList");
 		String type = (String) map.get("type");
 		System.out.println("dao array : " + arrayNum);
@@ -54,8 +53,18 @@ public class MailDaoImpl implements MailDao{
 			throw new StatusTypeException("상태 유형이 올바르지 않습니다.");
 		}
 		
+		if(result != arrayNum.size()) {
+			throw new StatusTypeException("입력된 값이 모두 수정되지 않았습니다.");
+		}
+		
 		System.out.println("type : " + type + " arrayLength : " + arrayNum.size() + " result : " + result);
 		return result;
+	}
+
+	// 메일 상세페이지 조회
+	@Override
+	public Mail selectMailDetail(SqlSession sqlSession, int mailNo) {
+		return sqlSession.selectOne("Mail.selectMailDetail", mailNo);
 	}
 
 }

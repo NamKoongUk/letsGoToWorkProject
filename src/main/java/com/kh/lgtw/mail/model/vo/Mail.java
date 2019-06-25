@@ -2,7 +2,7 @@ package com.kh.lgtw.mail.model.vo;
 
 import java.sql.Date;
 
-public class Mail {
+public class Mail implements java.io.Serializable{
 	private int mailNo; 				// 메일번호
 	private String mTitle;				// 제목
 	private String mContent;			// 내용
