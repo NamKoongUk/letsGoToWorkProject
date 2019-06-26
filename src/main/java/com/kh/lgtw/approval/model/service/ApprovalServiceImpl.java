@@ -241,6 +241,22 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return ad.selectFormList(session);
 	}
+	//사원 선택
+	@Override
+	public Map<String, ArrayList<HashMap<String, Object>>> selectEmp() {
+		
+		Map<String, ArrayList<HashMap<String, Object>>> map = new HashMap<String, ArrayList<HashMap<String,Object>>>();
+		
+		ArrayList<HashMap<String, Object>> empList =  ad.selectEmp(session);
+		ArrayList<HashMap<String, Object>> deptList = ad.selectDept(session);
+//		System.out.println(empList);
+		if(empList != null && deptList != null) {
+			map.put("empList", empList);
+			map.put("deptList", deptList);
+		}
+		
+		return map;
+	}
 //	//문서양식 불러오기
 //	@Override
 //	public AppForm selectDcmForm(int afNo) {
@@ -295,11 +311,13 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return ad.selectWriteForm(afNo, session);
 	}
+	//자동완성
 	@Override
 	public List<HashMap<String, Object>> autocompleteCircle(String value) {
 		// TODO Auto-generated method stub
 		return ad.autocompleteCircle(value, session);
 	}
+
 	
 	
 

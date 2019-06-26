@@ -101,6 +101,8 @@ public interface ApprovalService {
 
 	List<HashMap<String, Object>> autocompleteCircle(String value);
 
+	Map<String, ArrayList<HashMap<String, Object>>> selectEmp();
+
 	
 
 }

@@ -106,4 +106,8 @@ public interface ApprovalDao {
 
 	List<HashMap<String, Object>> autocompleteCircle(String value, SqlSession session);
 
+	ArrayList<HashMap<String, Object>> selectEmp(SqlSession session);
+
+	ArrayList<HashMap<String, Object>> selectDept(SqlSession session);
+
 }

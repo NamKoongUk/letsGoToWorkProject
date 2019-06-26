@@ -38,6 +38,7 @@
 		SELECT *
 		FROM EMPLOYEE
 		WHERE STATUS = 'Y' 
+		AND EMP_ID = #{empId}
 	</select>
 	
 	<!-- id, pw 확인 -->

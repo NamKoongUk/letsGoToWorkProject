@@ -18,8 +18,13 @@
 	
 
 </style>
+<link rel="stylesheet" href="${ contextPath }/resources/treeview/css/jquery.treeview.css"/>
+<link rel="stylesheet" href="${ contextPath }/resources/treeview/css/screen.css"/>
 </head>
 <body>
+<script src="${ contextPath }/resources/treeview/lib/jquery.js" type="text/javascript"></script>
+<script src="${ contextPath }/resources/treeview/lib/jquery.cookie.js" type="text/javascript"></script>
+<script src="${ contextPath }/resources/treeview/lib/jquery.treeview.js" type="text/javascript"></script>
 <script type="text/javascript" src="${ contextPath }/resources/ckeditor/ckeditor.js"></script>
 	<jsp:include page="../common/menubar.jsp"/>
 	
@@ -73,24 +78,56 @@
 			
 			<div id="area" class="content" style="visibility:hidden;">
 				<form class="form-horizontal" role="form" id="editorForm" method="post" action="/">
-					<a href="#" data-toggle="modal" data-target="#myModal">결재선설정</a><br>
+					<a href="#" data-toggle="modal" data-target="#myModal" onclick="selectEmp();">결재선설정</a><br>
 					<div id="myModal" class="modal fade" role="dialog">
-					  <div class="modal-dialog">
-					
+					  <div class="modal-dialog">			
 					    <!-- Modal content-->
-					    <div class="modal-content">
+					    <div class="modal-content" style="width:700px;">
 					      <div class="modal-header">
 					        <button type="button" class="close" data-dismiss="modal">&times;</button>
-					        <h4 class="modal-title">Modal Header</h4>
+					        <h4 class="modal-title">결재선 설정</h4>
 					      </div>
-					      <div class="modal-body">
-					        <p>Some text in the modal.</p>
+					      <div class="modal-body" style="height:500px;">
+					      	<div id="deptList" class="treeview col-sm-4" style="height:450px; border:1px solid black">
+					      			<ul id="browser" class="filetree"> 
+					      				<li> <span class="folder">폴더</span> 
+					      			<ul> 
+					      				<li> <span class="file">폴더 - 파일</span> </li> 
+					      			</ul> </li> 
+					      				<li> <span class="file">파일</span> </li> 
+					      			</ul>
+
+
+					      	</div>
+					      	<div class="col-sm-4 form-group">
+					      		<!-- <div>
+					      			<input type="checkbox" name="" id="checkbox1"/>
+					      			<label for="checkbox1">사원이름</label>
+					      			<input type="checkbox" name="" id="checkbox2"/>
+					      			<label for="checkbox2">사원이름</label>
+					      			<input type="checkbox" name="" id="checkbox3"/>
+					      			<label for="checkbox3">사원이름</label>
+					      			<input type="checkbox" name="" id="checkbox4"/>
+					      			<label for="checkbox4">사원이름</label>
+					      		</div>
+					      		<script>
+					      			$("[type=checkbox]").change(function(){
+					      				
+					      			})
+					      		
+					      		</script> -->
+					      		<select class="form-control" name="empList" size="10" style="width:100%; height:450px;" multiple>
+					      			
+					      		</select>
+					      	</div>
+					      	<div class="col-sm-4">
+					      		
+					      	</div>
 					      </div>
 					      <div class="modal-footer">
 					        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					      </div>
-					    </div>
-					
+					    </div>				
 					  </div>
 					</div>
 					<div class="signArea">
@@ -122,17 +159,41 @@
 	
 	<jsp:include page="../common/footer.jsp" />
 <script>
-	/* function enterName(){
-		 if(event.keyCode == 13) {
-			console.log("선택");
-			
-			var empName = $("#circleEmp").val();
-			
-			$("#emp").append(empName);
-						
-			$("#circleEmp").val("");
-		} 
-	} */
+	$(function() {
+	    $("#tree").treeview({
+	        collapsed: true,
+	        animated: "medium",
+	        control:"#sidetreecontrol",
+	        persist: "location"
+	    });
+	});
+
+	function selectEmp(){
+		console.log("selectEmp 호출");
+		
+		$.ajax({
+			url:"${contextPath}/approval/selectEmp",
+			type:"get",
+			success:function(data){
+				console.log("성공");
+				
+				for(var i = 0; i < data.empList.length; i++) {
+					console.log(data.empList[i].empName);
+					var $option = $("<option value='" + data.empList[i].empNo + "'>");
+					$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
+					
+					$("select[name='empList']").append($option);
+				}
+				
+				for(var i = 0; i < data.deptList.length; i++) {
+					
+				}
+				
+			}
+		});
+	}
+	
+	
 	var cnt = 0;
 	$(function(){
 		$("#dcmType").change(function(){
@@ -192,24 +253,41 @@
 				        	console.log("선택!!!");
 				            // 만약 검색리스트에서 선택하였을때 선택한 데이터에 의한 이벤트발생
 							var flag = true;
-				        $("#circleEmp").keydown(function(e){   //엔터키를 통해 등록 script를 실행(선택시의 enter와는 별개로 작동한다.)
+				        $("#circleEmp").keydown(function(e){
+				        	//엔터키를 통해 등록 script를 실행(선택시의 enter와는 별개로 작동한다.)
+				        	
 			                if(e.keyCode == 13 && flag){
-			                	var $label = $("<label id=" + cnt + ">");
+			                	var $label = $("<label style='margin-left:5px; margin-right:5px;'>");
 								console.log("엔터");
 								console.log(ui.item.value);
 								console.log(ui.item.empNo);
 								
-			                 	$label.append(ui.item.value);
-			                 	$label.append($("<input type='hidden' value='" + ui.item.empNo + "'>"));
-			                 	$label.append($("<a href='#' onclick='deleteTag(this);' style='color:red'>x</a>"))
-			                 	
-			                 	$("#emp").append($label);
-			                 	
-			                 	$("#circleEmp").val("");
-			                 	cnt++;
-			                 	$label = "";
-			                 	ui.item = "";
-			                 	
+								var check = 0;
+								
+								$("input[type=hidden]").each(function(){
+									if($(this).val() == ui.item.empNo){
+										check = 1;
+									}
+								});
+								
+								
+								if(check > 0){
+									alert("중복된 사용자는 추가할 수 없습니다.");
+								}else {
+				                 	$label.append(ui.item.value);
+				                 	$label.append($("<input type='hidden' value='" + ui.item.empNo + "'>"));
+				                 	$label.append($("<a href='#' onclick='deleteTag(this);' style='color:red;'>x</a>"))
+				                 	
+				                 	console.log($("#" + (cnt-1)).val());
+				                 	$("#emp").append($label);
+				                 	
+				                 	$("#circleEmp").val("");
+
+				                 	$label = "";
+				                 	ui.item = "";
+									
+								}
+	
 			                 	flag = false;
 			                }
 				        })
