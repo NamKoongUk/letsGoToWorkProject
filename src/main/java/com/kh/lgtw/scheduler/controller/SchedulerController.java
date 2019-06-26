@@ -45,6 +45,7 @@ public class SchedulerController {
 		return "scheduler/schedulerMain";
 	}
 	
+	//온로드펑션 전체 조회용 메소드
 	@GetMapping(value="/allSelectSchedule/sc")
 	public @ResponseBody ResponseEntity<HashMap<String, ArrayList<Object>>> allSelectSchedule(HttpSession session) {
 		System.out.println("컨트롤러 잘 들어왔음");
@@ -55,20 +56,7 @@ public class SchedulerController {
 		
 		return new ResponseEntity<HashMap<String, ArrayList<Object>>>(allList, HttpStatus.OK);
 	}
-	
-	//전체 공통 조회용 컨트롤러
-//	@RequestMapping("allSelectSchedule.sc")
-//	public HashMap<String, ArrayList<Object>> allSelectSchedule(HttpSession session) {
-//		Employee e =  (Employee) session.getAttribute("loginUser");
-//		int empNo = e.getEmpNo();
-//		
-//		HashMap<String, ArrayList<Object>> allList = ss.allSelectSchedule(empNo);
-//		
-//		return allList;
-//	}
-	
-	
-	
+
 	//스케쥴러 목록 조회용
 	@RequestMapping(value="selectSchedulerList.sc")
 	public void selectSchedulerList(HttpSession session, HttpServletResponse response){
@@ -89,7 +77,6 @@ public class SchedulerController {
 		}
 	}
 	
-	
 	//개인스케쥴러 추가 (ModelAndView로 바뀔 수 있음)
 	@RequestMapping("insertMemberScheduler.sc")
 	public String insertMemberScheduler(Scheduler sc, HttpSession session, Model model) {
@@ -105,7 +92,7 @@ public class SchedulerController {
 		
 		if(result > 0) {
 			System.out.println("추가성공!!");
-			return "redirect:schedulerMain.jsp";
+			return "redirect:scheduler.sc";
 		}else {
 			System.out.println("추가 실패!");
 			return "main/main";
@@ -197,16 +184,34 @@ public class SchedulerController {
 	
 	//일정 수정
 	@RequestMapping("updateSchedule.sc")
-	public String updateSchedule() {
-		int reulst = ss.updateSchedule();
-		return "";
+	public String updateSchedule(Schedule schedule) {
+		System.out.println("컨트롤러 진입");
+		System.out.println(schedule);
+		
+		int result = ss.updateSchedule(schedule);
+		
+		if(result > 0) {
+			return "redirect:scheduler.sc";			
+		}else {
+			return "main/main";
+		}
 	}
 	
 	//일정 삭제
 	@RequestMapping("deleteSchedule.sc")
-	public String deleteSchedule() {
-		int result = ss.deleteSchedule();
-		return "";
+	public String deleteSchedule(Schedule schedule) {
+		System.out.println("컨트롤러 들어옴!");
+		System.out.println(schedule);
+		
+		int result = ss.deleteSchedule(schedule);
+		
+		if(result > 0) {
+			System.out.println("성공!");
+			return "redirect:scheduler.sc";
+		}else {
+			System.out.println("실패!");
+			return "main/main";
+		}
 	}
 }
 

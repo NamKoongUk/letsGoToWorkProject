@@ -28,10 +28,10 @@ public interface SchedulerService {
 
 	Schedule selectScheduleDetail(Schedule schedule);
 
-	int updateSchedule();
-
-	int deleteSchedule();
+	int updateSchedule(Schedule schedule);
   
 	ArrayList<Scheduler> selectSchedulerList(int empNo);
+
+	int deleteSchedule(Schedule schedule);
 
 }

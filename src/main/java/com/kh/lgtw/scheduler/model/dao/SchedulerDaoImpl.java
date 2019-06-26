@@ -68,6 +68,18 @@ public class SchedulerDaoImpl implements SchedulerDao{
 		return sqlSession.selectOne("Scheduler.selectScheduleDetail", schedule);
 	}
 
+	@Override
+	public int deleteSchedule(SqlSession sqlSession, Schedule schedule) {
+		System.out.println("다오 진입 : " + schedule);
+		return sqlSession.update("Scheduler.deleteSchedule", schedule);
+	}
+
+	@Override
+	public int updateSchedule(SqlSession sqlSession, Schedule schedule) {
+		
+		return sqlSession.update("Scheduler.updateSchedule", schedule);
+	}
+
 	
 
 	

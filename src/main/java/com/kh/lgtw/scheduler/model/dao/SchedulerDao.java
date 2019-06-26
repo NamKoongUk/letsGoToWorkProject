@@ -23,6 +23,10 @@ public interface SchedulerDao {
 
 	Schedule selectScheduleDetail(SqlSession sqlSession, Schedule schedule);
 
+	int deleteSchedule(SqlSession sqlSession, Schedule schedule);
+
+	int updateSchedule(SqlSession sqlSession, Schedule schedule);
+
 	
 
 	
