@@ -66,8 +66,11 @@
 			         
 			      </tr>
 			    </thead>
+			    
+			    	
+			    <c:forEach  var="b" items="${requestScope.list }">
 			    <tbody>
-				     <tr>
+				     <!-- <tr>
 				        <td>교육일정</td>
 				        <td>강형석</td>
 				        <td>2019-06-20</td> 
@@ -90,9 +93,23 @@
 				        <td>""/10</td>
 				      	<td><button type="button" class="btn btn-info btn-lg" onclick="revision();">수정</button></td>
 				        <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">삭제</button></td>
-				      </tr> 
+				      </tr> -->
+				      
+				      	<tr>
+				        <td>${b.boardName}</td>
+				        <td>${b.createUserName }</td>
+				        <td>${b.createDate }</td> 
+				        <td>""/10</td>
+				        <td><button type="button" class="btn btn-info btn-lg" onclick="revision();">수정</button></td>
+				        <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">삭제</button></td>
+				      </tr>
+				      	
+				      	
+				      	
+				       
 				   
 				   	 </tbody> 
+				   	 </c:forEach>
 				 
 				  </table>
 				  

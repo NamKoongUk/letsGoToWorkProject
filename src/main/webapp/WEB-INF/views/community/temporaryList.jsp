@@ -62,25 +62,17 @@
 					        <th>게시판 작성일자</th>
 					      </tr>
 					    </thead>
-					    <!-- <tbody>
+					    <c:forEach var="c" items="${list }">
+					    <tbody>
 						     <tr>
-						        <td>교육일정</td>
-						        <td>강형석</td>
-						        <td>2019-06-20</td>
+						        <td>${c.btitle}</td>
+						        <td>${c.createUserName}</td>
+						        <td>${c.createDate}</td>
 						      </tr>
-						      <tr>
-						        <td>공지 사항</td>
-						        <td>강형석</td>
-						        <td>2019-06-20</td>
-						      </tr>
-						      <tr>
-						        <td>회사내 모임  일정</td>
-						        <td>강형석</td>
-						        <td>2019-06-20</td>
-						      </tr>
+						      
 						   
 						   	 </tbody> 
-						 --> 
+						  	</c:forEach>
 						  </table>
 							
 						</div> 

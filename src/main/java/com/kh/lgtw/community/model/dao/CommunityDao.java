@@ -15,6 +15,10 @@ public interface CommunityDao {
 
 	ArrayList<CommunityPost> CommunityPostList(int bno, SqlSessionTemplate sqlSession);
 
+	ArrayList<CommunityPost> CommunityPostDetails(int contentNO, SqlSessionTemplate sqlSession);
+
+	ArrayList<CommunityPost> SelectTemporaryList(SqlSessionTemplate sqlSession);
+
 	
 	
 

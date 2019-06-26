@@ -56,18 +56,29 @@ public class CommunityController {
 	
 	// 임시저장  리스트 메소드 
 	@RequestMapping("temporaryList.co")
-	public String TemporaryList() {
+	public String TemporaryList(Model model) {
+		ArrayList<CommunityPost> list = cs.SelectTemporaryList();
+		model.addAttribute("list",list);
+		
 		return "community/temporaryList";	
 	} 
 	// 게시판 관리용 메소드
 	@RequestMapping("managebulletinList.co")
-	public String ManagebulletinList () {
+	public String ManagebulletinList (Model model) {
+		ArrayList<Community> list = cs.SelectCommunity();
+		model.addAttribute("list",list);
+		
 		return "community/managebulletinList";
 	} 
 	
 	// 개시글 생성용 매소드
 	@RequestMapping("communityPostInsert.co")
-	public String CommunityPostInsert(){
+	public String CommunityPostInsert(Model model ){
+		
+		ArrayList<Community> list = cs.SelectCommunity();
+		model.addAttribute("list",list);
+		
+		
 		return "community/communityPostInsert";
 	}
 	// 게시글 조회용 매소드
@@ -88,7 +99,11 @@ public class CommunityController {
 	}
 	// 게시글 상세 조회 메소드
 	@RequestMapping("communityPostDetails.co")
-	public String CommunityPostDetails() {
+	public String CommunityPostDetails(Model model, int contentNO) {
+		
+		System.out.println("게시글 상세  contentNO 값:"+contentNO);
+		ArrayList<CommunityPost> list = cs.CommunityPostDetails(contentNO);
+		model.addAttribute("list",list);
 		return "community/communityPostDetails";
 	}
 
