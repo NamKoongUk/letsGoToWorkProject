@@ -1,5 +1,6 @@
 package com.kh.lgtw.mail.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,8 +31,11 @@ import org.springframework.web.servlet.mvc.method.annotation.UriComponentsBuilde
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.common.Pagination;
+import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.mail.model.service.MailService;
 import com.kh.lgtw.mail.model.vo.Absence;
 import com.kh.lgtw.mail.model.vo.Mail;
@@ -67,12 +73,6 @@ public class MailController {
 		return "mail/mailDetail";
 	}
 	 
-	// 환경설정 페이지로 이동
-	 @RequestMapping("setting.ma")
-	 public String mailSettingHome() {
-		 return "mail/settings";
-	 }
-	
 	// 전체 메일함 조회
 	@RequestMapping("allList.ma") // HomeController를 여기로 리다이렉트 시키기 
 	public String selectMailList(HttpServletRequest request, Model model) {
@@ -129,10 +129,13 @@ public class MailController {
 	
 	// 메일보내기
 	@RequestMapping(value="/mail/send", method=RequestMethod.POST)
-	public String sendMail(Mail mail, Model model, /*MultipartHttpServletRequest request*/ @RequestParam("files") MultipartFile files) {
-		System.out.println("files : " + files);
-		//System.out.println(request.getParameterValues("mailAttachment"));
-		return "";
+	public String sendMail(Mail mail, Model model/*, MultipartHttpServletRequest request*//* @RequestParam("files") MultipartFile files*/) {
+		mail.setmSize(12345);
+		System.out.println("mail : " + mail);
+		
+		int result = ms.sendMail(mail);
+		
+		return "redirect:/mail";
 	}
 	
 	// 예약메일 보내기
@@ -171,18 +174,45 @@ public class MailController {
 		return null;
 	}
 	
-	// 부재중 정보 조회
-	@RequestMapping("absenceList.ma")
-	public String selectAbsenceList() {
-		return "";
+	// 환경설정 페이지로 이동
+	@RequestMapping("setting.ma")
+	public String mailSettingHome(HttpSession session, Model model) {
+
+		int empNo = ((Employee) session.getAttribute("loginEmp")).getEmpNo();
+
+		ArrayList<Absence> list = ms.selectAbcenceList(empNo);
+
+		System.out.println("list : " + list);
+		model.addAttribute("absenceList", list);
+
+		return "mail/settings";
 	}
-	
+		 
+		 
 	// 부재중 추가
 	@RequestMapping("mail/put/absence")
-	public String insertAbsenceMail(Absence absence, Model model) {
+	public String insertAbsenceMail(Absence absence, Model model, HttpSession session) {
 		System.out.println("absence : " + absence);
+		// 세션에 있는 로그인 user정보 absence에 추가
+		int empNo = ((Employee) session.getAttribute("loginEmp")).getEmpNo();
+		absence.setEmpNo(empNo);
 		
-		return "mail/settings";
+		int result = ms.insertAbsenceMail(absence);
+		System.out.println("result : " + result);
+		
+		if(result > 0) {
+			return "redirect:/setting.ma";  // 부재중 조회 구현시 리다이렉트 
+		}else {
+			model.addAttribute("msg", "부재중 정보 추가 실패!");
+			return "common/errorPage"; 
+		}
+	}
+	
+	// 부재중 정보 수정
+	@RequestMapping(value="/mail/updateAbsence/{ aNo }", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public @ResponseBody String updateAbsence(@PathVariable int aNo) {
+		int result ;// = ms.updateAbsence(aNo);
+		return "";
 	}
 	
 	// 서명 추가

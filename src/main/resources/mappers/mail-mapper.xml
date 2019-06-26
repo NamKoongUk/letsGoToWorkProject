@@ -20,6 +20,16 @@
 		<result property="reservationTime" column="RESERVATION_TIME"/>
 	</resultMap>
 	
+	<resultMap type="com.kh.lgtw.mail.model.vo.Absence" id="resultAbsenceSet">
+		<id property="aNo" column="ANO"/>
+		<result property="startDate" column="START_DATE"/>
+		<result property="endDate" column="END_DATE"/>
+		<result property="aKind" column="AKIND"/>
+		<result property="content" column="CONTENT"/>
+		<result property="dStatus" column="DSTATUS"/>
+		<result property="empNo" column="EMPNO"/>
+	</resultMap>
+	
 	<!-- 쿼리문 -->
 	<!-- 페이징-리스트 갯수 조회 -->
 	<select id="getMailListCount" resultType="_int">
@@ -33,6 +43,7 @@
 		SELECT * 
 		FROM MAIL 
 		WHERE DSTATUS = 'N'
+		ORDER BY MAIL_NO DESC
 	</select>
 	
 	<!-- 읽음 상태 수정 -->
@@ -57,4 +68,42 @@
 		AND MAIL_NO = #{ mailNo }
 	</select>
 	
+	<!-- 부재중 정보 추가 -->
+	<insert id="insertAbsenceMail" parameterType="Absence">
+		INSERT INTO ABSENCE(ANO, START_DATE, END_DATE, AKIND, CONTENT, DSTATUS, EMPNO)
+		VALUES (SEQ_ANO.NEXTVAL, #{ startDate }, #{ endDate }, #{ aKind }, #{ content }, 'N', #{ empNo })
+	</insert>
+	
+	<!-- 부재중 조회 -->
+	<select id="selectAbsenceList" parameterType="int" resultMap="resultAbsenceSet">
+		SELECT * 
+		FROM ABSENCE
+		WHERE DSTATUS = 'N'
+		AND EMPNO = #{ empNo }
+		ORDER BY START_DATE DESC
+	</select>
+	
+	<insert id="sendMail" parameterType="Mail">
+		INSERT INTO MAIL(MAIL_NO, MTITLE, MCONTENT, SEND_MAIL, RECIVE_MAIL, MAIL_TYPE, MSIZE)
+		VALUES (SEQ_MAIL_NO.NEXTVAL, #{ mTitle }, #{ mContent }, #{ sendMail }, #{ reciveMail }, '보낸 메일', #{ mSize })
+	</insert>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

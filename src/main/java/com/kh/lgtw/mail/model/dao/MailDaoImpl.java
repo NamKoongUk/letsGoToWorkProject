@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.mail.model.exception.StatusTypeException;
+import com.kh.lgtw.mail.model.vo.Absence;
 import com.kh.lgtw.mail.model.vo.Mail;
 
 @Repository
@@ -66,5 +67,25 @@ public class MailDaoImpl implements MailDao{
 	public Mail selectMailDetail(SqlSession sqlSession, int mailNo) {
 		return sqlSession.selectOne("Mail.selectMailDetail", mailNo);
 	}
+
+	// 메일 부재중 추가 
+	@Override
+	public int insertAbsenceMail(SqlSession sqlSession, Absence absence) {
+		return sqlSession.insert("Mail.insertAbsenceMail", absence);
+	}
+
+	// 메일 부재중 리스트 조회
+	@Override
+	public ArrayList<Absence> selectAbsenceList(SqlSession sqlSession, int empNo) {
+		return (ArrayList) sqlSession.selectList("Mail.selectAbsenceList", empNo);
+	}
+
+	// 메일 보내기
+	@Override
+	public int sendMail(SqlSession sqlSession, Mail mail) {
+		return sqlSession.insert("Mail.sendMail", mail);
+	}
+
+	
 
 }

@@ -14,16 +14,21 @@
 			<form id="loginForm" action="login.em" method="post">
 				<table id="loginTable">
 					<tr>
-						<td><input type="text" name="empId" placeholder="아이디를 입력하주세요" class="form-control"/></td>
+						<td><input type="text" name="empId" placeholder="아이디를 입력하주세요" class="form-control" value="admin"/></td>
 					</tr>			
 					<tr>
-						<td><input type="password" name="empPwd" placeholder="비밀번호를 입력해주세요" class="form-control"/></td>
+						<td><input type="password" name="empPwd" placeholder="비밀번호를 입력해주세요" class="form-control" value="admin"/></td>
 					</tr>
 					<tr>
-						<td><button class="btn" type="submit">로그인</button></td>
+						<td><button id="loginBtn" class="btn" type="submit">로그인</button></td>
 					</tr>
 				</table>
 			</form>
+			<script>
+				$(function(){
+					$("#loginBtn").click();
+				});
+			</script>
 		</c:if>
 		<c:if test="${ !empty loginEmp }">
 			<h1 align="center">${ loginEmp.empName }님이 로그인한 상태</h1>

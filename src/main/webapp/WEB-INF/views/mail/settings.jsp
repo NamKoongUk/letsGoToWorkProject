@@ -63,6 +63,15 @@
 </style>
 </head>
 <body>
+<!-- 
+1. 부재중 설정 : 삭제가능하게 하는것 
+2. 부재중 설정 : 미리 종료시킬 수 있게 하는거 
+3. 공용메일 신청 : 폼작성 신청할 수 있게 
+4. 공용메일 신청 : 신청사항을 확인할 수 있게 관리자 모드 
+5. 공용메일 신청 : 수락 & 거절 사항을 확인할 수 있게  
+6. 메일 관리자 : 메일 전체 용량 확인 및 전체 양 추이 확인 
+7. 메일 관리자 : 서버 관련 정보 관리? 
+ -->
 	<jsp:include page="../common/menubar.jsp"/>
 	
 	<div class="row wrap">
@@ -93,8 +102,8 @@
 								<tr>
 									<th>종류</th>
 									<td>
-										<input list="absenceType" class="form-control"/>
-										<datalist id="absenceType" name="aKind">
+										<input list="absenceType" class="form-control" name="aKind"/>
+										<datalist id="absenceType" >
 											<option value="연차" selected="selected">
 											<option value="휴가">
 											<option value="출장">
@@ -113,15 +122,22 @@
 						<div class="listArea" align="center">
 							<table class="listTable">
 								<tr>
-									<th width="30%">부재중 기간</th>
+									<th width="35%">부재중 기간</th>
 									<th width="15%">종류</th>
-									<th>내용</th>
+									<th colspan="2">내용 </th>
 								</tr>
-								<tr>
-									<td>2019/05/01 - 2019/05/10</td>
-									<td>연차</td>
-									<td>쉴거야 빼애액</td>
-								</tr>
+								<c:forEach items="${ absenceList }" var="absence">
+									<tr class="abItems">
+										<td>
+											<span class="startDate"><c:out value="${ absence.startDate }"/></span> 
+											~ 
+											<span class="endDate"><c:out value="${ absence.endDate }"/></span>
+										</td>
+										<td><c:out value="${ absence.aKind }"/></td>
+										<td><c:out value="${ absence.content }"/></td>
+										<td width="10%"><%-- <a href="${ contextPath }/mail/updateAbsence/${ absence.aNo }" style="color : green; font-weight : bold">삭제</a> --%></td>
+									</tr>
+								</c:forEach>
 							</table>
 						</div>
 					</div> <!-- 부재중 설정 -->
@@ -129,9 +145,8 @@
 					<div id="sign" class="tab-pane fade" align="center">
 						<form id="signFrom" action="updateSign.ap"  >
 							<table id="signTable">
-								<tr><td>
-									<img src="${ contextPath }/resources/images/mail/readMailN.PNG" alt="서명이미지 입니다." width="80%" style="border: 1px solid black"/> 
-									 </td>
+								<tr>
+									<td><img src="${ contextPath }/resources/images/mail/readMailN.PNG" alt="서명이미지 입니다." width="80%" style="border: 1px solid black"/></td>
 								</tr>
 								<tr>
 									<td><input type="file"></td>
@@ -153,6 +168,7 @@
 		</section>
 	</div>
 	<script>
+		// 부재중 추가시 날짜 체크
 		function addAbsence(){
 			var startDate = new Date($("[name=startDate]").val());
 			var endDate = new Date($("[name=endDate]").val());
@@ -166,6 +182,31 @@
 				return false;
 			}
 		}
+		
+		// 지난 날짜 삭제버튼 비활성화
+		$(".abItems").each(function(index){
+			var startDate = $(this).find(".startDate").html();
+			var endDate = $(this).find(".endDate").html();
+			startDate = Date.parse(new Date(startDate));
+			endDate = Date.parse(new Date(endDate));
+			
+			var date = Date.now();
+			
+			
+			
+			console.log(startDate);
+			console.log(date)
+			console.log(endDate);
+			if(date < startDate){
+				console.log("아직 안온기간입니댜");
+			}else if(date < endDate){
+				console.log("해당기간입니다.");
+				// $(this).find("a").text("종료");
+			}else{
+				console.log("지난기간입니다.");
+				$(this).find("a").hide();
+			}
+		})
 	</script>
 	
 	<jsp:include page="../common/footer.jsp" />
