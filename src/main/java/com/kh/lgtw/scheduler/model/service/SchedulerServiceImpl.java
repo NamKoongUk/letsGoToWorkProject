@@ -76,12 +76,12 @@ public class SchedulerServiceImpl implements SchedulerService{
 	}
 
 	@Override
-	public int updateSchedule() {
-		return 0;
+	public int updateSchedule(Schedule schedule) {
+		return sd.updateSchedule(sqlSession, schedule);
 	}
 
 	@Override
-	public int deleteSchedule() {
-		return 0;
+	public int deleteSchedule(Schedule schedule) {
+		return sd.deleteSchedule(sqlSession, schedule);
 	}
 }

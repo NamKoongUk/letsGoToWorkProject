@@ -74,8 +74,16 @@
         		 var endDate = data.endDate.split(" ");
         		 console.log(endDate);
         		 
+        		 console.log(data.scheduleNo);
+        		 
+        		 if(data.schedulerList[0].schedulerType == "공용" && data.groupList[0].authority == "N"){
+        			 $("#dtscBtnArea").hide();
+        		 }else{
+        			 $("#dtscBtnArea").show();
+        		 }
+        		 
         		 $("#selectDetailSchedule > input, #selectDetailSchedule > textarea").val("");
-        		 $("#dtscNo").val(data.schedulerNo);
+        		 $("#dtscNo").val(data.scheduleNo);
         		 $("#dtScrName").val(data.schedulerList[0].schedulerName);
         		 $("#dtScName").val(data.scheduleName);
         		 $("#dtscSD").val(startDate[0]);
@@ -213,6 +221,55 @@
 			    </div>
 			  </div>
 			  
+			  
+			  <!-- 개인캘린더 수정 모달 -->
+				<div class="modal fade" id="updateEmpScModal" role="dialog">
+			    <div class="modal-dialog">
+			    
+			      <!-- Modal content-->
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			          <h4 class="modal-title" align="center">캘린더 수정</h4>
+			        </div>
+			        <form action="" method="post">
+			        <div class="modal-body">
+			          <table>
+			          	<tr>
+			          		<td width="20%">캘린더 이름</td>
+			          		<td width="50%">
+			          			<input type="hidden" name="schedulerNo">
+			          			<input type="text" name="schedulerName">
+			          		</td>
+						</tr>
+						<tr>
+							<td>색상</td>
+							<td>
+			          			<div id="empScColor">
+									<button type="button" class="label on" name="schedulerColor" value="red"><span class="c1"></span></button>
+									<button type="button" class="label" name="cc" value="orange"><span class="c2"></span></button>
+									<button type="button" class="label" name="cc" value="yellow"><span class="c3"></span></button>
+									<button type="button" class="label" name="cc" value="green"><span class="c4"></span></button>
+									<button type="button" class="label" name="cc" value="blue"><span class="c5"></span></button>
+									<button type="button" class="label" name="cc" value="navy"><span class="c6"></span></button>
+									<button type="button" class="label" name="cc" value="purple"><span class="c7"></span></button>
+									<br>
+								</div>
+			          		</td>
+						</tr>
+			          </table>
+			        </div>
+			        </form>
+			        <div class="modal-footer">
+			          <button type="button" class="btn" onclick="updateEmpSc()">수정</button>
+			          <button type="button" class="btn" onclick="deleteEmpSc()">삭제</button>
+			          <button type="reset" class="btn" data-dismiss="modal">취소</button>
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+			  
+			  
 			  <!-- 일정추가 모달 -->
 			  <form action="${contextPath}/insertSchedule.sc" method="post">
 				<div class="modal fade" id="insertScheduleModal" role="dialog">
@@ -280,7 +337,7 @@
 			  
 			  <!-- 일정 상세보기 모달 -->
 			  <button style="display:none" id="selectDetailSchedule" data-toggle="modal" data-target="#detailScheduleModal"></button>
-			  <form action="" method="post">
+			  <form action="${ contextPath }/deleteSchedule.sc" method="post" id="dtscForm">
 				<div class="modal fade" id="detailScheduleModal" role="dialog">
 			    <div class="modal-dialog">
 			    
@@ -288,7 +345,8 @@
 			      <div class="modal-content">
 			        <div class="modal-header">
 			          <button type="button" class="close" data-dismiss="modal">&times;</button>
-			          <h4 class="modal-title" align="center"><b>일정 정보</b></h4>
+			          <h4 class="modal-title" align="center" id="dtscTitle"><b>일정 상세보기</b></h4>
+			          <h4 class="modal-title" align="center" id="udscTitle" style="display:none"><b>일정 수정</b></h4>
 			        </div>
 			        
 			        <div class="modal-body">
@@ -296,26 +354,26 @@
 			          	<tr>
 			          		<td width="20%"><b>캘린더</b></td>
 			          		<td>
-			          			<input type="hidden" name="schedulerNo" id="dtscNo">
+			          			<input type="hidden" name="scheduleNo" id="dtscNo">
 			          			<input type="text" name="schedulerName" id="dtScrName" readonly>
 			          		</td>
 						</tr>
 						<tr>
 							<td><b>일정명</b></td>
-							<td colspan="2"><input type="text" name="scheduleName" id="dtScName" readonly></td>
+							<td colspan="2"><input class="dtscIp" type="text" name="scheduleName" id="dtScName" readonly></td>
 						</tr>
 						<tr>
 							<td><b>시작</b></td>
 							<td>
-								<input type="date" name="startDate" id="dtscSD" readonly> &nbsp;&nbsp;
-								<input type="time" name="startTime" id="dtscST" readonly>
+								<input class="dtscIp" type="date" name="startDate" id="dtscSD" readonly> &nbsp;&nbsp;
+								<input class="dtscIp" type="time" name="startTime" id="dtscST" readonly>
 							</td>
 						</tr>
 						<tr>
 							<td><b>종료</b></td>
 							<td colspan="3">
-								<input type="date" name="endDate" id="dtscED" readonly> &nbsp;&nbsp;
-								<input type="time" name="endTime" id="dtscET" readonly>
+								<input class="dtscIp" type="date" name="endDate" id="dtscED" readonly> &nbsp;&nbsp;
+								<input class="dtscIp" type="time" name="endTime" id="dtscET" readonly>
 							</td>
 						</tr>
 						<tr>
@@ -323,15 +381,17 @@
 						</tr>
 						<tr>
 							<td colspan="3">
-								<textarea cols="70%" rows="10" style="resize: none;" name="scheduleContent" id="dtscContent" readonly></textarea>
+								<textarea class="dtscIp" cols="70%" rows="10" style="resize: none;" name="scheduleContent" id="dtscContent" readonly></textarea>
 							</td>
 						</tr>
 			          </table>
 			        </div>
 			        
-			        <div class="modal-footer">
-			          <button type="submit" class="btn">수정</button>
-			          <button type="reset" class="btn">삭제</button>
+			        <div class="modal-footer" id="dtscBtnArea">
+			          <button type="button" class="btn dtscBtn" onclick="updateSchedule()">수정</button>
+			          <button type="submit" class="btn dtscBtn">삭제</button>
+			          <button type="submit" class="btn udscBtn" style="display:none">완료</button>
+			          <button type="reset" class="btn udscBtn" style="display:none" data-dismiss="modal" onclick="changeDtscF()">취소</button>
 			        </div>
 			        
 			      </div>
@@ -479,8 +539,6 @@
       		}
       	};
       	
-      	
-      	
       	function selectSchedulerList(){
       		console.log("실행되는지");
       		$.ajax({
@@ -498,7 +556,26 @@
       				}
       			}
       		});
-      	}
+      	};
+      	
+      	function updateSchedule(){
+      		$("#dtscTitle").hide();
+      		$("#udscTitle").show();
+      		$(".dtscBtn").hide();
+      		$(".udscBtn").show();
+      		$(".dtscIp").removeAttr("readonly");
+      		$("#dtscForm").attr("action","${ contextPath }/updateSchedule.sc");
+      	};
+      	
+      	function changeDtscF(){
+      		$("#dtscTitle").show();
+      		$("#udscTitle").hide();
+      		$(".dtscBtn").show();
+      		$(".udscBtn").hide();
+      		$(".dtscIp").prop("readonly",true);
+      		$("#dtscForm").attr("action","${ contextPath }/deleteSchedule.sc");
+      	};
+      	
       	
       	$("#allDateBtn").click(function(){
 			var check = $(this).is(":checked");
@@ -510,6 +587,8 @@
 				$("#endTime").removeAttr("disabled");
 			}
       	});
+      	
+      	
       	
       	$(function(){
       		console.log("온로드 펑션입니다.");
@@ -528,15 +607,16 @@
   					var $groupScheduler = $("#groupScheduler");
   					
       				for(var key in data.empScList){
-      					var $empTr = $("<tr>");
+      					var $empTr = $("<tr id='empTr'>");
       					var $colTd = $("<td colspan='2'>");
-      					var $colBtn = $("<button style='width:5px; height:16px;'>");
+      					var $colBtn = $("<button style='width:5px; height:16px;' id='colorBtn'>");
       					var $colSp = $("<span style='background:" + data.empScList[key].schedulerColor + "' id='colorSp'>");
       					      					
       					var $nameSp = $("<span style='margin-left:5px;'>").text(data.empScList[key].schedulerName);
       					
       					var $settingTd = $("<td align='center'>");
-      					var $settingIm = $("<img src='${contextPath}/resources/images/scheduler/settings.png' style='width:16px; height:16px;'>");
+      					var $settingIm = $("<img src='${contextPath}/resources/images/scheduler/settings.png'" + 
+      										"style='width:16px; height:16px;' class='empScSetting'>");
       					
       					$colBtn.append($colSp);
       					$colTd.append($colBtn);
@@ -552,13 +632,14 @@
       				for(var key in data.gpScList){
       					var $gmTr = $("<tr>");
       					var $colTd = $("<td colspan='2'>");
-      					var $colBtn = $("<button style='width:5px; height:16px;'>");
+      					var $colBtn = $("<button style='width:5px; height:16px;' id='colorBtn'>");
       					var $colSp = $("<span style='background-color:" + data.gpScList[key].schedulerColor + "' id='colorSp'>");
       					      					
       					var $nameSp = $("<span style='margin-left:5px;'>").text(data.gpScList[key].schedulerName);
       					
       					var $settingTd = $("<td align='center'>");
-      					var $settingIm = $("<img src='${contextPath}/resources/images/scheduler/settings.png' style='width:16px; height:16px;'>");
+      					var $settingIm = $("<img src='${contextPath}/resources/images/scheduler/settings.png'" + 
+      										"style='width:16px; height:16px;'>");
       					
       					$colBtn.append($colSp);
       					$colTd.append($colBtn);
@@ -573,29 +654,56 @@
       				
       				for(var key in data.scList){
       					var id = data.scList[key].scheduleNo;
-      					var title = data.scList[key].scheduleName;
+      					console.log(data.scList[key].schedulerList[0].schedulerType);
+      					if(data.scList[key].schedulerList[0].schedulerType == "개인"){
+      						var title = data.scList[key].scheduleName;
+      					}else{
+      						var title = "[GS] " + data.scList[key].scheduleName;
+      					}
       					var startD = data.scList[key].startDate.split(" ");
       					var endD = data.scList[key].endDate.split(" ");
       					var color = data.scList[key].schedulerList[0].schedulerColor;
       					console.log(startD);
       					var startT = data.scList[key].startTime;
       					var endT = data.scList[key].endTime;
+      					var type = data.scList[key].schedulerType;
+      					
       					
       					var endDate = new Date(endD[0]);
-      					endDate.setDate(endDate.getDate() + 1);
-      					
+      					endDate.setDate(endDate.getDate());
       					var event = {
       							id:id,
       							title:title,
-      							start:startD[0],
-      							end:endDate.format("yyyy-MM-dd"),
+      							start:startD[0] + "T" + startT,
+      							end:endDate.format("yyyy-MM-dd") + "T" + endT,
       							color:color
       					}
       					console.log(event);
       					calendar.addEvent(event);
       				}
+      				
+      				
       			}
       		});
+      	});
+      	
+      	$(document).on("click", ".empScSetting", function(){
+      		console.log("버튼 클릭연동됨!");
+      		var tableTr = $(this).parents().find("#empTr");
+      		
+      		console.log(tableTr.find("#colorSp").css("background-color"));
+      	});
+      	
+      	
+      	$(document).on('click', '#colorBtn', function(){
+      		console.log($(this));
+      		console.log($(this).find("span"));
+      		
+      		if($(this).find("span").is(":visible")){
+      			$(this).find("span").hide();  	
+      		}else{
+      			$(this).find("span").show();
+      		}
       	});
       	
       	Date.prototype.format = function(f) {

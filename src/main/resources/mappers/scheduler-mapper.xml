@@ -12,6 +12,13 @@
 		<result property="schedulerColor" column="SCHEDULER_COLOR"/>
 	</resultMap>
 	
+	<resultMap type="GroupMember" id="groupMemberResultSet">
+		<id property="invitationNo" column="INVITATION_NO"/>
+		<result property="schedulerNo" column="SCHEDULER_NO"/>
+		<result property="empNo" column="EMPNO"/>
+		<result property="authority" column="AUTHORITY"/>
+	</resultMap>
+	
 	<resultMap type="Schedule" id="scheduleResultSet">
 		<id property="scheduleNo" column="SCHEDULE_NO"/>
 		<result property="startDate" column="START_DATE"/>
@@ -27,6 +34,25 @@
 		<result property="schedulerNo" column="SCHEULER_NO"/>
 		<collection property="schedulerList" javaType="java.util.ArrayList" resultMap="schedulerResultSet"></collection>
 	</resultMap>
+	
+	<resultMap type="Schedule" id="allResultSet">
+		<id property="scheduleNo" column="SCHEDULE_NO"/>
+		<result property="startDate" column="START_DATE"/>
+		<result property="endDate" column="END_DATE"/>
+		<result property="startTime" column="START_TIME"/>
+		<result property="endTime" column="END_TIME"/>
+		<result property="scheduleName" column="SCHEDULE_NAME"/>
+		<result property="scheduleContent" column="SCHEDULE_CONTENT"/>
+		<result property="status" column="STATUS"/>
+		<result property="writer" column="WRITER"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="modifyDate" column="MODIFY_DATE"/>
+		<result property="schedulerNo" column="SCHEULER_NO"/>
+		<collection property="schedulerList" javaType="java.util.ArrayList" resultMap="schedulerResultSet"></collection>
+		<collection property="groupList" javaType="java.util.ArrayList" resultMap="groupMemberResultSet"></collection>
+	</resultMap>
+	
+	
 	
 
 	<!-- 쿼리문 영역 -->
@@ -45,16 +71,26 @@
 		JOIN GROUP_MEMBER GM ON (SCR.SCHEDULER_NO = GM.SCHEDULER_NO)
 		WHERE SCR.SCHEDULER_TYPE = '공용'
 		AND GM.EMPNO = #{empNo}
-		AND GM.AUTHORITY = 'Y' 
 	</select>
 	
 	<!-- 일정 목록 조회용 -->
 	<select id="selectSc" resultMap="scheduleResultSet" parameterType="_int">
 		SELECT *
 		FROM SCHEDULE SC
-		JOIN SCHEDULER SCR ON (SC.SCHEDULER_NO = SCR.SCHEDULER_NO)
-		WHERE SC.WRITER = #{empNo}
-		AND SC.STATUS = 'Y'
+		LEFT JOIN SCHEDULER SCR ON (SC.SCHEDULER_NO = SCR.SCHEDULER_NO)
+		WHERE SCR.SCHEDULER_TYPE = '개인'
+		AND SC.WRITER = #{empNo}
+		AND STATUS = 'Y'
+		
+		UNION
+		
+		SELECT SC.*, SCR.*
+		FROM SCHEDULE SC
+		LEFT JOIN SCHEDULER SCR ON (SC.SCHEDULER_NO = SCR.SCHEDULER_NO)
+		LEFT JOIN GROUP_MEMBER GM ON (SCR.SCHEDULER_NO = GM.SCHEDULER_NO)
+		WHERE SC.STATUS = 'Y'
+		AND SCR.SCHEDULER_TYPE = '공용'
+		AND GM.EMPNO = #{empNo}
 	</select>
 	
 	<!-- 개인캘린더 추가 쿼리문 -->
@@ -80,14 +116,64 @@
 	</insert>
 	
 	<!-- 일정 상세보기용 쿼리문 -->
-	<select id="selectScheduleDetail" parameterType="Schedule" resultMap="scheduleResultSet">
+	<select id="selectScheduleDetail" parameterType="Schedule" resultMap="allResultSet">
 		SELECT *
 		FROM SCHEDULE SC
-		JOIN SCHEDULER SCR ON (SC.SCHEDULER_NO = SCR.SCHEDULER_NO)
+		LEFT JOIN SCHEDULER SCR ON (SC.SCHEDULER_NO = SCR.SCHEDULER_NO)
+		LEFT JOIN GROUP_MEMBER GM ON (SCR.SCHEDULER_NO = GM.SCHEDULER_NO)
 		WHERE WRITER = #{writer}
 		AND SC.SCHEDULE_NO = #{scheduleNo}
 	</select>
 	
+	<!-- 일정 삭제용 쿼리문 -->
+	<update id="deleteSchedule" parameterType="Schedule">
+		UPDATE SCHEDULE
+		SET STATUS = 'N'
+		WHERE SCHEDULE_NO = #{scheduleNo}
+	</update>
+	
+	<!-- 일정 수정용 쿼리문 -->
+	<update id="updateSchedule" parameterType="Schedule">
+		UPDATE SCHEDULE
+		SET SCHEDULE_NAME = #{scheduleName}, START_DATE = #{startDate}, END_DATE = #{endDate},
+		    START_TIME = #{startTime}, END_TIME = #{endTime}, SCHEDULE_CONTENT = #{scheduleContent},
+		    MODIFY_DATE = SYSDATE
+		WHERE SCHEDULE_NO = #{scheduleNo}
+	</update>
 	
 </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  

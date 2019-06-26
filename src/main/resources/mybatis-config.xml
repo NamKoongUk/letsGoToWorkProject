@@ -40,7 +40,7 @@
 		<!-- Scheduler VO-->
 		<typeAlias type="com.kh.lgtw.scheduler.model.vo.Schedule" alias="Schedule"/>
 		<typeAlias type="com.kh.lgtw.scheduler.model.vo.Scheduler" alias="Scheduler"/>
-		
+		<typeAlias type="com.kh.lgtw.scheduler.model.vo.GroupMember" alias="GroupMember"/>
 		<!-- 기타 VO -->
 	</typeAliases>
 	
