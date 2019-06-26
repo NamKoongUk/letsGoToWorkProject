@@ -1,24 +1,29 @@
 package com.kh.lgtw.employee.model.service;
 
 import java.io.File;
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
 
 import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.SqlSessionTemplate;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kh.lgtw.employee.model.dao.EmployeeDao;
 import com.kh.lgtw.employee.model.exception.LoginException;
-import com.kh.lgtw.employee.model.util.ExcelRead;
-import com.kh.lgtw.employee.model.util.ExcelReadOption;
 import com.kh.lgtw.employee.model.vo.Employee;
+import com.kh.lgtw.employee.model.vo.ExcelEmp;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -72,6 +77,116 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public int empExcelUpload(File destFile) {
 		return empDao.empExcelUpload(sqlSession, destFile);
+	}
+
+	@Override
+	public List<ExcelEmp> xlsEmpInsert(MultipartHttpServletRequest request, MultipartFile excelFile) {
+		System.out.println("엑셀 XLS");
+		return null;
+	}
+
+	@Override
+	public List<ExcelEmp> xlsxEmpInsert(MultipartHttpServletRequest request, MultipartFile excelFile) {
+		
+		System.out.println("엑셀 XLSX");
+		
+		List<ExcelEmp> list = new ArrayList<>();
+		
+		MultipartFile file = request.getFile("excelFile");
+		
+		XSSFWorkbook workbook = null;
+		
+		try {
+			
+			workbook = new XSSFWorkbook(file.getInputStream());
+			
+			XSSFSheet curSheet;
+			XSSFRow curRow;
+			XSSFCell curCell;
+			ExcelEmp excelEmp;
+			
+			String filePath = "스트링"+file.getOriginalFilename();
+			
+			System.out.println("서비스 엑셀파일 확인" + filePath);
+			
+		for(int sheetIndex = 0; sheetIndex<workbook.getNumberOfSheets(); sheetIndex++) {
+			System.out.println("시트 확인"+workbook.getNumberOfSheets());
+			System.out.println(sheetIndex);
+			System.out.println(workbook.getNumberOfSheets());
+			
+			curSheet =workbook.getSheetAt(sheetIndex);
+			
+			for(int rowIndex = 0; rowIndex<curSheet.getPhysicalNumberOfRows(); rowIndex++) {
+				System.out.println("로우 확인"+curSheet.getPhysicalNumberOfRows());
+				if(rowIndex!=0) {
+					curRow=curSheet.getRow(rowIndex);
+					
+					excelEmp = new ExcelEmp();
+					
+					String value;
+					
+					if(curRow.getCell(0)!=null) {
+						for(int cellIndex=0; cellIndex<curRow.getPhysicalNumberOfCells(); cellIndex++) {
+							curCell = curRow.getCell(cellIndex);
+							
+							System.out.println("셀타입 확인:"+curCell.getCellType());
+							
+							if(true) {
+								value="";
+								
+								switch (curCell.getCellType()) {
+								case FORMULA: value = curCell.getCellFormula(); break;
+								case NUMERIC:
+									if (HSSFDateUtil.isCellDateFormatted(curCell)){ 
+										SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+									value= formatter.format(curCell.getDateCellValue());  break;
+									}else{
+									 value = curCell.getNumericCellValue() + "";
+									 break;
+									}
+								case STRING: value = curCell.getStringCellValue() + ""; break;
+								case BLANK: value = curCell.getBooleanCellValue() + ""; break;
+								case ERROR: value = curCell.getErrorCellValue() + ""; break;
+								default: value = new String(); break;
+								} // end switch
+								
+								switch(cellIndex) {
+								case 0 : excelEmp.setEmpNo((int)Double.parseDouble(value)); break;
+								case 1 : excelEmp.setEmpId(value); break;
+								case 2 : excelEmp.setEmpPwd(value); break;
+								case 3 : excelEmp.setEmpName(value); break;
+								case 4 : excelEmp.setEmpPhone(value); break;
+								case 5 : excelEmp.setStatus(value); break;
+								case 6 : excelEmp.setEnrollDate(Date.valueOf(value));break;
+								default: break;
+								}
+							}
+						}
+						
+						list.add(excelEmp);
+						
+					}
+				}
+			}
+			
+		}
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		List<ExcelEmp> daoList = new ArrayList<>();
+		
+		for(int i = 0; i<list.size(); i++) {
+			System.out.println("서비스 리스트 확인 : " +list.get(i).getEmpName());
+			
+		}
+		
+		daoList = empDao.excelEmpInsert(sqlSession, list);
+		
+		
+		return daoList;
 	}
 
 

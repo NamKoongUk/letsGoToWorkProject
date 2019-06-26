@@ -2,12 +2,14 @@ package com.kh.lgtw.employee.model.dao;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.vo.Employee;
+import com.kh.lgtw.employee.model.vo.ExcelEmp;
 
 public interface EmployeeDao{
 
@@ -18,6 +20,8 @@ public interface EmployeeDao{
 	String selectEncPassword(SqlSession sqlSession, Employee employee);
 
 	int empExcelUpload(SqlSession sqlSession, File destFile);
+
+	List<ExcelEmp> excelEmpInsert(SqlSession sqlSession, List<ExcelEmp> list);
 
 
 

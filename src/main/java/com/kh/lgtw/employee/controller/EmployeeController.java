@@ -3,9 +3,13 @@ package com.kh.lgtw.employee.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -21,6 +25,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.service.EmployeeService;
 import com.kh.lgtw.employee.model.vo.Employee;
+import com.kh.lgtw.employee.model.vo.ExcelEmp;
+import com.kh.lgtw.employee.model.util.ExcelFileType;
 
 @SessionAttributes("loginEmp")
 @Controller
@@ -312,34 +318,33 @@ public class EmployeeController {
 	}
 	
 	@RequestMapping("empExcelUpload.em")
-	public ModelAndView empExcelUpload(MultipartFile testFile, MultipartHttpServletRequest request) {
+	public ModelAndView empExcelUpload(MultipartHttpServletRequest request) {
 		System.out.println("업로드 진행");
 		
 		MultipartFile excelFile = request.getFile("excelFile");
 		
-		String excepType = request.getParameter("excepType");
-		
-		System.out.println(excepType);
-		
 		if(excelFile == null || excelFile.isEmpty()) {
 			throw new RuntimeException("엑셀파일을 선택해주세요");
 		}
-		File destFile = new File("C:\\01_FinalProject\\git_workspace\\letsGoToWorkProject\\src\\main\\webapp\\resources\\excelFile"+excelFile.getOriginalFilename());
 		
-		try {
-			excelFile.transferTo(destFile);
-		}catch (Exception e) {
-			throw new RuntimeException(e.getMessage(),e);
+		String filePath = excelFile.getOriginalFilename();
+		
+		List<ExcelEmp> list = new ArrayList<>();
+		
+		if(filePath.toUpperCase().endsWith(".XLS")) {
 			
+			list = empService.xlsEmpInsert(request, excelFile);
+		
+		}else if(filePath.toUpperCase().endsWith(".XLSX")) {
+			list = empService.xlsxEmpInsert(request, excelFile);
 		}
 		
-		int result=empService.empExcelUpload(destFile);
+		System.out.println("파일패스:" + filePath);
 		
-		destFile.delete();
 		
 		ModelAndView view = new ModelAndView();
 		
-		view.setViewName("employee/empClctvRegister");
+		view.setViewName("redirect:showEmpClctvRegister.em");
 		
 		return view;
 	}

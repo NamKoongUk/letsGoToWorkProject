@@ -9,35 +9,14 @@
 		<result column="EMP_ID" property="empId"/>
 		<result column="EMP_PWD" property="empPwd"/>
 		<result column="EMP_NAME" property="empName"/>
-		<result column="BIRTH" property="empBirth" />
-		<result column="GENDER" property="gender"/>
 		<result column="EMP_PHONE" property="empPhone"/>
-		<result column="ADDRESS" property="address"/>
-		<result column="EMAIL" property="email"/>
 		<result column="STATUS" property="status"/>
 		<result column="ENROLL_DATE" property="enrollDate"/>
-		<result column="DUTY_CODE" property="dutyCode"/>
 	</resultMap>
 
-	<insert id="insertEmpExcel" parameterType="map">
-	  	INSERT INTO EMPLOYEE(EMPNO,EMP_ID,EMP_PWD,EMP_NAME,BRITH,
-  						GENDER,EMP_PHONE,ADDRESS,EMAIL,STATUS,ENROLL_DATE,DUTY_CODE) VALUSE
-  						<foreach collection="excelContent" item="item" separator=",">
-  						(
-  							SEQ_EMPNO.NEXTVAL,
-  							#{item,A},
-  							#{item,B},
-  							#{item,C},
-  							#{item,D},
-  							#{item,E},
-  							#{item,F},
-  							#{item,G},
-  							#{item,H},
-  							'Y',
-  							DEFAULT,
-  							DEFAULT
-  						)
-  						</foreach>
+	<insert id="insertEmpExcel" parameterType="excelemp">
+	  	INSERT INTO EMPLOYEE(EMPNO, EMP_ID, EMP_PWD, EMP_NAME, EMP_PHONE, STATUS, ENROLL_DATE)
+	  	VALUES (#{empNo},#{empId},#{empPwd},#{empName},#{empPhone},#{status},#{enrollDate})
   </insert> 
 	
 	
