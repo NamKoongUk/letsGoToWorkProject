@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.mail.model.dao.MailDao;
 import com.kh.lgtw.mail.model.exception.StatusTypeException;
+import com.kh.lgtw.mail.model.vo.Absence;
 import com.kh.lgtw.mail.model.vo.Mail;
 
 @Service
@@ -17,7 +18,6 @@ public class MailServiceImpl implements MailService{
 
 	@Autowired private MailDao md;
 	@Autowired private SqlSession sqlSession;
-	
 	
 	// 전체 이메일 갯수 조회
 	@Override
@@ -41,6 +41,24 @@ public class MailServiceImpl implements MailService{
 	@Override
 	public Mail selectMailDetail(int mailNo) {
 		return md.selectMailDetail(sqlSession, mailNo);
+	}
+
+	// 부재중 설정 추가
+	@Override
+	public int insertAbsenceMail(Absence absence) {
+		return md.insertAbsenceMail(sqlSession, absence);
+	}
+
+	// 부재중 리스트 조회
+	@Override
+	public ArrayList<Absence> selectAbcenceList(int empNo) {
+		return md.selectAbsenceList(sqlSession, empNo);
+	}
+
+	// 메일 보내기
+	@Override
+	public int sendMail(Mail mail) {
+		return md.sendMail(sqlSession, mail);
 	}
 
 }

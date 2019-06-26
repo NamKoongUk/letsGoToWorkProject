@@ -28,10 +28,10 @@
 		<typeAlias type="com.kh.lgtw.employee.model.vo.Employee" alias="Employee"/>
 		<typeAlias type="com.kh.lgtw.employee.model.vo.ExcelEmp" alias="ExcelEmp"/>
 		
-		
 		<!-- Mail VO -->
 		<typeAlias type="com.kh.lgtw.mail.model.vo.CommonMail" alias="CommonMail"/>
 		<typeAlias type="com.kh.lgtw.mail.model.vo.Mail" alias="Mail"/>
+		<typeAlias type="com.kh.lgtw.mail.model.vo.Absence" alias="Absence"/>
 		
 		<!-- Messenger VO -->
 		<typeAlias type="com.kh.lgtw.messenger.model.vo.Messenger" alias="Messenger"/>
