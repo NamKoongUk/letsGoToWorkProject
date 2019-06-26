@@ -121,9 +121,9 @@
 	<script>
 		$(function(){
 			$("#communityList").find("td").mouseenter(function(){
-				$(this).parents("tr").css({"background":"orangered","cursor":"pointer"});	
+				$(this).parents("tr").css({"background":"lightblue", "color":"white" ,"cursor":"pointer"});	
 			}).mouseout(function(){ 
-				$(this).parents("tr").css({"background":"white"});	
+				$(this).parents("tr").css({"background":"white","color":"black"});	
 			}).click(function(){
 				var bno =$(this).parents().children("td").eq(0).text();
 				location.href="communityPostList.co?bno="+bno;

@@ -21,11 +21,25 @@ public class CommunityDaoImpl implements CommunityDao {
 		return (ArrayList)sqlSession.selectList("Community.selectCommunityList");
 	}
 
+	//게시글 조회 리스트
 	@Override
 	public ArrayList<CommunityPost> CommunityPostList(int bno, SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub'
 		System.out.println("DaoImpl bno : " + bno);
 		return (ArrayList)sqlSession.selectList("Community.selectPostList", bno);
+	}
+
+	//게시글 상세 조회
+	@Override
+	public ArrayList<CommunityPost> CommunityPostDetails(int contentNO, SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("Community.selectPostDetails", contentNO );
+	}
+	//임시 저장글 조회 리스트
+	@Override
+	public ArrayList<CommunityPost> SelectTemporaryList(SqlSessionTemplate sqlSession) {
+		
+		return (ArrayList)sqlSession.selectList("Community.SelectTemporaryList");
 	}
 
 	

@@ -6,12 +6,12 @@ public class Community  implements java.io.Serializable  {
 
 	private  int bno; //게시판 번호 
 	private  String boardName; //게시판 이름
-	private  int createUser;//게시판 작성자
+	private  int createUser;//게시판 작성자 번호
 	private  Date createDate;//게시판 작성일자
 	private  String boardAuthority;//게시판 권한
 	private  String status;//게시판 상태
 	private  String boardType;//게시판 유형
-	private String createUserName;
+	private String createUserName;//게시판 작성자 이름
 	
 	
 	

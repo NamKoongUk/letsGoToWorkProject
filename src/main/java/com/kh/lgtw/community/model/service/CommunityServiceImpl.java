@@ -34,13 +34,32 @@ public class CommunityServiceImpl  implements CommunityService{
 
 
 
-
+	  //게시글 조회용 리스트
 	@Override
 	public ArrayList<CommunityPost> CommunityPostList(int bno) {
 		// TODO Auto-generated method stub
 		return cd.CommunityPostList(bno , sqlSession);
 	}
 
+
+
+	   //게시글 상세 조회
+	@Override
+	public ArrayList<CommunityPost> CommunityPostDetails(int contentNO) {
+		
+		return cd.CommunityPostDetails(contentNO,sqlSession);
+	}
+
+
+	 // 임시 저장 리스트 조회
+	@Override
+	public ArrayList<CommunityPost> SelectTemporaryList() {
+		// TODO Auto-generated method stub
+		return cd.SelectTemporaryList(sqlSession);
+	}
+
+
+	
 
 
 

@@ -27,9 +27,11 @@
 					<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">삭제</button>
 				<div>	
 						<table class="table table-striped" border="" >	
+								
+								<c:forEach var="c" items="${list }">  
 								<thead>
 									<tr>
-										<th colspan="2"><h2>안전 교육일정</h2></th>
+										<th colspan="2"><h2>${c.btitle}</h2></th>
 			
 									</tr>
 												  
@@ -43,13 +45,15 @@
 						
 										<td height="500px">
 												<div style="margin-left:10px; ">
-												교육일정: 2019-06-21 PM 12:00  <br>
-												교육장소: kh 정보 교육원 </div>
+												      ${c.bcontent}
+												      
+												      </div>
 										</td>
 					 
 				 					</tr> 
 											
 								</thead>
+								</c:forEach>
 							 </table>
 							
 									

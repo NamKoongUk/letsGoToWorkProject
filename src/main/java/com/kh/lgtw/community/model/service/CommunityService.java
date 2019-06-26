@@ -14,6 +14,12 @@ public interface CommunityService
 
 	ArrayList<CommunityPost> CommunityPostList(int bno);
 
+	ArrayList<CommunityPost> CommunityPostDetails(int contentNO);
+
+	ArrayList<CommunityPost> SelectTemporaryList();
+
+
+
 
 
 	
