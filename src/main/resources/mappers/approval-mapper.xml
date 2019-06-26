@@ -71,6 +71,24 @@
 		<result column="EMP_NAME" property="empName"/>
 	</resultMap>
 	
+	<resultMap type="java.util.HashMap" id="empResultSet2">
+		<id property="empNo" column="EMPNO"/>
+		<result column="EMP_ID" property="empId"/>
+		<result column="EMP_NAME" property="empName"/>
+		<result column="JOB_CODE" property="jobCode"/>
+		<result column="JOB_NAME" property="jobName"/>
+		<result column="DEPT_CODE" property="deptCode"/>
+		<result column="DEPT_NAME" property="deptName"/>
+		<result column="MANAGER_EMPNO" property="managerEmpno"/>
+	</resultMap>
+	
+	<resultMap type="java.util.HashMap" id="deptResultSet">
+		<id property="deptCode" column="DEPT_CODE"/>
+		<result property="deptName" column="DEPT_NAME"/>
+		<result property="topDept" column="TOP_DEPT"/>
+		<result property="managerEmpno" column="MANAGER_EMPNO"/>
+	</resultMap>
+	
 	<select id="selectSignForm" resultMap="signFormResultSet" parameterType="SignForm">
 		SELECT *
 		FROM SIGN_FORM
@@ -165,6 +183,25 @@
 		SELECT EMPNO, EMP_NAME, EMP_ID
 		FROM EMPLOYEE
 		WHERE EMP_NAME LIKE #{value}||'%'
+	</select>
+	
+	<!-- 계층형 부서조회 -->
+	<select id="selectDept" resultMap="deptResultSet">
+		SELECT *
+		FROM DEPT D
+		START WITH TOP_DEPT IS NULL
+		CONNECT BY TOP_DEPT = PRIOR DEPT_CODE
+	</select>
+	
+	<select id="selectEmp" resultMap="empResultSet2">
+		SELECT E.EMPNO, E.EMP_ID, E.EMP_NAME, J.JOB_CODE, J.JOB_NAME, D.DEPT_CODE, D.DEPT_NAME, D.MANAGER_EMPNO
+		FROM EMPLOYEE E
+		JOIN DEPT_HISTORY DH ON(E.EMPNO = DH.EMPNO)
+		JOIN DEPT D ON (D.DEPT_CODE = DH.DEPT_CODE)
+		JOIN EMPLOYEE E2 ON (D.MANAGER_EMPNO = E2.EMPNO)
+		JOIN PROMOTION_HISTORY PH ON(PH.EMPNO = E.EMPNO)
+		JOIN JOB J ON(J.JOB_CODE = PH.JOB_CODE)
+		ORDER BY DH.DEPT_CODE, PH.JOB_CODE
 	</select>
 	
 </mapper>  

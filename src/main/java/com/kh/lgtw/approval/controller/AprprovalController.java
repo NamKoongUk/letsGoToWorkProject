@@ -535,6 +535,19 @@ public class AprprovalController {
 		
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
+	
+	//결재선 설정을 위한 사원 조회
+	@RequestMapping(value = "/approval/selectEmp")
+	@ResponseBody
+	public Map<String, ArrayList<HashMap<String, Object>>> selectEmp(){
+		
+		Map<String, ArrayList<HashMap<String, Object>>> map = as.selectEmp();
+		System.out.println(map.get("empList"));
+		System.out.println(map.get("deptList"));
+		
+		return map;
+	}
+	
 
 	// 문서양식 불러오기
 	@RequestMapping("selectDcmForm.ap")

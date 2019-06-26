@@ -260,6 +260,18 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		// TODO Auto-generated method stub
 		return (HashMap)session.selectOne("Approval.selectWriteForm", afNo);
 	}
+	//결재선을 위한 사원 불러오기
+	@Override
+	public ArrayList<HashMap<String, Object>> selectEmp(SqlSession session) {
+		// TODO Auto-generated method stub
+		return (ArrayList)session.selectList("Approval.selectEmp");
+	}
+	//결재선 부서 불러오기
+	@Override
+	public ArrayList<HashMap<String, Object>> selectDept(SqlSession session) {
+		// TODO Auto-generated method stub
+		return (ArrayList)session.selectList("Approval.selectDept");
+	}
 //	//문서양식 불러오기
 //	@Override
 //	public AppForm selectDcmForm(SqlSession session, int afNo) {
@@ -316,6 +328,10 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		// TODO Auto-generated method stub
 		return session.selectList("Approval.selectName", value);
 	}
+
+
+
+
 
 
 
