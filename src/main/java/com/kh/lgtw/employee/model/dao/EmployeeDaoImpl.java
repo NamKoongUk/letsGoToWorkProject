@@ -14,6 +14,7 @@ import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.util.ExcelRead;
 import com.kh.lgtw.employee.model.util.ExcelReadOption;
 import com.kh.lgtw.employee.model.vo.Employee;
+import com.kh.lgtw.employee.model.vo.ExcelEmp;
 
 @Repository
 public class EmployeeDaoImpl implements EmployeeDao{
@@ -38,6 +39,8 @@ public class EmployeeDaoImpl implements EmployeeDao{
 
 	@Override
 	public int empExcelUpload(SqlSession sqlSession, File destFile) {
+		
+		
 		ExcelReadOption excelReadOption = new ExcelReadOption();
 		
 		excelReadOption.setFilePath(destFile.getAbsolutePath());
@@ -55,6 +58,20 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		System.out.println("엑셀:"+paramMap.toString());
 		
 		return sqlSession.insert("ExcelEmp.insertEmpExcel",paramMap);
+	}
+
+	@Override
+	public List<ExcelEmp> excelEmpInsert(SqlSession sqlSession, List<ExcelEmp> list) {
+		
+		for(int i = 0; i<list.size(); i++) {
+			System.out.println("포문시작");
+			sqlSession.insert("ExcelEmp.insertEmpExcel", list.get(i));
+			
+		}
+		
+		System.out.println("포문완료");
+		
+		return list;
 	}
 
 

@@ -2,9 +2,14 @@ package com.kh.lgtw.employee.model.service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.vo.Employee;
+import com.kh.lgtw.employee.model.vo.ExcelEmp;
 
 public interface EmployeeService {
 
@@ -13,6 +18,10 @@ public interface EmployeeService {
 	int insertEmpOne(Employee employee);
 
 	int empExcelUpload(File destFile);
+
+	List<ExcelEmp> xlsEmpInsert(MultipartHttpServletRequest request, MultipartFile excelFile);
+
+	List<ExcelEmp> xlsxEmpInsert(MultipartHttpServletRequest request, MultipartFile excelFile);
 
 
 

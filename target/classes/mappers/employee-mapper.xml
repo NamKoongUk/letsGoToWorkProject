@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Employee">
+	<resultMap id="employeeResultSet" type="com.kh.lgtw.employee.model.vo.Employee">
+		<id column="EMPNO" property="empNo"/>
+		<result column="EMP_ID" property="empId"/>
+		<result column="EMP_PWD" property="empPwd"/>
+		<result column="EMP_NAME" property="empName"/>
+		<result column="BIRTH" property="empBirth" />
+		<result column="GENDER" property="gender"/>
+		<result column="EMP_PHONE" property="empPhone"/>
+		<result column="OFFICE_TEL" property="officeTel"/>
+		<result column="ADDRESS" property="address"/>
+		<result column="EMAIL" property="email"/>
+		<result column="MANAGER_TYPE" property="managerType"/>
+		<result column="STATUS" property="status"/>
+		<result column="ENROLL_DATE" property="enrollDate"/>
+		<result column="RETIREMENT_DATE" property="retirementDate"/>
+		<result column="OTHER_INFO" property="otherInfo"/>
+		<result column="PERSONAL_INFO_CHECK" property="personalInfoCheck"/>
+		<result column="REF_EMPNO" property="refEmpNo"/>
+		<result column="LSTART_DATE" property="lstartDate"/>
+		<result column="LEND_DATE" property="lendDate"/>
+		<result column="LEAVE_TERM" property="leaveTerm"/>
+		<result column="LEAVE_REASON" property="leaveReason"/>
+		<result column="RETIREMENT_REASON" property="retirementReason"/>
+		<result column="LEAVE_TYPE" property="leaveType"/>
+		<result column="DUTY_CODE" property="dutyCode"/>
+	</resultMap>
+
+
+	
+	<!-- 로그인시 사원 객체 조회 -->
+	<select id="loginCheck" resultMap="employeeResultSet" parameterType="Employee">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE STATUS = 'Y' 
+	</select>
+	
+	<!-- id, pw 확인 -->
+	<select id="selectEncPassword" resultType="java.lang.String" parameterType="Employee">
+		SELECT EMP_PWD
+		FROM EMPLOYEE
+		WHERE EMP_ID = #{empId}
+	</select>
+	
+	<insert id="insertEmpOne" parameterType="Employee">
+		INSERT INTO EMPLOYEE(EMPNO, EMP_ID, EMP_PWD, EMP_NAME, BIRTH, GENDER, 
+							EMP_PHONE, OFFICE_TEL, ADDRESS, EMAIL, STATUS, ENROLL_DATE, OTHER_INFO, PERSONAL_INFO_CHECK, DUTY_CODE)
+		VALUES(SEQ_EMPNO.NEXTVAL, #{empId}, #{empPwd}, #{empName}, #{empBirth}, #{gender}, #{empPhone}, #{officeTel}, 
+									#{address}, #{email}, DEFAULT, DEFAULT, #{otherInfo}, #{personalInfoCheck}, DEFAULT)
+	</insert>
+	
+	<insert id="insertEmpExcel" parameterType="map">
+	  	INSERT INTO EMPLOYEE(EMPNO,EMP_ID,EMP_PWD,EMP_NAME,BRITH,
+  						GENDER,EMP_PHONE,ADDRESS,EMAIL,ENROLL_DATE,DUTY_CODE) VALUSE
+  						<foreach collection="excelContent" item="item" separator=",">
+  						(
+  							SEQ_EMPNO.NEXTVAL,
+  							#{item,A},
+  							#{item,B},
+  							#{item,C},
+  							#{item,D},
+  							#{item,E},
+  							#{item,F},
+  							#{item,G},
+  							#{item,H},
+  							DEFAULT,
+  							DEFAULT
+  						)
+  						</foreach>
+  </insert> 
+	
+	
+	
+</mapper>
