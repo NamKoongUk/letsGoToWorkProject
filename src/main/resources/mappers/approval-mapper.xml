@@ -87,6 +87,7 @@
 		<result property="deptName" column="DEPT_NAME"/>
 		<result property="topDept" column="TOP_DEPT"/>
 		<result property="managerEmpno" column="MANAGER_EMPNO"/>
+		<result property="stat" column="STAT"/>
 	</resultMap>
 	
 	<select id="selectSignForm" resultMap="signFormResultSet" parameterType="SignForm">
@@ -185,12 +186,16 @@
 		WHERE EMP_NAME LIKE #{value}||'%'
 	</select>
 	
-	<!-- 계층형 부서조회 -->
+	<!-- 하위부서 유무 부서조회 -->
 	<select id="selectDept" resultMap="deptResultSet">
-		SELECT *
+		SELECT DEPT_CODE, DEPT_NAME, TOP_DEPT, MANAGER_EMPNO,
+      				 CASE WHEN 0 >= (SELECT COUNT(D.DEPT_CODE)
+                        FROM DEPT D1
+                        JOIN DEPT D2 ON (D1.DEPT_CODE = D2.TOP_DEPT)
+                        WHERE D1.DEPT_CODE = D.DEPT_CODE) THEN 'N'
+                        ELSE 'Y'
+                        END as STAT
 		FROM DEPT D
-		START WITH TOP_DEPT IS NULL
-		CONNECT BY TOP_DEPT = PRIOR DEPT_CODE
 	</select>
 	
 	<select id="selectEmp" resultMap="empResultSet2">

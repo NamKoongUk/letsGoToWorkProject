@@ -16,6 +16,9 @@
 		font-size:12px;
 	}
 	
+	span{
+		cursor:pointer;
+	}
 
 </style>
 </head>
@@ -83,54 +86,22 @@
 					        <h4 class="modal-title">결재선 설정</h4>
 					      </div>
 					      <div class="modal-body" style="height:500px;">
-					      	<div id="deptList" class="treeview col-sm-4" style="height:450px; border:1px solid black">		      
-						       <!--  <ul>
-						            <li>게시판</li>
-						            <li>자바과정-기초
-						                <ul>
-						                    <li>기본문법</li>
-						                    <li>AWT/SWING</li>
-						                    <li>JDBC</li>
-						                    <li>자바예제</li>
-						                    <li>자바복습</li>
-						                </ul>
-						           </li>
-						           <li>웹프로그래밍
-						                <ul>
-						                    <li>JSP&amp;Servlet</li>
-						                    <li>프레임워크
-						                        <ul>
-						                            <li>struts2(스트럿츠2)</li>
-						                            <li>Spring(스프링)</li>
-						                        </ul>
-						                    </li>
-						                </ul>
-						            </li>
-						        </ul>		 -->				   
+					      	<div id="deptList" class="treeview col-sm-3" style="height:450px; border:1px solid black">		      
+						      <span id="all" onclick="underEmp(this, event);">전체보기</span>			   
 					      	</div>
-					      	<div class="col-sm-4 form-group">
-					      		<!-- <div>
-					      			<input type="checkbox" name="" id="checkbox1"/>
-					      			<label for="checkbox1">사원이름</label>
-					      			<input type="checkbox" name="" id="checkbox2"/>
-					      			<label for="checkbox2">사원이름</label>
-					      			<input type="checkbox" name="" id="checkbox3"/>
-					      			<label for="checkbox3">사원이름</label>
-					      			<input type="checkbox" name="" id="checkbox4"/>
-					      			<label for="checkbox4">사원이름</label>
-					      		</div>
-					      		<script>
-					      			$("[type=checkbox]").change(function(){
-					      				
-					      			})
-					      		
-					      		</script> -->
-					      		<select class="form-control" name="empList" size="10" style="width:100%; height:450px;" multiple>
+					      	<div class="col-sm-3 form-group">
+					      		<select class="form-control" name="empList" size="10" style="overflow: auto; width:100%; height:450px;" multiple>
 					      			
 					      		</select>
 					      	</div>
 					      	<div class="col-sm-4">
+					      		<label>회람</label>
+					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:420px;" multiple>
 					      		
+					      		</select>
+					      	</div>
+					      	<div class="btnArea">
+					      		<button>회람추가</button>
 					      	</div>
 					      </div>
 					      <div class="modal-footer">
@@ -168,35 +139,6 @@
 	
 	<jsp:include page="../common/footer.jsp" />
 <script>
-	/* $(document).ready(function () {
-	    //[1] 리스트의 기본 모양 지정 : <ul>를 자식으로 가지지 않는 li의 블릿기호는 기본 모양
-	    $('li:not(:has(ul))').css({ cursor: 'default', 'list-style-image':'none'});
-	   
-	    //[2] 자식 요소를 갖는 li에 대해서는 블릿이미지를 plus.gif를 지정
-	    $('li:has(ul)') //자식 요소(ul)를 갖는 요소(li)에 대해서
-	        .css({cursor: 'pointer', 'list-style-image':'url(plus.gif)'})//+기호로 설정
-	        .children().hide(); //자식요소 숨기기
-	       
-	    //[3] +로 설정된 항목에 대해서 click이벤트 적용
-	    $('li:has(ul)').click(function(event){
-	                   
-	        //this == event.target으로 현재 선택된 개체에 대해서 처리
-	        if(this == event.target){
-	            //숨겨진 상태면 보이고 -기호로 설정 그렇지 않으면 숨기고 + 기호로 설정
-	              if ($(this).children().is(':hidden')) {
-	                // 보이기
-	                $(this).css('list-style-image', 'url(minus.gif)').children().slideDown();
-	            }
-	            else {
-	                // 숨기기
-	                $(this).css('list-style-image', 'url(plus.gif)').children().slideUp();
-	            }
-	
-	        }
-	        return false;          
-	    });
-	});
-	 */
 	function selectEmp(){
 		console.log("selectEmp 호출");
 		
@@ -205,41 +147,73 @@
 			type:"get",
 			success:function(data){
 				console.log("성공");
-				
-				for(var i = 0; i < data.empList.length; i++) {
-					console.log(data.empList[i].empName);
-					var $option = $("<option value='" + data.empList[i].empNo + "'>");
-					$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
-					
-					$("select[name='empList']").append($option);
-				}
-				
 				var $ul = $("<ul>");
 				
 				for(var i = 0; i < data.deptList.length; i++) {
 					if(data.deptList[i].topDept == null){
-						var $li = $("<li onclick='underDept(this, event);' class='dept' id=" + data.deptList[i].deptCode + ">" + data.deptList[i].deptName + "</li>");
+						var $li = $("<li style='list-style:none' class='dept'><span onclick='underEmp(this, event);' id='" + data.deptList[i].deptCode + "'>" + data.deptList[i].deptName + "</span></li>");
+						if(data.deptList[i].stat == 'Y') {
+							var $img = $("<img id='" + data.deptList[i].deptCode + "' onclick='underDept(this);' style='width:12px; height:12px;' src='${contextPath}/resources/images/approval/plus.gif'>");					
+							$li.prepend($img);
+						}
 						$ul.append($li);
-						
-					}
+					} 
 				}
 				$("#deptList").append($ul);
 			}
 		});
 	}
 	
-	function underDept(li, event){
-		event.stopPropagation();
-		console.log(li.id);
-		var deptCode = li.id;
-		console.log($("#" + li.id).children());
-		if($("#" + li.id).children().length <= 0) {
+	function underDept(img){
+		console.log(img.id);
+		
+		var deptCode = img.id;
+		
+		if($("#" + img.id).parent().children().length <= 2) {
+			$("#" + img.id).attr("src", "${contextPath}/resources/images/approval/minus.gif");
 			$.ajax({
 				url:"${contextPath}/approval/selectUnderDept",
 				data:{deptCode:deptCode},
 				type:"get",
-				success:function(data){
-					alert(data);
+				success:function(data){		
+					console.log(data);
+					
+					var $ul = $("<ul>");
+					
+					for(var i = 0; i < data.deptList.length; i++) {
+						var $li = $("<li style='list-style:none' class='dept'><span onclick='underEmp(this, event);' id='" + data.deptList[i].deptCode + "'>" + data.deptList[i].deptName + "</span></li>");
+						if(data.deptList[i].stat == 'Y') {
+							var $img = $("<img id='" + data.deptList[i].deptCode + "' onclick='underDept(this);' style='width:12px; height:12px;' src='${contextPath}/resources/images/approval/plus.gif'>");					
+							$li.prepend($img);
+						}
+						$ul.append($li);
+					}
+					console.log($("#" + img.id).parent());
+					$("#" + img.id).parent().append($ul);
+				}
+			});
+			
+		}else {
+			$("#" + img.id).attr("src", "${contextPath}/resources/images/approval/plus.gif");
+			$("#" + img.id).parent().children("ul").remove();
+	
+		} 
+	
+		
+		
+	}
+	
+	
+	function underEmp(span, event){
+		event.stopPropagation();
+		console.log(span.id);
+		var deptCode = span.id;
+		if(deptCode != 'all') {
+			$.ajax({
+				url:"${contextPath}/approval/selectUnderDept",
+				data:{deptCode:deptCode},
+				type:"get",
+				success:function(data){		
 					console.log(data);
 					
 					$("select[name='empList']").children().remove();
@@ -251,23 +225,27 @@
 						
 						$("select[name='empList']").append($option);
 					}
-					
-					var $ul = $("<ul>");
-					
-					for(var i = 0; i < data.deptList.length; i++) {
-							var $li = $("<li onclick='underDept(this, event);' class='dept' id=" + data.deptList[i].deptCode + ">" + data.deptList[i].deptName + "</li>");
-							$ul.append($li);
-					}
-					console.log($("#" + li.id));
-					$("#" + li.id).append($ul);
 				}
 			});
-			
 		}else {
-			$("#" + li.id).children().remove();
+			$.ajax({
+				url:"${contextPath}/approval/selectEmp",
+				type:"get",
+				success:function(data){
+					console.log("성공");
+					
+					for(var i = 0; i < data.empList.length; i++) {
+						console.log(data.empList[i].empName);
+						var $option = $("<option value='" + data.empList[i].empNo + "'>");
+						$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
+						
+						$("select[name='empList']").append($option);
+					} 
+					
+				}
+			});
 		}
-		
-		
+
 	}
 	
 	var cnt = 0;
@@ -279,24 +257,17 @@
 			$.ajax({
 				url:"${contextPath}/approval/selectWriteForm",
 				data:{afNo:afNo},
-				contentType:"application/json;charset=UTF-8",
 				type:"get",
 				success:function(data){
-					/* $("#ckeditor").find("html").children("body").html(data.afContent); */
 					CKEDITOR.instances.ckeditor.setData(data.afContent);
-					/* $("#ckeditor").append(data.afContent); */
 					$(".signArea").html(data.signContent);
 					$("#date").val(data.afDate);
 					$("#security").val(data.securityCode);
-					/* $("#afNo").val(data.afNo); */
 					$("#dcmType").val(data.afNo);
 					$("#area").css("visibility", "visible");
-					/* if($("#circle").attr("id") == "circle"){
-						$("#circleText").attr("type", "text");
-						$("#circle").append($("#circleText"));
-					} */
+
 					
-					$("#circleEmp").autocomplete({	
+					$("#autoSelectEmp").autocomplete({	
 						source : function( request, response ) {
 							console.log("작동!!");
 				             $.ajax({
@@ -329,7 +300,7 @@
 				        	console.log("선택!!!");
 				            // 만약 검색리스트에서 선택하였을때 선택한 데이터에 의한 이벤트발생
 							var flag = true;
-				        $("#circleEmp").keydown(function(e){
+				        $("#autoSelectEmp").keydown(function(e){
 				        	//엔터키를 통해 등록 script를 실행(선택시의 enter와는 별개로 작동한다.)
 				        	
 			                if(e.keyCode == 13 && flag){
@@ -355,9 +326,9 @@
 				                 	$label.append($("<a href='#' onclick='deleteTag(this);' style='color:red;'>x</a>"))
 				                 	
 				                 	console.log($("#" + (cnt-1)).val());
-				                 	$("#emp").append($label);
+				                 	$(this).parent().append($label);
 				                 	
-				                 	$("#circleEmp").val("");
+				                 	$("#autoSelectEmp").val("");
 
 				                 	$label = "";
 				                 	ui.item = "";
