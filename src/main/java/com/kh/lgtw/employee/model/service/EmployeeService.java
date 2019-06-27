@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kh.lgtw.employee.model.exception.LoginException;
+import com.kh.lgtw.employee.model.vo.DeptVo;
 import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.employee.model.vo.ExcelEmp;
 
@@ -22,6 +23,9 @@ public interface EmployeeService {
 	List<ExcelEmp> xlsEmpInsert(MultipartHttpServletRequest request, MultipartFile excelFile);
 
 	List<ExcelEmp> xlsxEmpInsert(MultipartHttpServletRequest request, MultipartFile excelFile);
+
+	ArrayList<DeptVo> selectDeptList();
+
 
 
 

@@ -29,6 +29,12 @@
 		<result column="RETIREMENT_REASON" property="retirementReason"/>
 		<result column="LEAVE_TYPE" property="leaveType"/>
 	</resultMap>
+	
+	<resultMap id="deptResult" type="com.kh.lgtw.employee.model.vo.DeptVo">
+		<id column="DEPT_CODE" property="deptCode"/>
+		<result column="DEPT_NAME" property="deptName"/>
+		<result column="TOP_DEPT" property="topDept"/>
+	</resultMap>
 
 
 	
@@ -53,7 +59,11 @@
 		VALUES(SEQ_EMPNO.NEXTVAL, #{empId}, #{empPwd}, #{empName}, #{empBirth}, #{gender}, #{empPhone}, #{officeTel}, 
 									#{address}, #{email}, DEFAULT, DEFAULT, #{otherInfo}, #{personalInfoCheck})
 	</insert>
-	
+
+	<select id="selectDeptList" resultMap="deptResult">
+		SELECT DEPT_CODE, DEPT_NAME, TOP_DEPT
+		FROM DEPT
+	</select>
 	
 	
 	
