@@ -28,25 +28,19 @@
 						<tr> 
 							<td>게시판 종류:</td>
 							<td >
-								&nbsp;<input type="checkbox" name="authority" value="">공지
-								<input type="checkbox" name="authority" value="">일반
+								&nbsp;<input type="checkbox" name="boardType" value="공지">공지
+								<input type="checkbox" name="boardType" value="일반">일반
 							</td>
 						
 						</tr>
-						
-						
-						
 						<tr height=50px;>
 							<td>게시판 이름:</td> 
-							<td><input type="text" name=""  id="" ></td>
-							<td></td>
+							<td><input type="text" name="boardName"   ></td>
 						</tr>
 						<tr> 
-						
-						
 						</tr>
 						  
-						<tr height=50px;>
+						<!-- <tr height=50px;>
 							<td >게시판 기본 권한: </td> 
 							<td >
 								&nbsp;<input type="checkbox" name="authority" value="">읽기
@@ -60,17 +54,9 @@
 							
 							<td>&nbsp; <button id="btn" onclick="">추가</button> </td> 
 							
-							 
-							
-							
-							
 						</tr> 
 						
-					
-						
-						
-						
-						
+ -->						
 					
 					</table> 
 					<div align="center">
@@ -86,7 +72,10 @@
 				
 			</div>
 		</section>
-	</div>
+	</div> 
+
+	
+	
 	
 	<jsp:include page="../common/footer.jsp" />
 </body>
