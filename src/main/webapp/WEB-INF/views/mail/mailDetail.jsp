@@ -86,7 +86,7 @@
 						</tr>
 						<tr>
 							<th>내용</th>
-							<td colspan="3"><c:out value="${ mail.mContent }"/></td>
+							<td colspan="3" id="contentArea"></td>
 						</tr>
 					</table>
 				</div>
@@ -122,6 +122,12 @@
 				console.log(size);
 			}
 			$(this).parent().find("span.fileSize").text(size);
+		});
+		
+		// 내용 추가
+		$(document).ready(function(){
+			console.log("실행");
+			$("#contentArea").append("${ mail.mContent }");
 		});
 	</script>
 

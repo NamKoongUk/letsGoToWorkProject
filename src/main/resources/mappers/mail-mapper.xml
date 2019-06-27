@@ -117,9 +117,10 @@
 	
 	<!-- 검색 메일 조회 - 해쉬맵으로 -->
 	<select id="searchList" resultMap="resultMailSet">
-		SELECT *FROM MAIL
-		WHERE (SEND_MAIL = #{ empMail }
-		OR RECIVE_MAIL = #{ empMail })
+		SELECT *
+		FROM MAIL 
+		WHERE (SEND_MAIL = #{ empMail } 
+		OR RECIVE_MAIL = #{ empMail }) 
 		<choose>
 			<when test="listType == 'receive'">AND MAIL_TYPE = '받은메일'</when>
 			<when test="listType == 'send'"> AND MAIL_TYPE = '보낸메일'</when>
@@ -128,12 +129,16 @@
 			<when test="listType != 'trash'">AND DSTATUS = 'N'</when>
 		</choose>
 		<choose>
-			<when test="sName != null">AND (RECIVE_MAIL = #{ nameMail } OR SEND_MAIL = #{ nameMail })</when>
+			<when test="sMail != null"> AND 
+			<foreach collection="sMail" index="index" item="mail" separator="OR">
+				(RECIVE_MAIL = #{ mail } OR SEND_MAIL = #{ mail }) 
+			</foreach>
+			</when>
 			<when test="sTitle != null">AND MTITLE LIKE '%' || #{ sTitle } || '%'</when>
 			<when test="sContent != null">AND MCONTENT LIKE '%' || #{ sContent } || '%' </when>
 			<when test="sMail != null">AND (RECIVE_MAIL = #{ sMail } OR SEND_MAIL = #{ sMail })</when>
 		</choose>
-		ORDER BY MAIL_NO DESC
+		ORDER BY MAIL_NO DESC 
 	</select>
 </mapper>
 

@@ -61,7 +61,7 @@
 	<jsp:include page="../common/menubar.jsp"/>
 	
 	<c:set var="pageType" value="all"/>
-	<c:set var="mappingUrl" value="${ mappingUrl }"/>
+	<c:set var="mappingUrl" value="allList.ma"/>
 	
 	<div class="row wrap">
 		<jsp:include page="../common/sideMenu/mail.jsp"/>
@@ -70,6 +70,19 @@
 		<br>
 			<div class="content" align="center">
 				<form class="searchArea form-group" align="left" action="${ contextPath }/mail/search">
+					<%-- 기존에 검색조건이 존재하는 경우  -- 스크립트로 해야하나? --%>
+					<%-- <c:if test="${ !empty listCondition }">
+						<input type="hidden" name="listType" value="${ pageType }"/>
+						<select class="searchType form-control" >
+							<option value="sName">이름</option>
+							<option value="sWriter">작성자</option>
+							<option value="sTitle">제목</option>
+							<option value="sContent">내용</option>
+						</select> &nbsp;&nbsp;&nbsp;
+						<input type="text" name="sName" class="form-control serarhValue" value=""/>&nbsp;
+						<input type="submit" value="검색하기" class="form-control searchBtn"/>
+					</c:if> --%>
+					<%-- 기존에 검색조건이 존재하지 않는 경우  --%>
 					<input type="hidden" name="listType" value="${ pageType }"/>
 					<select class="searchType form-control" >
 						<option value="sName">이름</option>
@@ -118,15 +131,15 @@
 					<div class="paging">
 						<ul class="pagination">
 							<c:if test="${ pi.startPage > 1 }">
-								<li><a href="${ contextPath }/${ mappingUrl }?currentPate=${ pi.startPage - pi.buttonCount }"><<</a></li>
+								<li><a href="${ contextPath }/${ mappingUrl }?currentPage=${ pi.startPage - pi.buttonCount }"><<</a></li>
 							</c:if>
 							<c:if test="${ pi.startPage <= 1 }">
 								<li><a href="#"><<</a></li>
 							</c:if>
-							<c:if test="${ pi.startPage != pi.currentPage }">
-								<li><a href="${ contextPath }/${ mappingUrl }?currentPate=${ pi.currentPage - 1}"><</a></li>
+							<c:if test="${ 1 != pi.currentPage }">
+								<li><a href="${ contextPath }/${ mappingUrl }?currentPage=${ pi.currentPage - 1}"><</a></li>
 							</c:if>
-							<c:if test="${ pi.startPage == pi.currentPage }">
+							<c:if test="${ 1 == pi.currentPage }">
 								<li><a href="#"><</a></li>
 							</c:if>
 							<c:forEach var="pageNum" begin="${ pi.startPage }" end="${ pi.endPage }" step="1">
@@ -137,10 +150,10 @@
 									<li><a href="${ contextPath }/${ mappingUrl }?currentPage=${ pageNum }">${ pageNum }</a></li>
 								</c:if>
 							</c:forEach>
-							<c:if test="${ pi.endPage != currentPage }">
+							<c:if test="${ pi.currentPage != pi.maxPage }">
 								<li><a href="${ contextPath }/${ mappingUrl }?currentPage=${ pi.currentPage + 1 }">></a></li>
 							</c:if>
-							<c:if test="${ pi.endPage == currentPage }">
+							<c:if test="${ pi.currentPage == pi.maxPage }">
 								<li><a href="#">></a></li>
 							</c:if>
 							<c:if test="${ pi.endPage != pi.maxPage }">
