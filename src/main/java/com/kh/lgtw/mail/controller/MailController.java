@@ -38,6 +38,7 @@ import com.kh.lgtw.common.Pagination;
 import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.mail.model.service.MailService;
 import com.kh.lgtw.mail.model.vo.Absence;
+import com.kh.lgtw.mail.model.vo.ListCondition;
 import com.kh.lgtw.mail.model.vo.Mail;
 
 @Controller
@@ -93,7 +94,7 @@ public class MailController {
 			model.addAttribute("list", list);
 			model.addAttribute("pi", pi);
 			
-			return "mail/mailMain";
+			return "mail/mailAllList";
 		}else {
 			model.addAttribute("msg", "리스트 조회에 실패!");
 			
@@ -116,16 +117,9 @@ public class MailController {
 			body = e.getMessage();
 			httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;  // error로 이동
 		}
-		
 		// new ResponseEntity</*내가 보낼 타입*/>(success 에 들어가는 값, 3항연산자를 해서 값이 넘어 갔을때는 -> 내가 statsus를 지정 status);
 		return new ResponseEntity<String>(body, httpStatus);
 	}	
-	
-	// 메일 작성
-//	@RequestMapping("mailSearchList.ma")
-//	public String mailSearchList(HttpServletRequest request) {
-//		return "";
-//	}
 	
 	// 메일보내기
 	@RequestMapping(value="/mail/send", method=RequestMethod.POST)
@@ -144,10 +138,30 @@ public class MailController {
 		return "";
 	}
 	
-	// 전체 메일함 검색
-	@RequestMapping("searchList.ma") 
-	public String selectSearchMailList(int currentPage, Model model) {
-		return null;
+	// 메일 검색
+	@RequestMapping("mail/search.ma") 
+	public String selectSearchMailList(ListCondition lc, Model model) {
+		System.out.println("ListCondition : " + lc);
+		
+		int currentPage = 1;
+		int listCount = ms.getMailListCount();
+		// System.out.println("메일 갯수 조회 : " + listCount);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		ArrayList<Mail> list = ms.selectSearchMailList(pi, lc);
+		System.out.println("메일 리스트 조회  : " + list);
+
+		if(list != null) {
+			model.addAttribute("list", list);
+			model.addAttribute("pi", pi);
+			
+			return "mail/mailAllList";
+		}else {
+			model.addAttribute("msg", "리스트 조회에 실패!");
+			
+			return "common/errorPage";
+		}
 	}
 	
 	// 받은메일함

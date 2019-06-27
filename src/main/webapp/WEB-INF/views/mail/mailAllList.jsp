@@ -60,6 +60,9 @@
 <body>
 	<jsp:include page="../common/menubar.jsp"/>
 	
+	<c:set var="pageType" value="all"/>
+	<c:set var="mappingUrl" value="${ mappingUrl }"/>
+	
 	<div class="row wrap">
 		<jsp:include page="../common/sideMenu/mail.jsp"/>
 		
@@ -67,12 +70,14 @@
 		<br>
 			<div class="content" align="center">
 				<form class="searchArea form-group" align="left" action="mail/search.ma">
-					<select class="searhType form-control">
-						<option value="name">이름</option>
-						<option value="writer">작성자</option>
-						<option value="content">내용</option>
+					<input type="hidden" name="listType" value="${ pageType }"/>
+					<select class="searchType form-control" >
+						<option value="sName">이름</option>
+						<option value="sWriter">작성자</option>
+						<option value="sTitle">제목</option>
+						<option value="sContent">내용</option>
 					</select> &nbsp;&nbsp;&nbsp;
-					<input type="text" name="serarhValue" class="form-control serarhValue"/>&nbsp;
+					<input type="text" name="sName" class="form-control serarhValue"/>&nbsp;
 					<input type="submit" value="검색하기" class="form-control searchBtn"/>
 				</form>
 				<div class="tableArea" align="center">
@@ -113,13 +118,13 @@
 					<div class="paging">
 						<ul class="pagination">
 							<c:if test="${ pi.startPage > 1 }">
-								<li><a href="${ contextPath }/allList.ma?currentPate=${ pi.startPage - pi.buttonCount }"><<</a></li>
+								<li><a href="${ contextPath }/${ mappingUrl }?currentPate=${ pi.startPage - pi.buttonCount }"><<</a></li>
 							</c:if>
 							<c:if test="${ pi.startPage <= 1 }">
 								<li><a href="#"><<</a></li>
 							</c:if>
 							<c:if test="${ pi.startPage != pi.currentPage }">
-								<li><a href="${ contextPath }/allList.ma?currentPate=${ pi.currentPage - 1}"><</a></li>
+								<li><a href="${ contextPath }/${ mappingUrl }?currentPate=${ pi.currentPage - 1}"><</a></li>
 							</c:if>
 							<c:if test="${ pi.startPage == pi.currentPage }">
 								<li><a href="#"><</a></li>
@@ -129,17 +134,17 @@
 									<li class="active"><a>${ pageNum }</a></li>
 								</c:if>
 								<c:if test="${ pageNum != pi.currentPage }">
-									<li><a href="${ contextPath }/allList.ma?currentPage=${ pageNum }">${ pageNum }</a></li>
+									<li><a href="${ contextPath }/${ mappingUrl }?currentPage=${ pageNum }">${ pageNum }</a></li>
 								</c:if>
 							</c:forEach>
 							<c:if test="${ pi.endPage != currentPage }">
-								<li><a href="${ contextPath }/allList.ma?currentPage=${ pi.currentPage + 1 }">></a></li>
+								<li><a href="${ contextPath }/${ mappingUrl }?currentPage=${ pi.currentPage + 1 }">></a></li>
 							</c:if>
 							<c:if test="${ pi.endPage == currentPage }">
 								<li><a href="#">></a></li>
 							</c:if>
 							<c:if test="${ pi.endPage != pi.maxPage }">
-								<li><a href="${ contextPath }/allList.ma?currentPage=${ pi.endPage + 1 }">>></a></li>
+								<li><a href="${ contextPath }/${ mappingUrl }?currentPage=${ pi.endPage + 1 }">>></a></li>
 							</c:if>
 							<c:if test="${ pi.endPage == pi.maxPage }">
 								<li><a href="#">>></a></li>
@@ -169,7 +174,6 @@
 		// 체크박스 값 변경 
 		function changeStatus(type){
 			console.log(type);
-			
 			checkList = [];
 			
 			$("input[name=check]:checked").each(function(){
@@ -188,12 +192,20 @@
 				dataType: "text", // 서버에서 보내줄 타입	
 				success:function(data, status, request){
 					console.log(request);
-					location.href="${contextPath}/allList.ma?currentPage=${ pi.currentPage }";
+					location.href="${contextPath}/${ mappingUrl }?currentPage=${ pi.currentPage }";
 				}, error: function(data){
 					alert("수정이 실패하셨습니다.");
 				}
 			});
 		}
+		
+		// searchType name속성값을 상태에 따라 수정 
+		$(".searchType").change(function(){
+			var optionVal = $(".searchType > option:selected").attr("value");
+			// console.log(optionVal);
+			$(this).siblings("[type=text]").attr("name", optionVal);
+			// console.log($(this).siblings("[type=text]").attr("name"));
+		})
 	</script>
 	
 	<jsp:include page="../common/footer.jsp" />
