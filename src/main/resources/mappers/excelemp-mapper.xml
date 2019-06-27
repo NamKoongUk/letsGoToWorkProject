@@ -16,7 +16,7 @@
 
 	<insert id="insertEmpExcel" parameterType="excelemp">
 	  	INSERT INTO EMPLOYEE(EMPNO, EMP_ID, EMP_PWD, EMP_NAME, EMP_PHONE, STATUS, ENROLL_DATE)
-	  	VALUES (#{empNo},#{empId},#{empPwd},#{empName},#{empPhone},#{status},#{enrollDate})
+	  	VALUES (SEQ_EMPNO.NEXTVAL,#{empId},#{empPwd},#{empName},#{empPhone},#{status},#{enrollDate})
   </insert> 
 	
 	

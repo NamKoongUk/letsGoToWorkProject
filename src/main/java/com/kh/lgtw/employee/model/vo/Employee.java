@@ -26,7 +26,6 @@ public class Employee {
 	private String leaveReason;
 	private String retirementReason;
 	private String leaveType;
-	private String dutyCode;
 	
 	public Employee() {}
 
@@ -34,7 +33,7 @@ public class Employee {
 			String empPhone, String officeTel, String address, String email, String managerType, String status,
 			Date enrollDate, Date retirementDate, String otherInfo, String personalInfoCheck, int refEmpNo,
 			Date lstartDate, Date lendDate, String leaveTerm, String leaveReason, String retirementReason,
-			String leaveType, String dutyCode) {
+			String leaveType) {
 		super();
 		this.empNo = empNo;
 		this.empId = empId;
@@ -59,7 +58,6 @@ public class Employee {
 		this.leaveReason = leaveReason;
 		this.retirementReason = retirementReason;
 		this.leaveType = leaveType;
-		this.dutyCode = dutyCode;
 	}
 
 	public int getEmpNo() {
@@ -246,14 +244,6 @@ public class Employee {
 		this.leaveType = leaveType;
 	}
 
-	public String getDutyCode() {
-		return dutyCode;
-	}
-
-	public void setDutyCode(String dutyCode) {
-		this.dutyCode = dutyCode;
-	}
-
 	@Override
 	public String toString() {
 		return "Employee [empNo=" + empNo + ", empId=" + empId + ", empPwd=" + empPwd + ", empName=" + empName
@@ -262,9 +252,9 @@ public class Employee {
 				+ status + ", enrollDate=" + enrollDate + ", retirementDate=" + retirementDate + ", otherInfo="
 				+ otherInfo + ", personalInfoCheck=" + personalInfoCheck + ", refEmpNo=" + refEmpNo + ", lstartDate="
 				+ lstartDate + ", lendDate=" + lendDate + ", leaveTerm=" + leaveTerm + ", leaveReason=" + leaveReason
-				+ ", retirementReason=" + retirementReason + ", leaveType=" + leaveType + ", dutyCode=" + dutyCode
-				+ "]";
+				+ ", retirementReason=" + retirementReason + ", leaveType=" + leaveType + "]";
 	}
+	
 	
 	
 	
