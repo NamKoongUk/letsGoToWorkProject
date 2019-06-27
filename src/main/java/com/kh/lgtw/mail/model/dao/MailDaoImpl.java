@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.mail.model.exception.StatusTypeException;
 import com.kh.lgtw.mail.model.vo.Absence;
+import com.kh.lgtw.mail.model.vo.ListCondition;
 import com.kh.lgtw.mail.model.vo.Mail;
 
 @Repository
@@ -48,7 +49,7 @@ public class MailDaoImpl implements MailDao{
 			}
 		}else if(type.equals("delete")) {
 			for(int i = 0; i < arrayNum.size(); i++) {
-				result += session.update("Mail.updateDeleteStatus", arrayNum.get(i));
+				result += (int) session.update("Mail.updateDeleteStatus", arrayNum.get(i));
 			}
 		}else {
 			throw new StatusTypeException("상태 유형이 올바르지 않습니다.");
@@ -84,6 +85,18 @@ public class MailDaoImpl implements MailDao{
 	@Override
 	public int sendMail(SqlSession sqlSession, Mail mail) {
 		return sqlSession.insert("Mail.sendMail", mail);
+	}
+
+	
+	// 검색 메일 조회
+	@Override
+	public ArrayList<Mail> selectSearchMailList(SqlSession sqlSession, PageInfo pi, ListCondition lc) {
+		
+		int offset = (pi.getCurrentPage() - 1)  * pi.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		
+		return (ArrayList)sqlSession.selectList("Mail.searchMailList", lc, rowBounds);
 	}
 
 	

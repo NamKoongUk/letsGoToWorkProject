@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.mail.model.exception.StatusTypeException;
 import com.kh.lgtw.mail.model.vo.Absence;
+import com.kh.lgtw.mail.model.vo.ListCondition;
 import com.kh.lgtw.mail.model.vo.Mail;
 
 public interface MailDao {
@@ -25,5 +26,7 @@ public interface MailDao {
 	ArrayList<Absence> selectAbsenceList(SqlSession sqlSession, int empNo);
 
 	int sendMail(SqlSession sqlSession, Mail mail);
+
+	ArrayList<Mail> selectSearchMailList(SqlSession sqlSession, PageInfo pi, ListCondition lc);
 
 }

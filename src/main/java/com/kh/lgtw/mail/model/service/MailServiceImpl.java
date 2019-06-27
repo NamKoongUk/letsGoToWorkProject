@@ -11,6 +11,7 @@ import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.mail.model.dao.MailDao;
 import com.kh.lgtw.mail.model.exception.StatusTypeException;
 import com.kh.lgtw.mail.model.vo.Absence;
+import com.kh.lgtw.mail.model.vo.ListCondition;
 import com.kh.lgtw.mail.model.vo.Mail;
 
 @Service
@@ -59,6 +60,12 @@ public class MailServiceImpl implements MailService{
 	@Override
 	public int sendMail(Mail mail) {
 		return md.sendMail(sqlSession, mail);
+	}
+
+	// 검색 메일 조회
+	@Override
+	public ArrayList<Mail> selectSearchMailList(PageInfo pi, ListCondition lc) {
+		return md.selectSearchMailList(sqlSession, pi, lc);
 	}
 
 }

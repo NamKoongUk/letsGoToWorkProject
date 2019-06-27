@@ -83,10 +83,38 @@
 		ORDER BY START_DATE DESC
 	</select>
 	
+	<!-- 메일 보내기 DB저장 -->
 	<insert id="sendMail" parameterType="Mail">
 		INSERT INTO MAIL(MAIL_NO, MTITLE, MCONTENT, SEND_MAIL, RECIVE_MAIL, MAIL_TYPE, MSIZE)
 		VALUES (SEQ_MAIL_NO.NEXTVAL, #{ mTitle }, #{ mContent }, #{ sendMail }, #{ reciveMail }, '보낸 메일', #{ mSize })
 	</insert>
+	
+	<!-- 검색 메일 조회 -->
+	<select id="searchMailList" resultMap="resultMailSet">
+		SELECT * 
+		FROM MAIL
+		WHERE DSTATUS = 'N'
+		<choose>
+			<when test="listType == recive">
+			
+			</when>
+			<when test="listType == send">
+			
+			</when>
+			<when test="listType == outbox">
+			
+			</when>
+			<when test="listType == trash">
+			
+			</when>
+		</choose>
+		<choose>
+			<when test="sName != null"></when>
+			<when test="sTitle != null"></when>
+			<when test="sContent != null"></when>
+			<when test="sTitle != null"></when>
+		</choose>
+	</select>
 </mapper>
 
 
