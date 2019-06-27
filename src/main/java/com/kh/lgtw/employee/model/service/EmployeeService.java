@@ -23,6 +23,8 @@ public interface EmployeeService {
 
 	List<ExcelEmp> xlsxEmpInsert(MultipartHttpServletRequest request, MultipartFile excelFile);
 
+	List<String> selectEmpEamilForName(String sName);
+
 
 
 //	Employee loginEmpl(Employee employee);

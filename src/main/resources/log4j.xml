@@ -15,7 +15,6 @@
 		<level value="info" />
 	</logger>
 	
-	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
 	</logger>
@@ -31,6 +30,23 @@
 	<logger name="org.springframework.web">
 		<level value="info" />
 	</logger>
+	
+	<!-- 쿼리문 로그 -->	
+	<!-- <logger name="jdbc.sqlonly" additivity="false"> 
+		<level value="info"/> 
+		<appender-ref ref="console"/> 
+	</logger> -->
+	
+	<!-- jdbc결과를 테이블로 보여주는 로그 --> 
+	<!-- <logger name="jdbc.resultsettable" additivity="false"> 
+		<level value="info"/> 
+		<appender-ref ref="console"/> 
+	</logger> 
+	
+	<logger name="org.mybatis" level="DEBUG " additivity="false">
+		<level value="info"/>
+	    <appender-ref ref="console" />
+	</logger> -->
 
 	<!-- Root Logger -->
 	<root>

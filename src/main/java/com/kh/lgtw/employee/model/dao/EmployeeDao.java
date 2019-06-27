@@ -23,6 +23,8 @@ public interface EmployeeDao{
 
 	List<ExcelEmp> excelEmpInsert(SqlSession sqlSession, List<ExcelEmp> list);
 
+	List<String> selectEmpEmailForName(SqlSession sqlSession, String sName);
+
 
 
 //	Employee loginEmpl(Employee employee, SqlSession sqlSession);

@@ -1,6 +1,7 @@
 package com.kh.lgtw.mail.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.kh.lgtw.approval.model.vo.PageInfo;
@@ -26,5 +27,7 @@ public interface MailService{
 	int sendMail(Mail mail);
 
 	ArrayList<Mail> selectSearchMailList(PageInfo pi, ListCondition lc);
+
+	ArrayList<Mail> selectSearchMailList(PageInfo pi, HashMap<String, Object> listCondition);
 
 }

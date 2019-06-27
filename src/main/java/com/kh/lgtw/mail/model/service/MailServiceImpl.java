@@ -1,6 +1,7 @@
 package com.kh.lgtw.mail.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -62,10 +63,16 @@ public class MailServiceImpl implements MailService{
 		return md.sendMail(sqlSession, mail);
 	}
 
-	// 검색 메일 조회
+	// 검색 메일 조회 - ListCondition 객체로 
 	@Override
 	public ArrayList<Mail> selectSearchMailList(PageInfo pi, ListCondition lc) {
 		return md.selectSearchMailList(sqlSession, pi, lc);
+	}
+
+	// 검색 메일 조회 - HashMap으로 
+	@Override
+	public ArrayList<Mail> selectSearchMailList(PageInfo pi, HashMap<String, Object> listCondition) {
+		return md.selectSearchMailList(sqlSession, pi, listCondition);
 	}
 
 }

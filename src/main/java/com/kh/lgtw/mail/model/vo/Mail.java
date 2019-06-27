@@ -147,6 +147,6 @@ public class Mail implements java.io.Serializable{
 		return "Mail [mailNo=" + mailNo + ", mTitle=" + mTitle + ", mContent=" + mContent + ", sendMail=" + sendMail
 				+ ", reciveMail=" + reciveMail + ", dStatus=" + dStatus + ", sendDate=" + sendDate + ", rStatus="
 				+ rStatus + ", mailType=" + mailType + ", mSize=" + mSize + ", reservationCheck=" + reservationCheck
-				+ ", reservationDate=" + reservationDate + ", reservationTime=" + reservationTime + "]";
+				+ ", reservationDate=" + reservationDate + ", reservationTime=" + reservationTime + "]\n";
 	}
 }

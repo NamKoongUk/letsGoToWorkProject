@@ -1,6 +1,7 @@
 package com.kh.lgtw.mail.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
@@ -8,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.lgtw.approval.model.vo.PageInfo;
+import com.kh.lgtw.common.SqlQuery;
 import com.kh.lgtw.mail.model.exception.StatusTypeException;
 import com.kh.lgtw.mail.model.vo.Absence;
 import com.kh.lgtw.mail.model.vo.ListCondition;
@@ -91,12 +93,22 @@ public class MailDaoImpl implements MailDao{
 	// 검색 메일 조회
 	@Override
 	public ArrayList<Mail> selectSearchMailList(SqlSession sqlSession, PageInfo pi, ListCondition lc) {
-		
 		int offset = (pi.getCurrentPage() - 1)  * pi.getLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
 		
-		return (ArrayList)sqlSession.selectList("Mail.searchMailList", lc, rowBounds);
+		ArrayList<Mail> list = (ArrayList)sqlSession.selectList("Mail.searchMailList", lc, rowBounds);
+		return list;
+	}
+
+	// 검색 메일 조회
+	@Override
+	public ArrayList<Mail> selectSearchMailList(SqlSession sqlSession, PageInfo pi, HashMap<String, Object> listCondition) {
+		int offset = (pi.getCurrentPage() - 1)  * pi.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		SqlQuery.getSqlQuery(sqlSession, "Mail.searchList", listCondition);
+		
+		return (ArrayList)sqlSession.selectList("Mail.searchList", listCondition, rowBounds);
 	}
 
 	

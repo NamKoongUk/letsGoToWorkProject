@@ -188,8 +188,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return daoList;
 	}
 
-
-	
+	// 이름으로 사원 이메일 찾기 
+	@Override
+	public List<String> selectEmpEamilForName(String sName) {
+		return empDao.selectEmpEmailForName(sqlSession, sName);
+	}
 
 	//	@Override
 //	public Employee loginEmpl(Employee employee) {
