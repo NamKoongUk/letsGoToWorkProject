@@ -110,4 +110,8 @@ public interface ApprovalDao {
 
 	ArrayList<HashMap<String, Object>> selectDept(SqlSession session);
 
+	ArrayList<HashMap<String, Object>> selectDept(SqlSession session, String deptCode);
+
+	ArrayList<HashMap<String, Object>> selectEmp(SqlSession session, String deptCode);
+
 }

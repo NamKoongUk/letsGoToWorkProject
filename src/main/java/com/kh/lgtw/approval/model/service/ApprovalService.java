@@ -103,6 +103,8 @@ public interface ApprovalService {
 
 	Map<String, ArrayList<HashMap<String, Object>>> selectEmp();
 
+	Map<String, ArrayList<HashMap<String, Object>>> selectUnderDept(String deptCode);
+
 	
 
 }

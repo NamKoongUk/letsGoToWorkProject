@@ -548,6 +548,19 @@ public class AprprovalController {
 		return map;
 	}
 	
+	//하위부서 및 하위부서 사원 조회
+	@RequestMapping(value = "approval/selectUnderDept")
+	@ResponseBody
+	public Map<String, ArrayList<HashMap<String, Object>>> selectUnderDept(@RequestParam(value = "deptCode") String deptCode){
+		
+		Map<String, ArrayList<HashMap<String, Object>>> map = as.selectUnderDept(deptCode);
+		System.out.println("하위부서 : " + map.get("deptList"));
+		System.out.println("하위부서 : " + map.get("empList"));
+		
+		return map;
+		
+	}
+	
 
 	// 문서양식 불러오기
 	@RequestMapping("selectDcmForm.ap")

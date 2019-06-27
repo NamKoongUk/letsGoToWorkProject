@@ -204,6 +204,25 @@
 		ORDER BY DH.DEPT_CODE, PH.JOB_CODE
 	</select>
 	
+	<select id="selectUnderDept" resultMap="deptResultSet" parameterType="java.lang.String">
+		SELECT *
+		FROM DEPT
+		WHERE TOP_DEPT = #{deptCode}
+	</select>
+	
+	<select id="selectUnderEmp" resultMap="empResultSet2" parameterType="java.lang.String">
+		SELECT E.EMPNO, E.EMP_ID, E.EMP_NAME, J.JOB_CODE, J.JOB_NAME, D.DEPT_CODE, D.DEPT_NAME, D.MANAGER_EMPNO
+		FROM EMPLOYEE E
+		JOIN DEPT_HISTORY DH ON(E.EMPNO = DH.EMPNO)
+		JOIN DEPT D ON (D.DEPT_CODE = DH.DEPT_CODE)
+		JOIN EMPLOYEE E2 ON (D.MANAGER_EMPNO = E2.EMPNO)
+		JOIN PROMOTION_HISTORY PH ON(PH.EMPNO = E.EMPNO)
+		JOIN JOB J ON(J.JOB_CODE = PH.JOB_CODE)
+		WHERE DH.DEPT_CODE = #{deptCode} 
+		OR D.TOP_DEPT = #{deptCode}
+		ORDER BY DH.DEPT_CODE, PH.JOB_CODE
+	</select>
+	
 </mapper>  
 
 
