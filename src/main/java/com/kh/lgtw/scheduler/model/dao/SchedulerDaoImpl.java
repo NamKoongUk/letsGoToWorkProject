@@ -77,7 +77,39 @@ public class SchedulerDaoImpl implements SchedulerDao{
 	@Override
 	public int updateSchedule(SqlSession sqlSession, Schedule schedule) {
 		
-		return sqlSession.update("Scheduler.updateSchedule", schedule);
+		if(schedule.getStartTime() == null) {
+			System.out.println("풀캘린더 이벤트 업데이트");
+			return sqlSession.update("Scheduler.eventUpdate", schedule);
+		}else {
+			return sqlSession.update("Scheduler.updateSchedule", schedule);
+		}
+		
+	}
+
+	@Override
+	public int updateEmpScheduler(SqlSession sqlSession, Scheduler scheduler) {
+		
+		return sqlSession.update("Scheduler.updateEmpScheduler", scheduler);
+	}
+
+	@Override
+	public int deleteEmpScheduler(SqlSession sqlSession, Scheduler scheduler) {
+		int result = 0;
+		
+		int result1 = sqlSession.delete("Scheduler.deleteScheduler1", scheduler);
+		
+		if(result1 > 0) {
+			int result2 = sqlSession.delete("Scheduler.deleteScheduler2", scheduler);
+
+			if(result2 > 0) {
+				result = 1;
+				return result;
+			}else {
+				return result;
+			}
+		}else {
+			return result;
+		}
 	}
 
 	

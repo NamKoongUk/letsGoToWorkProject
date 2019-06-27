@@ -94,7 +94,37 @@
         	 }
           });
           
-      }
+      },
+      eventDrop: function(info) {
+      	  console.log(info.event.id);
+      	  console.log(info.event.start.toISOString());
+      	  console.log(info.event.end.toISOString());
+    	  
+      	  var id = info.event.id;
+      	  var start = new Date(info.event.start.toISOString());
+      	  var startD = start.format("yyyy-MM-dd");
+      	  console.log(startD);
+      	  
+      	  var end = new Date(info.event.end.toISOString());
+      	  var endD = end.format("yyyy-MM-dd");
+      	  console.log(endD);
+      	  
+          if (!confirm("정말로 변경 하시겠습니까?")) {
+            info.revert();
+          }else{
+        	  location.href = '${contextPath}/updateSchedule.sc?scheduleNo=' + id + "&startDate=" + startD
+        			  			+ "&endDate=" + endD;
+          }
+    	  
+      },
+      eventResize: function(info) {
+    	 alert(info.event.title + " end is now " + info.event.end.toISOString());
+
+    	    if (!confirm("is this okay?")) {
+    	      info.revert();
+    	    }
+    	 }
+      
       
       
     });
@@ -159,7 +189,7 @@
   .modal-body td{
   	padding-top:5px;
   }
-  #colorSp {
+  .colorSp {
   	position: relative;
   	display : inline-block;
   	left: -5px;
@@ -223,7 +253,8 @@
 			  
 			  
 			  <!-- 개인캘린더 수정 모달 -->
-				<div class="modal fade" id="updateEmpScModal" role="dialog">
+			  <button style="display:none" id="updateScheduler" data-toggle="modal" data-target="#updateEmpScrModal"></button>
+				<div class="modal fade" id="updateEmpScrModal" role="dialog">
 			    <div class="modal-dialog">
 			    
 			      <!-- Modal content-->
@@ -232,43 +263,43 @@
 			          <button type="button" class="close" data-dismiss="modal">&times;</button>
 			          <h4 class="modal-title" align="center">캘린더 수정</h4>
 			        </div>
-			        <form action="" method="post">
-			        <div class="modal-body">
-			          <table>
-			          	<tr>
-			          		<td width="20%">캘린더 이름</td>
-			          		<td width="50%">
-			          			<input type="hidden" name="schedulerNo">
-			          			<input type="text" name="schedulerName">
-			          		</td>
-						</tr>
-						<tr>
-							<td>색상</td>
-							<td>
-			          			<div id="empScColor">
-									<button type="button" class="label on" name="schedulerColor" value="red"><span class="c1"></span></button>
-									<button type="button" class="label" name="cc" value="orange"><span class="c2"></span></button>
-									<button type="button" class="label" name="cc" value="yellow"><span class="c3"></span></button>
-									<button type="button" class="label" name="cc" value="green"><span class="c4"></span></button>
-									<button type="button" class="label" name="cc" value="blue"><span class="c5"></span></button>
-									<button type="button" class="label" name="cc" value="navy"><span class="c6"></span></button>
-									<button type="button" class="label" name="cc" value="purple"><span class="c7"></span></button>
-									<br>
-								</div>
-			          		</td>
-						</tr>
-			          </table>
-			        </div>
-			        </form>
+			        <form action="" method="post" id="udEmpScrF">
+				        <div class="modal-body">
+				          <table>
+				          	<tr>
+				          		<td width="20%">캘린더 이름</td>
+				          		<td width="50%">
+				          			<input type="hidden" name="schedulerNo" id="udscrNo">
+				          			<input type="text" name="schedulerName" id="udscrName">
+				          		</td>
+							</tr>
+							<tr>
+								<td>색상</td>
+								<td>
+				          			<div id="udscrColorArea">
+										<button type="button" class="label on" name="schedulerColor" value="red" id="udscrColor"><span class="c1"></span></button>
+										<button type="button" class="label" name="cc" value="orange"><span class="c2"></span></button>
+										<button type="button" class="label" name="cc" value="yellow"><span class="c3"></span></button>
+										<button type="button" class="label" name="cc" value="green"><span class="c4"></span></button>
+										<button type="button" class="label" name="cc" value="blue"><span class="c5"></span></button>
+										<button type="button" class="label" name="cc" value="navy"><span class="c6"></span></button>
+										<button type="button" class="label" name="cc" value="purple"><span class="c7"></span></button>
+										<br>
+									</div>
+				          		</td>
+							</tr>
+				          </table>
+				        </div>
+				      </form>
 			        <div class="modal-footer">
-			          <button type="button" class="btn" onclick="updateEmpSc()">수정</button>
-			          <button type="button" class="btn" onclick="deleteEmpSc()">삭제</button>
+			          <button type="button" class="btn" onclick="updateEmpScr()">수정</button>
+			          <button type="button" class="btn" onclick="deleteEmpScr()">삭제</button>
 			          <button type="reset" class="btn" data-dismiss="modal">취소</button>
 			        </div>
 			      </div>
 			    </div>
 			  </div>
-			  
+			
 			  
 			  <!-- 일정추가 모달 -->
 			  <form action="${contextPath}/insertSchedule.sc" method="post">
@@ -452,58 +483,6 @@
 			  </div>
 			  </form> -->
 			  
-			  <!-- 일정 상세보기 추가 모달 -->
-				<!-- <form action="" method="get">
-				<div class="modal fade" id="groupSchedulerModal" role="dialog">
-			    <div class="modal-dialog">
-			    
-			      Modal content
-			      <div class="modal-content">
-			        <div class="modal-header">
-			          <button type="button" class="close" data-dismiss="modal">&times;</button>
-			          <h4 class="modal-title" align="center">공유 일정표 추가</h4>
-			        </div>
-			        <div class="modal-body">
-			          <table>
-			          	<tr>
-			          		<td width="20%">일정표 이름</td>
-			          		<td width="50%"><input type="text" name="schedulerName"></td>
-						</tr>
-						<tr>
-							<td>색상</td>
-							<td>
-			          			<div>
-									<button type="button" class="label on" name="cc"><span class="c1" ></span></button>
-									<button type="button" class="label" name="cc"><span class="c2"></span></button>
-									<button type="button" class="label" name="cc"><span class="c3"></span></button>
-									<button type="button" class="label" name="cc"><span class="c4"></span></button>
-									<button type="button" class="label" name="cc"><span class="c5"></span></button>
-									<button type="button" class="label" name="cc"><span class="c6"></span></button>
-									<button type="button" class="label" name="cc"><span class="c7"></span></button>
-									<br>
-								</div>
-			          		</td>
-						</tr>
-						<tr>
-							<td>공유대상</td>
-						</tr>
-						<tr>
-							<td>
-								
-							</td>
-						</tr>
-			          </table>
-			        </div>
-			        <div class="modal-footer">
-			          <button type="submit" class="btn" data-dismiss="modal">생성</button>
-			          <button type="reset" class="btn" data-dismiss="modal">취소</button>
-			        </div>
-			      </div>
-			      
-			    </div>
-			  </div>
-			  </form> -->
-			  
 			</div>
 		</section>
 	</div>
@@ -520,15 +499,31 @@
 			$(this).addClass("on");
 			$(this).siblings().attr("name", "cc");
 			$(this).attr("name","schedulerColor");
+			$(this).siblings().removeAttr("id");
+			$(this).attr("id", "udscrColor");
+			
 			console.log($(this).attr("name"));
 			console.log($(this).val());
 		});
 		
+		function resetColorBtn(){
+			$(".label").removeClass("on");
+      		$(".label").removeAttr("id");
+      		$(".label").attr("name", "cc");
+      		
+      		$(".label").eq(0).addClass("on");
+      		$(".label").eq(0).attr("name", "schedulerColor");
+      		$(".label").eq(0).attr("id", "udscrColor");
+		};
+		
 		function createEmpSC(){
+      		console.log($(".label").eq(0));
       		var colorVal = $("[name=schedulerColor]").val();
       		var nameVal = $("[name=schedulerName]").val();
       		
+      		
       		console.log($("[name=schedulerName]").val());
+      		console.log($("[name=schedulerColor]").val());
       		
       		if($("[name=schedulerName]").val() == ""){
       			alert("캘린더 이름을 입력해주세요!");
@@ -605,20 +600,22 @@
   					
   					$("#groupScheduler > tbody > tr").remove();
   					var $groupScheduler = $("#groupScheduler");
-  					
+  	
       				for(var key in data.empScList){
       					var $empTr = $("<tr id='empTr'>");
       					var $colTd = $("<td colspan='2'>");
-      					var $colBtn = $("<button style='width:5px; height:16px;' id='colorBtn'>");
-      					var $colSp = $("<span style='background:" + data.empScList[key].schedulerColor + "' id='colorSp'>");
+      					var $hiddenNo = $("<input type='hidden' value='" + data.empScList[key].schedulerNo + "' class='hiddenNo'>");
+      					var $colBtn = $("<button style='width:5px; height:16px;' class='colorBtn'>");
+      					var $colSp = $("<span style='background:" + data.empScList[key].schedulerColor + "' class='colorSp'>");
       					      					
-      					var $nameSp = $("<span style='margin-left:5px;'>").text(data.empScList[key].schedulerName);
+      					var $nameSp = $("<span style='margin-left:5px;' class='empScName'>").text(data.empScList[key].schedulerName);
       					
       					var $settingTd = $("<td align='center'>");
       					var $settingIm = $("<img src='${contextPath}/resources/images/scheduler/settings.png'" + 
       										"style='width:16px; height:16px;' class='empScSetting'>");
       					
       					$colBtn.append($colSp);
+      					$colTd.append($hiddenNo);
       					$colTd.append($colBtn);
       					$colTd.append($nameSp);
       					$empTr.append($colTd);
@@ -632,10 +629,10 @@
       				for(var key in data.gpScList){
       					var $gmTr = $("<tr>");
       					var $colTd = $("<td colspan='2'>");
-      					var $colBtn = $("<button style='width:5px; height:16px;' id='colorBtn'>");
-      					var $colSp = $("<span style='background-color:" + data.gpScList[key].schedulerColor + "' id='colorSp'>");
+      					var $colBtn = $("<button style='width:5px; height:16px;' class='colorBtn'>");
+      					var $colSp = $("<span style='background-color:" + data.gpScList[key].schedulerColor + "' class='colorSp'>");
       					      					
-      					var $nameSp = $("<span style='margin-left:5px;'>").text(data.gpScList[key].schedulerName);
+      					var $nameSp = $("<span style='margin-left:5px;' classs='gpScName'>").text(data.gpScList[key].schedulerName);
       					
       					var $settingTd = $("<td align='center'>");
       					var $settingIm = $("<img src='${contextPath}/resources/images/scheduler/settings.png'" + 
@@ -689,13 +686,58 @@
       	
       	$(document).on("click", ".empScSetting", function(){
       		console.log("버튼 클릭연동됨!");
-      		var tableTr = $(this).parents().find("#empTr");
+      		var tableTr = $(this).parent().parent();
+      		console.log(tableTr.find(".hiddenNo"));
+      		var color = tableTr.find(".colorSp").css("background-color");
+      		var no = tableTr.find(".hiddenNo").val();
+      		var name = tableTr.find(".empScName").text();
       		
-      		console.log(tableTr.find("#colorSp").css("background-color"));
+      		console.log(color);
+      		console.log(no);
+      		console.log(name);
+      		
+      		$("#udscrNo").val(no);
+      		$("#udscrName").val(name);
+      		console.log($("#udscrColorArea").find("span"));
+      		$("#udscrColorArea").find("span").each(function(){
+      			var bColor = $(this).css("background-color");
+      			console.log(bColor);
+      			if(color == bColor) {
+      				$(this).parent().siblings().removeClass("on");
+      				$(this).parent().addClass("on");
+      				$(this).parent().siblings().attr("name", "cc");
+      				$(this).parent().attr("name","schedulerColor");
+      				$(this).parent().siblings().removeAttr("id");
+      				$(this).parent().attr("id", "udscrColor");
+      				
+      			}
+      			
+      		});
+      		
+      		$("#updateScheduler").trigger("click");		
       	});
       	
       	
-      	$(document).on('click', '#colorBtn', function(){
+      	function updateEmpScr(){
+      		var udscrNo = $("#udscrNo").val();
+      		var udscrName = $("#udscrName").val();
+      		var udscrColor = $("#udscrColor").val();
+      		
+      		console.log(udscrNo);
+      		console.log(udscrName);
+      		console.log(udscrColor);
+      		
+      		location.href = '${contextPath}/updateEmpScheduler.sc?schedulerNo=' + udscrNo
+      				        + '&schedulerName=' + udscrName + "&schedulerColor=" + udscrColor;
+      	};
+      	
+      	function deleteEmpScr(){
+      		var udscrNo = $("#udscrNo").val();
+      		
+      		location.href = '${contextPath}/deleteEmpScheduler.sc?schedulerNo=' + udscrNo;
+      	}
+
+      	$(document).on('click', '.colorBtn', function(){
       		console.log($(this));
       		console.log($(this).find("span"));
       		
