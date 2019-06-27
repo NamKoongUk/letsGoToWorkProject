@@ -151,13 +151,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 								} // end switch
 								
 								switch(cellIndex) {
-								case 0 : excelEmp.setEmpNo((int)Double.parseDouble(value)); break;
-								case 1 : excelEmp.setEmpId(value); break;
-								case 2 : excelEmp.setEmpPwd(value); break;
-								case 3 : excelEmp.setEmpName(value); break;
-								case 4 : excelEmp.setEmpPhone(value); break;
-								case 5 : excelEmp.setStatus(value); break;
-								case 6 : excelEmp.setEnrollDate(Date.valueOf(value));break;
+								case 0 : excelEmp.setEmpId(value); break;
+								case 1 : excelEmp.setEmpPwd(value); break;
+								case 2 : excelEmp.setEmpName(value); break;
+								case 3 : excelEmp.setEmpPhone(value); break;
+								case 4 : excelEmp.setStatus(value); break;
+								case 5 : excelEmp.setEnrollDate(Date.valueOf(value));break;
 								default: break;
 								}
 							}

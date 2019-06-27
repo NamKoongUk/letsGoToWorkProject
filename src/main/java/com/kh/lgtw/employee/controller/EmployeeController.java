@@ -278,14 +278,15 @@ public class EmployeeController {
 		
 		employee.setAddress(address);
 		
-		//System.out.println(employee);
+		
+		System.out.println("비번 :"+employee.getEmpPwd());
 		
 		employee.setEmpPwd(passwordEncoder.encode(employee.getEmpPwd()));
 		
 		int result = empService.insertEmpOne(employee);
 		
-		if(result>0) {
-			return "redirect:insertOneEmpl.em";
+		if(result > 0) {
+			return "redirect:showEmpOneRegister.em";
 		}else {
 			return "employee/empOneRegister";
 			
