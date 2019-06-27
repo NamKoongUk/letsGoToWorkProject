@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.service.EmployeeService;
+import com.kh.lgtw.employee.model.vo.DeptVo;
 import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.employee.model.vo.ExcelEmp;
 import com.kh.lgtw.employee.model.util.ExcelFileType;
@@ -66,7 +67,18 @@ public class EmployeeController {
 	
 	//조직도
 	@RequestMapping("employee.em")
-	public String employeeHome() {
+	public String employeeHome(Model model) {
+		
+		ArrayList<DeptVo> list;
+		
+		list = empService.selectDeptList();
+		
+		for(int i =0; i<list.size(); i++) {
+			System.out.println("리스트 출력 : " + list.get(i));
+		}
+		
+		model.addAttribute("list", list);
+		
 		return "employee/deptGroup";
 	}
 	//직원목록페이지

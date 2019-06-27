@@ -42,6 +42,14 @@ public class CommunityDaoImpl implements CommunityDao {
 		return (ArrayList)sqlSession.selectList("Community.SelectTemporaryList");
 	}
 
+	@Override
+	public int InsertCommunity(SqlSessionTemplate sqlSession, Community com) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("Community.InsertCommunity", com);
+	}
+
+	
+
 	
 
 	

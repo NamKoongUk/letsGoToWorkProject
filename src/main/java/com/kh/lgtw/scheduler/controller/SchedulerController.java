@@ -100,17 +100,29 @@ public class SchedulerController {
 	}
 	
 	//개인스케쥴러 수정
-	@RequestMapping("updateMemberScheduler.sc")
-	public String updateMemberScheduler() {
-		int result = ss.updateMemberScheduler();
-		return "";
+	@RequestMapping("updateEmpScheduler.sc")
+	public String updateEmpScheduler(Scheduler scheduler) {
+		System.out.println("컨트롤러 들어왔음!");
+		System.out.println(scheduler);
+		int result = ss.updateEmpScheduler(scheduler);
+		
+		if(result > 0) {
+			return "redirect:scheduler.sc";
+		}else {
+			return "main/mian";
+		}
 	}
 	
 	//개인스케쥴러 삭제
-	@RequestMapping("deleteMemberScheduler.sc")
-	public String deleteMemberScheduler() {
-		int result = ss.deleteMemberScheduler();
-		return "";
+	@RequestMapping("deleteEmpScheduler.sc")
+	public String deleteEmpScheduler(Scheduler scheduler) {
+		System.out.println("컨트롤러 진입 : " + scheduler);
+		int result = ss.deleteEmpScheduler(scheduler);
+		if(result > 0) {
+			return "redirect:scheduler.sc";			
+		}else {
+			return "main/main";
+		}
 	}
 	
 	//공유스케쥴러 생성

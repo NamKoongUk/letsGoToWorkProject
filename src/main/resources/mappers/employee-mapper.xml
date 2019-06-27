@@ -30,6 +30,12 @@
 		<result column="LEAVE_TYPE" property="leaveType"/>
 	</resultMap>
 	
+	<resultMap id="deptResult" type="com.kh.lgtw.employee.model.vo.DeptVo">
+		<id column="DEPT_CODE" property="deptCode"/>
+		<result column="DEPT_NAME" property="deptName"/>
+		<result column="TOP_DEPT" property="topDept"/>
+	</resultMap>
+	
 	<!-- 로그인시 사원 객체 조회 -->
 	<select id="loginCheck" resultMap="employeeResultSet" parameterType="Employee">
 		SELECT *
@@ -58,6 +64,11 @@
 		FROM EMPLOYEE
 		WHERE EMP_NAME LIKE '%' || #{ sName } || '%'
 		AND STATUS = 'Y'
+	</select>
+
+	<select id="selectDeptList" resultMap="deptResult">
+		SELECT DEPT_CODE, DEPT_NAME, TOP_DEPT
+		FROM DEPT
 	</select>
 	
 	

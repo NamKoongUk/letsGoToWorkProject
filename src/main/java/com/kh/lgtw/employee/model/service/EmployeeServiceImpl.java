@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kh.lgtw.employee.model.dao.EmployeeDao;
 import com.kh.lgtw.employee.model.exception.LoginException;
+import com.kh.lgtw.employee.model.vo.DeptVo;
 import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.employee.model.vo.ExcelEmp;
 
@@ -193,6 +194,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<String> selectEmpEamilForName(String sName) {
 		return empDao.selectEmpEmailForName(sqlSession, sName);
 	}
+  
+	@Override
+	public ArrayList<DeptVo> selectDeptList() {
+		return empDao.selectDeptList(sqlSession);
+	}
+
 
 	//	@Override
 //	public Employee loginEmpl(Employee employee) {

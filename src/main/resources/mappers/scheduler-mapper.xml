@@ -99,6 +99,25 @@
 		VALUES(SEQ_SCHEDULER_NO.NEXTVAL, #{schedulerName}, '개인', #{createEmpNo}, #{schedulerColor})
 	</insert>
 	
+	<!-- 개인캘린더 수정 쿼리문 -->
+	<update id="updateEmpScheduler" parameterType="Scheduler">
+		UPDATE SCHEDULER
+		SET SCHEDULER_NAME = #{schedulerName}, SCHEDULER_COLOR = #{schedulerColor}
+		WHERE SCHEDULER_NO = #{schedulerNo}
+	</update>
+	
+	<!-- 개인캘린더 삭제 시 일정 완전삭제 쿼리문 -->
+	<delete id="deleteScheduler1" parameterType="Scheduler">
+		DELETE FROM SCHEDULE
+		WHERE SCHEDULER_NO = #{schedulerNo}
+	</delete>
+	
+	<!-- 개인캘린더 삭제 -->
+	<delete id="deleteScheduler2" parameterType="Scheduler">
+		DELETE FROM SCHEDULER
+		WHERE SCHEDULER_NO = #{schedulerNo}
+	</delete>
+	
 	<!-- 캘린더 리스트 조회용 쿼리문 -->
 	<select id="selectSchedulerList" parameterType="_int" resultMap="schedulerResultSet">
 		SELECT SC.SCHEDULER_NO, SC.SCHEDULER_NAME
@@ -138,6 +157,13 @@
 		SET SCHEDULE_NAME = #{scheduleName}, START_DATE = #{startDate}, END_DATE = #{endDate},
 		    START_TIME = #{startTime}, END_TIME = #{endTime}, SCHEDULE_CONTENT = #{scheduleContent},
 		    MODIFY_DATE = SYSDATE
+		WHERE SCHEDULE_NO = #{scheduleNo}
+	</update>
+	
+	<!-- 이벤트로 인한 일정 수정용 쿼리문 -->
+	<update id="eventUpdate" parameterType="Schedule">
+		UPDATE SCHEDULE
+		SET START_DATE = #{startDate}, END_DATE = #{endDate}, MODIFY_DATE = SYSDATE
 		WHERE SCHEDULE_NO = #{scheduleNo}
 	</update>
 	

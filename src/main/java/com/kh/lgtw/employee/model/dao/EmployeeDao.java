@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.lgtw.employee.model.exception.LoginException;
+import com.kh.lgtw.employee.model.vo.DeptVo;
 import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.employee.model.vo.ExcelEmp;
 
@@ -24,7 +25,8 @@ public interface EmployeeDao{
 	List<ExcelEmp> excelEmpInsert(SqlSession sqlSession, List<ExcelEmp> list);
 
 	List<String> selectEmpEmailForName(SqlSession sqlSession, String sName);
-
+	
+  ArrayList<DeptVo> selectDeptList(SqlSession sqlSession);
 
 
 //	Employee loginEmpl(Employee employee, SqlSession sqlSession);

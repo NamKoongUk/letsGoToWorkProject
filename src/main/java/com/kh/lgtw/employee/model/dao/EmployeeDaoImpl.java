@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.util.ExcelRead;
 import com.kh.lgtw.employee.model.util.ExcelReadOption;
+import com.kh.lgtw.employee.model.vo.DeptVo;
 import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.employee.model.vo.ExcelEmp;
 
@@ -78,6 +79,10 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	@Override
 	public List<String> selectEmpEmailForName(SqlSession sqlSession, String sName) {
 		return sqlSession.selectList("Employee.selectEmpEmailForName", sName);
+	
+   @Override
+	public ArrayList<DeptVo> selectDeptList(SqlSession sqlSession) {
+		return (ArrayList)sqlSession.selectList("Employee.selectDeptList");
 	}
 
 

@@ -11,6 +11,7 @@ import com.kh.lgtw.community.model.vo.Community;
 import com.kh.lgtw.community.model.vo.CommunityAttachment;
 import com.kh.lgtw.community.model.vo.CommunityComment;
 import com.kh.lgtw.community.model.vo.CommunityPost;
+import com.kh.lgtw.employee.model.vo.Employee;
 
 @Service
 public class CommunityServiceImpl  implements CommunityService{
@@ -57,6 +58,26 @@ public class CommunityServiceImpl  implements CommunityService{
 		// TODO Auto-generated method stub
 		return cd.SelectTemporaryList(sqlSession);
 	}
+
+
+
+	@Override
+	public int InsertCommunity(Community com) {
+		
+		return cd.InsertCommunity(sqlSession,com);
+	}
+
+
+
+
+
+
+	
+
+
+
+
+
 
 
 	
