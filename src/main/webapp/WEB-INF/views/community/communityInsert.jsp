@@ -25,11 +25,25 @@
 			<div class="content"> 
 				<form action="communityInsert.co" method="post"> 
 					<table align="center" class="boardArea" >
+						<tr> 
+							<td>게시판 종류:</td>
+							<td >
+								&nbsp;<input type="checkbox" name="authority" value="">공지
+								<input type="checkbox" name="authority" value="">일반
+							</td>
+						
+						</tr>
+						
+						
 						
 						<tr height=50px;>
 							<td>게시판 이름:</td> 
 							<td><input type="text" name=""  id="" ></td>
 							<td></td>
+						</tr>
+						<tr> 
+						
+						
 						</tr>
 						  
 						<tr height=50px;>
@@ -38,7 +52,7 @@
 								&nbsp;<input type="checkbox" name="authority" value="">읽기
 								<input type="checkbox" name="authority" value="">읽기/쓰기
 							</td>
-							<td></td> 
+							 
 						</tr>  
 						<tr height=50px; >
 							<td>사용자 권한: </td>
