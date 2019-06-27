@@ -27,6 +27,7 @@
 		<!-- Employee VO -->				
 		<typeAlias type="com.kh.lgtw.employee.model.vo.Employee" alias="Employee"/>
 		<typeAlias type="com.kh.lgtw.employee.model.vo.ExcelEmp" alias="ExcelEmp"/>
+		<typeAlias type="com.kh.lgtw.employee.model.vo.DeptVo" alias="DeptVo"/>
 		
 		<!-- Mail VO -->
 		<typeAlias type="com.kh.lgtw.mail.model.vo.CommonMail" alias="CommonMail"/>

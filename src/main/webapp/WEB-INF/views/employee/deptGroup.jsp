@@ -6,40 +6,68 @@
 <head>
 <meta charset="UTF-8">
 <title>LetsGoToWork</title>
-<link href="/SRC2/simpletree/jquery.treemenu.css" rel="stylesheet" type="text/css">
+ 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {packages:["orgchart"]});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var result = new Array();
+        
+        <c:forEach items="${list}" var="dept">
+        	var json = new Object();
+        	json.deptCode="${dept.deptCode}";
+        	json.deptName="${dept.deptName}";
+        	json.topDept="${dept.topDept}";
+        	result.push(json);
+        </c:forEach>
+    	  
+        console.log(JSON.stringify(result));
+        console.log(result.length);
+        console.log(result[0].deptName);
+    	  
+    	  var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Name');
+        data.addColumn('string', 'Manager');
+		
+        var deptList = new Array();
+        
+        for(var i=0; i<result.length; i++){
+        	deptList[i]=[{v:result[i].deptCode,f:result[i].deptName},{v:result[i].topDept}];
+    	}
+        
+        console.log(deptList[0]);
+        
+        
+        // For each orgchart box, provide the name, manager, and tooltip to show.
+        data.addRows([
+        	[{v:result[0].deptCode,f:result[0].deptName},{v:result[0].topDept}],
+        	[{v:result[1].deptCode,f:result[1].deptName},{v:result[1].topDept}],
+        	[{v:result[2].deptCode,f:result[2].deptName},{v:result[2].topDept}],
+        	[{v:result[3].deptCode,f:result[3].deptName},{v:result[3].topDept}],
+        	[{v:result[4].deptCode,f:result[4].deptName},{v:result[4].topDept}],
+        	[{v:result[5].deptCode,f:result[5].deptName},{v:result[5].topDept}],
+        	[{v:result[6].deptCode,f:result[6].deptName},{v:result[6].topDept}],
+        	
+        ]);
+        	/* [{v:'D', f:'출근<div style="color:red; font-style:italic">President</div>'},
+           '', 'The President'],
+          [{v:'Jim', f:'개발부<div style="color:red; font-style:italic">Vice President</div>'},
+           'D', 'VP'],
+          ['Alice', 'D', ''],
+          ['Bob', 'Jim', 'Bob Sponge'],
+          ['Carol', 'Bob', ''] */
+
+        // Create the chart.
+        var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+        // Draw the chart, setting the allowHtml option to true for the tooltips.
+        chart.draw(data, {allowHtml:true});
+      }
+   </script>
 <style>
-	ul,ol, li {list-style:none}
-	.tree { background-color:#2C3E50; color:#46CFB0;}
-	.tree li,
-	.tree li > a,
-	.tree li > span {
-	    padding: 4pt;
-	    border-radius: 4px;
-	}
-	
-	.tree li a {
-	   color:#46CFB0;
-	    text-decoration: none;
-	    line-height: 20pt;
-	    border-radius: 4px;
-	}
-	
-	.tree li a:hover {
-	    background-color: #34BC9D;
-	    color: #fff;
-	}
-	
-	.active {
-	    background-color: #34495E;
-	    color: white;
-	}
-	
-	.active a {
-	    color: #fff;
-	}
-	
-	.tree li a.active:hover {
-	    background-color: #34BC9D;
+	#chart_div div{
+		width:30%;
+		height:30%;
 	}
 </style>
 </head>
@@ -49,54 +77,15 @@
 		<jsp:include page="../common/sideMenu/employee.jsp"/>
 		<section class="col-sm-10">
 			<h1 class="title">조직도</h1>
-				<ul class="tree">
-				  <li><a href="">Home</a></li>
-				  <li><span>Category</span>
-				    <ul>
-				      <li><a href="#">jQuery</a>
-				        <ul>
-				          <li><a href="#">jQuery</a></li>
-				          <li><a href="#">jQuery UI</a></li>
-				          <li><a href="#">jQuery Mobile</a></li>
-				        </ul>
-				      </li>
-				      <li><a href="#">JavaScript</a>
-				        <ul>
-				          <li><a class="active" href="#">AngularJS</a></li>
-				          <li><a href="#">React</a></li>
-				          <li><a href="#">Backbone</a></li>
-				        </ul>
-				      </li>
-				      <li><a href="#suits">Golang</a></li>
-				    </ul>
-				  </li>
-				  <li><a href="#about">About</a>
-				    <ul>
-				      <li><a href="#">Contact</a></li>
-				      <li><a href="#">Blog</a></li>
-				      <li><a href="#">Jobs</a>
-				        <ul>
-				          <li><a href="#jobs1">Job 1</a></li>
-				          <li><a href="#jobs2">Job 2</a></li>
-				          <li><a href="#jobs3">Job 3</a></li>
-				        </ul>
-				      </li>
-				    </ul>
-				  </li>
-				</ul>
+				 <div id="chart_div">
+				    
+				</div>
 			<div class="content">
 			</div>
 		</section>
 	</div>
 	<jsp:include page="../common/footer.jsp" />
 	
-	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-<script src="/SRC2/simpletree/jquery.treemenu.js"></script>
-<script>
-$(function(){
-        $(".tree").treemenu({delay:300}).openActive();
-    });
-</script>
 	
 </body>
 </html>
