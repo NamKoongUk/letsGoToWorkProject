@@ -35,8 +35,6 @@
 		<result column="DEPT_NAME" property="deptName"/>
 		<result column="TOP_DEPT" property="topDept"/>
 	</resultMap>
-
-
 	
 	<!-- 로그인시 사원 객체 조회 -->
 	<select id="loginCheck" resultMap="employeeResultSet" parameterType="Employee">
@@ -59,12 +57,19 @@
 		VALUES(SEQ_EMPNO.NEXTVAL, #{empId}, #{empPwd}, #{empName}, #{empBirth}, #{gender}, #{empPhone}, #{officeTel}, 
 									#{address}, #{email}, DEFAULT, DEFAULT, #{otherInfo}, #{personalInfoCheck})
 	</insert>
+	
+	<!-- 사원명으로 이메일 조회 -->
+	<select id="selectEmpEmailForName" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT EMAIL
+		FROM EMPLOYEE
+		WHERE EMP_NAME LIKE '%' || #{ sName } || '%'
+		AND STATUS = 'Y'
+	</select>
 
 	<select id="selectDeptList" resultMap="deptResult">
 		SELECT DEPT_CODE, DEPT_NAME, TOP_DEPT
 		FROM DEPT
 	</select>
-	
 	
 	
 </mapper>

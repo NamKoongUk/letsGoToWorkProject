@@ -3,6 +3,7 @@ package com.kh.lgtw.mail.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
@@ -35,6 +36,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.common.Pagination;
+import com.kh.lgtw.employee.controller.EmployeeController;
+import com.kh.lgtw.employee.model.service.EmployeeService;
 import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.mail.model.service.MailService;
 import com.kh.lgtw.mail.model.vo.Absence;
@@ -45,14 +48,16 @@ import com.kh.lgtw.mail.model.vo.Mail;
 //@RestController
 public class MailController {
 	
-	@Autowired private MailService ms; 
+	@Autowired private MailService ms;
 	private HttpStatus httpStatus;
+	@Autowired private EmployeeService es;
 	
 	// 전체 메일 리스트
 	@RequestMapping("mail.ma")
 	public String mailHome() {
 		return "redirect:allList.ma";
-	}
+	}	
+	
 	@RequestMapping("/mail")
 	public String mailHom2e() {
 		return "redirect:allList.ma";
@@ -83,12 +88,10 @@ public class MailController {
 		}
 		
 		int listCount = ms.getMailListCount();
-		// System.out.println("메일 갯수 조회 : " + listCount);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
 		ArrayList<Mail> list = ms.selectMailList(pi);
-		// System.out.println("메일 리스트 조회  : " + list);
 
 		if(list != null) {
 			model.addAttribute("list", list);
@@ -139,17 +142,31 @@ public class MailController {
 	}
 	
 	// 메일 검색
-	@RequestMapping("mail/search.ma") 
-	public String selectSearchMailList(ListCondition lc, Model model) {
-		System.out.println("ListCondition : " + lc);
+	@RequestMapping("mail/search") 
+	public String selectSearchMailList(@RequestParam HashMap<String, Object> listCondition, 
+				Model model, HttpSession session) {
+		
+		String empMail = ((Employee)session.getAttribute("loginEmp")).getEmail();
+		listCondition.put("empMail", empMail);
+		
+		System.out.println("이름 여부 : " + (listCondition.get("sName") != null));
+
+		// 이름으로 검색했을 때 사원 메일 검색
+		List<String> sMail = null;
+		if(listCondition.get("sName") != null) {
+			sMail = es.selectEmpEamilForName((String)listCondition.get("sName"));
+			listCondition.put("sMail", sMail);
+		}
+		System.out.println("sMAIL : " + sMail);
+		System.out.println("listConition : " + listCondition);
 		
 		int currentPage = 1;
 		int listCount = ms.getMailListCount();
 		// System.out.println("메일 갯수 조회 : " + listCount);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-		
-		ArrayList<Mail> list = ms.selectSearchMailList(pi, lc);
+		ArrayList<Mail> list = ms.selectSearchMailList(pi, listCondition);
+		// ArrayList<Mail> list = ms.selectSearchMailList(pi, lc);
 		System.out.println("메일 리스트 조회  : " + list);
 
 		if(list != null) {

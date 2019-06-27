@@ -69,7 +69,7 @@
 		<section class="col-sm-10">
 		<br>
 			<div class="content" align="center">
-				<form class="searchArea form-group" align="left" action="mail/search.ma">
+				<form class="searchArea form-group" align="left" action="${ contextPath }/mail/search">
 					<input type="hidden" name="listType" value="${ pageType }"/>
 					<select class="searchType form-control" >
 						<option value="sName">이름</option>
@@ -84,7 +84,7 @@
 					<table class="listTable">
 						<tr>
 							<th><input type="checkbox" id="wholeCheck"/></th>
-							<th width="5%">읽음여부</th>
+							<th width="10%">읽음여부</th>
 							<th width="16%">이름</th>
 							<th width="14%">메일종류</th>
 							<th>제목</th>

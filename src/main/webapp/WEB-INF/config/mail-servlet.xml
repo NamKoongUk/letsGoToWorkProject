@@ -23,6 +23,6 @@
 		<beans:property name="maxInMemorySize" value="100000000"/>
 	</beans:bean>
 	
-	<context:component-scan base-package="com.kh.lgtw.mail"/>
+	<context:component-scan base-package="com.kh.lgtw"/>
 	
 </beans:beans>

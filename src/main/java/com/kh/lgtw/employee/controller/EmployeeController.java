@@ -33,11 +33,14 @@ import com.kh.lgtw.employee.model.util.ExcelFileType;
 @Controller
 public class EmployeeController {
 	
-	@Autowired
-	private EmployeeService empService;
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+	@Autowired private EmployeeService empService;
+	@Autowired private BCryptPasswordEncoder passwordEncoder;
 	//화면전환
+	
+	// empService getter
+	public EmployeeService getEmpService() {
+		return empService;
+	}
 
 	//로그인
 	@RequestMapping(value="login.em", method=RequestMethod.POST)

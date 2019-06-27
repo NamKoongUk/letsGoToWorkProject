@@ -24,8 +24,9 @@ public interface EmployeeDao{
 
 	List<ExcelEmp> excelEmpInsert(SqlSession sqlSession, List<ExcelEmp> list);
 
-	ArrayList<DeptVo> selectDeptList(SqlSession sqlSession);
-
+	List<String> selectEmpEmailForName(SqlSession sqlSession, String sName);
+	
+  ArrayList<DeptVo> selectDeptList(SqlSession sqlSession);
 
 
 //	Employee loginEmpl(Employee employee, SqlSession sqlSession);

@@ -75,7 +75,12 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		return list;
 	}
 
+	// 사원이름으로 이메일 찾기 
 	@Override
+	public List<String> selectEmpEmailForName(SqlSession sqlSession, String sName) {
+		return sqlSession.selectList("Employee.selectEmpEmailForName", sName);
+	
+   @Override
 	public ArrayList<DeptVo> selectDeptList(SqlSession sqlSession) {
 		return (ArrayList)sqlSession.selectList("Employee.selectDeptList");
 	}

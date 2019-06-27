@@ -91,32 +91,77 @@
 	
 	<!-- 검색 메일 조회 -->
 	<select id="searchMailList" resultMap="resultMailSet">
-		SELECT * 
+		SELECT *
 		FROM MAIL
-		WHERE DSTATUS = 'N'
+		WHERE (SEND_MAIL = #{ empEmail }
+		OR RECIVE_MAIL = #{ empEmail })
 		<choose>
-			<when test="listType == recive">
-			
-			</when>
-			<when test="listType == send">
-			
-			</when>
-			<when test="listType == outbox">
-			
-			</when>
-			<when test="listType == trash">
-			
-			</when>
+			<when test="listType == 'receive'">AND MAIL_TYPE = '받은메일'</when>
+			<when test="listType == 'send'"> AND MAIL_TYPE = '보낸메일'</when>
+			<when test="listType == 'outbox'"> AND MAIL_TYPE = '임시보관'</when>
+			<when test="listType == 'trash'"> AND DSTATUS = 'Y'</when>
+			<when test="listType != 'trash'">AND DSTATUS = 'N'</when>
 		</choose>
 		<choose>
-			<when test="sName != null"></when>
-			<when test="sTitle != null"></when>
-			<when test="sContent != null"></when>
-			<when test="sTitle != null"></when>
+			<when test="sMail != null">
+				<foreach item="mail" index="index" collection="#{ sMail }">
+					AND (RECIVE_MAIL = #{ mail.value } OR SEND_MAIL = #{ mail.value })
+				  </foreach>
+			</when>
+			<when test="sTitle != null">AND MTITLE LIKE '%' || #{ sTitle } || '%'</when>
+			<when test="sContent != null">AND MCONTENT LIKE '%' || #{ sContent } || '%' </when>
+			<when test="sMail != null">AND (RECIVE_MAIL = #{ sMail } OR SEND_MAIL = #{ sMail })</when>
 		</choose>
+		ORDER BY MAIL_NO DESC
+	</select>
+	
+	<!-- 검색 메일 조회 - 해쉬맵으로 -->
+	<select id="searchList" resultMap="resultMailSet">
+		SELECT *FROM MAIL
+		WHERE (SEND_MAIL = #{ empMail }
+		OR RECIVE_MAIL = #{ empMail })
+		<choose>
+			<when test="listType == 'receive'">AND MAIL_TYPE = '받은메일'</when>
+			<when test="listType == 'send'"> AND MAIL_TYPE = '보낸메일'</when>
+			<when test="listType == 'outbox'"> AND MAIL_TYPE = '임시보관'</when>
+			<when test="listType == 'trash'"> AND DSTATUS = 'Y'</when>
+			<when test="listType != 'trash'">AND DSTATUS = 'N'</when>
+		</choose>
+		<choose>
+			<when test="sName != null">AND (RECIVE_MAIL = #{ nameMail } OR SEND_MAIL = #{ nameMail })</when>
+			<when test="sTitle != null">AND MTITLE LIKE '%' || #{ sTitle } || '%'</when>
+			<when test="sContent != null">AND MCONTENT LIKE '%' || #{ sContent } || '%' </when>
+			<when test="sMail != null">AND (RECIVE_MAIL = #{ sMail } OR SEND_MAIL = #{ sMail })</when>
+		</choose>
+		ORDER BY MAIL_NO DESC
 	</select>
 </mapper>
 
+
+<!-- <select id="searchMailList" resultMap="resultMailSet">
+		SELECT *FROM MAIL 
+		WHERE (SEND_MAIL = #{ empEmail }
+		OR RECIVE_MAIL = #{ empEmail })
+		<choose>
+			<when test="listType == 'all'"></when>
+			<when test="listType == 'receive'">AND MAIL_TYPE = '받은메일'</when>
+			<when test="listType == 'send'"> AND MAIL_TYPE = '보낸메일'</when>
+			<when test="listType == 'outbox'"> AND MAIL_TYPE = '임시보관'</when>
+			<when test="listType == 'trash'"> AND DSTATUS = 'Y'</when>
+			<when test="listType != 'trash'">AND DSTATUS = 'N'</when>
+		</choose>
+		<choose>
+			<when test="sName != null">
+			메일로 검색 vs 사원 이름으로 검색하기
+			</when>
+			<when test="sTitle != null">AND MTITLE LIKE '%' || #{ sTitle } || '%'</when>
+			<when test="sContent != null">AND CONTENT LIKE '%' || #{ sContent } || '%' </when>
+			<when test="sWriter != null">
+			작성자 검색 -> 작성한메일 검색?
+			</when>
+		</choose>
+		ORDER BY MAIL_NO DESC
+	</select> -->
 
 
 

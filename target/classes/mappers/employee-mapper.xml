@@ -28,16 +28,14 @@
 		<result column="LEAVE_REASON" property="leaveReason"/>
 		<result column="RETIREMENT_REASON" property="retirementReason"/>
 		<result column="LEAVE_TYPE" property="leaveType"/>
-		<result column="DUTY_CODE" property="dutyCode"/>
 	</resultMap>
-
-
 	
 	<!-- 로그인시 사원 객체 조회 -->
 	<select id="loginCheck" resultMap="employeeResultSet" parameterType="Employee">
 		SELECT *
 		FROM EMPLOYEE
 		WHERE STATUS = 'Y' 
+		AND EMP_ID = #{empId}
 	</select>
 	
 	<!-- id, pw 확인 -->
@@ -49,31 +47,18 @@
 	
 	<insert id="insertEmpOne" parameterType="Employee">
 		INSERT INTO EMPLOYEE(EMPNO, EMP_ID, EMP_PWD, EMP_NAME, BIRTH, GENDER, 
-							EMP_PHONE, OFFICE_TEL, ADDRESS, EMAIL, STATUS, ENROLL_DATE, OTHER_INFO, PERSONAL_INFO_CHECK, DUTY_CODE)
+							EMP_PHONE, OFFICE_TEL, ADDRESS, EMAIL, STATUS, ENROLL_DATE, OTHER_INFO, PERSONAL_INFO_CHECK)
 		VALUES(SEQ_EMPNO.NEXTVAL, #{empId}, #{empPwd}, #{empName}, #{empBirth}, #{gender}, #{empPhone}, #{officeTel}, 
-									#{address}, #{email}, DEFAULT, DEFAULT, #{otherInfo}, #{personalInfoCheck}, DEFAULT)
+									#{address}, #{email}, DEFAULT, DEFAULT, #{otherInfo}, #{personalInfoCheck})
 	</insert>
 	
-	<insert id="insertEmpExcel" parameterType="map">
-	  	INSERT INTO EMPLOYEE(EMPNO,EMP_ID,EMP_PWD,EMP_NAME,BRITH,
-  						GENDER,EMP_PHONE,ADDRESS,EMAIL,ENROLL_DATE,DUTY_CODE) VALUSE
-  						<foreach collection="excelContent" item="item" separator=",">
-  						(
-  							SEQ_EMPNO.NEXTVAL,
-  							#{item,A},
-  							#{item,B},
-  							#{item,C},
-  							#{item,D},
-  							#{item,E},
-  							#{item,F},
-  							#{item,G},
-  							#{item,H},
-  							DEFAULT,
-  							DEFAULT
-  						)
-  						</foreach>
-  </insert> 
-	
+	<!-- 사원명으로 이메일 조회 -->
+	<select id="selectEmpEmailForName" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT EMAIL
+		FROM EMPLOYEE
+		WHERE EMP_NAME LIKE '%' || #{ sName } || '%'
+		AND STATUS = 'Y'
+	</select>
 	
 	
 </mapper>

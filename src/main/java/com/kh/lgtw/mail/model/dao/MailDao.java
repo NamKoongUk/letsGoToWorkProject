@@ -1,6 +1,7 @@
 package com.kh.lgtw.mail.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -28,5 +29,7 @@ public interface MailDao {
 	int sendMail(SqlSession sqlSession, Mail mail);
 
 	ArrayList<Mail> selectSearchMailList(SqlSession sqlSession, PageInfo pi, ListCondition lc);
+
+	ArrayList<Mail> selectSearchMailList(SqlSession sqlSession, PageInfo pi, HashMap<String, Object> listCondition);
 
 }

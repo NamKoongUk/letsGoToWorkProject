@@ -24,7 +24,9 @@ public interface EmployeeService {
 
 	List<ExcelEmp> xlsxEmpInsert(MultipartHttpServletRequest request, MultipartFile excelFile);
 
-	ArrayList<DeptVo> selectDeptList();
+	List<String> selectEmpEamilForName(String sName);
+	
+  ArrayList<DeptVo> selectDeptList();
 
 
 
