@@ -18,13 +18,8 @@
 	
 
 </style>
-<link rel="stylesheet" href="${ contextPath }/resources/treeview/css/jquery.treeview.css"/>
-<link rel="stylesheet" href="${ contextPath }/resources/treeview/css/screen.css"/>
 </head>
 <body>
-<script src="${ contextPath }/resources/treeview/lib/jquery.js" type="text/javascript"></script>
-<script src="${ contextPath }/resources/treeview/lib/jquery.cookie.js" type="text/javascript"></script>
-<script src="${ contextPath }/resources/treeview/lib/jquery.treeview.js" type="text/javascript"></script>
 <script type="text/javascript" src="${ contextPath }/resources/ckeditor/ckeditor.js"></script>
 	<jsp:include page="../common/menubar.jsp"/>
 	
@@ -88,16 +83,30 @@
 					        <h4 class="modal-title">결재선 설정</h4>
 					      </div>
 					      <div class="modal-body" style="height:500px;">
-					      	<div id="deptList" class="treeview col-sm-4" style="height:450px; border:1px solid black">
-					      			<ul id="browser" class="filetree"> 
-					      				<li> <span class="folder">폴더</span> 
-					      			<ul> 
-					      				<li> <span class="file">폴더 - 파일</span> </li> 
-					      			</ul> </li> 
-					      				<li> <span class="file">파일</span> </li> 
-					      			</ul>
-
-
+					      	<div id="deptList" class="treeview col-sm-4" style="height:450px; border:1px solid black">		      
+						       <!--  <ul>
+						            <li>게시판</li>
+						            <li>자바과정-기초
+						                <ul>
+						                    <li>기본문법</li>
+						                    <li>AWT/SWING</li>
+						                    <li>JDBC</li>
+						                    <li>자바예제</li>
+						                    <li>자바복습</li>
+						                </ul>
+						           </li>
+						           <li>웹프로그래밍
+						                <ul>
+						                    <li>JSP&amp;Servlet</li>
+						                    <li>프레임워크
+						                        <ul>
+						                            <li>struts2(스트럿츠2)</li>
+						                            <li>Spring(스프링)</li>
+						                        </ul>
+						                    </li>
+						                </ul>
+						            </li>
+						        </ul>		 -->				   
 					      	</div>
 					      	<div class="col-sm-4 form-group">
 					      		<!-- <div>
@@ -159,15 +168,35 @@
 	
 	<jsp:include page="../common/footer.jsp" />
 <script>
-	$(function() {
-	    $("#tree").treeview({
-	        collapsed: true,
-	        animated: "medium",
-	        control:"#sidetreecontrol",
-	        persist: "location"
+	/* $(document).ready(function () {
+	    //[1] 리스트의 기본 모양 지정 : <ul>를 자식으로 가지지 않는 li의 블릿기호는 기본 모양
+	    $('li:not(:has(ul))').css({ cursor: 'default', 'list-style-image':'none'});
+	   
+	    //[2] 자식 요소를 갖는 li에 대해서는 블릿이미지를 plus.gif를 지정
+	    $('li:has(ul)') //자식 요소(ul)를 갖는 요소(li)에 대해서
+	        .css({cursor: 'pointer', 'list-style-image':'url(plus.gif)'})//+기호로 설정
+	        .children().hide(); //자식요소 숨기기
+	       
+	    //[3] +로 설정된 항목에 대해서 click이벤트 적용
+	    $('li:has(ul)').click(function(event){
+	                   
+	        //this == event.target으로 현재 선택된 개체에 대해서 처리
+	        if(this == event.target){
+	            //숨겨진 상태면 보이고 -기호로 설정 그렇지 않으면 숨기고 + 기호로 설정
+	              if ($(this).children().is(':hidden')) {
+	                // 보이기
+	                $(this).css('list-style-image', 'url(minus.gif)').children().slideDown();
+	            }
+	            else {
+	                // 숨기기
+	                $(this).css('list-style-image', 'url(plus.gif)').children().slideUp();
+	            }
+	
+	        }
+	        return false;          
 	    });
 	});
-
+	 */
 	function selectEmp(){
 		console.log("selectEmp 호출");
 		
@@ -185,14 +214,61 @@
 					$("select[name='empList']").append($option);
 				}
 				
-				for(var i = 0; i < data.deptList.length; i++) {
-					
-				}
+				var $ul = $("<ul>");
 				
+				for(var i = 0; i < data.deptList.length; i++) {
+					if(data.deptList[i].topDept == null){
+						var $li = $("<li onclick='underDept(this, event);' class='dept' id=" + data.deptList[i].deptCode + ">" + data.deptList[i].deptName + "</li>");
+						$ul.append($li);
+						
+					}
+				}
+				$("#deptList").append($ul);
 			}
 		});
 	}
 	
+	function underDept(li, event){
+		event.stopPropagation();
+		console.log(li.id);
+		var deptCode = li.id;
+		console.log($("#" + li.id).children());
+		if($("#" + li.id).children().length <= 0) {
+			$.ajax({
+				url:"${contextPath}/approval/selectUnderDept",
+				data:{deptCode:deptCode},
+				type:"get",
+				success:function(data){
+					alert(data);
+					console.log(data);
+					
+					$("select[name='empList']").children().remove();
+					
+					for(var i = 0; i < data.empList.length; i++) {
+						console.log(data.empList[i].empName);
+						var $option = $("<option value='" + data.empList[i].empNo + "'>");
+						$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
+						
+						$("select[name='empList']").append($option);
+					}
+					
+					var $ul = $("<ul>");
+					
+					for(var i = 0; i < data.deptList.length; i++) {
+							var $li = $("<li onclick='underDept(this, event);' class='dept' id=" + data.deptList[i].deptCode + ">" + data.deptList[i].deptName + "</li>");
+							$ul.append($li);
+					}
+					console.log($("#" + li.id));
+					$("#" + li.id).append($ul);
+				}
+			});
+			
+		}else {
+			$("#" + li.id).children().remove();
+		}
+		
+		
+	}
 	
 	var cnt = 0;
 	$(function(){

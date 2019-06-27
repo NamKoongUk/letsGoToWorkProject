@@ -257,6 +257,24 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		return map;
 	}
+	
+	//하위부서 사원 및 부서선택
+	@Override
+	public Map<String, ArrayList<HashMap<String, Object>>> selectUnderDept(String deptCode) {
+		
+		Map<String, ArrayList<HashMap<String, Object>>> map = new HashMap<String, ArrayList<HashMap<String, Object>>>();
+		
+		ArrayList<HashMap<String, Object>> deptList = ad.selectDept(session, deptCode);
+		ArrayList<HashMap<String, Object>> empList =  ad.selectEmp(session, deptCode);
+		
+		if(empList != null && deptList != null) {
+			map.put("empList", empList);
+			map.put("deptList", deptList);
+		}
+		
+		return map;
+	}
+	
 //	//문서양식 불러오기
 //	@Override
 //	public AppForm selectDcmForm(int afNo) {
@@ -317,6 +335,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return ad.autocompleteCircle(value, session);
 	}
+	
 
 	
 	
