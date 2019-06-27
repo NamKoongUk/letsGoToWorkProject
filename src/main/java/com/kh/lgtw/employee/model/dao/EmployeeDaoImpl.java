@@ -79,10 +79,11 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	@Override
 	public List<String> selectEmpEmailForName(SqlSession sqlSession, String sName) {
 		return sqlSession.selectList("Employee.selectEmpEmailForName", sName);
-	
-   @Override
+	}
+
+	@Override
 	public ArrayList<DeptVo> selectDeptList(SqlSession sqlSession) {
-		return (ArrayList)sqlSession.selectList("Employee.selectDeptList");
+		return (ArrayList) sqlSession.selectList("Employee.selectDeptList");
 	}
 
 
