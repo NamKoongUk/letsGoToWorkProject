@@ -22,7 +22,7 @@
 			<h1 class="title">글작성</h1> 
 		
 			<div class="content">
-					<form method="post" action="" enctype="multipart/form-date" >
+					<form method="post" action=""  >
 							
 						
 						<label>&nbsp;게시판 종류 :</label>
@@ -61,10 +61,10 @@
 
 							
 							</table>
-								<div id="signFormArea">
-						
+					<div id="signFormArea">
+			
 					</div>
-					
+		
 					<div id="area">
 						<label>&nbsp;상세 내용</label>
 					    <div class="form-group">
