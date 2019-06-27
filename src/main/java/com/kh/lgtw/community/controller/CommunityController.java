@@ -2,16 +2,22 @@ package com.kh.lgtw.community.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.lgtw.community.model.service.CommunityService;
 import com.kh.lgtw.community.model.vo.Community;
 import com.kh.lgtw.community.model.vo.CommunityPost;
-
+import com.kh.lgtw.employee.model.vo.Employee;
+@SessionAttributes("loginEmp")
 @Controller
 public class CommunityController { 
 	
@@ -47,11 +53,35 @@ public class CommunityController {
 		  
 		return "community/communityList"; 
 	}
-
+	//게시판 생성 양식폼 
+	
+	  @RequestMapping("insertCommunityForm.co") 
+	  public String selectCommunityForm()
+	  {
+	  
+		  return "community/communityInsert"; 
+	  }
+	 
+	
+	
 	// 게시판 생성용 메소드 
 	@RequestMapping("communityInsert.co")
-	public String InsertCommunity() {
-		return "community/communityInsert";	
+	public String InsertCommunity(Community com ,HttpSession session) 
+	{
+		Employee loginUser =(Employee)session.getAttribute("loginEmp");
+		
+		System.out.println("loginUser:"+loginUser.getEmpNo());	
+		System.out.println("Community:" +com);
+		com.setCreateUser(loginUser.getEmpNo()); 
+		
+		
+		int result =cs.InsertCommunity(com);
+		
+		
+		
+		
+		
+		return "redirect:communityList.co";	
 	}
 	
 	// 임시저장  리스트 메소드 
@@ -79,7 +109,7 @@ public class CommunityController {
 		model.addAttribute("list",list);
 		
 		
-		return "community/communityPostInsert";
+		return "community/insertCommunityForm";
 	}
 	// 게시글 조회용 매소드
 	@RequestMapping("communityPostList.co")
@@ -146,7 +176,7 @@ public class CommunityController {
 //		
 //	}
 //	
-//	//게시판 생성 메소드 
+//	// 메소드 
 //	
 //	public String InsertCommunity(Community cm) {
 //		int result = cs.InsertCommunity(cm);

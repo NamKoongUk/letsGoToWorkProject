@@ -6,10 +6,11 @@ import com.kh.lgtw.community.model.vo.Community;
 import com.kh.lgtw.community.model.vo.CommunityAttachment;
 import com.kh.lgtw.community.model.vo.CommunityComment;
 import com.kh.lgtw.community.model.vo.CommunityPost;
+import com.kh.lgtw.employee.model.vo.Employee;
 
 public interface CommunityService   
 {
-
+    //게시판 조회
 	ArrayList<Community> SelectCommunity();
 
 	ArrayList<CommunityPost> CommunityPostList(int bno);
@@ -17,6 +18,11 @@ public interface CommunityService
 	ArrayList<CommunityPost> CommunityPostDetails(int contentNO);
 
 	ArrayList<CommunityPost> SelectTemporaryList();
+
+	int InsertCommunity(Community com);
+
+
+	
 
 
 

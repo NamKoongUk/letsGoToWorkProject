@@ -86,7 +86,15 @@
 			  WHERE C.STATUS= 'T'
 			
 		
-		</select>
+		</select> 
+		
+		
+<!-- 게시판 생성 쿼리 문 -->
+  	   <insert id="InsertCommunity" parameterType="Community"> 
+		          INSERT INTO BOARD 
+				  VALUES(SEQ_BNO.NEXTVAL,#{boardName},#{createUser},SYSDATE,NULL,'N',#{boardType})  	   
+  	   	
+  	   </insert>	
 	
 
 </mapper>
