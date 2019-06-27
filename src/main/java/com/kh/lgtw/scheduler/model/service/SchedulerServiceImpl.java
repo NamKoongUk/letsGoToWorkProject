@@ -39,13 +39,13 @@ public class SchedulerServiceImpl implements SchedulerService{
 	}
 
 	@Override
-	public int updateMemberScheduler() {
-		return 0;
+	public int updateEmpScheduler(Scheduler scheduler) {
+		return sd.updateEmpScheduler(sqlSession, scheduler);
 	}
 
 	@Override
-	public int deleteMemberScheduler() {
-		return 0;
+	public int deleteEmpScheduler(Scheduler scheduler) {
+		return sd.deleteEmpScheduler(sqlSession, scheduler);
 	}
 
 	@Override

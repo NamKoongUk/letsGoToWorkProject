@@ -14,7 +14,7 @@
 			<thead>
 				<tr style="margin-bottom:3px;">
 					<th colspan="2" style="text-align:center"><b>개인일정</b></th>
-					<th><button data-toggle="modal" data-target="#empSchedulerModal">+</button></th>
+					<th><button data-toggle="modal" data-target="#empSchedulerModal" onclick="resetColorBtn()">+</button></th>
 				</tr>
 			</thead>
 			<tbody>

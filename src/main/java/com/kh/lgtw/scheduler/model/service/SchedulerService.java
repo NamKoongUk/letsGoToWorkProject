@@ -14,9 +14,9 @@ public interface SchedulerService {
 
   HashMap<String, ArrayList<Object>> allSelectSchedule(int empNo);
 
-	int updateMemberScheduler();
+	int updateEmpScheduler(Scheduler scheduler);
 
-	int deleteMemberScheduler();
+	int deleteEmpScheduler(Scheduler scheduler);
 
 	int insertGroupScheduler();
 
@@ -33,5 +33,6 @@ public interface SchedulerService {
 	ArrayList<Scheduler> selectSchedulerList(int empNo);
 
 	int deleteSchedule(Schedule schedule);
+
 
 }
