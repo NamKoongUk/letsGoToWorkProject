@@ -95,21 +95,42 @@ public class CommunityController {
 	// 게시판 관리용 메소드
 	@RequestMapping("managebulletinList.co")
 	public String ManagebulletinList (Model model) {
-		ArrayList<Community> list = cs.SelectCommunity();
+		ArrayList<Community> list = cs.SelectManagebulletinList();
 		model.addAttribute("list",list);
 		
 		return "community/managebulletinList";
 	} 
+	//게시글 생성 폼 메소드  
+	@RequestMapping("communityPostInsertForm.co")
+	public String CommunityPostInsertForm(Model model) {
+		ArrayList<Community> list = cs.SelectCommunity();
+		model.addAttribute("list",list);
+		return "community/insertCommunityForm";
+	}
 	
 	// 개시글 생성용 매소드
 	@RequestMapping("communityPostInsert.co")
-	public String CommunityPostInsert(Model model ){
+	public String CommunityPostInsert(Community com,CommunityPost cp ,HttpSession session ){
 		
-		ArrayList<Community> list = cs.SelectCommunity();
-		model.addAttribute("list",list);
+		 Employee loginUser =(Employee)session.getAttribute("loginEmp"); 
+		
+		 
+		 System.out.println("Community:" + com);
+		 System.out.println("CommunityPost : " +cp);
+		 
+		  
+		 cp.setBno(com.getBno()); 
+		 cp.setBwriter(loginUser.getEmpNo());
+		 cp.setBtype(com.getBoardName());
+		 
+		 int result = cs.CommunityPostInsert(cp);
+		 
+		 
+		 
+		 
 		
 		
-		return "community/insertCommunityForm";
+		return "redirect:communityPostList.co";
 	}
 	// 게시글 조회용 매소드
 	@RequestMapping("communityPostList.co")
@@ -119,7 +140,7 @@ public class CommunityController {
 
 		System.out.println("bno 값:"+bno);  
 		
-		ArrayList<CommunityPost> list = cs.CommunityPostList(bno);
+		ArrayList<CommunityPost> list = cs.CommunityPostList(bno); 
 		model.addAttribute("list",list); 
 		
 		System.out.println("CommunityPost="+list);

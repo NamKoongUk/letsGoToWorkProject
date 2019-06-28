@@ -22,6 +22,10 @@ public interface CommunityDao {
 
 	int InsertCommunity(SqlSessionTemplate sqlSession, Community com);
 
+	ArrayList<Community> SelectManagebulletinList(SqlSessionTemplate sqlSession);
+
+	int CommunityPostInsert(SqlSessionTemplate sqlSession, CommunityPost cp);
+
 	
 
 	

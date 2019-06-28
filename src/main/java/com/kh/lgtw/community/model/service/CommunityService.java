@@ -21,6 +21,10 @@ public interface CommunityService
 
 	int InsertCommunity(Community com);
 
+	ArrayList<Community> SelectManagebulletinList();
+
+	int CommunityPostInsert(CommunityPost cp);
+
 
 	
 

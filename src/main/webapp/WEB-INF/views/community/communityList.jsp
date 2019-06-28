@@ -71,6 +71,7 @@
 			    <thead>
 			      <tr>
 			        <th>게시판 번호</th>
+			        <th>게시판 종류</th>
 			        <th>게시판 이름</th>
 			        <th>게시판 작성자</th>
 			        <th>게시판 작성일자</th>
@@ -85,7 +86,8 @@
 				        <td>2019-06-20</td>
 				      </tr> --> 
 				      <tr>
-				        <td>${b.bno}</td>
+				        <td>${b.ord}</td> 
+				        <td>${b.boardType }</td>
 				        <td>${b.boardName}</td>
 				        <td>${b.createUserName}</td>
 				        <td>${b.createDate}</td>
