@@ -47,7 +47,6 @@ import com.kh.lgtw.mail.model.vo.Mail;
 @Controller
 //@RestController
 public class MailController {
-	
 	@Autowired private MailService ms;
 	private HttpStatus httpStatus;
 	@Autowired private EmployeeService es;
@@ -172,6 +171,7 @@ public class MailController {
 		if(list != null) {
 			model.addAttribute("list", list);
 			model.addAttribute("pi", pi);
+			model.addAttribute("listCondition", listCondition);
 			
 			return "mail/mailAllList";
 		}else {
