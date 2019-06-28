@@ -10,6 +10,7 @@
 		<result property="schedulerType" column="SCHEDULER_TYPE"/>
 		<result property="createEmpNo" column="CREATE_EMPNO"/>
 		<result property="schedulerColor" column="SCHEDULER_COLOR"/>
+		<result property="status" column="STATUS"/>
 	</resultMap>
 	
 	<resultMap type="GroupMember" id="groupMemberResultSet">
@@ -80,7 +81,7 @@
 		LEFT JOIN SCHEDULER SCR ON (SC.SCHEDULER_NO = SCR.SCHEDULER_NO)
 		WHERE SCR.SCHEDULER_TYPE = '개인'
 		AND SC.WRITER = #{empNo}
-		AND STATUS = 'Y'
+		AND SC.STATUS = 'Y'
 		
 		UNION
 		
@@ -96,7 +97,7 @@
 	<!-- 개인캘린더 추가 쿼리문 -->
 	<insert id="insertMemberScheduler" parameterType="Scheduler">
 		INSERT INTO SCHEDULER
-		VALUES(SEQ_SCHEDULER_NO.NEXTVAL, #{schedulerName}, '개인', #{createEmpNo}, #{schedulerColor})
+		VALUES(SEQ_SCHEDULER_NO.NEXTVAL, #{schedulerName}, '개인', #{createEmpNo}, #{schedulerColor}, DEFAULT)
 	</insert>
 	
 	<!-- 개인캘린더 수정 쿼리문 -->
@@ -160,10 +161,17 @@
 		WHERE SCHEDULE_NO = #{scheduleNo}
 	</update>
 	
-	<!-- 이벤트로 인한 일정 수정용 쿼리문 -->
-	<update id="eventUpdate" parameterType="Schedule">
+	<!-- 드랍 이벤트로 인한 일정 수정용 쿼리문 -->
+	<update id="dropEventUpdate" parameterType="Schedule">
 		UPDATE SCHEDULE
 		SET START_DATE = #{startDate}, END_DATE = #{endDate}, MODIFY_DATE = SYSDATE
+		WHERE SCHEDULE_NO = #{scheduleNo}
+	</update>
+	
+	<!-- 드래그 이벤트로 인한 일정 수정용 쿼리문 -->
+	<update id="dragEventUpdate" parameterType="Schedule">
+		UPDATE SCHEDULE
+		SET END_DATE = #{endDate}, MODIFY_DATE = SYSDATE
 		WHERE SCHEDULE_NO = #{scheduleNo}
 	</update>
 	

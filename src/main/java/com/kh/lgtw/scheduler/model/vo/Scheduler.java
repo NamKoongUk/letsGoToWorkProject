@@ -8,17 +8,19 @@ public class Scheduler implements Serializable{
 	private String schedulerType;
 	private int createEmpNo;
 	private String schedulerColor;
+	private String status;
 	
 	public Scheduler() {}
 
 	public Scheduler(int schedulerNo, String schedulerName, String schedulerType, int createEmpNo,
-			String schedulerColor) {
+			String schedulerColor, String status) {
 		super();
 		this.schedulerNo = schedulerNo;
 		this.schedulerName = schedulerName;
 		this.schedulerType = schedulerType;
 		this.createEmpNo = createEmpNo;
 		this.schedulerColor = schedulerColor;
+		this.status = status;
 	}
 
 	public int getSchedulerNo() {
@@ -41,6 +43,10 @@ public class Scheduler implements Serializable{
 		return schedulerColor;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
 	public void setSchedulerNo(int schedulerNo) {
 		this.schedulerNo = schedulerNo;
 	}
@@ -61,11 +67,18 @@ public class Scheduler implements Serializable{
 		this.schedulerColor = schedulerColor;
 	}
 
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "Scheduler [schedulerNo=" + schedulerNo + ", schedulerName=" + schedulerName + ", schedulerType="
-				+ schedulerType + ", createEmpNo=" + createEmpNo + ", schedulerColor=" + schedulerColor + "]";
+				+ schedulerType + ", createEmpNo=" + createEmpNo + ", schedulerColor=" + schedulerColor + ", status="
+				+ status + "]";
 	}
+
+	
 
 	
 	
