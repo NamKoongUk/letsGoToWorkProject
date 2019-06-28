@@ -96,10 +96,11 @@
           
       },
       eventDrop: function(info) {
+    	  console.log(info);
       	  console.log(info.event.id);
       	  console.log(info.event.start.toISOString());
       	  console.log(info.event.end.toISOString());
-    	  
+    	  console.log(info.event.end);
       	  var id = info.event.id;
       	  var start = new Date(info.event.start.toISOString());
       	  var startD = start.format("yyyy-MM-dd");
@@ -667,14 +668,27 @@
       					
       					
       					var endDate = new Date(endD[0]);
-      					endDate.setDate(endDate.getDate());
-      					var event = {
-      							id:id,
-      							title:title,
-      							start:startD[0] + "T" + startT,
-      							end:endDate.format("yyyy-MM-dd") + "T" + endT,
-      							color:color
+
+      					if(startT == null){
+      						endDate.setDate(endDate.getDate() + 1);
+      						var event = {
+          							id:id,
+          							title:title,
+          							start:startD[0],
+          							end:endDate.format("yyyy-MM-dd"),
+          							color:color
+          					}
+      					}else{
+      						endDate.setDate(endDate.getDate());
+      						var event = {
+          							id:id,
+          							title:title,
+          							start:startD[0] + "T" + startT,
+          							end:endDate.format("yyyy-MM-dd") + "T" + endT,
+          							color:color
+          					}
       					}
+      					
       					console.log(event);
       					calendar.addEvent(event);
       				}
