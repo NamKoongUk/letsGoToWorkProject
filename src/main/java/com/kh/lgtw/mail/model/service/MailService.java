@@ -26,8 +26,8 @@ public interface MailService{
 
 	int sendMail(Mail mail);
 
-	ArrayList<Mail> selectSearchMailList(PageInfo pi, ListCondition lc);
-
 	ArrayList<Mail> selectSearchMailList(PageInfo pi, HashMap<String, Object> listCondition);
+
+	int getMailSearchListCount(HashMap<String, Object> listCondition);
 
 }

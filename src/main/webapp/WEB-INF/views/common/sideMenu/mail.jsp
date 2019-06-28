@@ -13,9 +13,9 @@
 		</li>
 		<li><button onclick="location.href='${ contextPath }/mail/writeForm'" style="height : 100%;">메일작성하기</button></li><hr>
 				<!-- ${ contextPah }/mail.ma?pageType=all -->
-		<li><a href="${ contextPath }/mail.ma">전체보관함</a></li><hr>
-		<li><a href="${ contextPath }/mail.ma">받은메일함</a></li><hr>
-		<li><a href="${ contextPath }/mail.ma">보낸메일함</a></li><hr>
+		<li><a href="${ contextPath }/allList.ma?pageType=all">전체보관함</a></li><hr>
+		<li><a href="${ contextPath }/allList.ma?pageType=recive">받은메일함</a></li><hr>
+		<li><a href="${ contextPath }/allList?pageType=send">보낸메일함</a></li><hr>
 		<li><a href="${ contextPath }/mail.ma">임시보관함</a></li><hr><br>
 		<li><button class="grayBtn" style="height : 100%;" onclick="location.href='${ contextPath }/mail.ma'">휴지통</button></li><br>
 		<li><a href="setting.ma">환경설정</a></li>

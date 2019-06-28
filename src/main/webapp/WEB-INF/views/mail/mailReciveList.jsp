@@ -83,8 +83,7 @@
 						<tr>
 							<th><input type="checkbox" id="wholeCheck"/></th>
 							<th width="10%">읽음여부</th>
-							<th width="16%">이름</th>
-							<th width="14%">메일종류</th>
+							<th width="16%">보낸 곳</th>
 							<th>제목</th>
 							<th width="18%">날짜</th>
 						</tr>
@@ -102,16 +101,12 @@
 									</c:if>
 								</td>
 								<td>
-									<c:if test="${ mail.mailType eq '보낸메일' }">
-										<c:out value="${ mail.reciveMail }"/>
-									</c:if>
 									<c:if test="${ mail.mailType eq '받은메일' }">
 										<c:out value="${ mail.sendMail }"/>
 									</c:if>
 								</td>
-								<td><c:out value="${ mail.mailType }"/></td>
 								<td><c:out value="${ mail.mTitle }"/></td>
-								<td><c:out value="${ mail.sendDate }"/></td>							
+								<td><c:out value="${ mail.sendDate }"/></td>						
 							</tr>
 						</c:forEach>
 					</table>

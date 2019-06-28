@@ -58,7 +58,7 @@ public class MailController {
 	}	
 	
 	@RequestMapping("/mail")
-	public String mailHom2e() {
+	public String mailHome2() {
 		return "redirect:allList.ma";
 	}
 	
@@ -81,6 +81,8 @@ public class MailController {
 	// 전체 메일함 조회
 	@RequestMapping("allList.ma") // HomeController를 여기로 리다이렉트 시키기 
 	public String selectMailList(HttpServletRequest request, Model model) {
+		
+		// 페이징 처리 
 		int currentPage = 1;
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
@@ -96,13 +98,15 @@ public class MailController {
 			model.addAttribute("list", list);
 			model.addAttribute("pi", pi);
 			
-			return "mail/mailAllList";
+			return "mail/mailAllList"; 
 		}else {
 			model.addAttribute("msg", "리스트 조회에 실패!");
 			
 			return "common/errorPage";
 		}
 	}
+	
+	
 	
 	// 메일상태처리
 	@RequestMapping(value="mail/updateStatus",  produces="application/json; charset=utf8")
@@ -143,12 +147,19 @@ public class MailController {
 	// 메일 검색
 	@RequestMapping("mail/search") 
 	public String selectSearchMailList(@RequestParam HashMap<String, Object> listCondition, 
-				Model model, HttpSession session) {
+				Model model, HttpServletRequest request) {
+		// 페이징 설정
+		int currentPage = 1;
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		int listCount = ms.getMailSearchListCount(listCondition);
+		System.out.println("검색 listCount : " + listCount);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
-		String empMail = ((Employee)session.getAttribute("loginEmp")).getEmail();
+		// 로그인 회원 메일 조회
+		String empMail = ((Employee)request.getSession().getAttribute("loginEmp")).getEmail();
 		listCondition.put("empMail", empMail);
-		
-		System.out.println("이름 여부 : " + (listCondition.get("sName") != null));
 
 		// 이름으로 검색했을 때 사원 메일 검색
 		List<String> sMail = null;
@@ -156,16 +167,11 @@ public class MailController {
 			sMail = es.selectEmpEamilForName((String)listCondition.get("sName"));
 			listCondition.put("sMail", sMail);
 		}
-		System.out.println("sMAIL : " + sMail);
+		System.out.println("sMail : " + sMail);
 		System.out.println("listConition : " + listCondition);
 		
-		int currentPage = 1;
-		int listCount = ms.getMailListCount();
-		// System.out.println("메일 갯수 조회 : " + listCount);
-		
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		// 검색한 메일 리스트 조회
 		ArrayList<Mail> list = ms.selectSearchMailList(pi, listCondition);
-		// ArrayList<Mail> list = ms.selectSearchMailList(pi, lc);
 		System.out.println("메일 리스트 조회  : " + list);
 
 		if(list != null) {
@@ -258,20 +264,4 @@ public class MailController {
 		return "";
 	}
 	
-	// 하나로 합친다면 
-	@RequestMapping("mail/mailList.ma")
-	public String mailList(HttpServletRequest request) {
-		// request 페이지 이름값 받기
-		String pageType = request.getParameter("pageType");
-		// 비즈니스 로직 
-		
-		switch(pageType) {
-			case "all" : return "";
-			case "send" : return "";
-			case "recieve" : return "";
-			case "outBox" : return "";
-			case "trash" : return "";
-		}
-		return null;
-	}
 }
