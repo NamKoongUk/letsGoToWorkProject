@@ -26,14 +26,14 @@ public class SchedulerDaoImpl implements SchedulerDao{
 		ArrayList list = null;
 		
 		list = (ArrayList)sqlSession.selectList("Scheduler.selectSchedulerList", empNo);
-		System.out.println("Dao 조회 후 : " + list);
+//		System.out.println("Dao 조회 후 : " + list);
 		
 		return list;
 	}
 
 	@Override
 	public int insertSchedule(SqlSession sqlSession, Schedule schedule) {
-		System.out.println(schedule);
+//		System.out.println(schedule);
 		return sqlSession.insert("Scheduler.insertSchedule", schedule);
 	}
 
@@ -41,11 +41,6 @@ public class SchedulerDaoImpl implements SchedulerDao{
 	public HashMap<String, ArrayList<Object>> allSelectSchedule(SqlSession sqlSession, int empNo) {
 		HashMap<String, ArrayList<Object>> allList = new HashMap<String, ArrayList<Object>>();
 		
-		Scheduler scr = new Scheduler();
-		Schedule sc = new Schedule();
-		
-//		scr.setCreateEmpNo(empNo);
-//		sc.setWriter(empNo);
 		
 		ArrayList<Object> empScList = (ArrayList)sqlSession.selectList("Scheduler.selectEmpSc", empNo);
 		System.out.println("개인캘린더 목록 : " + empScList);
@@ -64,22 +59,25 @@ public class SchedulerDaoImpl implements SchedulerDao{
 
 	@Override
 	public Schedule selectScheduleDetail(SqlSession sqlSession, Schedule schedule) {
-		System.out.println("다오 진입 : " + schedule);
+
 		return sqlSession.selectOne("Scheduler.selectScheduleDetail", schedule);
 	}
 
 	@Override
 	public int deleteSchedule(SqlSession sqlSession, Schedule schedule) {
-		System.out.println("다오 진입 : " + schedule);
+
 		return sqlSession.update("Scheduler.deleteSchedule", schedule);
 	}
 
 	@Override
 	public int updateSchedule(SqlSession sqlSession, Schedule schedule) {
 		
-		if(schedule.getStartTime() == null) {
-			System.out.println("풀캘린더 이벤트 업데이트");
-			return sqlSession.update("Scheduler.eventUpdate", schedule);
+		if(schedule.getStartTime() == null && !(schedule.getStartDate() == null)) {
+			System.out.println("풀캘린더 드랍 업데이트");
+			return sqlSession.update("Scheduler.dropEventUpdate", schedule);
+		}else if(schedule.getStartDate() == null){
+			System.out.println("풀캘린더 드래그 업데이트");
+			return sqlSession.update("Scheduler.dragEventUpdate", schedule);
 		}else {
 			return sqlSession.update("Scheduler.updateSchedule", schedule);
 		}
@@ -94,22 +92,17 @@ public class SchedulerDaoImpl implements SchedulerDao{
 
 	@Override
 	public int deleteEmpScheduler(SqlSession sqlSession, Scheduler scheduler) {
-		int result = 0;
-		
+		int result = -1;
 		int result1 = sqlSession.delete("Scheduler.deleteScheduler1", scheduler);
+		System.out.println(result1);
 		
-		if(result1 > 0) {
-			int result2 = sqlSession.delete("Scheduler.deleteScheduler2", scheduler);
-
-			if(result2 > 0) {
-				result = 1;
-				return result;
-			}else {
-				return result;
-			}
+		if(result1 >= 0) {
+			return sqlSession.delete("Scheduler.deleteScheduler2", scheduler);
 		}else {
 			return result;
 		}
+		
+		
 	}
 
 	

@@ -96,18 +96,25 @@
           
       },
       eventDrop: function(info) {
-    	  console.log(info);
+    	  /* console.log(info);
       	  console.log(info.event.id);
       	  console.log(info.event.start.toISOString());
       	  console.log(info.event.end.toISOString());
-    	  console.log(info.event.end);
+    	  console.log(info.event.end); */
       	  var id = info.event.id;
       	  var start = new Date(info.event.start.toISOString());
       	  var startD = start.format("yyyy-MM-dd");
       	  console.log(startD);
       	  
-      	  var end = new Date(info.event.end.toISOString());
-      	  var endD = end.format("yyyy-MM-dd");
+      	  if(info.event.allDay){
+      	    var end = new Date(info.event.end.toISOString());
+      	    end.setDate(end.getDate() - 1);
+      	    var endD = end.format("yyyy-MM-dd");
+      	  }else{
+      		var end = new Date(info.event.end.toISOString());
+        	var endD = end.format("yyyy-MM-dd");
+      	  }
+      	  
       	  console.log(endD);
       	  
           if (!confirm("정말로 변경 하시겠습니까?")) {
@@ -119,12 +126,17 @@
     	  
       },
       eventResize: function(info) {
-    	 alert(info.event.title + " end is now " + info.event.end.toISOString());
-
-    	    if (!confirm("is this okay?")) {
+    	  var id = info.event.id;
+    	  var end = new Date(info.event.end.toISOString());
+    	  end.setDate(end.getDate() - 1);
+    	  var endD = end.format("yyyy-MM-dd");
+    	  
+    	 if (!confirm("정말로 변경 하시겠습니까?")) {
     	      info.revert();
-    	    }
+    	 }else{
+    		 location.href = '${contextPath}/updateSchedule.sc?scheduleNo=' + id + "&endDate=" + endD;
     	 }
+      }
       
       
       
@@ -192,7 +204,7 @@
   }
   .colorSp {
   	position: relative;
-  	display : inline-block;
+  	/* display : inline-block; */
   	left: -5px;
   	bottom : 2px;
   	height : 10px !important;
@@ -303,7 +315,7 @@
 			
 			  
 			  <!-- 일정추가 모달 -->
-			  <form action="${contextPath}/insertSchedule.sc" method="post">
+			  <form action="${contextPath}/insertSchedule.sc" method="post" id="insertSchedule">
 				<div class="modal fade" id="insertScheduleModal" role="dialog">
 			    <div class="modal-dialog">
 			    
@@ -331,8 +343,8 @@
 						<tr>
 							<td><b>시작</b></td>
 							<td>
-								<input type="date" name="startDate"> &nbsp;&nbsp;
-								<input type="time" name="startTime" id="startTime">
+								<input type="date" name="startDate" id="isSCstartDate"> &nbsp;&nbsp;
+								<input type="time" name="startTime" id="isSCstartTime">
 							</td>
 							<td width="20%">
 								<input type="checkbox" id="allDateBtn"> 종일
@@ -342,8 +354,8 @@
 						<tr>
 							<td><b>종료</b></td>
 							<td colspan="3">
-								<input type="date" name="endDate"> &nbsp;&nbsp;
-								<input type="time" name="endTime" id="endTime">
+								<input type="date" name="endDate" id="isSCendDate"> &nbsp;&nbsp;
+								<input type="time" name="endTime" id="isSCendTime">
 							</td>
 						</tr>
 						<tr>
@@ -358,7 +370,7 @@
 			        </div>
 			        
 			        <div class="modal-footer">
-			          <button type="submit" class="btn">생성</button>
+			          <button type="button" class="btn" onclick="return insertSchedule()">생성</button>
 			          <button type="reset" class="btn" data-dismiss="modal">취소</button>
 			        </div>
 			        
@@ -422,7 +434,7 @@
 			        <div class="modal-footer" id="dtscBtnArea">
 			          <button type="button" class="btn dtscBtn" onclick="updateSchedule()">수정</button>
 			          <button type="submit" class="btn dtscBtn">삭제</button>
-			          <button type="submit" class="btn udscBtn" style="display:none">완료</button>
+			          <button type="button" class="btn udscBtn" style="display:none" onclick="return complateUdSchedule()">완료</button>
 			          <button type="reset" class="btn udscBtn" style="display:none" data-dismiss="modal" onclick="changeDtscF()">취소</button>
 			        </div>
 			        
@@ -554,6 +566,25 @@
       		});
       	};
       	
+      	function insertSchedule(){
+      		var startTime = $("#isSCstartTime").val();
+      		var endTime = $("#isSCendTime").val();
+      		var startDate = $("#isSCstartDate").val();
+      		var endDate = $("#isSCendDate").val();
+      		
+      		if(startDate > endDate){
+      			alert("날짜 설정이 잘못되었습니다.");
+      			return false;
+      		}
+      		
+      		if((startTime == "" && !(endTime == "")) || (startDate == endDate && endTime < startTime)){
+      			alert("시간 설정이 잘못되었습니다.");
+      			return false;
+      		}
+      		
+      		$("#insertSchedule").submit();    	
+      	}
+      	
       	function updateSchedule(){
       		$("#dtscTitle").hide();
       		$("#udscTitle").show();
@@ -572,15 +603,34 @@
       		$("#dtscForm").attr("action","${ contextPath }/deleteSchedule.sc");
       	};
       	
+      	function complateUdSchedule(){
+      		var startTime = $("#dtscST").val();
+      		var endTime = $("#dtscET").val();
+      		var startDate = $("#dtscSD").val();
+      		var endDate = $("#dtscED").val();
+      		
+      		if(startDate > endDate){
+      			alert("날짜 설정이 잘못되었습니다.");
+      			return false;
+      		}
+      		
+      		if((startTime == "" && !(endTime == "")) || (startDate == endDate && endTime < startTime)){
+      			alert("시간 설정이 잘못되었습니다.");
+      			return false;
+      		}
+      		
+      		$("#dtscForm").submit(); 
+      	}
+      	
       	
       	$("#allDateBtn").click(function(){
 			var check = $(this).is(":checked");
 			if(check){
-				$("#startTime").attr("disabled","disabled");
-				$("#endTime").attr("disabled","disabled");
+				$("#isSCstartTime").attr("disabled","disabled");
+				$("#isSCendTime").attr("disabled","disabled");
 			}else{
-				$("#startTime").removeAttr("disabled");
-				$("#endTime").removeAttr("disabled");
+				$("#isSCstartTime").removeAttr("disabled");
+				$("#isSCendTime").removeAttr("disabled");
 			}
       	});
       	
@@ -592,7 +642,6 @@
       			url:"allSelectSchedule/sc",
       			type:"get",
       			success:function(data){
-      				alert("성공");
       				console.log(data.empScList);
       				console.log(data.gpScList);
       				console.log(data.scList);
@@ -607,7 +656,12 @@
       					var $colTd = $("<td colspan='2'>");
       					var $hiddenNo = $("<input type='hidden' value='" + data.empScList[key].schedulerNo + "' class='hiddenNo'>");
       					var $colBtn = $("<button style='width:5px; height:16px;' class='colorBtn'>");
-      					var $colSp = $("<span style='background:" + data.empScList[key].schedulerColor + "' class='colorSp'>");
+      					console.log(data.empScList[key].status == 'Y');
+      					if(data.empScList[key].status == 'Y'){
+      						var $colSp = $("<span style='background:" + data.empScList[key].schedulerColor + "; display:inline-block !important;' class='colorSp'>");
+      					}else{
+	      					var $colSp = $("<span style='background:" + data.empScList[key].schedulerColor + "; display:none !important;' class='colorSp'>");      						
+      					}
       					      					
       					var $nameSp = $("<span style='margin-left:5px;' class='empScName'>").text(data.empScList[key].schedulerName);
       					
@@ -756,7 +810,8 @@
       		console.log($(this).find("span"));
       		
       		if($(this).find("span").is(":visible")){
-      			$(this).find("span").hide();  	
+      			$(this).find("span").hide(); 
+      			
       		}else{
       			$(this).find("span").show();
       		}

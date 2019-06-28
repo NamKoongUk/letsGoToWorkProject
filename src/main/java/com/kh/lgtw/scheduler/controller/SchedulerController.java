@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.context.annotation.SessionScope;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -48,7 +51,7 @@ public class SchedulerController {
 	//온로드펑션 전체 조회용 메소드
 	@GetMapping(value="/allSelectSchedule/sc")
 	public @ResponseBody ResponseEntity<HashMap<String, ArrayList<Object>>> allSelectSchedule(HttpSession session) {
-		System.out.println("컨트롤러 잘 들어왔음");
+		/* System.out.println("컨트롤러 잘 들어왔음"); */
 		Employee e =  (Employee) session.getAttribute("loginEmp");
 		int empNo = e.getEmpNo();
 		
@@ -60,12 +63,12 @@ public class SchedulerController {
 	//스케쥴러 목록 조회용
 	@RequestMapping(value="selectSchedulerList.sc")
 	public void selectSchedulerList(HttpSession session, HttpServletResponse response){
-		System.out.println("컨트롤러 들어옴");
+		/* System.out.println("컨트롤러 들어옴"); */
 		Employee e = (Employee) session.getAttribute("loginEmp");
 		int empNo = e.getEmpNo();
 		
 		ArrayList<Scheduler> list = ss.selectSchedulerList(empNo);
-		System.out.println("컨트롤러 리턴 받은 list : " + list);
+		/* System.out.println("컨트롤러 리턴 받은 list : " + list); */
 		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
@@ -85,16 +88,16 @@ public class SchedulerController {
 		
 		sc.setCreateEmpNo(empNo);
 		
-		System.out.println(sc.getSchedulerColor());
-		System.out.println(sc);
+//		System.out.println(sc.getSchedulerColor());
+//		System.out.println(sc);
 		
 		int result = ss.insertMemberScheduler(sc);
 		
 		if(result > 0) {
-			System.out.println("추가성공!!");
+//			System.out.println("추가성공!!");
 			return "redirect:scheduler.sc";
 		}else {
-			System.out.println("추가 실패!");
+//			System.out.println("추가 실패!");
 			return "main/main";
 		}
 	}
@@ -102,8 +105,8 @@ public class SchedulerController {
 	//개인스케쥴러 수정
 	@RequestMapping("updateEmpScheduler.sc")
 	public String updateEmpScheduler(Scheduler scheduler) {
-		System.out.println("컨트롤러 들어왔음!");
-		System.out.println(scheduler);
+//		System.out.println("컨트롤러 들어왔음!");
+//		System.out.println(scheduler);
 		int result = ss.updateEmpScheduler(scheduler);
 		
 		if(result > 0) {
@@ -116,7 +119,7 @@ public class SchedulerController {
 	//개인스케쥴러 삭제
 	@RequestMapping("deleteEmpScheduler.sc")
 	public String deleteEmpScheduler(Scheduler scheduler) {
-		System.out.println("컨트롤러 진입 : " + scheduler);
+//		System.out.println("컨트롤러 진입 : " + scheduler);
 		int result = ss.deleteEmpScheduler(scheduler);
 		if(result > 0) {
 			return "redirect:scheduler.sc";			
@@ -154,12 +157,7 @@ public class SchedulerController {
 		
 		schedule.setWriter(empNo);
 		
-		System.out.println(schedule);
-		
-		/*
-		 * if(schedule.getStartTime() == null) { schedule.setStartTime("00:00");
-		 * schedule.setEndTime("23:59"); }
-		 */
+//		System.out.println(schedule);
 		
 		int result = ss.insertSchedule(schedule);
 		
@@ -185,7 +183,7 @@ public class SchedulerController {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		
-		System.out.println(selectOne);
+//		System.out.println(selectOne);
 		
 		try {
 			new Gson().toJson(selectOne, response.getWriter());
@@ -197,8 +195,8 @@ public class SchedulerController {
 	//일정 수정
 	@RequestMapping("updateSchedule.sc")
 	public String updateSchedule(Schedule schedule) {
-		System.out.println("컨트롤러 진입");
-		System.out.println(schedule);
+//		System.out.println("컨트롤러 진입");
+//		System.out.println(schedule);
 		
 		int result = ss.updateSchedule(schedule);
 		
@@ -212,19 +210,21 @@ public class SchedulerController {
 	//일정 삭제
 	@RequestMapping("deleteSchedule.sc")
 	public String deleteSchedule(Schedule schedule) {
-		System.out.println("컨트롤러 들어옴!");
-		System.out.println(schedule);
+//		System.out.println("컨트롤러 들어옴!");
+//		System.out.println(schedule);
 		
 		int result = ss.deleteSchedule(schedule);
 		
 		if(result > 0) {
-			System.out.println("성공!");
+//			System.out.println("성공!");
 			return "redirect:scheduler.sc";
 		}else {
-			System.out.println("실패!");
+//			System.out.println("실패!");
 			return "main/main";
 		}
 	}
+	
+	
 }
 
 
