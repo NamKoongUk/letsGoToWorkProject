@@ -156,10 +156,10 @@ public class SchedulerController {
 		
 		System.out.println(schedule);
 		
-		if(schedule.getStartTime() == null) {
-			schedule.setStartTime("00:00");
-			schedule.setEndTime("23:59");
-		}
+		/*
+		 * if(schedule.getStartTime() == null) { schedule.setStartTime("00:00");
+		 * schedule.setEndTime("23:59"); }
+		 */
 		
 		int result = ss.insertSchedule(schedule);
 		
