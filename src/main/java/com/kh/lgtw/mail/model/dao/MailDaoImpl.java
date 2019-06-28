@@ -68,7 +68,13 @@ public class MailDaoImpl implements MailDao{
 	// 메일 상세페이지 조회
 	@Override
 	public Mail selectMailDetail(SqlSession sqlSession, int mailNo) {
-		return sqlSession.selectOne("Mail.selectMailDetail", mailNo);
+		Mail m = sqlSession.selectOne("Mail.selectMailDetail", mailNo);
+		int result = sqlSession.update("Mail.updateReadStatus", mailNo);
+		
+		System.out.println(" m : " + m);
+		System.out.println("result : " + result);
+		
+		return m;
 	}
 
 	// 메일 부재중 추가 
@@ -89,18 +95,6 @@ public class MailDaoImpl implements MailDao{
 		return sqlSession.insert("Mail.sendMail", mail);
 	}
 
-	
-	// 검색 메일 조회
-	@Override
-	public ArrayList<Mail> selectSearchMailList(SqlSession sqlSession, PageInfo pi, ListCondition lc) {
-		int offset = (pi.getCurrentPage() - 1)  * pi.getLimit();
-		
-		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
-		
-		ArrayList<Mail> list = (ArrayList)sqlSession.selectList("Mail.searchMailList", lc, rowBounds);
-		return list;
-	}
-
 	// 검색 메일 조회
 	@Override
 	public ArrayList<Mail> selectSearchMailList(SqlSession sqlSession, PageInfo pi, HashMap<String, Object> listCondition) {
@@ -109,6 +103,12 @@ public class MailDaoImpl implements MailDao{
 		SqlQuery.getSqlQuery(sqlSession, "Mail.searchList", listCondition);
 		
 		return (ArrayList)sqlSession.selectList("Mail.searchList", listCondition, rowBounds);
+	}
+
+	// 검색 페이징을 위한 리스트 갯수 조회 
+	@Override
+	public int getMailSearchListCount(SqlSession sqlSession, HashMap<String, Object> listCondition) {
+		return sqlSession.selectOne("Mail.getMailSearchListCount");
 	}
 
 	

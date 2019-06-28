@@ -28,8 +28,8 @@ public interface MailDao {
 
 	int sendMail(SqlSession sqlSession, Mail mail);
 
-	ArrayList<Mail> selectSearchMailList(SqlSession sqlSession, PageInfo pi, ListCondition lc);
-
 	ArrayList<Mail> selectSearchMailList(SqlSession sqlSession, PageInfo pi, HashMap<String, Object> listCondition);
+
+	int getMailSearchListCount(SqlSession sqlSession, HashMap<String, Object> listCondition);
 
 }

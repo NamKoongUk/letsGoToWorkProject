@@ -13,7 +13,7 @@
 	<!-- file저장 Appenders -->
 	<!-- 하루마다 로그를 갱신해서 만들어주는 파일 로거 -->
 	<appender name="fileLogger" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="file" value="C:/01_FinalProject/logs/system/system.log"/>
+		<param name="file" value="C:/logs/system/system.log"/>
 		<param name="Append" value="true"/> <!-- 뒤에 추가 -->
 		<param name="DataPattern" value="'.'yyyy-MM-a"/>
 		<layout class="org.apache.log4j.PatternLayout">
@@ -24,7 +24,7 @@
 	
 	<!-- 실행된 sqlQuery문만 출력하는 로그 -->
 	<appender name="sqlQueryLogger" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="file" value="C:/01_FinalProject/logs/query/sql.log"/>
+		<param name="file" value="C:/logs/query/sql.log"/>
 		<param name="Append" value="true"/>
 		<param name="DataPattern" value="'.'yyyy-MM-a"/>
 		<layout class="org.apache.log4j.PatternLayout">
@@ -36,7 +36,7 @@
 	<!-- 에러만 출력하는 로그 -->
     <appender name="errFile" class="org.apache.log4j.DailyRollingFileAppender">
         <param name="Threshold" value="ERROR"/>
-        <param name="File" value="C:/01_FinalProject/logs/error/errors.log"/>
+        <param name="File" value="C:/logs/error/errors.log"/>
         <param name="Append" value="true"/>
         <param name="DatePattern" value="'.'yyyy-MM-a"/>
         <layout class="org.apache.log4j.PatternLayout">	
@@ -46,7 +46,7 @@
     
     <!-- 로그인 로그 남기기  -->
     <appender name="LOGFILE-DAILY-LOGIN" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="file" value="C:/01_FinalProject/logs/login/loginInfo.log"/>
+        <param name="file" value="C:/logs/login/loginInfo.log"/>
         <param name="Append" value="true"/>
         <param name="DatePattern" value="'.'yyyy-MM-dd"/>
         <layout class="org.apache.log4j.PatternLayout">

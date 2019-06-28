@@ -7,11 +7,14 @@
 		<!-- 빈값이 들어오면 NULL로 인식한다. -->
 		<setting name="jdbcTypeForNull" value="NULL"/>
 		<!-- 한 개의 구문에서 여러개의 resultSet 사용을 지원한다. -->
-		<setting name="multipleResultSetsEnabled" value="true"/>
+		<!-- <setting name="multipleResultSetsEnabled" value="true"/> -->
 		<!-- 자동 매핑시 오류가 생기면 log에 출력해줌  -->
 		<setting name="autoMappingUnknownColumnBehavior" value="WARNING"/>
 		<!-- HashMap으로 리턴할 때 null값 누락 방지 -->
 		<setting name="callSettersOnNulls" value="true"/>
+		<!-- 캐시 설정 -->
+		<setting name="cacheEnabled" value="false"/>
+  		<setting name="localCacheScope" value="STATEMENT"/>
 	</settings>
 	
 	<!-- VO 등록하는 곳 -->
