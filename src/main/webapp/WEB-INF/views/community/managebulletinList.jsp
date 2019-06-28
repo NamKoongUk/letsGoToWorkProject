@@ -99,7 +99,7 @@
 				        <td>${b.boardName}</td>
 				        <td>${b.createUserName }</td>
 				        <td>${b.createDate }</td> 
-				        <td>""/10</td>
+				        <td>${b.postcount }/10</td>
 				        <td><button type="button" class="btn btn-info btn-lg" onclick="revision();">수정</button></td>
 				        <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">삭제</button></td>
 				      </tr>

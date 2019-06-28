@@ -60,11 +60,27 @@ public class CommunityServiceImpl  implements CommunityService{
 	}
 
 
-
+    //게시판 생성 메소드
 	@Override
 	public int InsertCommunity(Community com) {
 		
 		return cd.InsertCommunity(sqlSession,com);
+	}
+
+
+	//게시판 관리 조회 메소드
+	@Override
+	public ArrayList<Community> SelectManagebulletinList() {
+		// TODO Auto-generated method stub
+		return cd.SelectManagebulletinList(sqlSession);
+	}
+
+
+	//게시글 생성 메소드
+	@Override
+	public int CommunityPostInsert(CommunityPost cp) {
+		// TODO Auto-generated method stub
+		return cd.CommunityPostInsert(sqlSession ,cp);
 	}
 
 

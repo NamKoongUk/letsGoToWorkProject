@@ -47,6 +47,18 @@ public class CommunityDaoImpl implements CommunityDao {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("Community.InsertCommunity", com);
 	}
+	//게시판 관리 조회용 메소드
+	@Override
+	public ArrayList<Community> SelectManagebulletinList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("Community.SelectManagebulletinList");
+	}
+
+	@Override
+	public int CommunityPostInsert(SqlSessionTemplate sqlSession, CommunityPost cp) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("Community.CommunityPostInsert", cp);
+	}
 
 	
 

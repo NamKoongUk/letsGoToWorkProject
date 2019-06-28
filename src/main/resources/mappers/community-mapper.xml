@@ -22,7 +22,24 @@
 		<result column="STAUS" property="status"/>
 		<result column="BOARD_TYPE" property="boardType"/>
 		<result column="EMP_NAME" property="createUserName"/>
-	</resultMap>
+	</resultMap> 
+	
+<!-- 게시판 관리용 ResultSet	 -->
+	<resultMap id="communityResultSet2" type="com.kh.lgtw.community.model.vo.Community">
+		<id column="BNO" property="bno"/>
+		<result column="BOARD_NAME" property="boardName"/>
+		<result column="CREATE_USER" property="createUser"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="BOARD_AUTHORITY" property="boardAuthority"/>
+		<result column="STAUS" property="status"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="EMP_NAME" property="createUserName"/>
+		<result column="ORD" property="ord"/>
+		<result column="POSTCOUNT" property="postcount"/>
+	</resultMap> 
+	
+	
+	
 	
 	<!--게시글 컬럼 리스트 	 -->
 	<resultMap id="communityPostResultSet" type="com.kh.lgtw.community.model.vo.CommunityPost">
@@ -40,11 +57,12 @@
 	</resultMap>
 	
 <!--게시판 조회 쿼리문 	 -->	
-	<select id="selectCommunityList" resultMap="communityResultSet">
-		SELECT B.BNO , B.BOARD_NAME , E.EMP_NAME , B.CREATE_DATE
-		FROM BOARD B
-		JOIN EMPLOYEE E ON (B.CREATE_USER = E.EMPNO)           
-		
+	<select id="selectCommunityList" resultMap="communityResultSet2">
+		SELECT ROWNUM AS ORD , B.*
+    	FROM BOARD B
+    	WHERE STATUS = 'N'
+	
+	
 	</select> 
 	
 	
@@ -95,6 +113,28 @@
 				  VALUES(SEQ_BNO.NEXTVAL,#{boardName},#{createUser},SYSDATE,NULL,'N',#{boardType})  	   
   	   	
   	   </insert>	
+  	   
+ <!-- 게시판 관리 쿼리 문 			 -->	   
+  	   <select id="SelectManagebulletinList" resultMap="communityResultSet2" >   
+  	   		SELECT ( 
+  					SELECT COUNT(C.CONTENT_NO)
+  					FROM BOARD B 
+  					JOIN CONTENT C  ON (B.BNO = C.BNO)  
+       				WHERE B.BNO=1) AS POSTCOUNT  , 
+       				(SELECT ROWNUM   
+        			 FROM BOARD B 
+        			 WHERE STATUS = 'N') AS ORD  , 
+        			 B.BOARD_NAME , B.STATUS , B.BOARD_TYPE , E.EMP_NAME ,B.CREATE_DATE
+    				 FROM BOARD B
+    				 JOIN EMPLOYEE E ON (B.CREATE_USER=E.EMPNO)	
+  	   
+  	   </select>
+  	   
+  	   <insert id="CommunityPostInsert" parameterType="CommunityPost"> 
+	     INSERT INTO CONTENT 
+    	 VALUES(SEQ_CONTENT_NO.NEXTVAL,#{bno},#{bwriter},#{btitle},#{bcontent},SYSDATE,SYSDATE,0,#{btype},'N')
+  	   
+  	   </insert>
 	
 
 </mapper>

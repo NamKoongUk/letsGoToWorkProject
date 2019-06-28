@@ -22,22 +22,28 @@
 			<h1 class="title">글작성</h1> 
 		
 			<div class="content">
-					<form method="post" action=""  >
+					<form method="post" action="communityPostInsert.co"  >
 							
 						
 						<label>&nbsp;게시판 종류 :</label>
 								
-								<select >
+								
+								<select name="boardName">
 								<c:forEach var="b" items="${ requestScope.list}">
-					   	   
-								   	     <option value="${b.bno}">${b.boardName}</option>
+								   	     <option value='${ b.boardName }' selected>${b.boardName}</option>
 								   	     <%-- <option value="${}"></option>
 								   	     <option value="${}"></option> --%>
 								   	
 					   	
 					   			
+					   			
 					   			</c:forEach>
-					   			</select> 
+					   			</select>
+					   			
+					   			<c:forEach var="b" items="${ requestScope.list}">
+					   				<input type="hidden" value="${b.bno }" name="bno"> 
+					   			</c:forEach>
+					   					<!-- <input type="hidden" name="bno"> --> 
 
 							<table class="table table-striped" >
 
@@ -46,7 +52,7 @@
 	
 									<tr>
 	
-										<td colspan="2"><input type="text" class="form-control" placeholder="글 제목" name="bbsTitle" maxlength="50"/></td>
+										<td colspan="2"><input type="text" class="form-control" placeholder="글 제목" name="btitle" maxlength="50"/></td>
 	
 								  </tr> 
 								  
@@ -70,7 +76,7 @@
 					    <div class="form-group">
 					        <div class="form-group">
 					            <div class="col-lg-12">
-					                <textarea name="afContent" id="ckeditor"></textarea>
+					                <textarea name="bcontent" id="ckeditor"></textarea>
 					            </div>
 					        </div>
 					        <div class="form-group">
