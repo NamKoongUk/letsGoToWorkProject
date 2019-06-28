@@ -180,10 +180,15 @@
 		AND AF_NO = #{afNo}
 	</select>
 	
-	<select id="selectName" resultMap="empResultSet" parameterType="java.lang.String">
-		SELECT EMPNO, EMP_NAME, EMP_ID
-		FROM EMPLOYEE
-		WHERE EMP_NAME LIKE #{value}||'%'
+	<select id="selectName" resultMap="empResultSet2" parameterType="java.lang.String">
+		SELECT E.EMPNO, E.EMP_ID, E.EMP_NAME, J.JOB_CODE, J.JOB_NAME, D.DEPT_CODE, D.DEPT_NAME, D.MANAGER_EMPNO
+		FROM EMPLOYEE E
+		JOIN DEPT_HISTORY DH ON(E.EMPNO = DH.EMPNO)
+		JOIN DEPT D ON (D.DEPT_CODE = DH.DEPT_CODE)
+		JOIN EMPLOYEE E2 ON (D.MANAGER_EMPNO = E2.EMPNO)
+		JOIN PROMOTION_HISTORY PH ON(PH.EMPNO = E.EMPNO)
+		JOIN JOB J ON(J.JOB_CODE = PH.JOB_CODE)
+		WHERE E.EMP_NAME LIKE #{value}||'%'
 	</select>
 	
 	<!-- 하위부서 유무 부서조회 -->
