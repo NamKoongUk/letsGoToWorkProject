@@ -348,9 +348,9 @@ public class AprprovalController {
 	// 양식상세
 	@RequestMapping("selectOneAppFormDcm.ap")
 	public String selectOneOfferDcm(Model model, int afNo) {
-		System.out.println(afNo);
+//		System.out.println(afNo);
 		AppForm form = as.selectOneAppFormDcm(afNo);
-		System.out.println(form);
+//		System.out.println(form);
 
 		model.addAttribute("form", form);
 
@@ -380,7 +380,7 @@ public class AprprovalController {
 	@RequestMapping("insertAppForm.ap")
 	public String insertAppForm(AppForm form, Model model) {
 
-		System.out.println(form);
+//		System.out.println(form);
 
 		int result = as.insertAppForm(form);
 
@@ -416,7 +416,7 @@ public class AprprovalController {
 	@RequestMapping("updateAppForm.ap")
 	public String updateAppForm(AppForm form) {
 
-		System.out.println(form);
+//		System.out.println(form);
 		int result = as.updateAppForm(form);
 
 		if (result > 0) {
@@ -430,7 +430,7 @@ public class AprprovalController {
 	// 사용 전환
 	@RequestMapping(value = "statusUpdateAppForm.ap", produces = "application/text; charset=utf8")
 	public @ResponseBody String statusUpdateAppForm(@RequestBody Map<String, Object> map) {
-		System.out.println(map);
+//		System.out.println(map);
 		// System.out.println(choice);
 		// System.out.println(afNo);
 
@@ -542,8 +542,8 @@ public class AprprovalController {
 	public Map<String, ArrayList<HashMap<String, Object>>> selectEmp(){
 		
 		Map<String, ArrayList<HashMap<String, Object>>> map = as.selectEmp();
-		System.out.println(map.get("empList"));
-		System.out.println(map.get("deptList"));
+//		System.out.println(map.get("empList"));
+//		System.out.println(map.get("deptList"));
 		
 		return map;
 	}
@@ -615,7 +615,7 @@ public class AprprovalController {
 	@RequestMapping("/approval/autocompleteCircle")
 	@ResponseBody
 	public List<HashMap<String, Object>> autocompleteCircle(@RequestParam String value){
-		System.out.println(value);
+//		System.out.println(value);
 //		List<HashMap<String, String>> = new ArrayList<String>();
 //		list.add("김채연");
 //		list.add("조도연");
@@ -625,7 +625,7 @@ public class AprprovalController {
 //		list.add("강형석");
 		
 		List<HashMap<String, Object>> result = as.autocompleteCircle(value);
-		System.out.println(result);
+//		System.out.println(result);
 //		for(String str : list) {
 //			if(str.startsWith(value)) {
 //				result.add(str);

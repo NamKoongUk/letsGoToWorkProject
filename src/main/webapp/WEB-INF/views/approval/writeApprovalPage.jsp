@@ -89,23 +89,145 @@
 					      	<div id="deptList" class="treeview col-sm-3" style="height:450px; border:1px solid black">		      
 						      <span id="all" onclick="underEmp(this, event);">전체보기</span>			   
 					      	</div>
-					      	<div class="col-sm-3 form-group">
+					      	<div class="col-sm-4 form-group">
 					      		<select class="form-control" name="empList" size="10" style="overflow: auto; width:100%; height:450px;" multiple>
 					      			
 					      		</select>
 					      	</div>
-					      	<div class="col-sm-4">
-					      		<label>회람</label>
-					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:420px;" multiple>
+					      <!-- 	<div class="col-sm-1">
 					      		
-					      		</select>
+					      		<button class="middle" type="button">></button>
+					      		<button class="middle" type="button"><</button>
+					      		
+					      	</div> -->
+					      	<div class="col-sm-4 signForm" id="circle" style="display:none;">
+					      		<div class="row">
+						      		<div>
+						      			<div class="col-sm-2">
+								      		<button class="btn" name="inputCircle" type="button">></button>
+								      		<button class="btn" name="outputCircle" type="button"><</button>
+						      			</div>
+						      			<div class="col-sm-10">
+						      				<label class="col-sm-12">회람</label>
+								      		<select class="form-control circleList" name="circleList" size="10" style="width:100%; height:420px;" multiple>
+								      			
+								      		</select>					      			
+						      			</div>
+						      		
+						      		</div>
+						      	
+						      	</div>
 					      	</div>
-					      	<div class="btnArea">
-					      		<button>회람추가</button>
+					      	<div class="col-sm-5 signForm" id="normalApproval" style="display:none;">	
+						      	<div class="row">
+						      		<div>
+						      			<div class="col-sm-2">
+								      		<button class="top" type="button">></button>
+								      		<button class="top" type="button"><</button>
+						      			</div>
+						      			<div class="col-sm-10">
+						      				<label class="col-sm-12">결재</label>
+								      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
+								      			
+								      		</select>					      			
+						      			</div>
+						      		
+						      		</div>
+						      	
+						      	</div>
+					      		<div class="row">
+						      		<div>
+						      			<div class="col-sm-2">
+								      		<button class="top" type="button">></button>
+								      		<button class="top" type="button"><</button>
+						      			</div>
+						      			<div class="col-sm-10">	
+						      				<label class="col-sm-12">합의</label>
+								      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
+								      			
+								      		</select>					      			
+						      			</div>
+						      		
+						      		</div>
+						      	
+						      	</div>
+					      		<div class="row">
+						      		<div>
+						      			<div class="col-sm-2" style="display:table-cell; vertical-align:center; top:50%;">
+								      		<button class="top" type="button">></button>
+								      		<button class="top" type="button"><</button>
+						      			</div>
+						      			<div class="col-sm-10">
+						      				<label class="col-sm-12">참조</label>
+								      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
+								      			
+								      		</select>					      			
+						      			</div>
+						      		
+						      		</div>
+						      	
+						      	</div>
+
+					      	</div>
+					      	<div class="col-sm-4 signForm" id="agreementApproval" style="display:none;">
+					      		<label>결재</label>
+					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:80px;" multiple>
+					      			
+					      		</select>
+					      		<label>재무합의</label>
+					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:80px;" multiple>
+					      			
+					      		</select>
+					      		<label>합의</label>
+					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:80px;" multiple>
+					      			
+					      		</select>
+					      		<label>참조자</label>
+					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:80px;" multiple>
+					      			
+					      		</select>
+						      	<div class="btnArea">
+						      		<button type="button">회람추가</button>
+						      	</div>
+					      	</div>
+					      	<div class="col-sm-4 signForm" id="applyDcm" style="display:none;">
+					      		<label>신청자</label>
+					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
+					      			
+					      		</select>
+					      		<label>처리자</label>
+					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
+					      			
+					      		</select>
+					      		<label>참조</label>
+					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
+					      			
+					      		</select>
+						      	<div class="btnArea">
+						      		<button type="button">회람추가</button>
+						      	</div>
+					      	</div>
+					      	<div class="col-sm-4 signForm" id="approvalSend" style="display:none;">
+					      		<label>결재</label>
+					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
+					      			
+					      		</select>
+					      		<label>참조</label>
+					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
+					      			
+					      		</select>
+					      		<label>수신</label>
+					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
+					      			
+					      		</select>
+						      	<div class="btnArea">
+						      		<button type="button">회람추가</button>
+						      	</div>
 					      	</div>
 					      </div>
 					      <div class="modal-footer">
-					        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+					        <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
 					      </div>
 					    </div>				
 					  </div>
@@ -139,9 +261,28 @@
 	
 	<jsp:include page="../common/footer.jsp" />
 <script>
+	$(".btn").click(function(){
+		
+		var selectEmp = $("select[name='empList']").val();
+		
+		console.log($("select[name='empList']").val());
+		
+		if($(this).attr("name") == "inputCircle"){
+			var circleList = $(this).parent().parent().find("select[name='circleList']");
+			console.log($(this).parent().parent().find("select[name='circleList']"));
+			
+			for(var i = 0; i < selectEmp.length; i++) {
+				console.log("들어는 오냐??");
+				console.log($("#" + selectEmp[i]));
+				circleList.append($("#" + selectEmp[i]).parent());
+			}
+			
+		}
+	});
+	
 	function selectEmp(){
 		console.log("selectEmp 호출");
-		
+		$("#deptList").children().remove();
 		$.ajax({
 			url:"${contextPath}/approval/selectEmp",
 			type:"get",
@@ -221,7 +362,7 @@
 					for(var i = 0; i < data.empList.length; i++) {
 						console.log(data.empList[i].empName);
 						var $option = $("<option value='" + data.empList[i].empNo + "'>");
-						$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
+						$option.append($("<label id='" + data.empList[i].empNo + "'>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
 						
 						$("select[name='empList']").append($option);
 					}
@@ -237,7 +378,7 @@
 					for(var i = 0; i < data.empList.length; i++) {
 						console.log(data.empList[i].empName);
 						var $option = $("<option value='" + data.empList[i].empNo + "'>");
-						$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
+						$option.append($("<label id='" + data.empList[i].empNo + "'>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
 						
 						$("select[name='empList']").append($option);
 					} 
@@ -254,6 +395,10 @@
 			var afNo = $(this).val();
 			console.log(afNo);
 			
+			$(".signForm").each(function(){
+				$(this).css("display", "none");
+			});
+			
 			$.ajax({
 				url:"${contextPath}/approval/selectWriteForm",
 				data:{afNo:afNo},
@@ -265,6 +410,16 @@
 					$("#security").val(data.securityCode);
 					$("#dcmType").val(data.afNo);
 					$("#area").css("visibility", "visible");
+					
+					console.log($(".signForm"));
+					
+					$(".signForm").each(function(){
+						console.log($(this).attr("id"));
+						console.log(data.signCode);
+						if(data.signCode == $(this).attr("id")) {
+							$(this).css("display", "block");
+						}
+					});
 
 					
 					$("#autoSelectEmp").autocomplete({	
