@@ -28,6 +28,8 @@ public interface EmployeeService {
 	
   ArrayList<DeptVo> selectDeptList();
 
+int insertEmpQ();
+
 
 
 
