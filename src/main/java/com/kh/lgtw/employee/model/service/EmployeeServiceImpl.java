@@ -200,6 +200,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return empDao.selectDeptList(sqlSession);
 	}
 
+	@Override
+	public int insertEmpQ() {
+		// TODO Auto-generated method stub
+		return empDao.insertEmpQ(sqlSession);
+	}
+
 
 	//	@Override
 //	public Employee loginEmpl(Employee employee) {

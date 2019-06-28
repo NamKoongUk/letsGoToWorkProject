@@ -28,6 +28,8 @@ public interface EmployeeDao{
 	
   ArrayList<DeptVo> selectDeptList(SqlSession sqlSession);
 
+int insertEmpQ(SqlSession sqlSession);
+
 
 //	Employee loginEmpl(Employee employee, SqlSession sqlSession);
 //

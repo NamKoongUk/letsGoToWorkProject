@@ -141,6 +141,10 @@ public class EmployeeController {
 	//직원관리
 	@RequestMapping("showEmployeeAdmin.em")
 	public String showEmployeeAdmin() {
+		Employee employee;
+		
+		int result = empService.insertEmpQ();
+		
 		return "employee/employeeAdmin";
 	}
 	

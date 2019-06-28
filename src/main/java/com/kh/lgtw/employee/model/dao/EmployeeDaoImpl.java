@@ -86,6 +86,12 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		return (ArrayList) sqlSession.selectList("Employee.selectDeptList");
 	}
 
+	@Override
+	public int insertEmpQ(SqlSession sqlSession) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 //	@Override
 //	public Employee loginEmpl(Employee employee, SqlSession sqlSession) {
