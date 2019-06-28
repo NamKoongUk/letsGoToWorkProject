@@ -72,7 +72,7 @@
 			    <tbody>
 	  		</table>
 			
-			
+				
 			
 			<div id="area" class="content" style="visibility:hidden;">
 				<form class="form-horizontal" role="form" id="editorForm" method="post" action="/">
@@ -100,16 +100,17 @@
 					      		<button class="middle" type="button"><</button>
 					      		
 					      	</div> -->
-					      	<div class="col-sm-4 signForm" id="circle" style="display:none;">
+					      	<!-- 회람 -->
+					      	<div class="col-sm-5 signForm" id="circle" style="display:none;">
 					      		<div class="row">
 						      		<div>
 						      			<div class="col-sm-2">
-								      		<button class="btn" name="inputCircle" type="button">></button>
-								      		<button class="btn" name="outputCircle" type="button"><</button>
+								      		<button class="btn inout" name="inputCircle" type="button">></button>
+								      		<button class="btn inout" name="outputCircle" type="button"><</button>
 						      			</div>
 						      			<div class="col-sm-10">
 						      				<label class="col-sm-12">회람</label>
-								      		<select class="form-control circleList" name="circleList" size="10" style="width:100%; height:420px;" multiple>
+								      		<select class="form-control list circleList" name="circleList" size="10" style="width:100%; height:420px;" multiple>
 								      			
 								      		</select>					      			
 						      			</div>
@@ -118,16 +119,18 @@
 						      	
 						      	</div>
 					      	</div>
+					      	
+					      	<!-- 일반결재 -->
 					      	<div class="col-sm-5 signForm" id="normalApproval" style="display:none;">	
 						      	<div class="row">
 						      		<div>
 						      			<div class="col-sm-2">
-								      		<button class="top" type="button">></button>
-								      		<button class="top" type="button"><</button>
+								      		<button class="btn inout" name="inputApproval" type="button">></button>
+								      		<button class="btn inout" name="outputApproval" type="button"><</button>
 						      			</div>
 						      			<div class="col-sm-10">
 						      				<label class="col-sm-12">결재</label>
-								      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
+								      		<select class="form-control list" name="approvalList" size="10" style="width:100%; height:110px;" multiple>
 								      			
 								      		</select>					      			
 						      			</div>
@@ -138,12 +141,12 @@
 					      		<div class="row">
 						      		<div>
 						      			<div class="col-sm-2">
-								      		<button class="top" type="button">></button>
-								      		<button class="top" type="button"><</button>
+								      		<button class="btn inout" name="inputAgree" type="button">></button>
+								      		<button class="btn inout" name="outputAgree" type="button"><</button>
 						      			</div>
 						      			<div class="col-sm-10">	
 						      				<label class="col-sm-12">합의</label>
-								      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
+								      		<select class="form-control list" name="agreeList" size="10" style="width:100%; height:110px;" multiple>
 								      			
 								      		</select>					      			
 						      			</div>
@@ -154,12 +157,12 @@
 					      		<div class="row">
 						      		<div>
 						      			<div class="col-sm-2" style="display:table-cell; vertical-align:center; top:50%;">
-								      		<button class="top" type="button">></button>
-								      		<button class="top" type="button"><</button>
+								      		<button class="btn inout" name="inputRef" type="button">></button>
+								      		<button class="btn inout" name="outputRef" type="button"><</button>
 						      			</div>
 						      			<div class="col-sm-10">
 						      				<label class="col-sm-12">참조</label>
-								      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
+								      		<select class="form-control list" name="referenceList" size="10" style="width:100%; height:110px;" multiple>
 								      			
 								      		</select>					      			
 						      			</div>
@@ -169,65 +172,183 @@
 						      	</div>
 
 					      	</div>
-					      	<div class="col-sm-4 signForm" id="agreementApproval" style="display:none;">
-					      		<label>결재</label>
-					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:80px;" multiple>
+					      	
+					      	<!-- 재무합의문서 -->
+					      	<div class="col-sm-5 signForm" id="agreementApproval" style="display:none;">
+					      		<div class="row">
+						      		<div>
+						      			<div class="col-sm-2">
+								      		<button class="btn inout" name="inputApproval" type="button">></button>
+								      		<button class="btn inout" name="outputApproval" type="button"><</button>
+						      			</div>
+						      			<div class="col-sm-10">
+						      				<label class="col-sm-12">결재</label>
+								      		<select class="form-control list" name="approvalList" size="10" style="width:100%; height:110px;" multiple>
+								      			
+								      		</select>					      			
+						      			</div>
+						      		
+						      		</div>
+						      	
+						      	</div>
 					      			
-					      		</select>
-					      		<label>재무합의</label>
-					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:80px;" multiple>
-					      			
-					      		</select>
-					      		<label>합의</label>
-					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:80px;" multiple>
-					      			
-					      		</select>
-					      		<label>참조자</label>
-					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:80px;" multiple>
-					      			
-					      		</select>
-						      	<div class="btnArea">
-						      		<button type="button">회람추가</button>
+					      		<div class="row">
+						      		<div>
+						      			<div class="col-sm-2">
+								      		<button class="btn inout" name="inputPa" type="button">></button>
+								      		<button class="btn inout" name="outputPa" type="button"><</button>
+						      			</div>
+						      			<div class="col-sm-10">
+						      				<label class="col-sm-12">재무합의</label>
+								      		<select class="form-control list" name="payAgreeList" size="10" style="width:100%; height:110px;" multiple>
+								      			
+								      		</select>					      			
+						      			</div>
+						      		
+						      		</div>
+						      	
+						      	</div>
+					      		<div class="row">
+						      		<div>
+						      			<div class="col-sm-2">
+								      		<button class="btn inout" name="inputAgree" type="button">></button>
+								      		<button class="btn inout" name="outputAgree" type="button"><</button>
+						      			</div>
+						      			<div class="col-sm-10">	
+						      				<label class="col-sm-12">합의</label>
+								      		<select class="form-control list" name="agreeList" size="10" style="width:100%; height:110px;" multiple>
+								      			
+								      		</select>					      			
+						      			</div>
+						      		
+						      		</div>
+						      	
+						      	</div>
+						      	<div class="row">
+						      		<div>
+						      			<div class="col-sm-2" style="display:table-cell; vertical-align:center; top:50%;">
+								      		<button class="btn inout" name="inputRef" type="button">></button>
+								      		<button class="btn inout" name="outputRef" type="button"><</button>
+						      			</div>
+						      			<div class="col-sm-10">
+						      				<label class="col-sm-12">참조</label>
+								      		<select class="form-control list" name="referenceList" size="10" style="width:100%; height:110px;" multiple>
+								      			
+								      		</select>					      			
+						      			</div>
+						      		
+						      		</div>
+						      	
 						      	</div>
 					      	</div>
-					      	<div class="col-sm-4 signForm" id="applyDcm" style="display:none;">
-					      		<label>신청자</label>
-					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
-					      			
-					      		</select>
-					      		<label>처리자</label>
-					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
-					      			
-					      		</select>
-					      		<label>참조</label>
-					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
-					      			
-					      		</select>
-						      	<div class="btnArea">
-						      		<button type="button">회람추가</button>
+					      	
+					      	<!-- 신청 -->
+					      	<div class="col-sm-5 signForm" id="applyDcm" style="display:none;">
+					      		<div class="row">
+						      		<div>
+						      			<div class="col-sm-2" style="display:table-cell; vertical-align:center; top:50%;">
+								      		<button class="btn inout" name="inputApply" type="button">></button>
+								      		<button class="btn inout" name="outputApply" type="button"><</button>
+						      			</div>
+						      			<div class="col-sm-10">
+						      				<label class="col-sm-12">신청</label>
+								      		<select class="form-control list" name="applyList" size="10" style="width:100%; height:110px;" multiple>
+								      			
+								      		</select>					      			
+						      			</div>
+						      		
+						      		</div>
+						      	
+						      	</div>
+					      		<div class="row">
+						      		<div>
+						      			<div class="col-sm-2" style="display:table-cell; vertical-align:center; top:50%;">
+								      		<button class="btn inout" name="inputPro" type="button">></button>
+								      		<button class="btn inout" name="outputPro" type="button"><</button>
+						      			</div>
+						      			<div class="col-sm-10">
+						      				<label class="col-sm-12">처리</label>
+								      		<select class="form-control list" name="proceesList" size="10" style="width:100%; height:110px;" multiple>
+								      			
+								      		</select>					      			
+						      			</div>
+						      		
+						      		</div>
+						      	
+						      	</div>
+					      		<div class="row">
+						      		<div>
+						      			<div class="col-sm-2" style="display:table-cell; vertical-align:center; top:50%;">
+								      		<button class="btn inout" name="inputRef" type="button">></button>
+								      		<button class="btn inout" name="outputRef" type="button"><</button>
+						      			</div>
+						      			<div class="col-sm-10">
+						      				<label class="col-sm-12">참조</label>
+								      		<select class="form-control list" name="referenceList" size="10" style="width:100%; height:110px;" multiple>
+								      			
+								      		</select>					      			
+						      			</div>
+						      		
+						      		</div>
+						      	
 						      	</div>
 					      	</div>
-					      	<div class="col-sm-4 signForm" id="approvalSend" style="display:none;">
-					      		<label>결재</label>
-					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
-					      			
-					      		</select>
-					      		<label>참조</label>
-					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
-					      			
-					      		</select>
-					      		<label>수신</label>
-					      		<select class="form-control" name="circleList" size="10" style="width:100%; height:110px;" multiple>
-					      			
-					      		</select>
-						      	<div class="btnArea">
-						      		<button type="button">회람추가</button>
+					      	
+					      	<!-- 수신 -->
+					      	<div class="col-sm-5 signForm" id="approvalSend" style="display:none;">
+					      		<div class="row">
+						      		<div>
+						      			<div class="col-sm-2">
+								      		<button class="btn inout" name="inputApproval" type="button">></button>
+								      		<button class="btn inout" name="outputApproval" type="button"><</button>
+						      			</div>
+						      			<div class="col-sm-10">
+						      				<label class="col-sm-12">결재</label>
+								      		<select class="form-control list" name="approvalList" size="10" style="width:100%; height:110px;" multiple>
+								      			
+								      		</select>					      			
+						      			</div>
+						      		
+						      		</div>
+						      	
+						      	</div>
+					      		<div class="row">
+						      		<div>
+						      			<div class="col-sm-2" style="display:table-cell; vertical-align:center; top:50%;">
+								      		<button class="btn inout" name="inputRef" type="button">></button>
+								      		<button class="btn inout" name="outputRef" type="button"><</button>
+						      			</div>
+						      			<div class="col-sm-10">
+						      				<label class="col-sm-12">참조</label>
+								      		<select class="form-control list" name="referenceList" size="10" style="width:100%; height:110px;" multiple>
+								      			
+								      		</select>					      			
+						      			</div>
+						      		
+						      		</div>
+						      	
+						      	</div>
+					      		<div class="row">
+						      		<div>
+						      			<div class="col-sm-2" style="display:table-cell; vertical-align:center; top:50%;">
+								      		<button class="btn inout" name="inputSend" type="button">></button>
+								      		<button class="btn inout" name="outputSend" type="button"><</button>
+						      			</div>
+						      			<div class="col-sm-10">
+						      				<label class="col-sm-12">수신</label>
+								      		<select class="form-control list" name="sendList" size="10" style="width:100%; height:110px;" multiple>
+								      			
+								      		</select>					      			
+						      			</div>
+						      		
+						      		</div>
+						      	
 						      	</div>
 					      	</div>
 					      </div>
 					      <div class="modal-footer">
 					        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-					        <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+					        <button type="button" onclick="insertInSignForm();" class="btn btn-primary" data-dismiss="modal">확인</button>
 					      </div>
 					    </div>				
 					  </div>
@@ -261,27 +382,238 @@
 	
 	<jsp:include page="../common/footer.jsp" />
 <script>
-	$(".btn").click(function(){
+	function insertInSignForm(){
+		$(".modal-body").find(".list").children("option").each(function(){
+			console.log("동작하겠지 해야해 할거야");
+			console.log($(this).val());
+			
+			var $label = $("<label style='margin-left:5px; margin-right:5px;'>");
+			var empNo = $(this).val();
+			var check = 0;
+			
+			$("input[type=hidden]").each(function(){
+				if($(this).val() == empNo){
+					check = 1;
+				}
+			});
+			
+			if(check <= 0 ){
+				if($(this).parent().attr("name") == 'circleList'){
+                 	$label.append($(this).text());
+                 	$label.append($("<input type='hidden' name='circleEmp' value='" + $(this).val() + "'>"));
+                 	$label.append($("<a href='#' onclick='deleteTag(this);' style='color:red;'>x</a>"))
+                 	
+                 	$("#circleEmp").append($label);
+
+                 	$label = "";
+					
+				}else if($(this).parent().attr("name") == 'approvalList'){
+					/* var empName =  */
+				}else if($(this).parent().attr("name") == 'agreeList'){
+					var cnt = 0;
+					$("#agreeEmpList").children().each(function(){
+						/* if(cnt != 0 ){
+							$(this).append
+						} */
+						cnt ++ ;
+					});
+				}else if($(this).parent().attr("name") == 'referenceList'){
+					$label.append($(this).text());
+                 	$label.append($("<input type='hidden' name='circleEmp' value='" + $(this).val() + "'>"));
+                 	$label.append($("<a href='#' onclick='deleteTag(this);' style='color:red;'>x</a>"))
+                 	
+                 	$("#refEmpName").append($label);
+
+                 	$label = "";
+				}else if($(this).parent().attr("name") == 'payAgreeList'){
+					
+				}else if($(this).parent().attr("name") == 'applyList'){
+					
+				}else if($(this).parent().attr("name") == 'proceesList'){
+					
+				}else if($(this).parent().attr("name") == 'sendList'){
+					$label.append($(this).text());
+                 	$label.append($("<input type='hidden' name='circleEmp' value='" + $(this).val() + "'>"));
+                 	$label.append($("<a href='#' onclick='deleteTag(this);' style='color:red;'>x</a>"))
+                 	
+                 	$("#sendEmpName").append($label);
+
+                 	$label = "";
+				}
+			}else {
+				alert("중복된 사용자는 추가할 수 없습니다.");		
+			}
+			
+		});
+		
+	}
+
+
+	$(".inout").click(function(){
 		
 		var selectEmp = $("select[name='empList']").val();
 		
 		console.log($("select[name='empList']").val());
+
+		console.log($(this).text());
 		
-		if($(this).attr("name") == "inputCircle"){
-			var circleList = $(this).parent().parent().find("select[name='circleList']");
-			console.log($(this).parent().parent().find("select[name='circleList']"));
-			
-			for(var i = 0; i < selectEmp.length; i++) {
-				console.log("들어는 오냐??");
-				console.log($("#" + selectEmp[i]));
-				circleList.append($("#" + selectEmp[i]).parent());
+		var cnt = 0;
+		if($(this).text() == '>') {
+			$(this).parent().parent().parent().parent().find("select").find("option").each(function(){
+				console.log($(this).val());
+				for(var i = 0; i < selectEmp.length; i++) {
+					if($(this).val() == selectEmp[i]) {
+						cnt++;
+					}
+				}
+			});
+		}
+		
+		
+		console.log(cnt);
+		
+		if(cnt <= 0) {
+			if($(this).attr("name") == "inputCircle"){
+				var circleList = $(this).parent().parent().find("select[name='circleList']");
+				console.log($(this).parent().parent().find("select[name='circleList']"));
+				
+				for(var i = 0; i < selectEmp.length; i++) {
+					
+					var emp = $("#" + selectEmp[i]).clone();
+					
+					console.log("들어는 오냐??");
+					circleList.append(emp);
+				}
+				
+			}else if($(this).attr("name") == "outputCircle"){
+				var deleteEmp = $("select[name='circleList']").val();
+				for(var i = 0; i < deleteEmp.length; i++) {
+					$("select[name='circleList']").find("option#" + deleteEmp[i]).remove();
+				}
+			}else if($(this).attr("name") == "inputApproval"){
+				var approvalList = $(this).parent().parent().find("select[name='approvalList']");
+				console.log($(this).parent().parent().find("select[name='approvalList']"));
+				
+				for(var i = 0; i < selectEmp.length; i++) {
+					
+					var emp = $("#" + selectEmp[i]).clone();
+					
+					console.log("들어는 오냐??");
+					approvalList.append(emp);
+				}
+			}else if($(this).attr("name") == "outputApproval"){
+				var deleteEmp = $(this).parent().parent().find("select[name='approvalList']").val();
+				for(var i = 0; i < deleteEmp.length; i++) {
+					$("select[name='approvalList']").find("option#" + deleteEmp[i]).remove();
+				}
+			}else if($(this).attr("name") == "inputAgree"){
+				var agreeList = $(this).parent().parent().find("select[name='agreeList']");
+				console.log($(this).parent().parent().find("select[name='agreeList']"));
+				
+				for(var i = 0; i < selectEmp.length; i++) {
+					
+					var emp = $("#" + selectEmp[i]).clone();
+					
+					console.log("들어는 오냐??");
+					agreeList.append(emp);
+				}
+			}else if($(this).attr("name") == "outputAgree"){
+				var deleteEmp = $(this).parent().parent().find("select[name='agreeList']").val();
+				for(var i = 0; i < deleteEmp.length; i++) {
+					$("select[name='agreeList']").find("option#" + deleteEmp[i]).remove();
+				}
+			}else if($(this).attr("name") == "inputRef"){
+				
+				var referenceList = $(this).parent().parent().find("select[name='referenceList']");
+				console.log($(this).parent().parent().find("select[name='referenceList']"));
+				
+				for(var i = 0; i < selectEmp.length; i++) {
+					
+					var emp = $("#" + selectEmp[i]).clone();
+					
+					console.log("들어는 오냐??");
+					referenceList.append(emp);
+				}
+			}else if($(this).attr("name") == "outputRef"){
+				var deleteEmp = $(this).parent().parent().find("select[name='referenceList']").val();
+				for(var i = 0; i < deleteEmp.length; i++) {
+					$("select[name='referenceList']").find("option#" + deleteEmp[i]).remove();
+				}
+			}else if($(this).attr("name") == "inputPa"){
+				
+				var payAgreeList = $(this).parent().parent().find("select[name='payAgreeList']");
+				console.log($(this).parent().parent().find("select[name='payAgreeList']"));
+				
+				for(var i = 0; i < selectEmp.length; i++) {
+					
+					var emp = $("#" + selectEmp[i]).clone();
+					
+					console.log("들어는 오냐??");
+					payAgreeList.append(emp);
+				}
+			}else if($(this).attr("name") == "outputPa"){
+				var deleteEmp = $(this).parent().parent().find("select[name='payAgreeList']").val();
+				for(var i = 0; i < deleteEmp.length; i++) {
+					$("select[name='payAgreeList']").find("option#" + deleteEmp[i]).remove();
+				}
+			}else if($(this).attr("name") == "inputApply"){
+				var applyList = $(this).parent().parent().find("select[name='applyList']");
+				console.log($(this).parent().parent().find("select[name='applyList']"));
+				
+				for(var i = 0; i < selectEmp.length; i++) {
+					
+					var emp = $("#" + selectEmp[i]).clone();
+					
+					console.log("들어는 오냐??");
+					applyList.append(emp);
+				}
+			}else if($(this).attr("name") == "outputApply"){
+				var deleteEmp = $(this).parent().parent().find("select[name='applyList']").val();
+				for(var i = 0; i < deleteEmp.length; i++) {
+					$("select[name='applyList']").find("option#" + deleteEmp[i]).remove();
+				}
+			}else if($(this).attr("name") == "inputPro"){
+				
+				var proceesList = $(this).parent().parent().find("select[name='proceesList']");
+				console.log($(this).parent().parent().find("select[name='proceesList']"));
+				
+				for(var i = 0; i < selectEmp.length; i++) {
+					
+					var emp = $("#" + selectEmp[i]).clone();
+					
+					console.log("들어는 오냐??");
+					proceesList.append(emp);
+				}
+			}else if($(this).attr("name") == "outputPro"){
+				var deleteEmp = $(this).parent().parent().find("select[name='proceesList']").val();
+				for(var i = 0; i < deleteEmp.length; i++) {
+					$("select[name='proceesList']").find("option#" + deleteEmp[i]).remove();
+				}
+			}else if($(this).attr("name") == "inputSend"){
+				
+				var sendList = $(this).parent().parent().find("select[name='sendList']");
+				console.log($(this).parent().parent().find("select[name='sendList']"));
+				
+				for(var i = 0; i < selectEmp.length; i++) {
+					
+					var emp = $("#" + selectEmp[i]).clone();
+					
+					console.log("들어는 오냐??");
+					sendList.append(emp);
+				}
+			}else if($(this).attr("name") == "outputSend"){
+				var deleteEmp = $(this).parent().parent().find("select[name='sendList']").val();
+				for(var i = 0; i < deleteEmp.length; i++) {
+					$("select[name='sendList']").find("option#" + deleteEmp[i]).remove();
+				}
 			}
-			
+		}else {
+			alert("중복된 사용자는 추가할 수 없습니다.");
 		}
 	});
 	
 	function selectEmp(){
-		console.log("selectEmp 호출");
+	    $(".signForm").find("select").children().remove();
 		$("#deptList").children().remove();
 		$.ajax({
 			url:"${contextPath}/approval/selectEmp",
@@ -346,7 +678,7 @@
 	
 	
 	function underEmp(span, event){
-		event.stopPropagation();
+		/* event.stopPropagation(); */
 		console.log(span.id);
 		var deptCode = span.id;
 		if(deptCode != 'all') {
@@ -361,8 +693,8 @@
 					
 					for(var i = 0; i < data.empList.length; i++) {
 						console.log(data.empList[i].empName);
-						var $option = $("<option value='" + data.empList[i].empNo + "'>");
-						$option.append($("<label id='" + data.empList[i].empNo + "'>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
+						var $option = $("<option id='" + data.empList[i].empNo + "' value='" + data.empList[i].empNo + "'>");
+						$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
 						
 						$("select[name='empList']").append($option);
 					}
@@ -377,8 +709,8 @@
 					
 					for(var i = 0; i < data.empList.length; i++) {
 						console.log(data.empList[i].empName);
-						var $option = $("<option value='" + data.empList[i].empNo + "'>");
-						$option.append($("<label id='" + data.empList[i].empNo + "'>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
+						var $option = $("<option id='" + data.empList[i].empNo + "' value='" + data.empList[i].empNo + "'>");
+						$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
 						
 						$("select[name='empList']").append($option);
 					} 
@@ -438,8 +770,8 @@
 				                            $.map(data, function(item) {
 				                            	console.log("item : " + item);
 				                                return {
-				                                    label: item.empName + "(" + item.empId + ")",
-				                                    value: item.empName + "(" + item.empId + ")",
+				                                    label: item.empName + "(" + item.deptName + "/" + item.jobName +  ")",
+				                                    value: item.empName + "(" + item.deptName + "/" + item.jobName +  ")",
 				                                    empNo: item.empNo
 				                                }
 				                            })
@@ -477,7 +809,7 @@
 									alert("중복된 사용자는 추가할 수 없습니다.");
 								}else {
 				                 	$label.append(ui.item.value);
-				                 	$label.append($("<input type='hidden' value='" + ui.item.empNo + "'>"));
+				                 	$label.append($("<input type='hidden' name='circleEmp' value='" + ui.item.empNo + "'>"));
 				                 	$label.append($("<a href='#' onclick='deleteTag(this);' style='color:red;'>x</a>"))
 				                 	
 				                 	console.log($("#" + (cnt-1)).val());

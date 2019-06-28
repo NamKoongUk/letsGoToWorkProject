@@ -625,6 +625,7 @@ public class AprprovalController {
 //		list.add("강형석");
 		
 		List<HashMap<String, Object>> result = as.autocompleteCircle(value);
+		System.out.println(result);
 //		System.out.println(result);
 //		for(String str : list) {
 //			if(str.startsWith(value)) {
