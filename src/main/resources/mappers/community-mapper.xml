@@ -51,16 +51,17 @@
 		<result column="CREATE_DATE" property="createDate"/>
 		<result column="MODIFY_DATE" property="modifyDate"/>
 		<result column="BCOUNT" property="bcount"/>
-		<result column="BTYPE" property="btype"/>
+		
 		<result column="STATUS" property="status"/>
 		<result column="EMP_NAME" property="createUserName"/>
 	</resultMap>
 	
 <!--게시판 조회 쿼리문 	 -->	
 	<select id="selectCommunityList" resultMap="communityResultSet2">
-		SELECT ROWNUM AS ORD , B.*
+		SELECT ROWNUM AS ORD , B.* , E.EMP_NAME
     	FROM BOARD B
-    	WHERE STATUS = 'N'
+    	JOIN EMPLOYEE E ON (B.CREATE_USER = E.EMPNO)
+    	WHERE B.STATUS = 'N'
 	
 	
 	</select> 
@@ -130,9 +131,10 @@
   	   
   	   </select>
   	   
+  	  <!--게시글 생성   -->
   	   <insert id="CommunityPostInsert" parameterType="CommunityPost"> 
 	     INSERT INTO CONTENT 
-    	 VALUES(SEQ_CONTENT_NO.NEXTVAL,#{bno},#{bwriter},#{btitle},#{bcontent},SYSDATE,SYSDATE,0,#{btype},'N')
+    	 VALUES(SEQ_CONTENT_NO.NEXTVAL,#{bno},#{bwriter},#{btitle},#{bcontent},SYSDATE,SYSDATE,0,'N')
   	   
   	   </insert>
 	

@@ -105,7 +105,7 @@ public class CommunityController {
 	public String CommunityPostInsertForm(Model model) {
 		ArrayList<Community> list = cs.SelectCommunity();
 		model.addAttribute("list",list);
-		return "community/insertCommunityForm";
+		return "community/insertCommunityFormPS";
 	}
 	
 	// 개시글 생성용 매소드
@@ -121,16 +121,15 @@ public class CommunityController {
 		  
 		 cp.setBno(com.getBno()); 
 		 cp.setBwriter(loginUser.getEmpNo());
-		 cp.setBtype(com.getBoardName());
 		 
-		 int result = cs.CommunityPostInsert(cp);
+		 int result = cs.CommunityPostInsert(cp); 
 		 
 		 
 		 
 		 
 		
 		
-		return "redirect:communityPostList.co";
+		return "redirect:communityList.co";
 	}
 	// 게시글 조회용 매소드
 	@RequestMapping("communityPostList.co")

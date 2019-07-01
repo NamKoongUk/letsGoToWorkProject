@@ -59,7 +59,7 @@ public class CommunityServiceImpl  implements CommunityService{
 		return cd.SelectTemporaryList(sqlSession);
 	}
 
-
+	
     //게시판 생성 메소드
 	@Override
 	public int InsertCommunity(Community com) {

@@ -28,9 +28,9 @@
 						<label>&nbsp;게시판 종류 :</label>
 								
 								
-								<select name="boardName">
+								<select name="bno">
 								<c:forEach var="b" items="${ requestScope.list}">
-								   	     <option value='${ b.boardName }' selected>${b.boardName}</option>
+								   	     <option value='${ b.bno}' selected>${b.boardName}</option>
 								   	     <%-- <option value="${}"></option>
 								   	     <option value="${}"></option> --%>
 								   	
@@ -40,9 +40,6 @@
 					   			</c:forEach>
 					   			</select>
 					   			
-					   			<c:forEach var="b" items="${ requestScope.list}">
-					   				<input type="hidden" value="${b.bno }" name="bno"> 
-					   			</c:forEach>
 					   					<!-- <input type="hidden" name="bno"> --> 
 
 							<table class="table table-striped" >
