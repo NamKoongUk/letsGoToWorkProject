@@ -42,6 +42,7 @@ public class CommunityDaoImpl implements CommunityDao {
 		return (ArrayList)sqlSession.selectList("Community.SelectTemporaryList");
 	}
 
+	//게시판 생성용 메소드
 	@Override
 	public int InsertCommunity(SqlSessionTemplate sqlSession, Community com) {
 		// TODO Auto-generated method stub
