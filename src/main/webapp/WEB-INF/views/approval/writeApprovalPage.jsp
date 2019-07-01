@@ -353,8 +353,10 @@
 					    </div>				
 					  </div>
 					</div>
+					
 					<div class="signArea">
 					<input type="text" id="circleText" value="circle">
+					
 					</div>
 					
 					<label>제목 </label>
@@ -383,6 +385,48 @@
 	<jsp:include page="../common/footer.jsp" />
 <script>
 	function insertInSignForm(){
+		var approvalCount = 0;
+		var payAgreeCount = 0;
+		var agreeCount = 0;
+		var applyCount = 0;
+		var processCount = 0;
+		var jobNameTd = $("#approvalJobName").children();
+		jobNameTd.each(function(){
+			$(this).text("");
+		});
+		var empNameTd = $("#approvalEmpName").children();
+		empNameTd.each(function(){
+			$(this).text("");
+		});
+		var agreeTd = $("#agreeEmpList").children();
+		agreeTd.each(function(){
+			$(this).text("");
+		});
+		var payAgreeEmpNameTd = $("#payAgreeEmpName").children();
+		payAgreeEmpNameTd.each(function(){
+			$(this).text("");
+		});
+		var payAgreeJobNameTd = $("#payAgreeJobName").children();
+		payAgreeJobNameTd.each(function(){
+			$(this).text("");
+		});
+		var applyJobNameTd = $("#applyJobName").children();
+		applyJobNameTd.each(function(){
+			$(this).text("");
+		});
+		var applyEmpNameTd = $("#applyEmpName").children();
+		applyEmpNameTd.each(function(){
+			$(this).text("");
+		});
+		var processJobNameTd = $("#processJobName").children();
+		processJobNameTd.each(function(){
+			$(this).text("");
+		});
+		var processEmpNameTd = $("#processEmpName").children();
+		processEmpNameTd.each(function(){
+			$(this).text("");
+		});
+		
 		$(".modal-body").find(".list").children("option").each(function(){
 			console.log("동작하겠지 해야해 할거야");
 			console.log($(this).val());
@@ -390,18 +434,18 @@
 			var $label = $("<label style='margin-left:5px; margin-right:5px;'>");
 			var empNo = $(this).val();
 			var check = 0;
-			
 			$("input[type=hidden]").each(function(){
 				if($(this).val() == empNo){
 					check = 1;
 				}
 			});
 			
+			
 			if(check <= 0 ){
 				if($(this).parent().attr("name") == 'circleList'){
                  	$label.append($(this).text());
                  	$label.append($("<input type='hidden' name='circleEmp' value='" + $(this).val() + "'>"));
-                 	$label.append($("<a href='#' onclick='deleteTag(this);' style='color:red;'>x</a>"))
+                 	$label.append($("<a href='#' onclick='deleteTag(this);' style='color:red;'>x</a>")); 	
                  	
                  	$("#circleEmp").append($label);
 
@@ -409,31 +453,74 @@
 					
 				}else if($(this).parent().attr("name") == 'approvalList'){
 					/* var empName =  */
+					var emp = $(this).text().split("(");
+					var empName = emp[0];
+					var empJob = emp[1].split("/");
+					var empJobName = empJob[1].split(")")[0];
+					console.log($("<input type='hidden' name='approvalEmp' value='" + $(this).val() + "'>"));
+					console.log(empJobName);
+					
+					jobNameTd[approvalCount + 1].append(empJobName);
+					empNameTd[approvalCount].append(empName);
+					$(".signArea").append($("<input type='hidden' name='approvalEmp' value='" + $(this).val() + "'>"));
+					approvalCount++;
 				}else if($(this).parent().attr("name") == 'agreeList'){
-					var cnt = 0;
-					$("#agreeEmpList").children().each(function(){
-						/* if(cnt != 0 ){
-							$(this).append
-						} */
-						cnt ++ ;
-					});
+					var emp = $(this).text().split("(");
+					var empName = emp[0];
+					
+					agreeTd[agreeCount + 1].append(empName);
+					$(".signArea").append($("<input type='hidden' name='agreeEmp' value='" + $(this).val() + "'>"));
+					agreeCount++;
+					
 				}else if($(this).parent().attr("name") == 'referenceList'){
 					$label.append($(this).text());
-                 	$label.append($("<input type='hidden' name='circleEmp' value='" + $(this).val() + "'>"));
+                 	$label.append($("<input type='hidden' name='referenceEmp' value='" + $(this).val() + "'>"));
                  	$label.append($("<a href='#' onclick='deleteTag(this);' style='color:red;'>x</a>"))
                  	
                  	$("#refEmpName").append($label);
 
                  	$label = "";
 				}else if($(this).parent().attr("name") == 'payAgreeList'){
+					var emp = $(this).text().split("(");
+					var empName = emp[0];
+					var empJob = emp[1].split("/");
+					var empJobName = empJob[1].split(")")[0];
 					
+					console.log(empJobName);
+					
+					payAgreeJobNameTd[payAgreeCount + 1].append(empJobName);
+					payAgreeEmpNameTd[payAgreeCount].append(empName);
+					$(".signArea").append($("<input type='hidden' name='payAgreeEmp' value='" + $(this).val() + "'>"));
+					payAgreeCount++;
 				}else if($(this).parent().attr("name") == 'applyList'){
+					var emp = $(this).text().split("(");
+					var empName = emp[0];
+					var empJob = emp[1].split("/");
+					var empJobName = empJob[1].split(")")[0];
+					
+					console.log(empJobName);
+					
+					applyJobNameTd[applyCount + 1].append(empJobName);
+					applyEmpNameTd[applyCount].append(empName);
+					$(".signArea").append($("<input type='hidden' name='applyEmp' value='" + $(this).val() + "'>"));
+					applyCount++;
 					
 				}else if($(this).parent().attr("name") == 'proceesList'){
+					var emp = $(this).text().split("(");
+					var empName = emp[0];
+					var empJob = emp[1].split("/");
+					var empJobName = empJob[1].split(")")[0];
+					
+					console.log(empJobName);
+					
+					processJobNameTd[processCount + 1].append(empJobName);
+					processEmpNameTd[processCount].append(empName);
+					$(".signArea").append($("<input type='hidden' name='processEmp' value='" + $(this).val() + "'>"));
+					processCount++;
 					
 				}else if($(this).parent().attr("name") == 'sendList'){
 					$label.append($(this).text());
-                 	$label.append($("<input type='hidden' name='circleEmp' value='" + $(this).val() + "'>"));
+                 	$label.append($("<input type='hidden' name='sendEmp' value='" + $(this).val() + "'>"));
                  	$label.append($("<a href='#' onclick='deleteTag(this);' style='color:red;'>x</a>"))
                  	
                  	$("#sendEmpName").append($label);
@@ -613,7 +700,7 @@
 	});
 	
 	function selectEmp(){
-	    $(".signForm").find("select").children().remove();
+	    /* $(".signForm").find("select").children().remove(); */
 		$("#deptList").children().remove();
 		$.ajax({
 			url:"${contextPath}/approval/selectEmp",
