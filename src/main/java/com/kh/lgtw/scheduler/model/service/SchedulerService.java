@@ -34,5 +34,9 @@ public interface SchedulerService {
 
 	int deleteSchedule(Schedule schedule);
 
+	int changeStatusN(Scheduler scheduler);
+
+	int changeStatusY(Scheduler scheduler);
+
 
 }

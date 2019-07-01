@@ -84,4 +84,14 @@ public class SchedulerServiceImpl implements SchedulerService{
 	public int deleteSchedule(Schedule schedule) {
 		return sd.deleteSchedule(sqlSession, schedule);
 	}
+
+	@Override
+	public int changeStatusN(Scheduler scheduler) {
+		return sd.changeStatusN(sqlSession, scheduler);
+	}
+
+	@Override
+	public int changeStatusY(Scheduler scheduler) {
+		return sd.changeStatusY(sqlSession, scheduler);
+	}
 }

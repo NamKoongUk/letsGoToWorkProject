@@ -34,6 +34,10 @@ public class SchedulerDaoImpl implements SchedulerDao{
 	@Override
 	public int insertSchedule(SqlSession sqlSession, Schedule schedule) {
 //		System.out.println(schedule);
+		String status = sqlSession.selectOne("Scheduler.selectScrStatus", schedule);
+		
+		schedule.setStatus(status);
+		
 		return sqlSession.insert("Scheduler.insertSchedule", schedule);
 	}
 
@@ -66,7 +70,7 @@ public class SchedulerDaoImpl implements SchedulerDao{
 	@Override
 	public int deleteSchedule(SqlSession sqlSession, Schedule schedule) {
 
-		return sqlSession.update("Scheduler.deleteSchedule", schedule);
+		return sqlSession.delete("Scheduler.deleteSchedule", schedule);
 	}
 
 	@Override
@@ -103,6 +107,33 @@ public class SchedulerDaoImpl implements SchedulerDao{
 		}
 		
 		
+	}
+
+	@Override
+	public int changeStatusN(SqlSession sqlSession, Scheduler scheduler) {
+		int result = -1;
+		int result1 = sqlSession.update("Scheduler.updateScStatusN", scheduler);
+		System.out.println(result1);
+		
+		if(result1 >= 0) {
+			return sqlSession.update("Scheduler.updateScrStatusN", scheduler);
+		}else {
+			return result;			
+		}
+		
+	}
+
+	@Override
+	public int changeStatusY(SqlSession sqlSession, Scheduler scheduler) {
+		int result = -1;
+		int result1 = sqlSession.update("Scheduler.updateScStatusY", scheduler);
+		System.out.println(result1);
+		
+		if(result1 >= 0) {
+			return sqlSession.update("Scheduler.updateScrStatusY", scheduler);
+		}else {
+			return result;			
+		}
 	}
 
 	
