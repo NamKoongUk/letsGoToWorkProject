@@ -58,7 +58,7 @@
 				<div style="margin-left:1%;">
 					<a class="cancle">삭제</a>
 				</div>
-				<form action="">
+				<form action="insertEmpQuick.em" method="post">
 				<table class="table">
 				    <thead>
 					      <tr class="info">
@@ -75,12 +75,12 @@
 				    </thead>
 				    <tbody>
 				      	<tr>
-				      		<td><input type="checkbox"></td>
-				      		<td><input type="text" size="10"  placeholder="이름 입력"></td>
-				      		<td><input type="text" size="10"  placeholder="ID 입력"></td>
-				      		<td><input type="password" size="10"  placeholder="비밀번호 입력"></td>
-				      		<td><input type="text" size="10"  placeholder="사내전화 입력"></td>
-				      		<td><input type="text" size="13"  placeholder="휴대전화 입력"></td>
+				      		<td></td>
+				      		<td><input type="text" size="10" name="empName"  placeholder="이름 입력"></td>
+				      		<td><input type="text" size="10" name="empId"  placeholder="ID 입력"></td>
+				      		<td><input type="password" size="10" name="empPwd"  placeholder="비밀번호 입력"></td>
+				      		<td><input type="text" size="10" name="officeTel"  placeholder="사내전화 입력"></td>
+				      		<td><input type="text" size="13" name="empPhone"  placeholder="휴대전화 입력"></td>
 				      		<td><input type="text" size="10" placeholder="소속조직 입력"></td>
 				      		<td><input type="text" size="5"  placeholder="직위 입력"></td>
 				      		<td><button type="button" class="btn btn-primary" onclick="location.href=''">저장</button></td>
