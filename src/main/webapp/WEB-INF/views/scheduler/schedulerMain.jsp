@@ -806,14 +806,15 @@
       	}
 
       	$(document).on('click', '.colorBtn', function(){
-      		console.log($(this));
-      		console.log($(this).find("span"));
+      		console.log($(this).parent().find(".hiddenNo").val());
       		
+      		var schedulerNo = $(this).parent().find(".hiddenNo").val()
       		if($(this).find("span").is(":visible")){
-      			$(this).find("span").hide(); 
-      			
+      			$(this).find("span").css("display", "none"); 
+      			location.href = '${contextPath}/changeStatusN.sc?schedulerNo=' + schedulerNo;
       		}else{
-      			$(this).find("span").show();
+      			$(this).find("span").css("display", "inline-block");
+      			location.href = '${contextPath}/changeStatusY.sc?schedulerNo=' + schedulerNo;
       		}
       	});
       	

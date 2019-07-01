@@ -128,11 +128,18 @@
 		OR (GM.EMPNO = #{empNo} AND GM.AUTHORITY = 'Y')
 	</select>
 	
+	<!-- 일정추가 시 캘린더의 상태를 불러오는 쿼리문 -->
+	<select id="selectScrStatus" parameterType="Schedule" resultType="java.lang.String">
+		SELECT STATUS
+		FROM SCHEDULER
+		WHERE SCHEDULER_NO = #{schedulerNo}
+	</select>
+
 	<!-- 일정추가 쿼리문 -->
 	<insert id="insertSchedule" parameterType="Schedule">
 		INSERT INTO SCHEDULE
 		VALUES(SEQ_SCHEDULE_NO.NEXTVAL, #{startDate}, #{endDate}, #{startTime}, #{endTime},
-		       #{scheduleName}, #{scheduleContent}, 'Y', #{writer}, SYSDATE, SYSDATE, #{schedulerNo})
+		       #{scheduleName}, #{scheduleContent}, #{status}, #{writer}, SYSDATE, SYSDATE, #{schedulerNo})
 	</insert>
 	
 	<!-- 일정 상세보기용 쿼리문 -->
@@ -146,11 +153,10 @@
 	</select>
 	
 	<!-- 일정 삭제용 쿼리문 -->
-	<update id="deleteSchedule" parameterType="Schedule">
-		UPDATE SCHEDULE
-		SET STATUS = 'N'
+	<delete id="deleteSchedule" parameterType="Schedule">
+		DELETE FROM SCHEDULE
 		WHERE SCHEDULE_NO = #{scheduleNo}
-	</update>
+	</delete>
 	
 	<!-- 일정 수정용 쿼리문 -->
 	<update id="updateSchedule" parameterType="Schedule">
@@ -173,6 +179,30 @@
 		UPDATE SCHEDULE
 		SET END_DATE = #{endDate}, MODIFY_DATE = SYSDATE
 		WHERE SCHEDULE_NO = #{scheduleNo}
+	</update>
+	
+	<update id="updateScStatusN" parameterType="Scheduler">
+		UPDATE SCHEDULE
+		SET STATUS = 'N'
+		WHERE SCHEDULER_NO = #{schedulerNo}
+	</update>
+	
+	<update id="updateScrStatusN" parameterType="Scheduler">
+		UPDATE SCHEDULER
+		SET STATUS = 'N'
+		WHERE SCHEDULER_NO = #{schedulerNo}
+	</update>
+	
+	<update id="updateScStatusY" parameterType="Scheduler">
+		UPDATE SCHEDULE
+		SET STATUS = 'Y'
+		WHERE SCHEDULER_NO = #{schedulerNo}
+	</update>
+	
+	<update id="updateScrStatusY" parameterType="Scheduler">
+		UPDATE SCHEDULER
+		SET STATUS = 'Y'
+		WHERE SCHEDULER_NO = #{schedulerNo}
 	</update>
 	
 </mapper>

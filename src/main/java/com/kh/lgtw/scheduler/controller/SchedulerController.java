@@ -128,6 +128,31 @@ public class SchedulerController {
 		}
 	}
 	
+	@RequestMapping("changeStatusN.sc")
+	public String changeStatusN(Scheduler scheduler) {
+		
+		int result = ss.changeStatusN(scheduler);
+		
+		if(result > 0) {
+			return "redirect:scheduler.sc";
+		}else {
+			return "main/main";
+		}
+	}
+	
+	@RequestMapping("changeStatusY.sc")
+	public String changeStatusY(Scheduler scheduler) {
+		
+		int result = ss.changeStatusY(scheduler);
+		
+		if(result > 0) {
+			return "redirect:scheduler.sc";
+		}else {
+			return "main/main";
+		}
+	}
+	
+	
 	//공유스케쥴러 생성
 	@RequestMapping("insertGroupScheduler.sc")
 	public String insertGroupScheduler() {

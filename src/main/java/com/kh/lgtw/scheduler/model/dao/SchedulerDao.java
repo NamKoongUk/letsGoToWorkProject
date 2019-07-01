@@ -31,6 +31,10 @@ public interface SchedulerDao {
 
 	int deleteEmpScheduler(SqlSession sqlSession, Scheduler scheduler);
 
+	int changeStatusN(SqlSession sqlSession, Scheduler scheduler);
+
+	int changeStatusY(SqlSession sqlSession, Scheduler scheduler);
+
 	
 
 	
