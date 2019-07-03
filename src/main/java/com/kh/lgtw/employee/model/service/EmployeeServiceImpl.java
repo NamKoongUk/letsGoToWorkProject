@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -24,7 +25,9 @@ import com.kh.lgtw.employee.model.dao.EmployeeDao;
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.vo.DeptVo;
 import com.kh.lgtw.employee.model.vo.Employee;
+import com.kh.lgtw.employee.model.vo.EmployeeResult;
 import com.kh.lgtw.employee.model.vo.ExcelEmp;
+import com.kh.lgtw.employee.model.vo.JobVo;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -201,9 +204,40 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public int insertEmpQ() {
-		// TODO Auto-generated method stub
-		return empDao.insertEmpQ(sqlSession);
+	public int insertEmpQuick(Employee employee, DeptVo dpVo, JobVo jobVo) {
+		int result=0;
+		
+		int empNum = empDao.insertEmpQuick(sqlSession, employee);
+		
+		if(empNum>0) {
+			int deptHistory = empDao.insertDeptHistory(sqlSession, dpVo, jobVo);
+			
+			result=1;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public ArrayList<EmployeeResult> selectEmpListAdmin() {
+		
+		
+		return empDao.selectEmpListAdmin(sqlSession);
+	}
+
+	@Override
+	public HashMap<String, Object> selectJopDeptAdmin() {
+		
+		HashMap<String, Object> hmap = null;
+		
+		ArrayList<DeptVo> deptList = empDao.selectDeptList(sqlSession);
+		ArrayList<JobVo> jobList = empDao.selectJobAdmin(sqlSession);
+		
+		hmap = new HashMap<String, Object>();
+		hmap.put("deptList", deptList);
+		hmap.put("jobList", jobList);
+		
+		return hmap;
 	}
 
 

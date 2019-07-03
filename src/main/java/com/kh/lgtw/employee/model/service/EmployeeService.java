@@ -2,6 +2,7 @@ package com.kh.lgtw.employee.model.service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -10,7 +11,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.vo.DeptVo;
 import com.kh.lgtw.employee.model.vo.Employee;
+import com.kh.lgtw.employee.model.vo.EmployeeResult;
 import com.kh.lgtw.employee.model.vo.ExcelEmp;
+import com.kh.lgtw.employee.model.vo.JobVo;
 
 public interface EmployeeService {
 
@@ -28,7 +31,11 @@ public interface EmployeeService {
 	
   ArrayList<DeptVo> selectDeptList();
 
-int insertEmpQ();
+  int insertEmpQuick(Employee employee, DeptVo dpVo, JobVo jobVo);
+
+  ArrayList<EmployeeResult> selectEmpListAdmin();
+
+  HashMap<String, Object> selectJopDeptAdmin();
 
 
 
