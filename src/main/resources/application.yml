@@ -1,0 +1,8 @@
+spring:
+    datasource:
+        driver-class-name: oracle.jdbc.driver.OracleDriver
+        url: jdbc:oracle:@localhost:1521:XE
+        username: lgtw
+        password: lgtw
+
+  
