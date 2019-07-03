@@ -38,5 +38,9 @@ public interface SchedulerService {
 
 	int changeStatusY(Scheduler scheduler);
 
+	int changeGscrStatusN(Scheduler scheduler);
+
+	int changeGscrStatusY(Scheduler scheduler);
+
 
 }

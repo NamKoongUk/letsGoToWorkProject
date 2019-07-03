@@ -128,6 +128,7 @@ public class SchedulerController {
 		}
 	}
 	
+	//캘린더 명시값 변경하는 컨트롤러 4개
 	@RequestMapping("changeStatusN.sc")
 	public String changeStatusN(Scheduler scheduler) {
 		
@@ -149,6 +150,34 @@ public class SchedulerController {
 			return "redirect:scheduler.sc";
 		}else {
 			return "main/main";
+		}
+	}
+	
+	@RequestMapping("changeGscrStatusN.sc")
+	public String changeGscrStatusN(HttpSession session, Scheduler scheduler) {
+		Employee e = (Employee)session.getAttribute("loginEmp");
+		scheduler.setCreateEmpNo(e.getEmpNo());
+		
+		int result = ss.changeGscrStatusN(scheduler);
+		
+		if(result > 0) {
+			return "redirect:scheduler.sc";
+		}else {
+			return "main/main";			
+		}
+	}
+	
+	@RequestMapping("changeGscrStatusY.sc")
+	public String changeGscrStatusY(HttpSession session, Scheduler scheduler) {
+		Employee e = (Employee)session.getAttribute("loginEmp");
+		scheduler.setCreateEmpNo(e.getEmpNo());
+		
+		int result = ss.changeGscrStatusY(scheduler);
+		
+		if(result > 0) {
+			return "redirect:scheduler.sc";
+		}else {
+			return "main/main";			
 		}
 	}
 	
@@ -210,12 +239,17 @@ public class SchedulerController {
 	
 	//일정 상세정보 조회
 	@RequestMapping(value="selectScheduleDetail.sc")
-	public void selectScheduleDetail(HttpSession session,@RequestParam int scheduleNo,
+	public void selectScheduleDetail(HttpSession session,@RequestParam int scheduleNo, @RequestParam String schedulerType,
 										HttpServletResponse response) {
 		Employee e = (Employee) session.getAttribute("loginEmp");
 		Schedule schedule = new Schedule();
 		schedule.setWriter(e.getEmpNo());
 		schedule.setScheduleNo(scheduleNo);
+		Scheduler scheduler = new Scheduler();
+		scheduler.setSchedulerType(schedulerType);
+		ArrayList<Scheduler> list = new ArrayList<Scheduler>();
+		list.add(scheduler);
+		schedule.setSchedulerList(list);
 		  
 		Schedule selectOne = ss.selectScheduleDetail(schedule);
 		

@@ -38,6 +38,10 @@ public interface SchedulerDao {
 	int insertGroupScheduler(SqlSession sqlSession, Scheduler scheduler, List<String> setEmpList,
 			List<String> readEmpList);
 
+	int changeGscrStatusN(SqlSession sqlSession, Scheduler scheduler);
+
+	int changeGscrStatusY(SqlSession sqlSession, Scheduler scheduler);
+
 	
 
 	
