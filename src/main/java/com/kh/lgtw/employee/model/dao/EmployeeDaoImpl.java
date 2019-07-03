@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.util.ExcelRead;
 import com.kh.lgtw.employee.model.util.ExcelReadOption;
@@ -109,6 +110,11 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	@Override
 	public ArrayList<JobVo> selectJobAdmin(SqlSession sqlSession) {
 		return (ArrayList)sqlSession.selectList("Employee.selectJobAdmin");
+	}
+
+	@Override
+	public int insertEmpProfile(SqlSession sqlSession, Attachment attach) {
+		return sqlSession.insert("Employee.insertEmpProfile", attach);
 	}
 
 	

@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.employee.model.dao.EmployeeDao;
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.vo.DeptVo;
@@ -74,8 +75,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 //	}
 
 	@Override
-	public int insertEmpOne(Employee employee) {
-		return empDao.inSertEmpOne(sqlSession, employee);
+	public int insertEmpOne(Employee employee, Attachment attach) {
+		
+		int result = 0;
+		
+		 int empInsert = empDao.inSertEmpOne(sqlSession, employee);
+		
+		 if(empInsert > 0) {
+			 int empPro = empDao.insertEmpProfile(sqlSession, attach);
+		 }
+		
+		return result;
 	}
 
 	@Override

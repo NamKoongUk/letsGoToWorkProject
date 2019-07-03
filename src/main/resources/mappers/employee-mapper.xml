@@ -142,6 +142,11 @@
 		VALUES(SEQ_PH_NO.NEXTVAL,SEQ_EMPNO.CURRVAL,SYSDATE,#{jobCode})
 	</insert>
 	
+	<insert id="insertEmpProfile" parameterType="Attachment">
+		INSERT INTO ATTACHMENT (ATTACHMENT_NO, ORIGIN_NAME, CHANGE_NAME, FILEPATH, FILE_TYPE, EMPNO)
+		VALUES(SEQ_ATTACHMENT_NO.NEXTVAL, #{originName},#{changeName},#{filePath},'ProfileImage',SEQ_EMPNO.CURRVAL)
+	</insert>
+	
 	
 	
 </mapper>

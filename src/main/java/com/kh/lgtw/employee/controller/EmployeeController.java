@@ -17,12 +17,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.lgtw.common.CommonUtils;
+import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.service.EmployeeService;
 import com.kh.lgtw.employee.model.vo.DeptVo;
@@ -324,26 +327,54 @@ public class EmployeeController {
 	
 	//사원 한명 추가 
 	@RequestMapping("insertOneEmpl.em")
-	public String insertEmployee(Employee employee, String zipCode, String address1, String address2, Model model){
+	public String insertEmployee(Employee employee, String zipCode, String address1, String address2, Model model, HttpServletRequest request, @RequestParam(name="profile",required=false) MultipartFile profile){
 //		System.out.println("주소:" +address1+address2+zipCode);
 		
 		String address = address1 + "|" + address2 + "|" +zipCode;
 		
 		employee.setAddress(address);
 		
-		
-		System.out.println("비번 :"+employee.getEmpPwd());
-		
-		employee.setEmpPwd(passwordEncoder.encode(employee.getEmpPwd()));
-		
-		int result = empService.insertEmpOne(employee);
-		
-		if(result > 0) {
-			return "redirect:showEmpOneRegister.em";
+		if(profile != null) {
+			try {
+				String root =request.getSession().getServletContext().getRealPath("resources");
+				
+				String filePath = root +"\\images\\profile";
+				
+				System.out.println(filePath);
+				
+				String originFileName = profile.getOriginalFilename();
+				String ext = originFileName.substring(originFileName.lastIndexOf("."));
+				String changeName = CommonUtils.getRandomString();
+				profile.transferTo(new File(filePath+"\\"+changeName+ext));
+				
+				employee.setEmpPwd(passwordEncoder.encode(employee.getEmpPwd()));
+				
+				Attachment attach = new Attachment();
+				attach.setOriginName(originFileName);
+				attach.setChangeName(changeName);
+				attach.setFilePath(filePath);
+				
+				
+				int result = empService.insertEmpOne(employee, attach);
+				
+				if(result > 0) {
+					return "redirect:showEmpOneRegister.em";
+				}else {
+					return "employee/empOneRegister";
+				}
+				
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "employee/empOneRegister";
+			}
 		}else {
-			return "employee/empOneRegister";
+			return "";
 			
 		}
+		
+		
+		
 		
 	}
 	

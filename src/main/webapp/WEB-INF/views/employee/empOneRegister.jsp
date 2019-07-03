@@ -47,7 +47,7 @@
 			<hr>
 			<div class="content">
 				
-				<form  action="insertOneEmpl.em" method="post">
+				<form  action="insertOneEmpl.em" method="post" enctype="multipart/form-data">
 					<div id="proflieArea">
 						<img id="profileIcon" src="${contextPath }/resources/images/profile/users.png" width="150px;" height="200px;">
 					</div>
@@ -120,21 +120,21 @@
 								</tr>
 								<tr>
 									<td>개인정보 비공개</td>
-									<td><input type="checkbox" name="personalInfoCheck" value="Y"></td>
+									<td><input type="checkbox" checked name="personalInfoCheck" value="Y"></td>
 								</tr>
 							</table>
 						</div>
 						<div id="saveArea" style="margin-left:55%;">
 							<button type="submit" class="btn btn-primary">저장</button>
 						</div>
+				<div id="fileArea">
+					<input id="file" type="file" name="profile" onchange="loadImg(this,1)">
+				</div>
 				</form>
 				
 				
 			</div>
 		</section>
-	</div>
-	<div id="fileArea">
-		<input id="file" type="file" name="profile" onchange="loadImg(this,1)">
 	</div>
 	
 	<jsp:include page="../common/footer.jsp" />
