@@ -13,12 +13,15 @@ public class PageInfo implements Serializable{
 	private String sortInfo;
 	private String sort;
 	private String filterInfo;
-	private int eid;
+	private String sfCode;
+	private int empNo;
 	
 	public PageInfo() {}
+	
+	
 
 	public PageInfo(int currentPage, int listCount, int limit, int maxPage, int startPage, int endPage, int buttonCount,
-			String sortInfo, String sort, String filterInfo, int eid) {
+			String sortInfo, String sort, String filterInfo, String sfCode, int empNo) {
 		super();
 		this.currentPage = currentPage;
 		this.listCount = listCount;
@@ -30,8 +33,13 @@ public class PageInfo implements Serializable{
 		this.sortInfo = sortInfo;
 		this.sort = sort;
 		this.filterInfo = filterInfo;
-		this.eid = eid;
+		this.sfCode = sfCode;
+		this.empNo = empNo;
 	}
+
+
+
+
 
 	public PageInfo(int currentPage, int listCount, int limit, int maxPage, int startPage, int endPage) {
 		super();
@@ -135,20 +143,37 @@ public class PageInfo implements Serializable{
 		this.filterInfo = filterInfo;
 	}
 
-	public int getEid() {
-		return eid;
+	public int getEmpNo() {
+		return empNo;
 	}
 
 
 
-	public void setEid(int eid) {
-		this.eid = eid;
+	public void setEmpNo(int empNo) {
+		this.empNo = empNo;
 	}
+	
+
+	public String getSfCode() {
+		return sfCode;
+	}
+
+
+
+	public void setSfCode(String sfCode) {
+		this.sfCode = sfCode;
+	}
+
+
 
 	@Override
 	public String toString() {
 		return "PageInfo [currentPage=" + currentPage + ", listCount=" + listCount + ", limit=" + limit + ", maxPage="
 				+ maxPage + ", startPage=" + startPage + ", endPage=" + endPage + ", buttonCount=" + buttonCount
-				+ ", sortInfo=" + sortInfo + ", sort=" + sort + ", filterInfo=" + filterInfo + ", eid=" + eid + "]";
+				+ ", sortInfo=" + sortInfo + ", sort=" + sort + ", filterInfo=" + filterInfo + ", sfCode=" + sfCode
+				+ ", empNo=" + empNo + "]";
 	}
+
+
+	
 }

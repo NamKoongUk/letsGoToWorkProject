@@ -32,12 +32,13 @@
 		<section class="col-sm-10">
 			<h3 class="title">문서 작성</h3>
 			<hr>
+			<form class="form-horizontal" role="form" id="editorForm" method="post" action="${contextPath}/writeApproval.ap">
 			<table class="table table-bordered">
 			    <tbody>
 			      <tr>
 			        <td class="head">문서종류</td>
 			        <td>
-						<select class="form-control" id="dcmType">
+						<select class="form-control" id="dcmType" name="afNo">
 							<option value="">선택</option>
 							<c:forEach var="af" items="${ requestScope.list }">
 								<option value="${ af.afNo }">${ af.afName }</option>
@@ -45,7 +46,7 @@
 						</select>
 					</td>
 					<td class="head">작성자</td>
-					<td>이지현</td>
+					<td><input type="hidden" name="adWriter" value="${ sessionScope.loginEmp.empNo }">${ sessionScope.loginEmp.empName }</td>
 			      </tr>
 			      <tr>
 			        <td class="head">보존기간</td>
@@ -75,18 +76,17 @@
 				
 			
 			<div id="area" class="content" style="visibility:hidden;">
-				<form class="form-horizontal" role="form" id="editorForm" method="post" action="/">
 					<a href="#" data-toggle="modal" data-target="#myModal" onclick="selectEmp();">결재선설정</a><br>
 					<div id="myModal" class="modal fade" role="dialog">
 					  <div class="modal-dialog">			
 					    <!-- Modal content-->
-					    <div class="modal-content" style="width:700px;">
+					    <div class="modal-content" style="width:800px;">
 					      <div class="modal-header">
 					        <button type="button" class="close" data-dismiss="modal">&times;</button>
 					        <h4 class="modal-title">결재선 설정</h4>
 					      </div>
-					      <div class="modal-body" style="height:500px;">
-					      	<div id="deptList" class="treeview col-sm-3" style="height:450px; border:1px solid black">		      
+					      <div class="modal-body" style="height:500px; width:100%;">
+					      	<div id="deptList" class="treeview col-sm-3" style="overflow:auto; height:450px; border:1px solid black">		      
 						      <span id="all" onclick="underEmp(this, event);">전체보기</span>			   
 					      	</div>
 					      	<div class="col-sm-4 form-group">
@@ -360,25 +360,25 @@
 					</div>
 					
 					<label>제목 </label>
-					<input type="text" id="title" class="form-control">
+					<input type="text" id="title" class="form-control" name="adTitle">
 					<br><br>
 					<label>상세내용</label>
 				    <div class="form-group">
 				        <div class="form-group">
 				            <div class="col-lg-12">
-				                <textarea name="ckeditor" id="ckeditor"></textarea>
+				                <textarea name="adContent" id="adContent"></textarea>
 				            </div>
 				        </div>
 				        <div class="form-group">
 				            <div class="col-lg-12" align="right">
 				            	<button type="button" class="btn btn-md btn-default">취소</button>
-				                <button type="button" class="btn btn-md btn-primary">저장</button>
+				                <button type="submit" class="btn btn-md btn-primary">저장</button>
 				            </div>
 				        </div>
 				    </div>
-				</form>
 	 	
 			</div>
+				</form>
 		</section>
 	</div>
 	
@@ -390,9 +390,20 @@
 		var agreeCount = 0;
 		var applyCount = 0;
 		var processCount = 0;
+		
+
+		var count1 = 0;
+		var count2 = 0;
+		var count3 = 0;
+		var count4 = 0;
+		var count5 = 0;
+		
 		var jobNameTd = $("#approvalJobName").children();
 		jobNameTd.each(function(){
-			$(this).text("");
+			if(count1 != 0) {
+				$(this).text("");
+			}
+			count1++;
 		});
 		var empNameTd = $("#approvalEmpName").children();
 		empNameTd.each(function(){
@@ -400,7 +411,10 @@
 		});
 		var agreeTd = $("#agreeEmpList").children();
 		agreeTd.each(function(){
-			$(this).text("");
+			if(count2 != 0) {
+				$(this).text("");
+			}
+			count2++;
 		});
 		var payAgreeEmpNameTd = $("#payAgreeEmpName").children();
 		payAgreeEmpNameTd.each(function(){
@@ -408,11 +422,17 @@
 		});
 		var payAgreeJobNameTd = $("#payAgreeJobName").children();
 		payAgreeJobNameTd.each(function(){
-			$(this).text("");
+			if(count3 != 0) {
+				$(this).text("");
+			}
+			count3++;
 		});
 		var applyJobNameTd = $("#applyJobName").children();
 		applyJobNameTd.each(function(){
-			$(this).text("");
+			if(count4 != 0) {
+				$(this).text("");
+			}
+			count4++;
 		});
 		var applyEmpNameTd = $("#applyEmpName").children();
 		applyEmpNameTd.each(function(){
@@ -420,18 +440,23 @@
 		});
 		var processJobNameTd = $("#processJobName").children();
 		processJobNameTd.each(function(){
-			$(this).text("");
+			var count5 = 0;
+			if(count != 0) {
+				$(this).text("");
+			}
+			count5++;
 		});
 		var processEmpNameTd = $("#processEmpName").children();
 		processEmpNameTd.each(function(){
 			$(this).text("");
 		});
 		
+		
 		$(".modal-body").find(".list").children("option").each(function(){
 			console.log("동작하겠지 해야해 할거야");
 			console.log($(this).val());
 			
-			var $label = $("<label style='margin-left:5px; margin-right:5px;'>");
+			var $label = $("<label style='margin-left:5px; margin-right:5px;' class='lab'>");
 			var empNo = $(this).val();
 			var check = 0;
 			$("input[type=hidden]").each(function(){
@@ -700,6 +725,9 @@
 	});
 	
 	function selectEmp(){
+		$(".signArea").children("input[type='hidden']").remove();
+		$(".lab").remove();
+		
 	    /* $(".signForm").find("select").children().remove(); */
 		$("#deptList").children().remove();
 		$.ajax({
@@ -707,7 +735,7 @@
 			type:"get",
 			success:function(data){
 				console.log("성공");
-				var $ul = $("<ul>");
+				var $ul = $("<ul style='padding-left:5px;'>");
 				
 				for(var i = 0; i < data.deptList.length; i++) {
 					if(data.deptList[i].topDept == null){
@@ -768,7 +796,7 @@
 		/* event.stopPropagation(); */
 		console.log(span.id);
 		var deptCode = span.id;
-		if(deptCode != 'all') {
+		if(deptCode != 'D') {
 			$.ajax({
 				url:"${contextPath}/approval/selectUnderDept",
 				data:{deptCode:deptCode},
@@ -823,7 +851,7 @@
 				data:{afNo:afNo},
 				type:"get",
 				success:function(data){
-					CKEDITOR.instances.ckeditor.setData(data.afContent);
+					CKEDITOR.instances.adContent.setData(data.afContent);
 					$(".signArea").html(data.signContent);
 					$("#date").val(data.afDate);
 					$("#security").val(data.securityCode);
@@ -933,7 +961,7 @@
 
     $(function(){
          
-        CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
+        CKEDITOR.replace( 'adContent', {//해당 이름으로 된 textarea에 에디터를 적용
             width:'100%',
             height:'400px',
             filebrowserImageUploadUrl: '${ contextPath }/reources/images', //여기 경로로 파일을 전달하여 업로드 시킨다.

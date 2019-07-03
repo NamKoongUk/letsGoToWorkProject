@@ -63,11 +63,21 @@ public class ApprovalDaoImpl implements ApprovalDao{
 //		return null;
 //	}
 //	//회람대기문 이동
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showWaitCirculationDcm(PageInfo pi, SqlSession session) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	public ArrayList<HashMap<String, Object>> showWaitCirculationDcm(PageInfo pi, SqlSession session) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		
+		return (ArrayList)session.selectList("Approval.showWaitCirculationDcm", pi, rowBounds);
+	}
+	@Override
+	public int selectWaitCircleDcm(int empNo, SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.selectWaitCircleDcmList", empNo);
+	}
+	
 //	//-------------------------완료문서-----------------------------
 //	//완료문서 - 전체보기
 //	@Override
@@ -343,6 +353,203 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		// TODO Auto-generated method stub
 		return session.selectList("Approval.selectName", value);
 	}
+
+	@Override
+	public int writeApproval(AppDocument appDocument, SqlSession session) {
+		
+		return session.insert("Approval.writeApproval", appDocument);
+	}
+
+	@Override
+	public int insertCircleList(Map<String, Object> appDcm, SqlSession session) {
+		
+		String[] circle = (String[])appDcm.get("circle");
+		
+		appDcm.put("kind", "cc");
+		
+		int result = 0;
+		int result1 = 0;
+		
+		for(int i = 0; i < circle.length; i++) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("alEmpno", circle[i]);
+			map.put("alRoll", "회람자");
+			map.put("alLevel", 1);
+			
+			result1 = session.insert("Approval.insertApprovalList", map);
+		}
+		
+		if(result1 == circle.length) {
+			result = 1;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int insertApprovalList(Map<String, Object> appDcm, SqlSession session) {
+		
+		String[] approval = (String[])appDcm.get("approval");
+		
+		appDcm.put("kind", "app");
+		
+		int result = 0;
+		int result1 = 0;
+		
+		for(int i = 0; i < approval.length; i++) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("alEmpno", approval[i]);
+			map.put("alRoll", "결재자");
+			map.put("alLevel", i + 1);
+			
+			result1 = session.insert("Approval.insertApprovalList", map);
+		}
+		
+		if(result1 == approval.length) {
+			result = 1;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int insertReferenceList(Map<String, Object> appDcm, SqlSession session) {
+
+		String[] ref = (String[])appDcm.get("reference");
+		
+		appDcm.put("kind", "ref");
+		
+		int result = 0;
+		int result1 = 0;
+		
+		for(int i = 0; i < ref.length; i++) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("alEmpno", ref[i]);
+			map.put("alRoll", "참조자");
+			map.put("alLevel", 1);
+			
+			result1 = session.insert("Approval.insertApprovalList", map);
+		}
+		
+		if(result1 == ref.length) {
+			result = 1;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int insertPayAgreeList(Map<String, Object> appDcm, SqlSession session) {
+		// TODO Auto-generated method stub
+		String[] payAgree = (String[])appDcm.get("payAgree");
+		
+		appDcm.put("kind", "pa");
+		
+		int result = 0;
+		int result1 = 0;
+		
+		for(int i = 0; i < payAgree.length; i++) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("alEmpno", payAgree[i]);
+			map.put("alRoll", "재무합의자");
+			map.put("alLevel", i + 1);
+			
+			result1 = session.insert("Approval.insertApprovalList", map);
+		}
+		
+		if(result1 == payAgree.length) {
+			result = 1;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int insertApplyList(Map<String, Object> appDcm, SqlSession session) {
+		String[] apply = (String[])appDcm.get("apply");
+		
+		appDcm.put("kind", "app");
+		
+		int result = 0;
+		int result1 = 0;
+		
+		for(int i = 0; i < apply.length; i++) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("alEmpno", apply[i]);
+			map.put("alRoll", "신청자");
+			map.put("alLevel", 1);
+			
+			result1 = session.insert("Approval.insertApprovalList", map);
+		}
+		
+		if(result1 == apply.length) {
+			result = 1;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int insertProcessList(Map<String, Object> appDcm, SqlSession session) {
+		String[] process = (String[])appDcm.get("process");
+		
+		appDcm.put("kind", "pro");
+		
+		int result = 0;
+		int result1 = 0;
+		
+		for(int i = 0; i < process.length; i++) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("alEmpno", process[i]);
+			map.put("alRoll", "처리자");
+			map.put("alLevel", 1);
+			
+			result1 = session.insert("Approval.insertApprovalList", appDcm);
+		}
+		
+		if(result1 == process.length) {
+			result = 1;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int insertSendList(Map<String, Object> appDcm, SqlSession session) {
+		String[] send = (String[])appDcm.get("send");
+		
+		appDcm.put("kind", "send");
+		
+		int result = 0;
+		int result1 = 0;
+		
+		for(int i = 0; i < send.length; i++) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("alEmpno", send[i]);
+			map.put("alRoll", "수신자");
+			map.put("alLevel", 1);
+			
+			result1 = session.insert("Approval.insertApprovalList", map);
+		}
+		
+		if(result1 == send.length) {
+			result = 1;
+		}
+		
+		return result;
+	}
+
+
+
+
+
 
 	
 

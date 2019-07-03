@@ -19,20 +19,20 @@
 			<hr>
 			<div class="content">
 				<select class="form-control" style="width:150px; display:inline-block;">
-					<option>전체</option>
-					<option>품의서</option>
-					<option>보고서</option>
-					<option>휴가신청서</option>
+					<option var="all">전체보기</option>
+					<c:forEach var="form" items="${ requestScope.formList }">
+						<option value="${ form.afNo }">${ form.afName }</option>
+					</c:forEach>
 				</select>
 				<button onclick="" style="float:right; margin-left:8px;" class="btn btn-primary">확인</button>
 				<select class="form-control" style="width:150px;display:inline-block; float:right;">
 					<option>선택</option>
-					<option>결재</option>
-					<option>반려</option>
+					<option>확인</option>
 				</select>
 				<table class="table table-hover">
 				    <thead>
 				      <tr>
+				      	<th><input type="checkbox" id="checkAll"></th>
 				        <th>문서번호</th>
 				        <th>제목</th>
 				        <th>기안자</th>
@@ -41,13 +41,75 @@
 				      </tr>
 				    </thead>
 				    <tbody>
-				      <!-- 조회해온 값 넣기 -->
+				      <c:forEach var="ad" items="${ requestScope.list }">
+				      	<tr>
+				      		<th><input type="checkbox" name="check" value="${ ad.adNo }"></th>
+				      		<td>${ ad.adNo }</td>
+				      		<td>${ ad.adTitle }</td>
+				      		<td>${ ad.adWriterName }</td>
+				      		<td>${ ad.adStartDate }</td>
+				      		<td>${ ad.afName }</td>
+				      	</tr>
+				      </c:forEach>
 				    </tbody>
 		  		</table>
+				<div class="paging" align="center">
+	                  <ul class="pagination">
+	                     <c:if test="${ pi.startPage > 1 }">
+	                        <li><a href="${ contextPath }/showWaitCirculationDcm.ap?currentPage=${ pi.startPage - pi.buttonCount }"><<</a></li>
+	                     </c:if>
+	                     <c:if test="${ pi.startPage <= 1 }">
+	                        <li><a href="#"><<</a></li>
+	                     </c:if>
+	                     <c:if test="${ pi.startPage != pi.currentPage }">
+	                        <li><a href="${ contextPath }/showWaitCirculationDcm.ap?currentPage=${ pi.currentPage - 1}"><</a></li>
+	                     </c:if>
+	                     <c:if test="${ pi.startPage == pi.currentPage }">
+	                        <li><a href="#"><</a></li>
+	                     </c:if>
+	                     <c:forEach var="pageNum" begin="${ pi.startPage }" end="${ pi.endPage }" step="1">
+	                        <c:if test="${ pageNum == pi.currentPage }">
+	                           <li class="active"><a>${ pageNum }</a></li>
+	                        </c:if>
+	                        <c:if test="${ pageNum != pi.currentPage }">
+	                           <li><a href="${ contextPath }/showWaitCirculationDcm.ap?currentPage=${ pageNum }">${ pageNum }</a></li>
+	                        </c:if>
+	                     </c:forEach>
+	                     <c:if test="${ pi.endPage != pi.currentPage }">
+	                        <li><a href="${ contextPath }/showWaitCirculationDcm.ap?currentPage=${ pi.currentPage + 1 }">></a></li>
+	                     </c:if>
+	                     <c:if test="${ pi.endPage == pi.currentPage }">
+	                        <li><a href="#">></a></li>
+	                     </c:if>
+	                     <c:if test="${ pi.endPage != pi.maxPage }">
+	                        <li><a href="${ contextPath }/showWaitCirculationDcm.ap?currentPage=${ pi.endPage + 1 }">>></a></li>
+	                     </c:if>
+	                     <c:if test="${ pi.endPage == pi.maxPage }">
+	                        <li><a href="#">>></a></li>
+	                     </c:if>
+	                  </ul>
+	               </div>
 			</div>
 		</section>
 	</div>
 	
 	<jsp:include page="../../common/footer.jsp" />
+	<script>
+		$("#checkAll").click(function(){
+			if($("#checkAll").prop("checked")) {				
+				$("input[name='check']").prop("checked", true);
+			}else {
+				$("input[name='check']").prop("checked", false);
+			}
+			
+		});
+		
+		$(".table").find("td").click(function(){
+			var adNo = $(this).parents().children("th").eq(0).children().eq(0).val();
+			console.log(adNo);
+			location.href="${ contextPath }/showDetailDcm.ap?afNo=" + afNo;
+		});
+	</script>
+	
 </body>
 </html>
