@@ -49,8 +49,8 @@ public class SchedulerServiceImpl implements SchedulerService{
 	}
 
 	@Override
-	public int insertGroupScheduler() {
-		return 0;
+	public int insertGroupScheduler(Scheduler scheduler, List<String> setEmpList, List<String> readEmpList) {
+		return sd.insertGroupScheduler(sqlSession, scheduler, setEmpList, readEmpList);
 	}
 
 	@Override

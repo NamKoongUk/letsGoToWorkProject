@@ -18,7 +18,7 @@ public interface SchedulerService {
 
 	int deleteEmpScheduler(Scheduler scheduler);
 
-	int insertGroupScheduler();
+	int insertGroupScheduler(Scheduler scr, List<String> setEmpList, List<String> readEmpList);
 
 	int updateGroupScheduler();
 

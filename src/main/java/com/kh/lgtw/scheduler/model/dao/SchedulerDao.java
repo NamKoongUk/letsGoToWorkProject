@@ -35,6 +35,9 @@ public interface SchedulerDao {
 
 	int changeStatusY(SqlSession sqlSession, Scheduler scheduler);
 
+	int insertGroupScheduler(SqlSession sqlSession, Scheduler scheduler, List<String> setEmpList,
+			List<String> readEmpList);
+
 	
 
 	

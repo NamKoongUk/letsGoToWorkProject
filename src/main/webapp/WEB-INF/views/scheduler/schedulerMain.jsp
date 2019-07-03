@@ -210,6 +210,13 @@
   	height : 10px !important;
   	width : 10px !important;
   } 
+  .inout {
+  	background:black;
+  	color:white;
+  	
+  }
+  
+  
 </style>
 </head>
 <body>
@@ -443,58 +450,95 @@
 			  </div>
 			  </form>
 			  
-			  
 			  <!-- 그룹캘린더 추가 모달 -->
-				<!-- <form action="" method="get">
-				<div class="modal fade" id="groupSchedulerModal" role="dialog">
-			    <div class="modal-dialog">
-			    
-			      Modal content
-			      <div class="modal-content">
-			        <div class="modal-header">
-			          <button type="button" class="close" data-dismiss="modal">&times;</button>
-			          <h4 class="modal-title" align="center">공유 일정표 추가</h4>
-			        </div>
-			        <div class="modal-body">
-			          <table>
-			          	<tr>
-			          		<td width="20%">일정표 이름</td>
-			          		<td width="50%"><input type="text" name="schedulerName"></td>
-						</tr>
-						<tr>
-							<td>색상</td>
-							<td>
-			          			<div>
-									<button type="button" class="label on" name="cc"><span class="c1" ></span></button>
-									<button type="button" class="label" name="cc"><span class="c2"></span></button>
-									<button type="button" class="label" name="cc"><span class="c3"></span></button>
-									<button type="button" class="label" name="cc"><span class="c4"></span></button>
-									<button type="button" class="label" name="cc"><span class="c5"></span></button>
-									<button type="button" class="label" name="cc"><span class="c6"></span></button>
-									<button type="button" class="label" name="cc"><span class="c7"></span></button>
-									<br>
-								</div>
-			          		</td>
-						</tr>
-						<tr>
-							<td>공유대상</td>
-						</tr>
-						<tr>
-							<td>
-								
-							</td>
-						</tr>
-			          </table>
-			        </div>
-			        <div class="modal-footer">
-			          <button type="submit" class="btn" data-dismiss="modal">생성</button>
-			          <button type="reset" class="btn" data-dismiss="modal">취소</button>
-			        </div>
-			      </div>
-			      
-			    </div>
-			  </div>
-			  </form> -->
+			  <form class="form-horizontal" role="form" id="editorForm" method="post" action="/">
+					<div id="createGroupScr" class="modal fade" role="dialog">
+					  <div class="modal-dialog">			
+					    <!-- Modal content-->
+					    <div class="modal-content" style="width:800px;">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal">&times;</button>
+					        <h4 class="modal-title">그룹캘린더 생성</h4>
+					      </div>
+					      <div class="modal-body" style="height:580px; width:100%;">
+					      <div>
+				          <table>
+				          	<tr>
+				          		<td width="20%"><b>공유캘린더 이름</b></td>
+				          		<td width="50%">
+				          			<input type="hidden" name="schedulerNo" id="inGscrNo">
+				          			<input type="text" name="schedulerName" id="inGscrName">
+				          		</td>
+							</tr>
+							<tr>
+								<td><b>색상</b></td>
+								<td>
+				          			<div id="inGscrColorArea">
+										<button type="button" class="label on" name="schedulerColor" value="red" id="udscrColor"><span class="c1"></span></button>
+										<button type="button" class="label" name="cc" value="orange"><span class="c2"></span></button>
+										<button type="button" class="label" name="cc" value="yellow"><span class="c3"></span></button>
+										<button type="button" class="label" name="cc" value="green"><span class="c4"></span></button>
+										<button type="button" class="label" name="cc" value="blue"><span class="c5"></span></button>
+										<button type="button" class="label" name="cc" value="navy"><span class="c6"></span></button>
+										<button type="button" class="label" name="cc" value="purple"><span class="c7"></span></button>
+										<br>
+									</div>
+				          		</td>
+							</tr>
+							<tr>
+								<td><b>주소록</b></td>
+							</tr>
+				          </table>
+				        </div>
+					      	<div id="deptList" class="treeview col-sm-3" style="height:450px; border:1px solid black">		      
+						      <span id="all" onclick="underEmp(this, event);">전체보기</span>			   
+					      	</div>
+					      	<div class="col-sm-4 form-group">
+					      		<select class="form-control" name="empList" size="10" style="overflow: auto; width:100%; height:450px;" multiple>
+					      			
+					      		</select>
+					      	</div>
+					      	<div class="col-sm-5 signForm" id="circle">
+					      		<div class="row">
+						      		<div>
+						      			<div class="col-sm-2" style="padding-top:80px;">
+								      		<button class="btn inout" name="setInputCircle" type="button"><b>></b></button>
+								      		<br><br>
+								      		<button class="btn inout" name="setOutputCircle" type="button"><b><</b></button>
+						      			</div>
+						      			<div class="col-sm-10">
+						      				<label class="col-sm-12">수정권한</label>
+								      		<select class="form-control list circleList" name="setEmpList" size="10" style="width:100%; height:190px;" id="setEmpList" multiple>
+								      			
+								      		</select>
+								      		<br>			      			
+						      			</div>
+						      		</div>
+						      		
+						      		<div>
+						      			<div class="col-sm-2" style="padding-top:80px;">
+								      		<button class="btn inout" name="readInputCircle" type="button"><b>></b></button>
+								      		<br><br>
+								      		<button class="btn inout" name="readOutputCircle" type="button"><b><</b></button>
+						      			</div>
+						      			<div class="col-sm-10">
+								      		<label class="col-sm-12">읽기권한</label>
+								      		<select class="form-control list circleList" name="readEmpList" size="10" style="width:100%; height:190px;" id="readEmpList" multiple>
+								      			
+								      		</select>				      			
+						      			</div>
+						      		</div>
+						      	</div>
+					      	</div>
+					     </div>
+					     <div class="modal-footer">
+					     	<button type="button" onclick="insertGscr();" class="btn btn-primary" data-dismiss="modal">확인</button>
+					        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+					      </div>
+					  </div>
+				   </div>
+				</div>
+			  </form>
 			  
 			</div>
 		</section>
@@ -684,8 +728,15 @@
       				for(var key in data.gpScList){
       					var $gmTr = $("<tr>");
       					var $colTd = $("<td colspan='2'>");
-      					var $colBtn = $("<button style='width:5px; height:16px;' class='colorBtn'>");
-      					var $colSp = $("<span style='background-color:" + data.gpScList[key].schedulerColor + "' class='colorSp'>");
+      					var $hiddenNo = $("<input type='hidden' value='" + data.gpScList[key].schedulerNo + "' class='hiddenNo'>");
+      					var $colBtn = $("<button style='width:5px; height:16px;' class='gScrColorBtn'>");
+      					console.log(data.gpScList[key].status == 'Y');
+      					
+      					if(data.gpScList[key].status == 'Y'){
+      						var $colSp = $("<span style='background:" + data.gpScList[key].schedulerColor + "; display:inline-block !important;' class='colorSp'>");
+      					}else{
+	      					var $colSp = $("<span style='background:" + data.gpScList[key].schedulerColor + "; display:none !important;' class='colorSp'>");      						
+      					}
       					      					
       					var $nameSp = $("<span style='margin-left:5px;' classs='gpScName'>").text(data.gpScList[key].schedulerName);
       					
@@ -694,6 +745,7 @@
       										"style='width:16px; height:16px;'>");
       					
       					$colBtn.append($colSp);
+      					$colTd.append($hiddenNo);
       					$colTd.append($colBtn);
       					$colTd.append($nameSp);
       					$gmTr.append($colTd);
@@ -845,6 +897,202 @@
       	String.prototype.zf = function(len){return "0".string(len - this.length) + this;};
       	Number.prototype.zf = function(len){return this.toString().zf(len);
      };
+     
+     
+     /* 그룹캘린더 관련 이벤트 */
+     function selectEmp(){
+		$("#deptList").children().remove();
+		$.ajax({
+			url:"${contextPath}/approval/selectEmp",
+			type:"get",
+			success:function(data){
+				console.log("성공");
+				var $ul = $("<ul style='padding-left:5px;'>");
+				
+				for(var i = 0; i < data.deptList.length; i++) {
+					if(data.deptList[i].topDept == null){
+						var $li = $("<li style='list-style:none' class='dept'><span onclick='underEmp(this, event);' id='" + data.deptList[i].deptCode + "'>" + data.deptList[i].deptName + "</span></li>");
+						if(data.deptList[i].stat == 'Y') {
+							var $img = $("<img id='" + data.deptList[i].deptCode + "' onclick='underDept(this);' style='width:12px; height:12px;' src='${contextPath}/resources/images/approval/plus.gif'>");					
+							$li.prepend($img);
+						}
+						$ul.append($li);
+					} 
+				}
+				$("#deptList").append($ul);
+			}
+		});
+	}
+     
+     
+     function underEmp(span, event){
+		console.log(span.id);
+		var deptCode = span.id;
+		if(deptCode != 'D') {
+			$.ajax({
+				url:"${contextPath}/approval/selectUnderDept",
+				data:{deptCode:deptCode},
+				type:"get",
+				success:function(data){		
+					console.log(data);
+					
+					$("select[name='empList']").children().remove();
+					
+					for(var i = 0; i < data.empList.length; i++) {
+						console.log(data.empList[i].empName);
+						var $option = $("<option id='" + data.empList[i].empNo + "' value='" + data.empList[i].empNo + "'>");
+						$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
+						
+						$("select[name='empList']").append($option);
+					}
+				}
+			});
+		}else {
+			$.ajax({
+				url:"${contextPath}/approval/selectEmp",
+				type:"get",
+				success:function(data){
+					console.log("성공");
+					console.log($("select[name='empList']"));
+					
+					for(var i = 0; i < data.empList.length; i++) {
+						console.log(data.empList[i].empName);
+						var $option = $("<option id='" + data.empList[i].empNo + "' value='" + data.empList[i].empNo + "'>");
+						$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
+						
+						$("select[name='empList']").append($option);
+					} 
+					
+				}
+			});
+		}
+
+	}
+     
+     function underDept(img){
+ 		console.log(img.id);
+ 		
+ 		var deptCode = img.id;
+ 		
+ 		if($("#" + img.id).parent().children().length <= 2) {
+ 			$("#" + img.id).attr("src", "${contextPath}/resources/images/approval/minus.gif");
+ 			$.ajax({
+ 				url:"${contextPath}/approval/selectUnderDept",
+ 				data:{deptCode:deptCode},
+ 				type:"get",
+ 				success:function(data){		
+ 					console.log(data);
+ 					
+ 					var $ul = $("<ul>");
+ 					
+ 					for(var i = 0; i < data.deptList.length; i++) {
+ 						var $li = $("<li style='list-style:none' class='dept'><span onclick='underEmp(this, event);' id='" + data.deptList[i].deptCode + "'>" + data.deptList[i].deptName + "</span></li>");
+ 						if(data.deptList[i].stat == 'Y') {
+ 							var $img = $("<img id='" + data.deptList[i].deptCode + "' onclick='underDept(this);' style='width:12px; height:12px;' src='${contextPath}/resources/images/approval/plus.gif'>");					
+ 							$li.prepend($img);
+ 						}
+ 						$ul.append($li);
+ 					}
+ 					console.log($("#" + img.id).parent());
+ 					$("#" + img.id).parent().append($ul);
+ 				}
+ 			});
+ 			
+ 		}else {
+ 			$("#" + img.id).attr("src", "${contextPath}/resources/images/approval/plus.gif");
+ 			$("#" + img.id).parent().children("ul").remove();
+ 	
+ 		} 
+ 	
+ 	}
+     
+     
+     $(".inout").click(function(){
+ 		
+ 		var selectEmp = $("select[name='empList']").val();
+ 		
+ 		console.log($("select[name='empList']").val());
+
+ 		console.log($(this).text());
+ 		
+ 		var cnt = 0;
+ 		if($(this).text() == '>') {
+ 			$(this).parent().parent().parent().parent().find("select").find("option").each(function(){
+ 				console.log($(this).val());
+ 				for(var i = 0; i < selectEmp.length; i++) {
+ 					if($(this).val() == selectEmp[i]) {
+ 						cnt++;
+ 					}
+ 				}
+ 			});
+ 		}
+ 		
+ 		
+ 		console.log(cnt);
+ 		
+ 		if(cnt <= 0) {
+ 			if($(this).attr("name") == "setInputCircle"){
+ 				var setEmpList = $(this).parent().parent().find("select[name='setEmpList']");
+ 				console.log($(this).parent().parent().find("select[name='setEmpList']"));
+ 				
+ 				for(var i = 0; i < selectEmp.length; i++) {
+ 					
+ 					var emp = $("#" + selectEmp[i]).clone();
+ 					
+ 					console.log("들어는 오냐??");
+ 					setEmpList.append(emp);
+ 				}
+ 				
+ 			}else if($(this).attr("name") == "setOutputCircle"){
+ 				var deleteEmp = $("select[name='setEmpList']").val();
+ 				for(var i = 0; i < deleteEmp.length; i++) {
+ 					$("select[name='setEmpList']").find("option#" + deleteEmp[i]).remove();
+ 				}
+ 			}else if($(this).attr("name") == "readInputCircle"){
+ 				var readEmpList = $(this).parent().parent().find("select[name='readEmpList']");
+ 				console.log($(this).parent().parent().find("select[name='readEmpList']"));
+ 				
+ 				for(var i = 0; i < selectEmp.length; i++) {
+ 					
+ 					var emp = $("#" + selectEmp[i]).clone();
+ 					
+ 					console.log("들어는 오냐??");
+ 					readEmpList.append(emp);
+ 				}
+ 			}else if($(this).attr("name") == "readOutputCircle"){
+ 				var deleteEmp = $(this).parent().parent().find("select[name='readEmpList']").val();
+ 				for(var i = 0; i < deleteEmp.length; i++) {
+ 					$("select[name='readEmpList']").find("option#" + deleteEmp[i]).remove();
+ 				}
+ 			}
+ 		}else {
+ 			alert("중복된 사용자는 추가할 수 없습니다.");
+ 		}
+ 	});
+     
+     
+     function insertGscr(){
+    	 var inGscrName = $("#inGscrName").val();
+    	 console.log(inGscrName);
+    	 var inGscrColor = $("#inGscrColorArea > #udscrColor").val();
+    	 console.log(inGscrColor);
+    	 var setEmpList = new Array();
+    	 
+    	 $("#setEmpList").children().each(function(){
+    		setEmpList.push($(this).val()); 
+    	 });
+    	 console.log(setEmpList);
+    	 
+    	 var readEmpList = new Array();
+    	 
+    	 $("#readEmpList").children().each(function(){
+    		readEmpList.push($(this).val());
+    	 });
+    	 console.log(readEmpList);
+    	 
+    	 location.href = "${contextPath}/insertGscr.sc?schedulerName=" + inGscrName + "&schedulerColor=" + inGscrColor + "&setEmpList=" + setEmpList + "&readEmpList=" + readEmpList;
+    	 
+     }
 	</script>
 	
 	
