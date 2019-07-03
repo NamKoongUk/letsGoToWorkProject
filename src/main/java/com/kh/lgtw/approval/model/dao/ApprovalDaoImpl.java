@@ -234,12 +234,12 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		// TODO Auto-generated method stub
 		return (ArrayList)session.selectList("Approval.selectJob");
 	}
-//	//문서 상세보기
-//	@Override
-//	public HashMap<String, Object> showDetailDcm(SqlSession session, String adNo) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	//문서 상세보기
+	@Override
+	public HashMap<String, Object> showDetailDcm(SqlSession session, String adNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.detailDcm", adNo);
+	}
 //	//문서결재
 //	@Override
 //	public int approvalDcm(SqlSession session, int eid, String adNo) {
@@ -540,6 +540,32 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		}
 		
 		if(result1 == send.length) {
+			result = 1;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int insertAgreeList(Map<String, Object> appDcm, SqlSession session) {
+		String[] agree = (String[])appDcm.get("agree");
+		
+		appDcm.put("kind", "agree");
+		
+		int result = 0;
+		int result1 = 0;
+		
+		for(int i = 0; i < agree.length; i++) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("alEmpno", agree[i]);
+			map.put("alRoll", "합의자");
+			map.put("alLevel", 1);
+			
+			result1 = session.insert("Approval.insertApprovalList", map);
+		}
+		
+		if(result1 == agree.length) {
 			result = 1;
 		}
 		

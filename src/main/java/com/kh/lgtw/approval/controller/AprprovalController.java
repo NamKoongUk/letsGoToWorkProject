@@ -501,9 +501,13 @@ public class AprprovalController {
 	@RequestMapping("showDetailDcm.ap")
 	public String showDetailDcm(Model model, String adNo) {
 
-		// HashMap<String, Object> hmap = as.showDetailDcm(adNo);
-
-		return "";
+		HashMap<String, Object> map = as.showDetailDcm(adNo);
+		
+		System.out.println("detailDcm : " + map);
+		
+		model.addAttribute("map", map);
+		
+		return "progressDcm/detailDcm";
 	}
 
 	// 문서결재
@@ -591,49 +595,57 @@ public class AprprovalController {
 		String[] apply = request.getParameterValues("applyEmp");
 		String[] process =  request.getParameterValues("processEmp");
 		String[] send = request.getParameterValues("sendEmp");
+		String[] agree = request.getParameterValues("agreeEmp");
 		
-		int afNo = Integer.parseInt(request.getParameter("afNo"));
+		String signCode = request.getParameter("signCode");
 		
+		System.out.println(signCode);
 		Map<String, Object> appDcm = new HashMap<String, Object>();
 		appDcm.put("ad", ad);
 		
 		int count = 0;
 		
-		switch (afNo) {
-		case 1: break;
-		case 2: break;
-		case 3: break;
-		case 4: break;
-		case 5: break;
+		switch (signCode) {
+		case "circle": appDcm.put("circle", circle);
+				appDcm.put("type", 1);
+				break;
+				
+		case "approvalSend": appDcm.put("approval", approval);
+				appDcm.put("reference", reference);
+				appDcm.put("send", send);
+				appDcm.put("type", 2);
+				break;
+				
+		case "normalApproval": appDcm.put("approval", approval);
+				appDcm.put("agree", agree);
+				appDcm.put("reference", reference);	
+				appDcm.put("type", 3);
+			break;
+			
+		case "agreementApproval": appDcm.put("approval", approval);
+				appDcm.put("payAgree", payAgree);
+				appDcm.put("agree", agree);
+				appDcm.put("reference", reference); 	
+				appDcm.put("type", 4);
+			break;
+			
+		case "applyDcm": appDcm.put("apply", apply);
+				appDcm.put("process", process);
+				appDcm.put("reference", reference);
+				appDcm.put("type", 5);
+			break;
 
 		}
-		
-//		if(circle != null) {
-//			appDcm.put("circle", circle);
-//			count += 1;
-//		}else if(approval != null) {
-//			appDcm.put("approval", approval);
-//			count += 1;
-//		}else if(reference != null){
-//			appDcm.put("reference", reference);
-//			count += 1;
-//		}else if(payAgree != null) {
-//			appDcm.put("payAgree", payAgree);
-//			count += 1;
-//		}else if(apply != null){
-//			appDcm.put("apply", apply);
-//			count += 1;
-//		}else if(process != null) {
-//			appDcm.put("process", process);
-//			count += 1;
-//		}else if(send != null){
-//			appDcm.put("send", send);
-//			count += 1;
-//		}
+
 		
 		int result = as.writeApproval(appDcm);
 		
-		return "redirect:index.jsp";
+		if(result > 0) {
+			return "redirect:index.jsp";			
+		}else {
+			return "";
+		}
+		
 	}
 	
 

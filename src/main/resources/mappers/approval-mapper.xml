@@ -109,6 +109,32 @@
 		<result property="adStatus" column="AD_STATUS"/>
 	</resultMap>
 	
+	<resultMap type="java.util.HashMap" id="appList">
+		<id property="alNo" column="AL_NO"/>
+		<result property="alDate" column="AL_DATE"/>
+		<result property="alRoll" column="AL_ROLL"/>
+		<result property="alEmpNo" column="AL_EMPNO"/>
+		<result property="alLevel" column="AL_LEVEL"/>
+		<result property="approvaler" column="EMP_NAME"/>
+	</resultMap>
+	
+	<resultMap type="java.util.HashMap" id="appDocument2">
+		<id property="adNo" column="AD_NO"/>
+		<result property="adWriter" column="AD_WRITER"/>
+		<result property="adTitle" column="AD_TITLE"/>
+		<result property="adContent" column="AD_CONTENT" javaType="java.lang.String"/>
+		<result property="adStartDate" column="AD_START_DATE"/>
+		<result property="adEndDate" column="AD_END_DATE"/>
+		<result property="adStatus" column="AD_STATUS"/>
+		<result property="adWriterName" column="EMP_NAME"/>
+		<result property="afName" column="AF_NAME"/>
+		<result property="securityCode" column="SECURITY_CODE"/>
+		<result property="adStatus" column="AD_STATUS"/>
+		<result property="signCode" column="SIGN_CODE"/>
+		<result property="signContent" column="SIGN_CONTENT" javaType="java.lang.String"/>
+		<collection property="appList" javaType="java.util.ArrayList" resultMap="appList"/>
+	</resultMap>
+	
 	<select id="selectSignForm" resultMap="signFormResultSet" parameterType="SignForm">
 		SELECT *
 		FROM SIGN_FORM
@@ -290,6 +316,18 @@
 		AND SF.SIGN_CODE = 'circle'
 		</if>
 	</select>
+	
+	<select id="detailDcm" parameterType="java.lang.String" resultMap="appDocument2">
+		SELECT *
+		FROM APP_DOCUMENT AD
+		JOIN APPROVAL_LIST AL ON (AL.AD_NO = AD.AD_NO)
+		JOIN EMPLOYEE E2 ON (AL.AL_EMPNO = E2.EMPNO)
+		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
+		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
+		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
+		WHERE AD.AD_NO = #{adNo}
+	</select>
+	
 	
 </mapper>  
 

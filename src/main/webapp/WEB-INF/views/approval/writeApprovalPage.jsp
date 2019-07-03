@@ -441,7 +441,7 @@
 		var processJobNameTd = $("#processJobName").children();
 		processJobNameTd.each(function(){
 			var count5 = 0;
-			if(count != 0) {
+			if(count5 != 0) {
 				$(this).text("");
 			}
 			count5++;
@@ -483,7 +483,7 @@
 					var empJob = emp[1].split("/");
 					var empJobName = empJob[1].split(")")[0];
 					console.log($("<input type='hidden' name='approvalEmp' value='" + $(this).val() + "'>"));
-					console.log(empJobName);
+					console.log("jobNameTd : " + jobNameTd);
 					
 					jobNameTd[approvalCount + 1].append(empJobName);
 					empNameTd[approvalCount].append(empName);
@@ -842,6 +842,8 @@
 			var afNo = $(this).val();
 			console.log(afNo);
 			
+			$("#area").find("input[name='signCode']").remove();
+			
 			$(".signForm").each(function(){
 				$(this).css("display", "none");
 			});
@@ -853,6 +855,7 @@
 				success:function(data){
 					CKEDITOR.instances.adContent.setData(data.afContent);
 					$(".signArea").html(data.signContent);
+					$("#area").append($("<input type='hidden' name='signCode' value='" + data.signCode + "'>"))
 					$("#date").val(data.afDate);
 					$("#security").val(data.securityCode);
 					$("#dcmType").val(data.afNo);

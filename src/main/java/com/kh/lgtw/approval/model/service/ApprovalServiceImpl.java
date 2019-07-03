@@ -216,12 +216,12 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return ad.selectSecurity(session);
 	}
 //	//-----------------------------문서 상세보기 및 결재기능--------------------------------------
-//	//문서 상세보기
-//	@Override
-//	public HashMap<String, Object> showDetailDcm(String adNo) {
-//		// TODO Auto-generated method stub
-//		return ad.showDetailDcm(session, adNo);
-//	}
+	//문서 상세보기
+	@Override
+	public HashMap<String, Object> showDetailDcm(String adNo) {
+		// TODO Auto-generated method stub
+		return ad.showDetailDcm(session, adNo);
+	}
 //	//문서결재
 //	@Override
 //	public int approvalDcm(String adNo, int eid) {
@@ -283,26 +283,42 @@ public class ApprovalServiceImpl implements ApprovalService{
 	@Override
 	public int writeApproval(Map<String, Object> appDcm) {
 		int result = 0;
-		
+		int count = 0;
 		int result1 = ad.writeApproval((AppDocument)appDcm.get("ad"), session);
 
 		if(result1 > 0) {
 			
-			if(appDcm.get("circle") != null) {
-				result += ad.insertCircleList(appDcm, session);
-			}else if(appDcm.get("approval") != null) {
-				result += ad.insertApprovalList(appDcm, session);
-			}else if(appDcm.get("reference")  != null) {
-				result += ad.insertReferenceList(appDcm, session);
-			}else if(appDcm.get("payAgree")  != null) {
-				result += ad.insertPayAgreeList(appDcm, session);
-			}else if(appDcm.get("apply")  != null) {
-				result += ad.insertApplyList(appDcm, session);
-			}else if(appDcm.get("process")  != null) {
-				result += ad.insertProcessList(appDcm, session);
-			}else if(appDcm.get("send")  != null) {
-				result += ad.insertSendList(appDcm, session);
+			switch((int)appDcm.get("type")) {
+			case 1 : result += ad.insertCircleList(appDcm, session);
+					count = 1;
+				break;
+			case 2 : result += ad.insertApprovalList(appDcm, session);
+					 result += ad.insertReferenceList(appDcm, session);
+					 result += ad.insertSendList(appDcm, session);
+					 count = 3;
+				break;
+			case 3 : result += ad.insertApprovalList(appDcm, session);
+					result += ad.insertAgreeList(appDcm, session);
+					result += ad.insertReferenceList(appDcm, session);
+					count = 3;
+				break;
+			case 4 : result += ad.insertApprovalList(appDcm, session);
+					result += ad.insertPayAgreeList(appDcm, session);
+					result += ad.insertAgreeList(appDcm, session);
+					result += ad.insertReferenceList(appDcm, session);
+					count = 4;
+				break;
+			case 5 : result += ad.insertApplyList(appDcm, session);
+					result += ad.insertProcessList(appDcm, session);
+					result += ad.insertReferenceList(appDcm, session);
+					count = 3;
+				break;
 			}
+
+		}
+		
+		if(count != result ) {
+			result = 0;
 		}
 		
 		
