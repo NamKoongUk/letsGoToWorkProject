@@ -24,11 +24,11 @@
 					</tr>
 				</table>
 			</form>
-			<script>
+			<!-- <script>
 				$(function(){
 					$("#loginBtn").click();
 				});
-			</script>
+			</script> -->
 		</c:if>
 		<c:if test="${ !empty loginEmp }">
 			<h1 align="center">${ loginEmp.empName }님이 로그인한 상태</h1>

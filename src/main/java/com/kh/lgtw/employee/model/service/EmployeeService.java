@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.vo.DeptVo;
 import com.kh.lgtw.employee.model.vo.Employee;
@@ -19,7 +20,7 @@ public interface EmployeeService {
 
 	Employee loginCheck(Employee employee) throws LoginException;
 
-	int insertEmpOne(Employee employee);
+	int insertEmpOne(Employee employee, Attachment attach);
 
 	int empExcelUpload(File destFile);
 
