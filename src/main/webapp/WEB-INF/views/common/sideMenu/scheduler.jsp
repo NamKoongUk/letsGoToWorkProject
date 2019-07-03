@@ -30,7 +30,7 @@
 			<thead>
 				<tr>
 					<th colspan="2" style="text-align:center"><b>공유일정</b></th>
-					<th><button data-toggle="modal" data-target="#groupSchedulerModal">+</button></th>
+					<th><button data-toggle="modal" data-target="#createGroupScr" onclick="selectEmp()">+</button></th>
 				</tr>
 			</thead>
 			<tbody>

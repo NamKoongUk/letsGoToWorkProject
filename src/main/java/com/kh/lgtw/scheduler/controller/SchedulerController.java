@@ -154,10 +154,24 @@ public class SchedulerController {
 	
 	
 	//공유스케쥴러 생성
-	@RequestMapping("insertGroupScheduler.sc")
-	public String insertGroupScheduler() {
-		int result = ss.insertGroupScheduler();
-		return "";
+	@RequestMapping("insertGscr.sc")
+	public String insertGroupScheduler(HttpSession session, @RequestParam String schedulerName, @RequestParam String schedulerColor,
+			                             @RequestParam List<String> setEmpList, @RequestParam List<String> readEmpList) {
+		Employee e = (Employee)session.getAttribute("loginEmp");
+		Scheduler scr = new Scheduler();
+		scr.setCreateEmpNo(e.getEmpNo());
+		scr.setSchedulerName(schedulerName);
+		scr.setSchedulerColor(schedulerColor);
+		
+		setEmpList.add(e.getEmpNo()+"");
+		
+		int result = ss.insertGroupScheduler(scr, setEmpList, readEmpList);
+		
+		if(result > 0) {
+			return "redirect:scheduler.sc";
+		}else {
+			return "main/main";
+		}
 	}
 	
 	//공유스케쥴러 수정

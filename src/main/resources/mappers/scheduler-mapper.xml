@@ -18,6 +18,7 @@
 		<result property="schedulerNo" column="SCHEDULER_NO"/>
 		<result property="empNo" column="EMPNO"/>
 		<result property="authority" column="AUTHORITY"/>
+		<result property="status" column="STATUS"/>
 	</resultMap>
 	
 	<resultMap type="Schedule" id="scheduleResultSet">
@@ -67,7 +68,7 @@
 	
 	<!-- 공유캘린더 목록 조회용 -->
 	<select id="selectGpSc" resultMap="schedulerResultSet" parameterType="_int">
-		SELECT *
+		SELECT SCR.SCHEDULER_NO, SCR.SCHEDULER_NAME, SCR.SCHEDULER_TYPE, SCR.CREATE_EMPNO, SCR.SCHEDULER_COLOR, GM.STATUS
 		FROM SCHEDULER SCR
 		JOIN GROUP_MEMBER GM ON (SCR.SCHEDULER_NO = GM.SCHEDULER_NO)
 		WHERE SCR.SCHEDULER_TYPE = '공용'
@@ -124,7 +125,7 @@
 		SELECT SC.SCHEDULER_NO, SC.SCHEDULER_NAME
 		FROM SCHEDULER SC
 		LEFT JOIN GROUP_MEMBER GM ON (SC.SCHEDULER_NO = GM.SCHEDULER_NO)
-		WHERE SC.CREATE_EMPNO = #{empNo}
+		WHERE (SC.SCHEDULER_TYPE = '개인' AND SC.CREATE_EMPNO = #{empNo})
 		OR (GM.EMPNO = #{empNo} AND GM.AUTHORITY = 'Y')
 	</select>
 	
@@ -181,6 +182,7 @@
 		WHERE SCHEDULE_NO = #{scheduleNo}
 	</update>
 	
+	<!-- 명시값 수정용 쿼리들 -->
 	<update id="updateScStatusN" parameterType="Scheduler">
 		UPDATE SCHEDULE
 		SET STATUS = 'N'
@@ -204,6 +206,26 @@
 		SET STATUS = 'Y'
 		WHERE SCHEDULER_NO = #{schedulerNo}
 	</update>
+	
+	<!-- 그룹캘린더 생성용 쿼리문 -->
+	<insert id="insertGscr" parameterType="Scheduler">
+		INSERT INTO SCHEDULER
+		VALUES(SEQ_SCHEDULER_NO.NEXTVAL, #{schedulerName}, '공용', #{createEmpNo},
+			   #{schedulerColor}, 'Y')
+	</insert>
+	
+	<!-- 그룹캘린더 권한 주입용 쿼리문들 -->
+	<insert id="insertGscrSetter" parameterType="_int">
+		INSERT INTO GROUP_MEMBER
+		VALUES(SEQ_INVITATION_NO.NEXTVAL, SEQ_SCHEDULER_NO.CURRVAL, #{empNo}, 'Y', 'Y')
+	</insert>
+	
+	<insert id="insertGscrReader" parameterType="_int">
+		INSERT INTO GROUP_MEMBER
+		VALUES(SEQ_INVITATION_NO.NEXTVAL, SEQ_SCHEDULER_NO.CURRVAL, #{empNo}, 'N', 'Y')
+	</insert>
+	
+	
 	
 </mapper>
  

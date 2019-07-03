@@ -136,6 +136,35 @@ public class SchedulerDaoImpl implements SchedulerDao{
 		}
 	}
 
+	@Override
+	public int insertGroupScheduler(SqlSession sqlSession, Scheduler scheduler, List<String> setEmpList,
+			List<String> readEmpList) {
+		int result = -1;
+		int result2 = 0;
+		int result3 = 0;
+		
+		int result1 = sqlSession.insert("Scheduler.insertGscr", scheduler);
+		if(result1 > 0) {
+			for(int i = 0; i < setEmpList.size(); i++) {
+				result2 += sqlSession.insert("Scheduler.insertGscrSetter", Integer.parseInt(setEmpList.get(i)));	
+			}
+			for(int i = 0; i < readEmpList.size(); i++) {
+				result3 += sqlSession.insert("Scheduler.insertGscrReader", Integer.parseInt(readEmpList.get(i)));	
+			}
+			
+			if(result2 == setEmpList.size() && result3 == readEmpList.size()) {
+				result = 1;
+				return result;
+			}else {
+				return result;
+			}
+		}else {
+			return result;			
+		}
+		
+		
+	}
+
 	
 
 	
