@@ -84,6 +84,14 @@ public class CommunityServiceImpl  implements CommunityService{
 	}
 
 
+	//게시판 수정 메소드
+	@Override
+	public Community communityUpdateForm(int bno) {
+		
+		return cd.communityUpdateForm(sqlSession,bno);
+	}
+
+
 
 
 

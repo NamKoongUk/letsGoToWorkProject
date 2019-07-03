@@ -39,7 +39,7 @@
 				     
 				      
 				      <tr>
-				        <td>${c.contentNO}</td>
+				        <td>${c.ord}</td>
 				        <td>${c.btitle}</td>
 				        <td>${c.createUserName}</td>
 						<td>${c.createDate}</td>				        

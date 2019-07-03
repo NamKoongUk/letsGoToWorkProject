@@ -37,7 +37,13 @@
 							<td>게시판 이름:</td> 
 							<td><input type="text" name="boardName"   ></td>
 						</tr>
-						<tr> 
+						<tr>
+							<td>게시판 기본 권한:</td>
+							
+							<td>
+							&nbsp;<input type="checkbox" name="boardAuthority" value="R">읽기
+								  <input type="checkbox" name="boardAuthority" value="W">읽기/쓰기
+						 	</td>
 						</tr>
 						  
 						<!-- <tr height=50px;>

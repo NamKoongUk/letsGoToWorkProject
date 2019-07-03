@@ -62,6 +62,14 @@ public class CommunityDaoImpl implements CommunityDao {
 	}
 
 	
+	//게시판 수정
+	@Override
+	public Community communityUpdateForm(SqlSessionTemplate sqlSession, int bno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Community.communityUpdateForm", bno);
+	}
+
+	
 
 	
 

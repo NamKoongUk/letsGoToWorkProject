@@ -58,11 +58,12 @@
 			    <thead>
 			      <tr>
 			        <th>게시판 이름</th>
+			        <th>게시판 유형</th>
 			        <th>게시판 작성자</th>
 			        <th>게시판 작성일자</th>
 			        <th>게시글 게시글수</th>
-			        <th>게시글 수정</th> 
-			        <th>게시글 삭제</th>
+			        <th>게시판 수정</th> 
+			        <th>게시판 삭제</th>
 			         
 			      </tr>
 			    </thead>
@@ -70,45 +71,22 @@
 			    	
 			    <c:forEach  var="b" items="${requestScope.list }">
 			    <tbody>
-				     <!-- <tr>
-				        <td>교육일정</td>
-				        <td>강형석</td>
-				        <td>2019-06-20</td> 
-				        <td>""/10</td>
-				        <td><button type="button" class="btn btn-info btn-lg" onclick="revision();">수정</button></td>
-				        <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">삭제</button></td>
-				      </tr>
-				      <tr>
-				        <td>공지 사항</td>
-				        <td>강형석</td>
-				        <td>2019-06-20</td>
-				        <td>""/10</td>
-				        <td><button type="button" class="btn btn-info btn-lg" onclick="revision();">수정</button></td>
-				        <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">삭제</button></td>
-				      </tr>
-				      <tr>
-				        <td>회사내 모임  일정</td>
-				        <td>강형석</td>
-				        <td>2019-06-20</td>
-				        <td>""/10</td>
-				      	<td><button type="button" class="btn btn-info btn-lg" onclick="revision();">수정</button></td>
-				        <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">삭제</button></td>
-				      </tr> -->
 				      
-				      	<tr>
+				      <tr>
 				        <td>${b.boardName}</td>
+				        <td>${b.boardType }</td>
 				        <td>${b.createUserName }</td>
 				        <td>${b.createDate }</td> 
 				        <td>${b.postcount }/10</td>
-				        <td><button type="button" class="btn btn-info btn-lg" onclick="revision();">수정</button></td>
+				      	
+				        
+											      	
+				        <td> <input type="hidden" name="bno" value="${b.bno }">  <button name="updateBtn" type="button" class="btn btn-info btn-lg">수정</button></td>
 				        <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">삭제</button></td>
 				      </tr>
-				      	
-				      	
-				      	
 				       
-				   
-				   	 </tbody> 
+				   	 </tbody>
+				   	 
 				   	 </c:forEach>
 				 
 				  </table>
@@ -141,10 +119,26 @@
 		
 		
 		<script> 
-			function revision() {
+			$("button[name='updateBtn']").click(function(){
+				var bno = $(this).parent().children().eq(0).val();
+		
+				console.log(bno);
+				/* document.write( typeof bno ); */
+				location.href = "communityUpdateForm.co?bno="+bno; 
 				
-				alert("수정페이지 로 이동 하겠습니다.");
-			}
+				
+				
+			});
+		
+/* 			function revision() {
+				
+				
+				var bno = $('input[name=bno]').val();
+				alert("수정페이지 로 이동 하겠습니다." );
+				
+				
+				console.log(bno);
+			} */
 			
 		
 		</script>
