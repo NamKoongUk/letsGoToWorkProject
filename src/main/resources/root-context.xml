@@ -1,51 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
-		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
-   
-   <!-- Root Context: defines shared resources visible to all other web components -->
-   <!-- <bean id="dataSource" 
-      class="org.apache.commons.dbcp.BasicDataSource" 
-      destroy-method="close">
-      <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-      <property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
-      <property name="username" value="lgtw"/>
-      <property name="password" value="lgtw"/>
-      <property name="defaultAutoCommit" value="false"/>
-   </bean> -->
-   
-   <bean id="dataSourceSpied" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-   	   	<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
-    	<property name="username" value="lgtw"/>
-      	<property name="password" value="lgtw"/>
-      	<property name="defaultAutoCommit" value="false"/>
-    </bean>
-     
-     <!-- data Source를 가로채셔 로그 생성 -->
-    <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
-        <constructor-arg ref="dataSourceSpied" />
-        <property name="logFormatter">
-            <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
-                <property name="loggingType" value="MULTI_LINE" />
-                <property name="sqlPrefix" value="SQL Query :"/>
-            </bean>
-        </property>
-    </bean>
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
-   <bean id="sqlSession"
-      class="org.mybatis.spring.SqlSessionFactoryBean">
-      <property name="dataSource" ref="dataSource" />
-      <property name="configLocation" value="classpath:mybatis-config.xml" />
-   </bean>
-   
-   <bean id="sqlSessionTemplate"
-      class="org.mybatis.spring.SqlSessionTemplate" >
-      <constructor-arg ref="sqlSession"/>
-   </bean>
-   
+	<bean id="dataSourceSpied"
+		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName"
+			 value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url"
+			value="jdbc:oracle:thin:@localhost:1521:XE" />
+		<property name="username" value="lgtw" />
+		<property name="password" value="lgtw" />
+		<property name="defaultAutoCommit" value="false" />
+	</bean>
+
+	<!-- data Source를 가로채셔 로그 생성 -->
+	<bean id="dataSource"
+		class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="dataSourceSpied" />
+		<property name="logFormatter">
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+				<property name="loggingType" value="MULTI_LINE" />
+				<property name="sqlPrefix" value="SQL Query :" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation"
+			value="classpath:mybatis-config.xml" />
+	</bean>
+
+	<bean id="sqlSessionTemplate"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSession" />
+	</bean>
+
+	<!-- 트랜젝션 처리 -->
+	<!-- Service영역에서 처리해주면 알아서 처리! -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- advice정의 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="select" read-only="true" rollback-for="Exception" isolation="SERIALIZABLE" />
+			<tx:method name="insert*" rollback-for="Exception" propagation="REQUIRED" isolation="SERIALIZABLE"/>
+			<tx:method name="update*" rollback-for="Exception" propagation="REQUIRED" isolation="SERIALIZABLE"/>
+			<tx:method name="delete*" rollback-for="Exception" propagation="REQUIRED" isolation="SERIALIZABLE"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- AOP -> 에러나서 일단 주석..!  -->
+	<!-- <aop:config proxy-target-class="true">
+		<aop:pointcut id="serviceMethod" 
+					expression="execution(* com.kh.lgtw..*ServiceImpl.*(..))"/>
+		<aop:advisor id="transactionAdvice" pointcut-ref="serviceMethod"
+					 advice-ref="txAdvice"/>
+	</aop:config> -->
 </beans>
 
 
