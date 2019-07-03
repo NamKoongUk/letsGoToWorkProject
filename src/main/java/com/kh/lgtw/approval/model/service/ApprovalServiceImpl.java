@@ -62,11 +62,16 @@ public class ApprovalServiceImpl implements ApprovalService{
 //		return ad.showWaitReceptionDcm(pi, session);
 //	}
 //	//회람대기 문서 이동
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showWaitCirculationDcm(PageInfo pi) {
-//		// TODO Auto-generated method stub
-//		return ad.showWaitCirculationDcm(pi, session);
-//	}
+	@Override
+	public ArrayList<HashMap<String, Object>> showWaitCirculationDcm(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return ad.showWaitCirculationDcm(pi, session);
+	}
+	@Override
+	public int selectWaitCircleDcm(int empNo) {
+		// TODO Auto-generated method stub
+		return ad.selectWaitCircleDcm(empNo, session);
+	}
 //	//-------------------------완료문서-----------------------------
 //	//완료문서 - 전체보기
 //	@Override
@@ -275,6 +280,35 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return map;
 	}
 	
+	@Override
+	public int writeApproval(Map<String, Object> appDcm) {
+		int result = 0;
+		
+		int result1 = ad.writeApproval((AppDocument)appDcm.get("ad"), session);
+
+		if(result1 > 0) {
+			
+			if(appDcm.get("circle") != null) {
+				result += ad.insertCircleList(appDcm, session);
+			}else if(appDcm.get("approval") != null) {
+				result += ad.insertApprovalList(appDcm, session);
+			}else if(appDcm.get("reference")  != null) {
+				result += ad.insertReferenceList(appDcm, session);
+			}else if(appDcm.get("payAgree")  != null) {
+				result += ad.insertPayAgreeList(appDcm, session);
+			}else if(appDcm.get("apply")  != null) {
+				result += ad.insertApplyList(appDcm, session);
+			}else if(appDcm.get("process")  != null) {
+				result += ad.insertProcessList(appDcm, session);
+			}else if(appDcm.get("send")  != null) {
+				result += ad.insertSendList(appDcm, session);
+			}
+		}
+		
+		
+		return result;
+	}
+	
 //	//문서양식 불러오기
 //	@Override
 //	public AppForm selectDcmForm(int afNo) {
@@ -335,6 +369,8 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return ad.autocompleteCircle(value, session);
 	}
+	
+	
 	
 
 	

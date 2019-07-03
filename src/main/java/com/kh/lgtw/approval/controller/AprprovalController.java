@@ -28,6 +28,7 @@ import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.approval.model.vo.Security;
 import com.kh.lgtw.approval.model.vo.SignForm;
 import com.kh.lgtw.common.Pagination;
+import com.kh.lgtw.employee.model.vo.Employee;
 
 @Controller
 public class AprprovalController {
@@ -124,14 +125,21 @@ public class AprprovalController {
 	@RequestMapping("showWaitReceptionDcm.ap")
 	public String showWaitReceptionDcm(HttpServletRequest request, Model model) {
 
-//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
+//		Employee e = (Employee)request.getSession().getAttribute("loginUEmp");
+//		
+//		int currentPage = 1;
+//		if(request.getParameter("currentPage") != null) {
+//			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+//		}
+//		
+//		int listCount = as.selectWaitCircleDcm();
 //		
 //		PageInfo pi = new PageInfo();
 //		pi.setSortInfo(request.getParameter("sortInfo"));
-//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-//		pi.setEid(e.getEid());
-
-		// ArrayList<HashMap<String, Object>> list = as.showWaitReceptionDcm(pi);
+//		pi.setCurrentPage(currentPage);
+//		pi.setEid(e.getEmpNo());
+//
+//		ArrayList<HashMap<String, Object>> list = as.showWaitReceptionDcm(pi);
 
 		return "progressDcm/waitReceptionDcm";
 	}
@@ -140,14 +148,27 @@ public class AprprovalController {
 	@RequestMapping("showWaitCirculationDcm.ap")
 	public String showWaitCirculationDcm(HttpServletRequest request, Model model) {
 
-//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-//		
-//		PageInfo pi = new PageInfo();
-//		pi.setSortInfo(request.getParameter("sortInfo"));
-//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-//		pi.setEid(e.getEid());
+		Employee e = (Employee)request.getSession().getAttribute("loginEmp");
+		
+		int currentPage = 1;
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		
+		int listCount = as.selectWaitCircleDcm(e.getEmpNo());
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+	
+		pi.setEmpNo(e.getEmpNo());
+		pi.setSfCode("circle");
 
-		// ArrayList<HashMap<String, Object>> list = as.showWaitCirculationDcm(pi);
+		ArrayList<HashMap<String, Object>> list = as.showWaitCirculationDcm(pi);
+		ArrayList<HashMap<String, Object>> formList = as.selectFormList();
+		System.out.println(list);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("formList", formList);
+		model.addAttribute("pi", pi);
 
 		return "progressDcm/waitCirculationDcm";
 	}
@@ -475,8 +496,7 @@ public class AprprovalController {
 		return "";
 	}
 
-	// -----------------------------문서 상세보기 및
-	// 결재기능--------------------------------------
+	// -----------------------------문서 상세보기 및 결재기능--------------------------------------
 	// 문서 상세보기
 	@RequestMapping("showDetailDcm.ap")
 	public String showDetailDcm(Model model, String adNo) {
@@ -559,6 +579,61 @@ public class AprprovalController {
 		
 		return map;
 		
+	}
+	
+	@RequestMapping(value = "writeApproval.ap")
+	public String writeApproval(AppDocument ad, HttpServletRequest request) {
+		System.out.println(ad);
+		String[] circle = request.getParameterValues("circleEmp");
+		String[] approval = request.getParameterValues("approvalEmp");
+		String[] reference = request.getParameterValues("referenceEmp");
+		String[] payAgree = request.getParameterValues("payAgreeEmp");
+		String[] apply = request.getParameterValues("applyEmp");
+		String[] process =  request.getParameterValues("processEmp");
+		String[] send = request.getParameterValues("sendEmp");
+		
+		int afNo = Integer.parseInt(request.getParameter("afNo"));
+		
+		Map<String, Object> appDcm = new HashMap<String, Object>();
+		appDcm.put("ad", ad);
+		
+		int count = 0;
+		
+		switch (afNo) {
+		case 1: break;
+		case 2: break;
+		case 3: break;
+		case 4: break;
+		case 5: break;
+
+		}
+		
+//		if(circle != null) {
+//			appDcm.put("circle", circle);
+//			count += 1;
+//		}else if(approval != null) {
+//			appDcm.put("approval", approval);
+//			count += 1;
+//		}else if(reference != null){
+//			appDcm.put("reference", reference);
+//			count += 1;
+//		}else if(payAgree != null) {
+//			appDcm.put("payAgree", payAgree);
+//			count += 1;
+//		}else if(apply != null){
+//			appDcm.put("apply", apply);
+//			count += 1;
+//		}else if(process != null) {
+//			appDcm.put("process", process);
+//			count += 1;
+//		}else if(send != null){
+//			appDcm.put("send", send);
+//			count += 1;
+//		}
+		
+		int result = as.writeApproval(appDcm);
+		
+		return "redirect:index.jsp";
 	}
 	
 

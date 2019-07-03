@@ -63,13 +63,16 @@
 		  		<div class="paging" align="center">
                   <ul class="pagination">
                      <c:if test="${ pi.startPage > 1 }">
-                        <li><a href="${ contextPath }/allList.ma?currentPate=${ pi.startPage - pi.buttonCount }"><<</a></li>
+                     	<c:url var="blistBack" value="${ cotextPage }/showFormManagement.ap">
+							<c:param name="currentPage" value="${ pi.currentPage - 1 }"/>
+						</c:url>
+                        <li><a href="${ blistBack }"><<</a></li>
                      </c:if>
                      <c:if test="${ pi.startPage <= 1 }">
                         <li><a href="#"><<</a></li>
                      </c:if>
                      <c:if test="${ pi.startPage != pi.currentPage }">
-                        <li><a href="${ contextPath }/allList.ma?currentPate=${ pi.currentPage - 1}"><</a></li>
+                        <li><a href="${ contextPath }/showFormManagement.ap?currentPage=${ pi.currentPage - 1}"><</a></li>
                      </c:if>
                      <c:if test="${ pi.startPage == pi.currentPage }">
                         <li><a href="#"><</a></li>
@@ -79,17 +82,17 @@
                            <li class="active"><a>${ pageNum }</a></li>
                         </c:if>
                         <c:if test="${ pageNum != pi.currentPage }">
-                           <li><a href="${ contextPath }/allList.ma?currentPage=${ pageNum }">${ pageNum }</a></li>
+                           <li><a href="${ contextPath }/showFormManagement.ap?currentPage=${ pageNum }">${ pageNum }</a></li>
                         </c:if>
                      </c:forEach>
                      <c:if test="${ pi.endPage != currentPage }">
-                        <li><a href="${ contextPath }/allList.ma?currentPage=${ pi.currentPage + 1 }">></a></li>
+                        <li><a href="${ contextPath }/showFormManagement.ap?currentPage=${ pi.currentPage + 1 }">></a></li>
                      </c:if>
                      <c:if test="${ pi.endPage == currentPage }">
                         <li><a href="#">></a></li>
                      </c:if>
                      <c:if test="${ pi.endPage != pi.maxPage }">
-                        <li><a href="${ contextPath }/allList.ma?currentPage=${ pi.endPage + 1 }">>></a></li>
+                        <li><a href="${ contextPath }/showFormManagement.ap?currentPage=${ pi.endPage + 1 }">>></a></li>
                      </c:if>
                      <c:if test="${ pi.endPage == pi.maxPage }">
                         <li><a href="#">>></a></li>

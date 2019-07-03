@@ -114,4 +114,24 @@ public interface ApprovalDao {
 
 	ArrayList<HashMap<String, Object>> selectEmp(SqlSession session, String deptCode);
 
+	int writeApproval(AppDocument appDocument, SqlSession session);
+
+	int insertCircleList(Map<String, Object> appDcm, SqlSession session);
+
+	int insertApprovalList(Map<String, Object> appDcm, SqlSession session);
+
+	int insertReferenceList(Map<String, Object> appDcm, SqlSession session);
+
+	int insertPayAgreeList(Map<String, Object> appDcm, SqlSession session);
+
+	int insertApplyList(Map<String, Object> appDcm, SqlSession session);
+
+	int insertProcessList(Map<String, Object> appDcm, SqlSession session);
+
+	int insertSendList(Map<String, Object> appDcm, SqlSession session);
+
+	int selectWaitCircleDcm(int empNo, SqlSession session);
+
+	ArrayList<HashMap<String, Object>> showWaitCirculationDcm(PageInfo pi, SqlSession session);
+
 }

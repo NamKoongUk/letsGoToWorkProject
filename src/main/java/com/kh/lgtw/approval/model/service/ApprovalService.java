@@ -105,6 +105,12 @@ public interface ApprovalService {
 
 	Map<String, ArrayList<HashMap<String, Object>>> selectUnderDept(String deptCode);
 
+	int writeApproval(Map<String, Object> appDcm);
+
+	int selectWaitCircleDcm(int empNo);
+
+	ArrayList<HashMap<String, Object>> showWaitCirculationDcm(PageInfo pi);
+
 	
 
 }
