@@ -1,11 +1,14 @@
 package com.kh.lgtw.community.model.dao;
 
+
+import static com.kh.lgtw.common.SqlQuery.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.lgtw.common.SqlQuery;
 import com.kh.lgtw.community.model.vo.Community;
 import com.kh.lgtw.community.model.vo.CommunityAttachment;
 import com.kh.lgtw.community.model.vo.CommunityComment;
@@ -69,6 +72,17 @@ public class CommunityDaoImpl implements CommunityDao {
 		return sqlSession.selectOne("Community.communityUpdateForm", bno);
 	}
 
+	@Override
+	public int communityUpdate(Community com, SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		SqlQuery.getSqlQuery(sqlSession, "Community.communityUpdate", com);
+		 int result =  sqlSession.update("Community.communityUpdate",com);
+		 System.out.println("result : " + result);
+		return sqlSession.update("Community.communityUpdate", com);
+				
+	}
+
+	
 	
 
 	

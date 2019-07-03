@@ -25,7 +25,11 @@ public interface CommunityService
 
 	int CommunityPostInsert(CommunityPost cp);
 
+	//게시판 수정폼 메소드
 	Community communityUpdateForm(int bno);
+
+	//게시판 수정 메소드
+	int communityUpdate(Community com);
 
 
 	

@@ -28,8 +28,8 @@
 						<tr> 
 							<td>게시판 종류:</td>
 							<td >
-								&nbsp;<input type="checkbox" name="boardType" value="공지">공지
-								<input type="checkbox" name="boardType" value="일반">일반
+								&nbsp;<input type="radio" name="boardType" value="공지">공지
+								<input type="radio" name="boardType" value="일반">일반
 							</td>
 						
 						</tr>
@@ -41,8 +41,8 @@
 							<td>게시판 기본 권한:</td>
 							
 							<td>
-							&nbsp;<input type="checkbox" name="boardAuthority" value="R">읽기
-								  <input type="checkbox" name="boardAuthority" value="W">읽기/쓰기
+							&nbsp;<input type="radio" name="boardAuthority" value="R">읽기
+								  <input type="radio" name="boardAuthority" value="W">읽기/쓰기
 						 	</td>
 						</tr>
 						  
@@ -67,7 +67,7 @@
 					</table> 
 					<div align="center">
 						<button type="reset">작성취소 </button>
-						<button type="submit">작성</button>
+						<button type="submit" >작성</button>
 					
 					</div>
 							

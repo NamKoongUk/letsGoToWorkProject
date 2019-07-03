@@ -157,6 +157,7 @@ public class CommunityController {
 		return "community/communityPostDetails";
 	}
 	
+	//게시판 수정폼  메소드
 	@RequestMapping("communityUpdateForm.co")
 	public String communityUpdateForm(Model model ,HttpServletRequest request) 
 	{
@@ -175,5 +176,37 @@ public class CommunityController {
 		  
 		return "community/communityupdate";
 	}
+	//게시판 수정 메소드
+	@RequestMapping("communityUpdate.co")
+	public String communityUpdate(Community com ,HttpSession session, HttpServletRequest request) {
+		Employee loginUser =(Employee)session.getAttribute("loginEmp"); 
+	
+		System.out.println("controller Community 값:"+ com);
+		com.setCreateUser(loginUser.getEmpNo()); 
+		System.out.println("crewate 성공");
+		int result = cs.communityUpdate(com); 
+		System.out.println("controller Result : " + result);
+		
+		if(result >0) {
+			return "redirect:index.jsp";
+		}else {
+			System.out.println("잘못된 접근 입니다");
+			return "redirect:index.jsp";
+		}
+		
+		
+		 
+		
+	}   
+	
+	@RequestMapping("communityUpdateCencel.co")
+	public String communityUpdateCencel() {
+		
+	
+		return "redirect:managebulletinList.co";
+	}
+	
+	
+	
 
 }
