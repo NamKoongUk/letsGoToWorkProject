@@ -1,6 +1,7 @@
 package com.kh.lgtw.scheduler.model.vo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Scheduler implements Serializable{
 	private int schedulerNo;
@@ -9,11 +10,12 @@ public class Scheduler implements Serializable{
 	private int createEmpNo;
 	private String schedulerColor;
 	private String status;
+	private ArrayList<GroupMember> groupList;
 	
 	public Scheduler() {}
 
 	public Scheduler(int schedulerNo, String schedulerName, String schedulerType, int createEmpNo,
-			String schedulerColor, String status) {
+			String schedulerColor, String status, ArrayList<GroupMember> groupList) {
 		super();
 		this.schedulerNo = schedulerNo;
 		this.schedulerName = schedulerName;
@@ -21,6 +23,7 @@ public class Scheduler implements Serializable{
 		this.createEmpNo = createEmpNo;
 		this.schedulerColor = schedulerColor;
 		this.status = status;
+		this.groupList = groupList;
 	}
 
 	public int getSchedulerNo() {
@@ -47,6 +50,10 @@ public class Scheduler implements Serializable{
 		return status;
 	}
 
+	public ArrayList<GroupMember> getGroupList() {
+		return groupList;
+	}
+
 	public void setSchedulerNo(int schedulerNo) {
 		this.schedulerNo = schedulerNo;
 	}
@@ -71,12 +78,18 @@ public class Scheduler implements Serializable{
 		this.status = status;
 	}
 
+	public void setGroupList(ArrayList<GroupMember> groupList) {
+		this.groupList = groupList;
+	}
+
 	@Override
 	public String toString() {
 		return "Scheduler [schedulerNo=" + schedulerNo + ", schedulerName=" + schedulerName + ", schedulerType="
 				+ schedulerType + ", createEmpNo=" + createEmpNo + ", schedulerColor=" + schedulerColor + ", status="
-				+ status + "]";
+				+ status + ", groupList=" + groupList + "]";
 	}
+
+	
 
 	
 

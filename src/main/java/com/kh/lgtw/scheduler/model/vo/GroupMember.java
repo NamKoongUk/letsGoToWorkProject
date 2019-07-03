@@ -7,17 +7,17 @@ public class GroupMember implements Serializable{
 	private int schedulerNo;
 	private int empNo;
 	private String authority;
-	private String status;
+	private String gmStatus;
 	
 	public GroupMember() {}
 
-	public GroupMember(int invitationNo, int schedulerNo, int empNo, String authority, String status) {
+	public GroupMember(int invitationNo, int schedulerNo, int empNo, String authority, String gmStatus) {
 		super();
 		this.invitationNo = invitationNo;
 		this.schedulerNo = schedulerNo;
 		this.empNo = empNo;
 		this.authority = authority;
-		this.status = status;
+		this.gmStatus = gmStatus;
 	}
 
 	public int getInvitationNo() {
@@ -36,8 +36,8 @@ public class GroupMember implements Serializable{
 		return authority;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getGmStatus() {
+		return gmStatus;
 	}
 
 	public void setInvitationNo(int invitationNo) {
@@ -56,15 +56,17 @@ public class GroupMember implements Serializable{
 		this.authority = authority;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setGmStatus(String gmStatus) {
+		this.gmStatus = gmStatus;
 	}
 
 	@Override
 	public String toString() {
 		return "GroupMember [invitationNo=" + invitationNo + ", schedulerNo=" + schedulerNo + ", empNo=" + empNo
-				+ ", authority=" + authority + ", status=" + status + "]";
+				+ ", authority=" + authority + ", gmStatus=" + gmStatus + "]";
 	}
+
+	
 
 	
 	

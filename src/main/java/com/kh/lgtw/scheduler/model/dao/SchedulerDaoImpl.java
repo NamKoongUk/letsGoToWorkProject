@@ -165,6 +165,18 @@ public class SchedulerDaoImpl implements SchedulerDao{
 		
 	}
 
+	@Override
+	public int changeGscrStatusN(SqlSession sqlSession, Scheduler scheduler) {
+		
+		return sqlSession.update("Scheduler.updateGscrStatusN", scheduler);
+	}
+
+	@Override
+	public int changeGscrStatusY(SqlSession sqlSession, Scheduler scheduler) {
+		
+		return sqlSession.update("Scheduler.updateGscrStatusY", scheduler);
+	}
+
 	
 
 	

@@ -94,4 +94,16 @@ public class SchedulerServiceImpl implements SchedulerService{
 	public int changeStatusY(Scheduler scheduler) {
 		return sd.changeStatusY(sqlSession, scheduler);
 	}
+
+	@Override
+	public int changeGscrStatusN(Scheduler scheduler) {
+		
+		return sd.changeGscrStatusN(sqlSession, scheduler);
+	}
+
+	@Override
+	public int changeGscrStatusY(Scheduler scheduler) {
+		
+		return sd.changeGscrStatusY(sqlSession, scheduler);
+	}
 }

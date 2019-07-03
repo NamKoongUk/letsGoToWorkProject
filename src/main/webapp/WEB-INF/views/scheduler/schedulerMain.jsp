@@ -57,11 +57,13 @@
       eventClick: function(info) {
     	  console.log("ajax 들어옴!");
           var eventObj = info.event;
+          console.log(info.event);
           $("#selectDetailSchedule").trigger('click');
           $.ajax({
         	 url:"selectScheduleDetail.sc",
         	 data:{
-        		 scheduleNo:eventObj.id
+        		 scheduleNo:eventObj.id,
+        		 schedulerType:eventObj.allow
         	 },
         	 type:"get",
         	 success:function(data){
@@ -75,7 +77,7 @@
         		 console.log(endDate);
         		 
         		 console.log(data.scheduleNo);
-        		 
+        		 console.log(data.groupList[0]);
         		 if(data.schedulerList[0].schedulerType == "공용" && data.groupList[0].authority == "N"){
         			 $("#dtscBtnArea").hide();
         		 }else{
@@ -732,7 +734,8 @@
       					var $colBtn = $("<button style='width:5px; height:16px;' class='gScrColorBtn'>");
       					console.log(data.gpScList[key].status == 'Y');
       					
-      					if(data.gpScList[key].status == 'Y'){
+      					console.log(data.gpScList[key].groupList[0].gmStatus);
+      					if(data.gpScList[key].groupList[0].gmStatus == 'Y'){
       						var $colSp = $("<span style='background:" + data.gpScList[key].schedulerColor + "; display:inline-block !important;' class='colorSp'>");
       					}else{
 	      					var $colSp = $("<span style='background:" + data.gpScList[key].schedulerColor + "; display:none !important;' class='colorSp'>");      						
@@ -740,19 +743,20 @@
       					      					
       					var $nameSp = $("<span style='margin-left:5px;' classs='gpScName'>").text(data.gpScList[key].schedulerName);
       					
-      					var $settingTd = $("<td align='center'>");
-      					var $settingIm = $("<img src='${contextPath}/resources/images/scheduler/settings.png'" + 
-      										"style='width:16px; height:16px;'>");
-      					
       					$colBtn.append($colSp);
       					$colTd.append($hiddenNo);
       					$colTd.append($colBtn);
       					$colTd.append($nameSp);
       					$gmTr.append($colTd);
       					
-      					$settingTd.append($settingIm);
-      					$gmTr.append($settingTd);
-    					
+      					if(data.gpScList[key].groupList[0].authority == 'Y'){
+      						var $settingTd = $("<td align='center'>");
+          					var $settingIm = $("<img src='${contextPath}/resources/images/scheduler/settings.png'" + 
+          										"style='width:16px; height:16px;'>");
+          					$settingTd.append($settingIm);
+          					$gmTr.append($settingTd);
+      					}
+      					
       					$groupScheduler.append($gmTr);
       				}
       				
@@ -770,33 +774,41 @@
       					console.log(startD);
       					var startT = data.scList[key].startTime;
       					var endT = data.scList[key].endTime;
-      					var type = data.scList[key].schedulerType;
-      					
-      					
+      					var type = data.scList[key].schedulerList[0].schedulerType;
+      					console.log(type);
       					var endDate = new Date(endD[0]);
-
-      					if(startT == null){
-      						endDate.setDate(endDate.getDate() + 1);
-      						var event = {
-          							id:id,
-          							title:title,
-          							start:startD[0],
-          							end:endDate.format("yyyy-MM-dd"),
-          							color:color
-          					}
+      					
+      					if(data.scList[key].schedulerList[0].schedulerType == "공용" && 
+      							data.scList[key].groupList[0].gmStatus == "N"){
+      						
       					}else{
-      						endDate.setDate(endDate.getDate());
-      						var event = {
-          							id:id,
-          							title:title,
-          							start:startD[0] + "T" + startT,
-          							end:endDate.format("yyyy-MM-dd") + "T" + endT,
-          							color:color
-          					}
+      						if(startT == null){
+	      						endDate.setDate(endDate.getDate() + 1);
+	      						var event = {
+	          							id:id,
+	          							title:title,
+	          							start:startD[0],
+	          							end:endDate.format("yyyy-MM-dd"),
+	          							color:color,
+	          							allow:type
+	          					}
+	      					}else{
+	      						endDate.setDate(endDate.getDate());
+	      						var event = {
+	          							id:id,
+	          							title:title,
+	          							start:startD[0] + "T" + startT,
+	          							end:endDate.format("yyyy-MM-dd") + "T" + endT,
+	          							color:color,
+	          							allow:type
+	          					}
+	      					}
+      						
+      						console.log(event);
+          					calendar.addEvent(event);
       					}
       					
-      					console.log(event);
-      					calendar.addEvent(event);
+      					
       				}
       				
       				
@@ -860,7 +872,7 @@
       	$(document).on('click', '.colorBtn', function(){
       		console.log($(this).parent().find(".hiddenNo").val());
       		
-      		var schedulerNo = $(this).parent().find(".hiddenNo").val()
+      		var schedulerNo = $(this).parent().find(".hiddenNo").val();
       		if($(this).find("span").is(":visible")){
       			$(this).find("span").css("display", "none"); 
       			location.href = '${contextPath}/changeStatusN.sc?schedulerNo=' + schedulerNo;
@@ -869,6 +881,20 @@
       			location.href = '${contextPath}/changeStatusY.sc?schedulerNo=' + schedulerNo;
       		}
       	});
+      	
+      	$(document).on('click', '.gScrColorBtn', function(){
+      		console.log($(this).parent().find(".hiddenNo").val());
+      		
+      		var schedulerNo = $(this).parent().find(".hiddenNo").val();
+      		if($(this).find("span").is(":visible")){
+      			$(this).find("span").css("display", "none"); 
+      			location.href = '${contextPath}/changeGscrStatusN.sc?schedulerNo=' + schedulerNo;
+      		}else{
+      			$(this).find("span").css("display", "inline-block");
+      			location.href = '${contextPath}/changeGscrStatusY.sc?schedulerNo=' + schedulerNo;
+      		}
+      	});
+      	
       	
       	Date.prototype.format = function(f) {
       	    if (!this.valueOf()) return " ";
@@ -1093,6 +1119,8 @@
     	 location.href = "${contextPath}/insertGscr.sc?schedulerName=" + inGscrName + "&schedulerColor=" + inGscrColor + "&setEmpList=" + setEmpList + "&readEmpList=" + readEmpList;
     	 
      }
+     
+     
 	</script>
 	
 	

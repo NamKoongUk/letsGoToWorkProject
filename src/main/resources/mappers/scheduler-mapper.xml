@@ -18,7 +18,7 @@
 		<result property="schedulerNo" column="SCHEDULER_NO"/>
 		<result property="empNo" column="EMPNO"/>
 		<result property="authority" column="AUTHORITY"/>
-		<result property="status" column="STATUS"/>
+		<result property="gmStatus" column="GM_STATUS"/>
 	</resultMap>
 	
 	<resultMap type="Schedule" id="scheduleResultSet">
@@ -54,9 +54,17 @@
 		<collection property="groupList" javaType="java.util.ArrayList" resultMap="groupMemberResultSet"></collection>
 	</resultMap>
 	
+	<resultMap type="Scheduler" id="schedulerResultSet2">
+		<id property="schedulerNo" column="SCHEDULER_NO"/>
+		<result property="schedulerName" column="SCHEDULER_NAME"/>
+		<result property="schedulerType" column="SCHEDULER_TYPE"/>
+		<result property="createEmpNo" column="CREATE_EMPNO"/>
+		<result property="schedulerColor" column="SCHEDULER_COLOR"/>
+		<result property="status" column="STATUS"/>
+		<collection property="groupList" javaType="java.util.ArrayList" resultMap="groupMemberResultSet"></collection>
+	</resultMap>
 	
 	
-
 	<!-- 쿼리문 영역 -->
 	<!-- 개인캘린더 목록 조회용 -->
 	<select id="selectEmpSc" resultMap="schedulerResultSet" parameterType="_int">
@@ -67,8 +75,8 @@
 	</select>
 	
 	<!-- 공유캘린더 목록 조회용 -->
-	<select id="selectGpSc" resultMap="schedulerResultSet" parameterType="_int">
-		SELECT SCR.SCHEDULER_NO, SCR.SCHEDULER_NAME, SCR.SCHEDULER_TYPE, SCR.CREATE_EMPNO, SCR.SCHEDULER_COLOR, GM.STATUS
+	<select id="selectGpSc" resultMap="schedulerResultSet2" parameterType="_int">
+		SELECT *
 		FROM SCHEDULER SCR
 		JOIN GROUP_MEMBER GM ON (SCR.SCHEDULER_NO = GM.SCHEDULER_NO)
 		WHERE SCR.SCHEDULER_TYPE = '공용'
@@ -76,17 +84,18 @@
 	</select>
 	
 	<!-- 일정 목록 조회용 -->
-	<select id="selectSc" resultMap="scheduleResultSet" parameterType="_int">
+	<select id="selectSc" resultMap="allResultSet" parameterType="_int">
 		SELECT *
 		FROM SCHEDULE SC
 		LEFT JOIN SCHEDULER SCR ON (SC.SCHEDULER_NO = SCR.SCHEDULER_NO)
+        LEFT JOIN GROUP_MEMBER GM ON (SCR.SCHEDULER_NO = GM.SCHEDULER_NO)
 		WHERE SCR.SCHEDULER_TYPE = '개인'
 		AND SC.WRITER = #{empNo}
 		AND SC.STATUS = 'Y'
 		
-		UNION
+        UNION
 		
-		SELECT SC.*, SCR.*
+		SELECT *
 		FROM SCHEDULE SC
 		LEFT JOIN SCHEDULER SCR ON (SC.SCHEDULER_NO = SCR.SCHEDULER_NO)
 		LEFT JOIN GROUP_MEMBER GM ON (SCR.SCHEDULER_NO = GM.SCHEDULER_NO)
@@ -149,8 +158,14 @@
 		FROM SCHEDULE SC
 		LEFT JOIN SCHEDULER SCR ON (SC.SCHEDULER_NO = SCR.SCHEDULER_NO)
 		LEFT JOIN GROUP_MEMBER GM ON (SCR.SCHEDULER_NO = GM.SCHEDULER_NO)
-		WHERE WRITER = #{writer}
-		AND SC.SCHEDULE_NO = #{scheduleNo}
+		WHERE SC.SCHEDULE_NO = #{scheduleNo}
+		<if test="schedulerList[0].schedulerType == '개인'">
+			AND WRITER = #{writer}
+		</if>
+		<if test="schedulerList[0].schedulerType == '공용'">
+			AND GM.EMPNO = #{writer}
+		</if>
+		
 	</select>
 	
 	<!-- 일정 삭제용 쿼리문 -->
@@ -225,6 +240,20 @@
 		VALUES(SEQ_INVITATION_NO.NEXTVAL, SEQ_SCHEDULER_NO.CURRVAL, #{empNo}, 'N', 'Y')
 	</insert>
 	
+	<!-- 그룹캘린더 명시값 바꾸는 쿼리문들 -->
+	<update id="updateGscrStatusN" parameterType="Scheduler">
+		UPDATE GROUP_MEMBER
+		SET GM_STATUS = 'N'
+		WHERE SCHEDULER_NO = #{schedulerNo}
+		AND EMPNO = #{createEmpNo}
+	</update>
+	
+	<update id="updateGscrStatusY" parameterType="Scheduler">
+		UPDATE GROUP_MEMBER
+		SET GM_STATUS = 'Y'
+		WHERE SCHEDULER_NO = #{schedulerNo}
+		AND EMPNO = #{createEmpNo}
+	</update>
 	
 	
 </mapper>
