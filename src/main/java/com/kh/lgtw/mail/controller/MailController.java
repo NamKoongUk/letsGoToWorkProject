@@ -1,6 +1,7 @@
 package com.kh.lgtw.mail.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +44,7 @@ import com.kh.lgtw.mail.model.service.MailService;
 import com.kh.lgtw.mail.model.vo.Absence;
 import com.kh.lgtw.mail.model.vo.ListCondition;
 import com.kh.lgtw.mail.model.vo.Mail;
+import com.kh.lgtw.mail.model.vo.Sender;
 
 @Controller
 //@RestController
@@ -132,6 +134,40 @@ public class MailController {
 	public String sendMail(Mail mail, Model model/*, MultipartHttpServletRequest request*//* @RequestParam("files") MultipartFile files*/) {
 		mail.setmSize(12345);
 		System.out.println("mail : " + mail);
+		
+//		private int mailNo; 				// 메일번호
+//		private String mTitle;				// 제목
+//		private String mContent;			// 내용
+//		private String sendMail;			// 보내는메일
+//		private String reciveMail;			// 받는메일
+//		private String dStatus;				// 삭제여부
+//		private Date sendDate;				// 보낸날짜
+//		private String rStatus;				// 읽음여부
+//		private String mailType;			// 메일 종류
+//		private int mSize;					// 용량
+//		private String reservationCheck;	// 예약여부
+//		private Date reservationDate;		// 예약일
+//		private Date reservationTime;		// 예약시간
+		
+//		private String from;								// 보내는곳
+//		private List<String> to = new ArrayList<>();		// 받는곳
+//		private String subject;								// 제목
+//		private String content;								// 내용
+		Sender sender = new Sender();
+		
+		List<String> toList = new ArrayList<>();
+		
+		toList.add(mail.getReciveMail());
+		sender.setTo(toList);
+		sender.setFrom(mail.getSendMail());
+		sender.setSubject(mail.getmTitle());
+		sender.setContent(mail.getmContent());
+		System.out.println("sender : "+ sender);
+		
+		// 전송요청 
+		sender.toSendRequest();
+		
+		
 		
 		int result = ms.sendMail(mail);
 		
