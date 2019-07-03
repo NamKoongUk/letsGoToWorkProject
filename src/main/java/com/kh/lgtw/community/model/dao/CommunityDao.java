@@ -26,6 +26,8 @@ public interface CommunityDao {
 
 	int CommunityPostInsert(SqlSessionTemplate sqlSession, CommunityPost cp);
 
+	Community communityUpdateForm(SqlSessionTemplate sqlSession, int bno);
+
 	
 
 	

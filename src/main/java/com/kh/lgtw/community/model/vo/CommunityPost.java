@@ -13,9 +13,9 @@ public class CommunityPost implements java.io.Serializable
 	private Date createDate;//게시글 생성일자
 	private Date modifyDate;//게시글 수정일자
 	private int bcount;     //게시글 조회수 
-
 	private String status;  //게시글 상태 
 	private String createUserName; // 게시글 작성자 이름
+	private int ord;     //게시글  넘버
 	
 	
 
@@ -24,7 +24,7 @@ public class CommunityPost implements java.io.Serializable
 
 
 	public CommunityPost(int contentNO, int bno, int bwriter, String btitle, String bcontent, Date createDate,
-			Date modifyDate, int bcount, String status, String createUserName) {
+			Date modifyDate, int bcount, String status, String createUserName, int ord) {
 		super();
 		this.contentNO = contentNO;
 		this.bno = bno;
@@ -34,9 +34,9 @@ public class CommunityPost implements java.io.Serializable
 		this.createDate = createDate;
 		this.modifyDate = modifyDate;
 		this.bcount = bcount;
-		
 		this.status = status;
 		this.createUserName = createUserName;
+		this.ord = ord;
 	}
 
 
@@ -137,9 +137,6 @@ public class CommunityPost implements java.io.Serializable
 
 
 
-
-
-
 	public String getStatus() {
 		return status;
 	}
@@ -164,15 +161,28 @@ public class CommunityPost implements java.io.Serializable
 
 
 
+	public int getOrd() {
+		return ord;
+	}
+
+
+
+	public void setOrd(int ord) {
+		this.ord = ord;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "CommunityPost [contentNO=" + contentNO + ", bno=" + bno + ", bwriter=" + bwriter + ", btitle=" + btitle
 				+ ", bcontent=" + bcontent + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", bcount="
-				+ bcount + ", status=" + status + ", createUserName=" + createUserName + "]";
+				+ bcount + ", status=" + status + ", createUserName=" + createUserName + ", ord=" + ord + "]";
 	}
 
-	
-	
+
+
+		
 	
 	
 	

@@ -51,8 +51,8 @@
 		<result column="CREATE_DATE" property="createDate"/>
 		<result column="MODIFY_DATE" property="modifyDate"/>
 		<result column="BCOUNT" property="bcount"/>
-		
 		<result column="STATUS" property="status"/>
+		<result column="ORD" property="ord"/>
 		<result column="EMP_NAME" property="createUserName"/>
 	</resultMap>
 	
@@ -73,12 +73,12 @@
 	
 <!--게시글 리스트 조회 쿼리문	 -->
 	<select id="selectPostList" resultMap="communityPostResultSet" parameterType="_int">
-	    SELECT C.CONTENT_NO ,C.BTITLE , E.EMP_NAME, C.CREATE_DATE 
-		FROM BOARD B
-		JOIN CONTENT C ON (B.BNO = C.BNO)
-		JOIN EMPLOYEE E ON (C.BWRITER = E.EMPNO)
-		WHERE B.BNO = #{bno}
-		AND C.STATUS= 'N'
+	  SELECT ROWNUM AS ORD , C.* , E.EMP_NAME
+    	FROM BOARD B
+        JOIN CONTENT C ON (B.BNO = C.BNO)
+    	JOIN EMPLOYEE E ON (B.CREATE_USER = E.EMPNO)
+    	WHERE B.BNO = #{bno}
+        AND C.STATUS = 'N'
 		
 	
 	</select>
@@ -111,7 +111,7 @@
 <!-- 게시판 생성 쿼리 문 -->
   	   <insert id="InsertCommunity" parameterType="Community"> 
 		          INSERT INTO BOARD 
-				  VALUES(SEQ_BNO.NEXTVAL,#{boardName},#{createUser},SYSDATE,NULL,'N',#{boardType})  	   
+				  VALUES(SEQ_BNO.NEXTVAL,#{boardName},#{createUser},SYSDATE,#{boardAuthority},'N',#{boardType})  	   
   	   	
   	   </insert>	
   	   
@@ -121,11 +121,8 @@
   					SELECT COUNT(C.CONTENT_NO)
   					FROM BOARD B 
   					JOIN CONTENT C  ON (B.BNO = C.BNO)  
-       				WHERE B.BNO=1) AS POSTCOUNT  , 
-       				(SELECT ROWNUM   
-        			 FROM BOARD B 
-        			 WHERE STATUS = 'N') AS ORD  , 
-        			 B.BOARD_NAME , B.STATUS , B.BOARD_TYPE , E.EMP_NAME ,B.CREATE_DATE
+       				WHERE B.BNO=#{bno}) AS POSTCOUNT  , 
+        			 B.BOARD_NAME , B.*,E.EMP_NAME
     				 FROM BOARD B
     				 JOIN EMPLOYEE E ON (B.CREATE_USER=E.EMPNO)	
   	   
@@ -137,6 +134,16 @@
     	 VALUES(SEQ_CONTENT_NO.NEXTVAL,#{bno},#{bwriter},#{btitle},#{bcontent},SYSDATE,SYSDATE,0,'N')
   	   
   	   </insert>
+  	   
+  	   <select id="communityUpdateForm" resultMap="communityResultSet"> 
+  	   	SELECT  B.*
+		FROM  BOARD B 
+		WHERE B.BNO =#{bno}
+  	   		
+  	   
+  	   
+  	   </select>
+  	   
 	
 
 </mapper>

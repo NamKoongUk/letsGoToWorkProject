@@ -25,6 +25,8 @@ public interface CommunityService
 
 	int CommunityPostInsert(CommunityPost cp);
 
+	Community communityUpdateForm(int bno);
+
 
 	
 

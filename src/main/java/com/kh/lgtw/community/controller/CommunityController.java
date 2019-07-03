@@ -156,165 +156,24 @@ public class CommunityController {
 		model.addAttribute("list",list);
 		return "community/communityPostDetails";
 	}
+	
+	@RequestMapping("communityUpdateForm.co")
+	public String communityUpdateForm(Model model ,HttpServletRequest request) 
+	{
+		 
+		
+		int bno = Integer.parseInt(request.getParameter("bno"));
+		
+		System.out.println("request" +bno);
+		 
+		Community com = cs.communityUpdateForm(bno);  
+		
+		
+		model.addAttribute("com",com);
+		
+		
+		  
+		return "community/communityupdate";
+	}
 
 }
-//	
-//	//게시판 수정메소드 뷰페이지 이동
-//	public String showUpdateView() {
-//		return "";
-//	}
-//	
-//	
-//	//게시판  수정 메소드 
-//	
-//	public String UpdateCommunity (Community cm) {
-//		
-//		int result = cs.UpdateCommunity(cm);
-//	
-//		if(result > 0) {
-//			
-//			return "";
-//		}else {
-//			
-//			return ""; 
-//		}
-//		
-//	}
-//	
-//	//게시판  삭제 메소드 
-//		
-//	public String DeleteCommunity (Community cm) {
-//		int result = cs.DelectCommunity(cm);
-//		
-//		if(result >0) {
-//			return "";
-//		}else {
-//			return "";
-//		}
-//		
-//		
-//		
-//	}
-//	
-//	// 메소드 
-//	
-//	public String InsertCommunity(Community cm) {
-//		int result = cs.InsertCommunity(cm);
-//		
-//		if(result >0) {
-//			return "";
-//		}else {
-//			return "";
-//		}
-//		
-//	}
-//	//게시글 조회 메소드 
-//	public String SelectCommunityPost(CommunityPost cp ) {
-//		CommunityPost cps; 
-//		
-//		cps = cs.SelectCommunityPost(cp);
-//		
-//		return ""; 
-//	}
-//	
-//	//게시글 생성 메소드 
-//	
-//	public String InsertCommunityPost(CommunityPost cp ,CommunityAttachment ca) {
-//		
-//		int result = cs.InsertCommunityPost(cp,ca);  
-//		
-//		if(result > 0) {
-//			return "";
-//		}
-//		else {
-//			return "";
-//		}
-//		
-//	}
-//	
-//	//게시글 삭제 메소드 
-//	
-//	public String DeleteCommunityPost(CommunityPost cp , CommunityAttachment ca) {
-//		int result = cs.DelectCommunityPost(cp,ca);
-//		
-//		if(result > 0) {
-//			return "";
-//		}else {
-//			return "";
-//		}
-//		
-//	}
-//		
-//	//게시글 수정 메소드 
-//	public String UpdateCommunityPost(CommunityPost cp , CommunityAttachment ca) {
-//			int result = cs.UpdateCommunityPost(cp,ca);
-//			
-//			if(result > 0) {
-//				return "";
-//			}else {
-//				return "" ;
-//			}
-//			
-//		
-//		
-//		
-//	}
-//		
-//	//게시글 댓글 조회 메소드 
-//		
-//	public String SelectCommunityComment(CommunityComment cc) {
-//			
-//			CommunityComment cct; 
-//			
-//			
-//			cct = cs.SelectCommunityComment(cc);
-//			
-//		return ""; 
-//		
-//	}
-//		
-//	//게시글 댓글 생성 메소드 
-//		
-//		public String insertCommunityComment(CommunityComment cc) {
-//			int result = cs.insertCommunityComment(cc);
-//			
-//			if(result > 0) {
-//				return "";
-//			}else {
-//				return "" ;
-//			}
-//			
-//			
-//		}
-//		
-//		//게시글 댓글 삭제 메소드 
-//		
-//		public String DeleteCommunityComment(CommunityComment cc) {
-//					int result = cs.DeleteCommunityComment(cc);
-//					
-//					if(result > 0) {
-//						return "";
-//					}else {
-//						return "" ;
-//					}
-//					
-//					
-//				}
-//		
-//		//게시글 댓글 수정 메소드 
-//				
-//		public String UpdateCommunityComment(CommunityComment cc) {
-//			int result = cs.UpdateCommunityComment(cc);
-//					
-//			if(result > 0) {
-//				return "";
-//			}else {
-//				return "" ;
-//			}
-//					
-//					
-//				}
-//			
-		
-
-/* } */
