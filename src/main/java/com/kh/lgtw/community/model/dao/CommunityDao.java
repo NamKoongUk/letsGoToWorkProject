@@ -28,6 +28,8 @@ public interface CommunityDao {
 
 	Community communityUpdateForm(SqlSessionTemplate sqlSession, int bno);
 
+	int communityUpdate(Community com, SqlSessionTemplate sqlSession);
+
 	
 
 	

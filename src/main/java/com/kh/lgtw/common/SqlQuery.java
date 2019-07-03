@@ -25,4 +25,13 @@ public class SqlQuery {
 		System.out.println("sql : " + sql);
 		System.out.println("obj : " + obj);
 	}
+	
+	public static void getSqlQuery(SqlSession sqlSession, String id, Object obj) {
+		System.out.println("쿼리문 시작!!");
+		BoundSql boundSql = sqlSession.getConfiguration().getMappedStatement(id).getBoundSql(obj);
+		String sql = boundSql.getSql();
+		Object obj2 = boundSql.getParameterObject();
+		System.out.println("sql : " + sql);
+		System.out.println("obj : " + obj2);
+	}
 }

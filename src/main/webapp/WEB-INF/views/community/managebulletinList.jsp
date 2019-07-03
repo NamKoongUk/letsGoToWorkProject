@@ -77,7 +77,7 @@
 				        <td>${b.boardType }</td>
 				        <td>${b.createUserName }</td>
 				        <td>${b.createDate }</td> 
-				        <td>${b.postcount }/10</td>
+				        <td>${b.postcount}/10</td>
 				      	
 				        
 											      	
