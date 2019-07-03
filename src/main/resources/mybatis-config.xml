@@ -36,6 +36,10 @@
 		<typeAlias type="com.kh.lgtw.employee.model.vo.Employee" alias="Employee"/>
 		<typeAlias type="com.kh.lgtw.employee.model.vo.ExcelEmp" alias="ExcelEmp"/>
 		<typeAlias type="com.kh.lgtw.employee.model.vo.DeptVo" alias="DeptVo"/>
+		<typeAlias type="com.kh.lgtw.employee.model.vo.JobVo" alias="JobVo"/>
+		<typeAlias type="com.kh.lgtw.employee.model.vo.DeptHistory" alias="DeptHistory"/>
+		<typeAlias type="com.kh.lgtw.employee.model.vo.PromotionHistory" alias="PromotionHistory"/>
+		<typeAlias type="com.kh.lgtw.employee.model.vo.EmployeeResult" alias="EmployeeResult"/>
 		
 		<!-- Mail VO -->
 		<typeAlias type="com.kh.lgtw.mail.model.vo.CommonMail" alias="CommonMail"/>

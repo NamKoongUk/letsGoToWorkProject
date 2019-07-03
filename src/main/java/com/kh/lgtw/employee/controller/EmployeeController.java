@@ -3,6 +3,7 @@ package com.kh.lgtw.employee.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,9 @@ import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.service.EmployeeService;
 import com.kh.lgtw.employee.model.vo.DeptVo;
 import com.kh.lgtw.employee.model.vo.Employee;
+import com.kh.lgtw.employee.model.vo.EmployeeResult;
 import com.kh.lgtw.employee.model.vo.ExcelEmp;
+import com.kh.lgtw.employee.model.vo.JobVo;
 import com.kh.lgtw.employee.model.util.ExcelFileType;
 
 @SessionAttributes("loginEmp")
@@ -140,13 +143,44 @@ public class EmployeeController {
 	
 	//직원관리
 	@RequestMapping("showEmployeeAdmin.em")
-	public String showEmployeeAdmin() {
-		Employee employee;
+	public String showEmployeeAdmin(Model model) {
 		
-		int result = empService.insertEmpQ();
+		ArrayList<EmployeeResult> list = empService.selectEmpListAdmin();
+		
+		HashMap<String, Object> hmap = empService.selectJopDeptAdmin();
+		
+		
+		System.out.println(hmap.get("deptList"));
+		System.out.println(hmap.get("jobList"));
+		
+		model.addAttribute("hmap",hmap);
+		model.addAttribute("list", list);
+		
 		
 		return "employee/employeeAdmin";
 	}
+	
+	//직원 빠르게 등록
+	@RequestMapping("insertEmpQuick.em")
+	public String insertEmpQuick(Employee employee, DeptVo dpVo, JobVo jobVo, Model model) {
+		
+		System.out.println("퀵등록 emp:" + employee);
+		System.out.println("부서:" + dpVo.getDeptCode());
+		System.out.println("직급:" +jobVo.getJobCode());
+		
+		employee.setEmpPwd(passwordEncoder.encode(employee.getEmpPwd()));
+		
+		int result = empService.insertEmpQuick(employee, dpVo, jobVo);
+		
+		if(result>0) {
+			return "redirect:showEmployeeAdmin.em";
+		}else {
+			return "employee/empOneRegister";
+		}
+		
+		
+	}
+	
 	
 	//직원일괄등록
 	@RequestMapping("showEmpClctvRegister.em")

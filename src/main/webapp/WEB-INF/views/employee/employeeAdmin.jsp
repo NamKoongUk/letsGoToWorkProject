@@ -43,7 +43,8 @@
 	<jsp:include page="../common/menubar.jsp"/>
 	<div class="row wrap">
 		<jsp:include page="../common/sideMenu/employee.jsp"/>
-		
+		<c:set var = "deptList" value="${hmap.deptList }" />
+		<c:set var = "jobList" value="${hmap.jobList }" />
 		<section class="col-sm-10">
 			<h1 class="title">사용자 관리</h1>
 			<button type="button" class="btn btn-primary" onclick="location.href='showEmpOneRegister.em'">사용자 추가</button>
@@ -68,8 +69,8 @@
 					        <th>비밀번호</th>
 					        <th>사내전화</th>
 					        <th>휴대전화</th>
-					        <th>소속조직</th>
-					        <th>직위</th>
+					        <th>소속</th>
+					        <th>직급</th>
 					        <th>상태</th>
 					      </tr>
 				    </thead>
@@ -81,27 +82,55 @@
 				      		<td><input type="password" size="10" name="empPwd"  placeholder="비밀번호 입력"></td>
 				      		<td><input type="text" size="10" name="officeTel"  placeholder="사내전화 입력"></td>
 				      		<td><input type="text" size="13" name="empPhone"  placeholder="휴대전화 입력"></td>
-				      		<td><input type="text" size="10" placeholder="소속조직 입력"></td>
-				      		<td><input type="text" size="5"  placeholder="직위 입력"></td>
-				      		<td><button type="button" class="btn btn-primary" onclick="location.href=''">저장</button></td>
+				      		<th>
+					        	<select name = "deptCode">
+					        		<c:forEach var="item" items="${deptList }">
+					        			<option value="${item.deptCode }"><c:out value="${item.deptName }"></c:out></option>
+					        		</c:forEach>
+					        	
+					        	</select>
+					        
+					        </th>
+					        <th>
+					        	<select name = "jobCode">
+					        		<c:forEach var="item" items="${jobList }">
+					        			<option value="${item.jobCode }"><c:out value="${item.jobName }"></c:out></option>
+					        		</c:forEach>
+					        	
+					        	</select>
+					        </th>
+				      		<td><button type="submit" class="btn btn-primary">저장</button></td>
 				      	</tr>
 				    </tbody>
 			 	 </table>
 			 	 </form>
 			 	 <form>
 			 	 	<table class="table">
-			 	 		<tr>
-			 	 			<td><input type="checkbox"></td>
-			 	 			<td>김규형</td>
-			 	 			<td>kkhgud</td>
-			 	 			<td>*******</td>
-			 	 			<td>1302</td>
-			 	 			<td>01022223333</td>
-			 	 			<td>개발1팀</td>
-			 	 			<td>사원</td>
-			 	 			<td>정상</td>
-			 	 		</tr>
-			 	 	
+			 	 		<c:forEach var="item" items="${list }">
+			 	 			<tr>
+				 	 			<td><input type="checkbox" value="${item.empNo }"></td>
+				 	 			<td><c:out value="${item.empName }"/></td>
+				 	 			<td><c:out value="${item.empId }"/></td>
+				 	 			<td>********</td>
+				 	 			<td><c:out value="${item.officeTel }"/></td>
+				 	 			<td><c:out value="${item.empPhone }"/></td>
+				 	 			<td><c:out value="${item.deptName }"/></td>
+				 	 			<td><c:out value="${item.jobName }"/></td>
+				 	 			
+				 	 			<td>
+				 	 				<c:choose>
+				 	 					<c:when test="${item.status eq 'Y' }">
+				 	 						정상
+				 	 					</c:when>
+				 	 					<c:when test="${item.status eq 'H' }">
+				 	 						휴직
+				 	 					</c:when>
+				 	 				</c:choose>
+				 	 			
+				 	 			</td>
+			 	 			</tr>
+			 	 			
+			 	 		</c:forEach>
 			 	 	</table>
 			 	 
 			 	 </form>

@@ -15,7 +15,9 @@ import com.kh.lgtw.employee.model.util.ExcelRead;
 import com.kh.lgtw.employee.model.util.ExcelReadOption;
 import com.kh.lgtw.employee.model.vo.DeptVo;
 import com.kh.lgtw.employee.model.vo.Employee;
+import com.kh.lgtw.employee.model.vo.EmployeeResult;
 import com.kh.lgtw.employee.model.vo.ExcelEmp;
+import com.kh.lgtw.employee.model.vo.JobVo;
 
 @Repository
 public class EmployeeDaoImpl implements EmployeeDao{
@@ -83,14 +85,35 @@ public class EmployeeDaoImpl implements EmployeeDao{
 
 	@Override
 	public ArrayList<DeptVo> selectDeptList(SqlSession sqlSession) {
-		return (ArrayList) sqlSession.selectList("Employee.selectDeptList");
+		return (ArrayList)sqlSession.selectList("Employee.selectDeptList");
+	}
+
+
+	@Override
+	public int insertEmpQuick(SqlSession sqlSession, Employee employee) {
+		return sqlSession.insert("Employee.insertEmpQuick", employee);
 	}
 
 	@Override
-	public int insertEmpQ(SqlSession sqlSession) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insertDeptHistory(SqlSession sqlSession, DeptVo dpVo, JobVo jobVo) {
+		sqlSession.insert("Employee.insertJobHistory", jobVo);
+		return sqlSession.insert("Employee.insertDeptHistory", dpVo);
 	}
+
+	@Override
+	public ArrayList<EmployeeResult> selectEmpListAdmin(SqlSession sqlSession) {
+		return (ArrayList)sqlSession.selectList("Employee.selectEmpListAdmin");
+	}
+
+
+	@Override
+	public ArrayList<JobVo> selectJobAdmin(SqlSession sqlSession) {
+		return (ArrayList)sqlSession.selectList("Employee.selectJobAdmin");
+	}
+
+	
+
+
 
 
 //	@Override

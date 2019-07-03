@@ -34,6 +34,46 @@
 		<id column="DEPT_CODE" property="deptCode"/>
 		<result column="DEPT_NAME" property="deptName"/>
 		<result column="TOP_DEPT" property="topDept"/>
+		<result column="MANAGER_EMPNO" property="managerEmpNo"/>
+	</resultMap>
+	
+	
+	<resultMap id="empListResult" type="com.kh.lgtw.employee.model.vo.EmployeeResult">
+		<id column="EMPNO" property="empNo"/>
+		<result column="EMP_ID" property="empId"/>
+		<result column="EMP_PWD" property="empPwd"/>
+		<result column="EMP_NAME" property="empName"/>
+		<result column="BIRTH" property="empBirth" />
+		<result column="GENDER" property="gender"/>
+		<result column="EMP_PHONE" property="empPhone"/>
+		<result column="OFFICE_TEL" property="officeTel"/>
+		<result column="ADDRESS" property="address"/>
+		<result column="EMAIL" property="email"/>
+		<result column="MANAGER_TYPE" property="managerType"/>
+		<result column="STATUS" property="status"/>
+		<result column="ENROLL_DATE" property="enrollDate"/>
+		<result column="RETIREMENT_DATE" property="retirementDate"/>
+		<result column="OTHER_INFO" property="otherInfo"/>
+		<result column="PERSONAL_INFO_CHECK" property="personalInfoCheck"/>
+		<result column="REF_EMPNO" property="refEmpNo"/>
+		<result column="LSTART_DATE" property="lstartDate"/>
+		<result column="LEND_DATE" property="lendDate"/>
+		<result column="LEAVE_TERM" property="leaveTerm"/>
+		<result column="LEAVE_REASON" property="leaveReason"/>
+		<result column="RETIREMENT_REASON" property="retirementReason"/>
+		<result column="LEAVE_TYPE" property="leaveType"/>
+		<result column="DEPT_CODE" property="deptCode"/>
+		<result column="DEPT_NAME" property="deptName"/>
+		<result column="TOP_DEPT" property="topDept"/>
+		<result column="JOB_CODE" property="jobCode"/>
+		<result column="JOB_NAME" property="jobName"/>
+		<result column="JOB_LEVEL" property="jobLevel"/>
+	</resultMap>
+	
+	<resultMap id="jobList" type="com.kh.lgtw.employee.model.vo.JobVo">
+		<id column="JOB_CODE" property="jobCode"/>
+		<result column="JOB_NAME" property="jobName"/>
+		<result column="JOB_LEVEL" property="jobLevel"/>
 	</resultMap>
 	
 	<!-- 로그인시 사원 객체 조회 -->
@@ -67,9 +107,41 @@
 	</select>
 
 	<select id="selectDeptList" resultMap="deptResult">
-		SELECT DEPT_CODE, DEPT_NAME, TOP_DEPT
+		SELECT DEPT_CODE, DEPT_NAME, TOP_DEPT, MANAGER_EMPNO
 		FROM DEPT
 	</select>
+	
+	<insert id="insertEmpQuick" parameterType="Employee">
+		INSERT INTO EMPLOYEE(EMPNO, EMP_ID, EMP_PWD, EMP_NAME, EMP_PHONE, OFFICE_TEL, STATUS, ENROLL_DATE)
+		VALUES(SEQ_EMPNO.NEXTVAL, #{empId}, #{empPwd}, #{empName}, #{empPhone}, #{officeTel},DEFAULT,DEFAULT)
+	</insert>
+	
+	<insert id="insertDeptHistory" parameterType="DeptVo">
+		INSERT INTO DEPT_HISTORY(DH_NO, EMPNO, MODIFY_DATE,DEPT_CODE)
+		VALUES(SEQ_DH_NO.NEXTVAL,SEQ_EMPNO.CURRVAL,SYSDATE,#{deptCode})
+	
+	</insert>
+	
+	<select id="selectEmpListAdmin" resultMap="empListResult">
+		select E.EMPNO, E.EMP_ID, E.EMP_NAME, D.DEPT_NAME, J.JOB_NAME, E.OFFICE_TEL, E.EMP_PHONE, E.STATUS
+		FROM EMPLOYEE E
+		LEFT JOIN promotion_history PH ON(E.EMPNO=PH.EMPNO)
+		LEFT JOIN JOB J ON(ph.job_code=J.JOB_CODE)
+		LEFT JOIN DEPT_HISTORY DH ON (E.EMPNO=DH.EMPNO)
+		LEFT JOIN DEPT D ON (DH.DEPT_CODE=D.DEPT_CODE)
+		WHERE E.STATUS='Y' AND E.EMP_ID != 'admin'
+	</select>
+	
+	<select id="selectJobAdmin" resultMap="jobList">
+		SELECT JOB_CODE, JOB_NAME, JOB_LEVEL
+		FROM JOB
+	</select>
+	
+	<insert id="insertJobHistory" parameterType="JobVo">
+		INSERT INTO PROMOTION_HISTORY(PH_NO, EMPNO, MODIFY_DATE,JOB_CODE)
+		VALUES(SEQ_PH_NO.NEXTVAL,SEQ_EMPNO.CURRVAL,SYSDATE,#{jobCode})
+	</insert>
+	
 	
 	
 </mapper>

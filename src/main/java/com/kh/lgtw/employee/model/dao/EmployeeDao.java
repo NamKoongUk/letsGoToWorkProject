@@ -10,7 +10,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.vo.DeptVo;
 import com.kh.lgtw.employee.model.vo.Employee;
+import com.kh.lgtw.employee.model.vo.EmployeeResult;
 import com.kh.lgtw.employee.model.vo.ExcelEmp;
+import com.kh.lgtw.employee.model.vo.JobVo;
 
 public interface EmployeeDao{
 
@@ -28,7 +30,16 @@ public interface EmployeeDao{
 	
   ArrayList<DeptVo> selectDeptList(SqlSession sqlSession);
 
-int insertEmpQ(SqlSession sqlSession);
+  int insertEmpQuick(SqlSession sqlSession, Employee employee);
+
+  int insertDeptHistory(SqlSession sqlSession, DeptVo dpVo, JobVo jobVo);
+
+ArrayList<EmployeeResult> selectEmpListAdmin(SqlSession sqlSession);
+
+ArrayList<JobVo> selectJobAdmin(SqlSession sqlSession);
+
+
+
 
 
 //	Employee loginEmpl(Employee employee, SqlSession sqlSession);
