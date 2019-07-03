@@ -107,7 +107,7 @@
 		$(".table").find("td").click(function(){
 			var adNo = $(this).parents().children("th").eq(0).children().eq(0).val();
 			console.log(adNo);
-			location.href="${ contextPath }/showDetailDcm.ap?afNo=" + afNo;
+			location.href="${ contextPath }/showDetailDcm.ap?adNo=" + adNo;
 		});
 	</script>
 	

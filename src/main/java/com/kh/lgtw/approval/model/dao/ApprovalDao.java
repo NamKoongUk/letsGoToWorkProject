@@ -70,7 +70,7 @@ public interface ApprovalDao {
 //
 //	ArrayList<HashMap<String, Object>> showDeleteDcm(SqlSession session);
 //
-//	HashMap<String, Object> showDetailDcm(SqlSession session, String adNo);
+	HashMap<String, Object> showDetailDcm(SqlSession session, String adNo);
 //
 //	int approvalDcm(SqlSession session, int eid, String adNo);
 //
@@ -133,5 +133,7 @@ public interface ApprovalDao {
 	int selectWaitCircleDcm(int empNo, SqlSession session);
 
 	ArrayList<HashMap<String, Object>> showWaitCirculationDcm(PageInfo pi, SqlSession session);
+
+	int insertAgreeList(Map<String, Object> appDcm, SqlSession session);
 
 }

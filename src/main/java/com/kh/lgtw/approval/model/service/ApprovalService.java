@@ -111,6 +111,8 @@ public interface ApprovalService {
 
 	ArrayList<HashMap<String, Object>> showWaitCirculationDcm(PageInfo pi);
 
+	HashMap<String, Object> showDetailDcm(String adNo);
+
 	
 
 }
