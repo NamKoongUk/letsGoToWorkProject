@@ -32,18 +32,39 @@ public class ApprovalDaoImpl implements ApprovalDao{
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
-//	//결재 대기문서 조회
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showWaitDcm(PageInfo pi, SqlSession session) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//	//처리예정 문서 조회
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showIntendedDcm(PageInfo pi, SqlSession session) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	//결재 대기문서 조회
+	@Override
+	public ArrayList<HashMap<String, Object>> showWaitDcm(PageInfo pi, SqlSession session) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		
+		return (ArrayList)session.selectList("Approval.showWaitDcm", pi, rowBounds);
+	}
+	@Override
+	public int selectWaitDcm(int empNo, SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.selectWaitDcm", empNo);
+	}
+
+	//처리예정 문서 조회
+	@Override
+	public ArrayList<HashMap<String, Object>> showIntendedDcm(PageInfo pi, SqlSession session) {
+		// TODO Auto-generated method stub
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		
+		return (ArrayList)session.selectList("Approval.showIntendedDcm", pi, rowBounds);
+	}
+
+	@Override
+	public int selectIntendedDcm(int empNo, SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.selectIntendedDcm", empNo);
+	}
+
 //	//처리중인문서 조회
 //	@Override
 //	public ArrayList<HashMap<String, Object>> showProgressgDcm(PageInfo pi, SqlSession session) {
@@ -103,12 +124,22 @@ public class ApprovalDaoImpl implements ApprovalDao{
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
-//	//완료문서-회람/참조 문서
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showCirculationDcm(PageInfo pi, SqlSession session) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	//완료문서-회람/참조 문서
+	@Override
+	public ArrayList<HashMap<String, Object>> showCirculationDcm(PageInfo pi, SqlSession session) {
+		// TODO Auto-generated method stub
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		pi.setSort("circle");
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		
+		return (ArrayList)session.selectList("Approval.showFinDcm", pi, rowBounds);
+	}
+	@Override
+	public int selectCircleDcm(HashMap<String, Object> map, SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.selectCircleDcm", map);
+	}
 //	//완료문서-반려문서
 //	@Override
 //	public ArrayList<HashMap<String, Object>> showRefuseDcm(PageInfo pi, SqlSession session) {
@@ -240,18 +271,29 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		// TODO Auto-generated method stub
 		return session.selectOne("Approval.detailDcm", adNo);
 	}
+	//결재선 불러오기
+	@Override
+	public ArrayList<HashMap<String, Object>> selectApprovalList(SqlSession session, String adNo, String string) {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("type", string);
+		map.put("adNo", adNo);
+		
+		return (ArrayList)session.selectList("Approval.selectApprovalList", map);
+	}
+	
 //	//문서결재
 //	@Override
 //	public int approvalDcm(SqlSession session, int eid, String adNo) {
 //		// TODO Auto-generated method stub
 //		return 0;
 //	}
-//	//회람 or 수신 확인
-//	@Override
-//	public int confirmDcm(SqlSession session, int eid, String adNo) {
-//		// TODO Auto-generated method stub
-//		return 0;
-//	}
+	//회람 or 수신 확인
+	@Override
+	public int confirmDcm(SqlSession session, HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return session.update("Approval.confirmDcm", map);
+	}
 //	//수신, 회람추가
 //	@Override
 //	public int updateDcm(SqlSession session, int eid, String adNo) {
@@ -571,6 +613,11 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		
 		return result;
 	}
+
+
+
+	
+
 
 
 

@@ -19,9 +19,9 @@ public interface ApprovalService {
 
 //	ArrayList<HashMap<String, Object>> showAllPrograssDocument(PageInfo pi);
 //
-//	ArrayList<HashMap<String, Object>> showWaitDcm(PageInfo pi);
+	ArrayList<HashMap<String, Object>> showWaitDcm(PageInfo pi);
 //
-//	ArrayList<HashMap<String, Object>> showIntendedDcm(PageInfo pi);
+	ArrayList<HashMap<String, Object>> showIntendedDcm(PageInfo pi);
 //
 //	ArrayList<HashMap<String, Object>> showProgressgDcm(PageInfo pi);
 //
@@ -39,7 +39,7 @@ public interface ApprovalService {
 //
 //	ArrayList<HashMap<String, Object>> showReceptionDcm(PageInfo pi);
 //
-//	ArrayList<HashMap<String, Object>> showCirculationDcm(PageInfo pi);
+	ArrayList<HashMap<String, Object>> showCirculationDcm(PageInfo pi);
 //
 //	ArrayList<HashMap<String, Object>> showSaveDcm(PageInfo pi);
 //
@@ -71,7 +71,7 @@ public interface ApprovalService {
 //
 //	int approvalDcm(String adNo, int eid);
 //
-//	int confirmDcm(String adNo, int eid);
+	int confirmDcm(String adNo, int eid);
 //
 //	int updateDcm(String adNo, int eid);
 //
@@ -112,6 +112,14 @@ public interface ApprovalService {
 	ArrayList<HashMap<String, Object>> showWaitCirculationDcm(PageInfo pi);
 
 	HashMap<String, Object> showDetailDcm(String adNo);
+
+	int selectWaitDcm(int empNo);
+
+	HashMap<String, ArrayList<HashMap<String, Object>>> selectAppList(String adNo);
+
+	int selectIntendedDcm(int empNo);
+
+	int selectCircleDcm(int empNo, String string);
 
 	
 
