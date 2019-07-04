@@ -177,6 +177,69 @@ public class SchedulerDaoImpl implements SchedulerDao{
 		return sqlSession.update("Scheduler.updateGscrStatusY", scheduler);
 	}
 
+	@Override
+	public HashMap<String, ArrayList<Object>> selectGMList(SqlSession sqlSession, int no) {
+		HashMap<String, ArrayList<Object>> allGmList = new HashMap<String, ArrayList<Object>>();
+		
+		ArrayList<Object> setter = (ArrayList) sqlSession.selectList("Scheduler.selectSetter", no);
+		System.out.println(setter);
+		ArrayList<Object> reader = (ArrayList) sqlSession.selectList("Scheduler.selectReader", no);
+		System.out.println(reader);
+		
+		allGmList.put("setter", setter);
+		allGmList.put("reader", reader);
+		
+		return allGmList;
+	}
+
+	@Override
+	public int updateGroupScheduler(SqlSession sqlSession, Scheduler scheduler, List<String> setEmpList,
+			List<String> readEmpList) {
+		int result = -1;
+		int result2 = 0;
+		int result3 = 0;
+		
+		int result1 = sqlSession.delete("Scheduler.deleteGMList", scheduler);
+		if(result1 > 0) {
+			for(int i = 0; i < setEmpList.size(); i++) {
+				scheduler.setCreateEmpNo(Integer.parseInt(setEmpList.get(i)));
+				result2 += sqlSession.insert("Scheduler.updateGscrSetter", scheduler);	
+			}
+			for(int i = 0; i < readEmpList.size(); i++) {
+				scheduler.setCreateEmpNo(Integer.parseInt(readEmpList.get(i)));
+				result3 += sqlSession.insert("Scheduler.updateGscrReader", scheduler);	
+			}
+			
+			if(result2 == setEmpList.size() && result3 == readEmpList.size()) {
+				result = 1;
+				return result;
+			}else {
+				return result;
+			}
+		}else {
+			return result;			
+		}
+		
+	}
+
+	@Override
+	public int deleteGroupScheduler(SqlSession sqlSession, String schedulerNo) {
+		Scheduler scheduler = new Scheduler();
+		scheduler.setSchedulerNo(Integer.parseInt(schedulerNo));
+		int result = 0;
+		
+		int result1 = sqlSession.delete("Scheduler.deleteGscList", Integer.parseInt(schedulerNo));
+		
+		int result2 = sqlSession.delete("Scheduler.deleteGMList", scheduler);
+		
+		if(result1 >= 0 && result2 >= 0) {
+			return sqlSession.delete("Scheduler.deleteScheduler2", scheduler);
+		}else {
+			return result;
+		}
+		
+	}
+
 	
 
 	

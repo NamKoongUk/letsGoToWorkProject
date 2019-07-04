@@ -54,13 +54,13 @@ public class SchedulerServiceImpl implements SchedulerService{
 	}
 
 	@Override
-	public int updateGroupScheduler() {
-		return 0;
+	public int updateGroupScheduler(Scheduler scheduler, List<String> setEmpList, List<String> readEmpList) {
+		return sd.updateGroupScheduler(sqlSession, scheduler, setEmpList, readEmpList);
 	}
 
 	@Override
-	public int deleteGroupScheduler() {
-		return 0;
+	public int deleteGroupScheduler(String schedulerNo) {
+		return sd.deleteGroupScheduler(sqlSession, schedulerNo);
 	}
 
 	//일정 추가용 메소드
@@ -106,4 +106,11 @@ public class SchedulerServiceImpl implements SchedulerService{
 		
 		return sd.changeGscrStatusY(sqlSession, scheduler);
 	}
+
+	@Override
+	public HashMap<String, ArrayList<Object>> selectGMList(int no) {
+		
+		return sd.selectGMList(sqlSession, no);
+	}
+
 }

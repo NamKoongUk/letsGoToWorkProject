@@ -42,6 +42,13 @@ public interface SchedulerDao {
 
 	int changeGscrStatusY(SqlSession sqlSession, Scheduler scheduler);
 
+	HashMap<String, ArrayList<Object>> selectGMList(SqlSession sqlSession, int no);
+
+	int updateGroupScheduler(SqlSession sqlSession, Scheduler scheduler, List<String> setEmpList,
+			List<String> readEmpList);
+
+	int deleteGroupScheduler(SqlSession sqlSession, String schedulerNo);
+
 	
 
 	

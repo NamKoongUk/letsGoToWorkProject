@@ -64,6 +64,17 @@
 		<collection property="groupList" javaType="java.util.ArrayList" resultMap="groupMemberResultSet"></collection>
 	</resultMap>
 	
+	<resultMap type="java.util.HashMap" id="empResultSet2">
+		<id property="empNo" column="EMPNO"/>
+		<result column="EMP_ID" property="empId"/>
+		<result column="EMP_NAME" property="empName"/>
+		<result column="JOB_CODE" property="jobCode"/>
+		<result column="JOB_NAME" property="jobName"/>
+		<result column="DEPT_CODE" property="deptCode"/>
+		<result column="DEPT_NAME" property="deptName"/>
+		<result column="MANAGER_EMPNO" property="managerEmpno"/>
+	</resultMap>
+	
 	
 	<!-- 쿼리문 영역 -->
 	<!-- 개인캘린더 목록 조회용 -->
@@ -255,6 +266,57 @@
 		AND EMPNO = #{createEmpNo}
 	</update>
 	
+	<!-- 그룹캘린더 수정 시 나오는 값들  -->
+	<select id="selectSetter" parameterType="_int" resultMap="empResultSet2">
+		SELECT E.EMPNO, E.EMP_ID, E.EMP_NAME, J.JOB_CODE, J.JOB_NAME, D.DEPT_CODE, D.DEPT_NAME, D.MANAGER_EMPNO
+		FROM EMPLOYEE E
+		JOIN DEPT_HISTORY DH ON(E.EMPNO = DH.EMPNO)
+		JOIN DEPT D ON (D.DEPT_CODE = DH.DEPT_CODE)
+		LEFT JOIN EMPLOYEE E2 ON (D.MANAGER_EMPNO = E2.EMPNO)
+		JOIN PROMOTION_HISTORY PH ON(PH.EMPNO = E.EMPNO)
+		JOIN JOB J ON(J.JOB_CODE = PH.JOB_CODE)
+		JOIN GROUP_MEMBER GM ON (E.EMPNO = GM.EMPNO)
+		JOIN SCHEDULER SCR ON (SCR.SCHEDULER_NO = GM.SCHEDULER_NO)
+		WHERE SCR.SCHEDULER_NO = #{no}
+		AND GM.AUTHORITY = 'Y'
+	</select>
+	
+	<select id="selectReader" parameterType="_int" resultMap="empResultSet2">
+		SELECT E.EMPNO, E.EMP_ID, E.EMP_NAME, J.JOB_CODE, J.JOB_NAME, D.DEPT_CODE, D.DEPT_NAME, D.MANAGER_EMPNO
+		FROM EMPLOYEE E
+		JOIN DEPT_HISTORY DH ON(E.EMPNO = DH.EMPNO)
+		JOIN DEPT D ON (D.DEPT_CODE = DH.DEPT_CODE)
+		LEFT JOIN EMPLOYEE E2 ON (D.MANAGER_EMPNO = E2.EMPNO)
+		JOIN PROMOTION_HISTORY PH ON(PH.EMPNO = E.EMPNO)
+		JOIN JOB J ON(J.JOB_CODE = PH.JOB_CODE)
+		JOIN GROUP_MEMBER GM ON (E.EMPNO = GM.EMPNO)
+		JOIN SCHEDULER SCR ON (SCR.SCHEDULER_NO = GM.SCHEDULER_NO)
+		WHERE SCR.SCHEDULER_NO = #{no}
+		AND GM.AUTHORITY = 'N'
+	</select>
+	
+	<!-- 그룹멤버 수정 전 삭제용 -->
+	<delete id="deleteGMList" parameterType="Scheduler">
+		DELETE FROM GROUP_MEMBER
+		WHERE SCHEDULER_NO = #{schedulerNo}
+	</delete>
+	
+	<!-- 그룹멤버 수정 -->
+	<insert id="updateGscrSetter" parameterType="Scheduler">
+		INSERT INTO GROUP_MEMBER
+		VALUES(SEQ_INVITATION_NO.NEXTVAL, #{schedulerNo}, #{createEmpNo}, 'Y', 'Y')
+	</insert>
+	
+	<insert id="updateGscrReader" parameterType="Scheduler">
+		INSERT INTO GROUP_MEMBER
+		VALUES(SEQ_INVITATION_NO.NEXTVAL, #{schedulerNo}, #{createEmpNo}, 'N', 'Y')
+	</insert>
+	
+	<!-- 그룹캘린더 삭제 시 쿼리문들 -->
+	<delete id="deleteGscList" parameterType="_int">
+		DELETE FROM SCHEDULE
+		WHERE SCHEDULER_NO = #{schedulerNo}
+	</delete>
 	
 </mapper>
  

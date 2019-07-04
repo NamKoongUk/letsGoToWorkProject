@@ -203,18 +203,47 @@ public class SchedulerController {
 		}
 	}
 	
+	
+	//공유캘린더 인원 조회
+	@GetMapping(value="/selectGMList/sc/{no}")
+	public @ResponseBody ResponseEntity<HashMap<String, ArrayList<Object>>> selectGMList(HttpSession session, @PathVariable("no") int no) {
+		System.out.println("컨트롤러 진입 : " + no);
+		HashMap<String, ArrayList<Object>> GMList = ss.selectGMList(no);
+		
+		return new ResponseEntity<HashMap<String, ArrayList<Object>>>(GMList, HttpStatus.OK);
+	}
+	
+	
+	
 	//공유스케쥴러 수정
-	@RequestMapping("updateGroupScheduler.sc")
-	public String updateGroupScheduler() {
-		int result = ss.updateGroupScheduler();
-		return "";
+	@RequestMapping("updateGscr.sc")
+	public String updateGroupScheduler(@RequestParam String schedulerNo, @RequestParam String schedulerName, @RequestParam String schedulerColor,
+            @RequestParam List<String> setEmpList, @RequestParam List<String> readEmpList) {
+		Scheduler scheduler = new Scheduler();
+		scheduler.setSchedulerNo(Integer.parseInt(schedulerNo));
+		scheduler.setSchedulerName(schedulerName);
+		scheduler.setSchedulerColor(schedulerColor);
+		
+		int result = ss.updateGroupScheduler(scheduler, setEmpList, readEmpList);
+		
+		if(result > 0) {
+			return "redirect:scheduler.sc";
+		}else {
+			return "main/main";
+		}
+	
 	}
 	
 	//공유스케쥴러 삭제
-	@RequestMapping("deleteGroupScheduler.sc")
-	public String deleteGroupScheduler() {
-		int result = ss.deleteGroupScheduler();
-		return "";
+	@RequestMapping("deleteGscr.sc")
+	public String deleteGroupScheduler(@RequestParam String schedulerNo) {
+		int result = ss.deleteGroupScheduler(schedulerNo);
+		
+		if(result > 0) {
+			return "redirect:scheduler.sc";
+		}else {
+			return "main/main";			
+		}
 	}
 	
 	//일정 추가

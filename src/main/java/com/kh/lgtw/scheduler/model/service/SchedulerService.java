@@ -20,9 +20,9 @@ public interface SchedulerService {
 
 	int insertGroupScheduler(Scheduler scr, List<String> setEmpList, List<String> readEmpList);
 
-	int updateGroupScheduler();
+	int updateGroupScheduler(Scheduler scheduler, List<String> setEmpList, List<String> readEmpList);
 
-	int deleteGroupScheduler();
+	int deleteGroupScheduler(String schedulerNo);
 
 	int insertSchedule(Schedule schedule);
 
@@ -41,6 +41,8 @@ public interface SchedulerService {
 	int changeGscrStatusN(Scheduler scheduler);
 
 	int changeGscrStatusY(Scheduler scheduler);
+
+	HashMap<String, ArrayList<Object>> selectGMList(int no);
 
 
 }
