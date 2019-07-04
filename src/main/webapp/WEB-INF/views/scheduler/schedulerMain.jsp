@@ -58,12 +58,13 @@
     	  console.log("ajax 들어옴!");
           var eventObj = info.event;
           console.log(info.event);
+          console.log(eventObj.classNames[0]);
           $("#selectDetailSchedule").trigger('click');
           $.ajax({
         	 url:"selectScheduleDetail.sc",
         	 data:{
         		 scheduleNo:eventObj.id,
-        		 schedulerType:eventObj.allow
+        		 schedulerType:eventObj.classNames[0]
         	 },
         	 type:"get",
         	 success:function(data){
@@ -98,49 +99,56 @@
           
       },
       eventDrop: function(info) {
-    	  /* console.log(info);
-      	  console.log(info.event.id);
-      	  console.log(info.event.start.toISOString());
-      	  console.log(info.event.end.toISOString());
-    	  console.log(info.event.end); */
-      	  var id = info.event.id;
-      	  var start = new Date(info.event.start.toISOString());
-      	  var startD = start.format("yyyy-MM-dd");
-      	  console.log(startD);
-      	  
-      	  if(info.event.allDay){
-      	    var end = new Date(info.event.end.toISOString());
-      	    end.setDate(end.getDate() - 1);
-      	    var endD = end.format("yyyy-MM-dd");
-      	  }else{
-      		var end = new Date(info.event.end.toISOString());
-        	var endD = end.format("yyyy-MM-dd");
-      	  }
-      	  
-      	  console.log(endD);
-      	  
-          if (!confirm("정말로 변경 하시겠습니까?")) {
-            info.revert();
-          }else{
-        	  location.href = '${contextPath}/updateSchedule.sc?scheduleNo=' + id + "&startDate=" + startD
-        			  			+ "&endDate=" + endD;
-          }
+    	  if(info.event.classNames[1] == "수정불가"){
+    		  info.revert();
+    	  }else{
+    		  console.log(info);
+          	  console.log(info.event.id);
+          	  console.log(info.event.start.toISOString());
+          	  console.log(info.event.end.toISOString());
+        	  console.log(info.event.end);
+          	  var id = info.event.id;
+          	  var start = new Date(info.event.start.toISOString());
+          	  var startD = start.format("yyyy-MM-dd");
+          	  console.log(startD);
+          	  
+          	  if(info.event.allDay){
+          	    var end = new Date(info.event.end.toISOString());
+          	    end.setDate(end.getDate() - 1);
+          	    var endD = end.format("yyyy-MM-dd");
+          	  }else{
+          		var end = new Date(info.event.end.toISOString());
+            	var endD = end.format("yyyy-MM-dd");
+          	  }
+          	  
+          	  console.log(endD);
+          	  
+              if (!confirm("정말로 변경 하시겠습니까?")) {
+                info.revert();
+              }else{
+            	  location.href = '${contextPath}/updateSchedule.sc?scheduleNo=' + id + "&startDate=" + startD
+            			  			+ "&endDate=" + endD;
+              }
+    	  }
     	  
       },
       eventResize: function(info) {
-    	  var id = info.event.id;
-    	  var end = new Date(info.event.end.toISOString());
-    	  end.setDate(end.getDate() - 1);
-    	  var endD = end.format("yyyy-MM-dd");
+    	  if(info.event.classNames[1] == "수정불가"){
+    		  info.revert();
+    	  }else{
+    		  var id = info.event.id;
+        	  var end = new Date(info.event.end.toISOString());
+        	  end.setDate(end.getDate() - 1);
+        	  var endD = end.format("yyyy-MM-dd");
+        	  
+        	 if (!confirm("정말로 변경 하시겠습니까?")) {
+        	      info.revert();
+        	 }else{
+        		 location.href = '${contextPath}/updateSchedule.sc?scheduleNo=' + id + "&endDate=" + endD;
+        	 }
+    	  }
     	  
-    	 if (!confirm("정말로 변경 하시겠습니까?")) {
-    	      info.revert();
-    	 }else{
-    		 location.href = '${contextPath}/updateSchedule.sc?scheduleNo=' + id + "&endDate=" + endD;
-    	 }
       }
-      
-      
       
     });
 
@@ -542,6 +550,100 @@
 				</div>
 			  </form>
 			  
+			  
+			  <!-- 그룹캘린더 수정하기 모달 -->
+			  <button style="display:none" id="selectEmpCall" onclick="selectEmp();"></button>
+			  <button style="display:none" id="updateGscrBtn" data-toggle="modal" data-target="#updateGroupScr"></button>
+			  <form class="form-horizontal" role="form" id="updateGscr" method="post" action="/">
+					<div id="updateGroupScr" class="modal fade" role="dialog">
+					  <div class="modal-dialog">			
+					    <!-- Modal content-->
+					    <div class="modal-content" style="width:800px;">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal">&times;</button>
+					        <h4 class="modal-title">그룹캘린더 수정하기</h4>
+					      </div>
+					      <div class="modal-body" style="height:580px; width:100%;">
+					      <div>
+				          <table>
+				          	<tr>
+				          		<td width="20%"><b>공유캘린더 이름</b></td>
+				          		<td width="50%">
+				          			<input type="hidden" name="schedulerNo" id="udGscrNo">
+				          			<input type="text" name="schedulerName" id="udGscrName">
+				          		</td>
+							</tr>
+							<tr>
+								<td><b>색상</b></td>
+								<td>
+				          			<div id="udGscrColorArea">
+										<button type="button" class="label on" name="schedulerColor" value="red" id="udscrColor"><span class="c1"></span></button>
+										<button type="button" class="label" name="cc" value="orange"><span class="c2"></span></button>
+										<button type="button" class="label" name="cc" value="yellow"><span class="c3"></span></button>
+										<button type="button" class="label" name="cc" value="green"><span class="c4"></span></button>
+										<button type="button" class="label" name="cc" value="blue"><span class="c5"></span></button>
+										<button type="button" class="label" name="cc" value="navy"><span class="c6"></span></button>
+										<button type="button" class="label" name="cc" value="purple"><span class="c7"></span></button>
+										<br>
+									</div>
+				          		</td>
+							</tr>
+							<tr>
+								<td><b>주소록</b></td>
+							</tr>
+				          </table>
+				        </div>
+					      	<div id="udDeptList" class="treeview col-sm-3" style="height:450px; border:1px solid black">		      
+						      <span id="all" onclick="underEmp(this, event);">전체보기</span>			   
+					      	</div>
+					      	<div class="col-sm-4 form-group">
+					      		<select class="form-control setEmpList" name="empList" size="10" style="overflow: auto; width:100%; height:450px;" multiple>
+					      			
+					      		</select>
+					      	</div>
+					      	<div class="col-sm-5 signForm" id="circle">
+					      		<div class="row">
+						      		<div>
+						      			<div class="col-sm-2" style="padding-top:80px;">
+								      		<button class="btn UDinout" name="setInputCircle" type="button"><b>></b></button>
+								      		<br><br>
+								      		<button class="btn UDinout" name="setOutputCircle" type="button"><b><</b></button>
+						      			</div>
+						      			<div class="col-sm-10">
+						      				<label class="col-sm-12">수정권한</label>
+								      		<select class="form-control list udSetterList" name="setEmpList" size="10" style="width:100%; height:190px;" id="setEmpList" multiple>
+								      			
+								      		</select>
+								      		<br>			      			
+						      			</div>
+						      		</div>
+						      		
+						      		<div>
+						      			<div class="col-sm-2" style="padding-top:80px;">
+								      		<button class="btn UDinout" name="readInputCircle" type="button"><b>></b></button>
+								      		<br><br>
+								      		<button class="btn UDinout" name="readOutputCircle" type="button"><b><</b></button>
+						      			</div>
+						      			<div class="col-sm-10">
+								      		<label class="col-sm-12">읽기권한</label>
+								      		<select class="form-control list udReaderList" name="readEmpList" size="10" style="width:100%; height:190px;" id="readEmpList" multiple>
+								      			
+								      		</select>				      			
+						      			</div>
+						      		</div>
+						      	</div>
+					      	</div>
+					     </div>
+					     <div class="modal-footer">
+					     	<button type="button" onclick="updateGscr()" class="btn btn-primary" data-dismiss="modal">수정</button>
+					     	<button type="button" onclick="deleteGscr()" class="btn btn-primary" data-dismiss="modal">삭제</button>
+					        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+					      </div>
+					  </div>
+				   </div>
+				</div>
+			  </form>
+			  
 			</div>
 		</section>
 	</div>
@@ -585,7 +687,7 @@
       		console.log($("[name=schedulerColor]").val());
       		
       		if($("[name=schedulerName]").val() == ""){
-      			alert("캘린더 이름을 입력해주세요!");
+      			alert("캘린더 이름을 입력해주세요!"); 
       			return false;
       		}else{
       			location.href="${ contextPath }/insertMemberScheduler.sc?schedulerName=" + nameVal 
@@ -741,7 +843,7 @@
 	      					var $colSp = $("<span style='background:" + data.gpScList[key].schedulerColor + "; display:none !important;' class='colorSp'>");      						
       					}
       					      					
-      					var $nameSp = $("<span style='margin-left:5px;' classs='gpScName'>").text(data.gpScList[key].schedulerName);
+      					var $nameSp = $("<span style='margin-left:5px;' class='gpScName'>").text(data.gpScList[key].schedulerName);
       					
       					$colBtn.append($colSp);
       					$colTd.append($hiddenNo);
@@ -752,7 +854,7 @@
       					if(data.gpScList[key].groupList[0].authority == 'Y'){
       						var $settingTd = $("<td align='center'>");
           					var $settingIm = $("<img src='${contextPath}/resources/images/scheduler/settings.png'" + 
-          										"style='width:16px; height:16px;'>");
+          										"style='width:16px; height:16px;' class='gScrSetting' onclick='UdfselectEmp();'>");
           					$settingTd.append($settingIm);
           					$gmTr.append($settingTd);
       					}
@@ -781,7 +883,8 @@
       					if(data.scList[key].schedulerList[0].schedulerType == "공용" && 
       							data.scList[key].groupList[0].gmStatus == "N"){
       						
-      					}else{
+      					}else if(data.scList[key].schedulerList[0].schedulerType == "공용" &&
+      							data.scList[key].groupList[0].authority == "N"){
       						if(startT == null){
 	      						endDate.setDate(endDate.getDate() + 1);
 	      						var event = {
@@ -790,7 +893,7 @@
 	          							start:startD[0],
 	          							end:endDate.format("yyyy-MM-dd"),
 	          							color:color,
-	          							allow:type
+	          							classNames:[type, "수정불가"]
 	          					}
 	      					}else{
 	      						endDate.setDate(endDate.getDate());
@@ -800,7 +903,33 @@
 	          							start:startD[0] + "T" + startT,
 	          							end:endDate.format("yyyy-MM-dd") + "T" + endT,
 	          							color:color,
-	          							allow:type
+	          							classNames:[type, "수정불가"]
+	          					}
+	      					}
+      						
+      						console.log(event);
+          					calendar.addEvent(event);
+          					
+      					}else{
+      						if(startT == null){
+	      						endDate.setDate(endDate.getDate() + 1);
+	      						var event = {
+	          							id:id,
+	          							title:title,
+	          							start:startD[0],
+	          							end:endDate.format("yyyy-MM-dd"),
+	          							color:color,
+	          							classNames:[type]
+	          					}
+	      					}else{
+	      						endDate.setDate(endDate.getDate());
+	      						var event = {
+	          							id:id,
+	          							title:title,
+	          							start:startD[0] + "T" + startT,
+	          							end:endDate.format("yyyy-MM-dd") + "T" + endT,
+	          							color:color,
+	          							classNames:[type]
 	          					}
 	      					}
       						
@@ -849,6 +978,96 @@
       		$("#updateScheduler").trigger("click");		
       	});
       	
+      	$(document).on("click", ".gScrSetting", function(){
+      		console.log("버튼 클릭연동됨!");
+      		var tableTr = $(this).parent().parent();
+      		console.log(tableTr.find(".hiddenNo"));
+      		var color = tableTr.find(".colorSp").css("background-color");
+      		var no = tableTr.find(".hiddenNo").val();
+      		var name = tableTr.find(".gpScName").text();
+      		
+      		console.log(color);
+      		console.log(no);
+      		console.log(name);
+      		
+      		$("#udGscrNo").val(no);
+      		$("#udGscrName").val(name);
+      		console.log($("#udscrColorArea").find("span"));
+      		$("#udGscrColorArea").find("span").each(function(){
+      			var bColor = $(this).css("background-color");
+      			console.log(bColor);
+      			if(color == bColor) {
+      				$(this).parent().siblings().removeClass("on");
+      				$(this).parent().addClass("on");
+      				$(this).parent().siblings().attr("name", "cc");
+      				$(this).parent().attr("name","schedulerColor");
+      				$(this).parent().siblings().removeAttr("id");
+      				$(this).parent().attr("id", "udscrColor");
+      				
+      			}
+      			
+      		});
+      		
+      		$.ajax({
+      			url:"selectGMList/sc/" + no,
+      			type:"get",
+      		    success:function(data){
+      		    	console.log(data);
+      		    	$(".udSetterList").children().remove();
+      		    	$(".udReaderList").children().remove();
+      		    	
+      		    	for(var key in data.setter){
+      		    		var $option = $("<option id='" + data.setter[key].empNo + "' value='" + data.setter[key].empNo + "'>");
+						$option.append($("<label>" + data.setter[key].empName + "(" + data.setter[key].deptName + "/ " + data.setter[key].jobName + " )" + "</label>"));
+      		    		
+						$(".udSetterList").append($option);
+      		    	}
+      		    	
+      		    	for(var key in data.reader){
+      		    		var $option = $("<option id='" + data.reader[key].empNo + "' value='" + data.reader[key].empNo + "'>");
+						$option.append($("<label>" + data.reader[key].empName + "(" + data.reader[key].deptName + "/ " + data.reader[key].jobName + " )" + "</label>"));
+      		    		
+						$(".udReaderList").append($option);
+      		    	}
+      		    	
+      		    }
+      		});
+      		
+      		$("#updateGscrBtn").trigger("click");		
+      	});
+      	
+      	
+      	function updateGscr(){
+      		 var udGscrNo = $("#udGscrNo").val();
+      		 console.log(udGscrNo);
+      		 var udGscrName = $("#udGscrName").val();
+	       	 console.log(udGscrName);
+	       	 var udGscrColor = $("#udGscrColorArea > #udscrColor").val();
+	       	 console.log(udGscrColor);
+	       	 var setEmpList = new Array();
+	       	 
+	       	 $(".udSetterList").children().each(function(){
+	       		setEmpList.push($(this).val()); 
+	       	 });
+	       	 console.log(setEmpList);
+	       	 
+	       	 var readEmpList = new Array();
+	       	 
+	       	 $(".udReaderList").children().each(function(){
+	       		readEmpList.push($(this).val());
+	       	 });
+	       	 console.log(readEmpList);
+	       	 
+	       	location.href = "${contextPath}/updateGscr.sc?schedulerNo=" + udGscrNo + "&schedulerName=" + udGscrName
+	       			         + "&schedulerColor=" + udGscrColor + "&setEmpList=" + setEmpList + "&readEmpList=" + readEmpList;
+	       	 
+	    };
+	    
+	    function deleteGscr(){
+	    	var udGscrNo = $("#udGscrNo").val();
+	    	
+	    	location.href = "${contextPath}/deleteGscr.sc?schedulerNo=" + udGscrNo;
+	    };
       	
       	function updateEmpScr(){
       		var udscrNo = $("#udscrNo").val();
@@ -949,6 +1168,30 @@
 			}
 		});
 	}
+     
+     function UdfselectEmp(){
+ 		$("#udDeptList").children().remove();
+ 		$.ajax({
+ 			url:"${contextPath}/approval/selectEmp",
+ 			type:"get",
+ 			success:function(data){
+ 				console.log("성공");
+ 				var $ul = $("<ul style='padding-left:5px;'>");
+ 				
+ 				for(var i = 0; i < data.deptList.length; i++) {
+ 					if(data.deptList[i].topDept == null){
+ 						var $li = $("<li style='list-style:none' class='dept'><span onclick='underEmp(this, event);' id='" + data.deptList[i].deptCode + "'>" + data.deptList[i].deptName + "</span></li>");
+ 						if(data.deptList[i].stat == 'Y') {
+ 							var $img = $("<img id='" + data.deptList[i].deptCode + "' onclick='underDept(this);' style='width:12px; height:12px;' src='${contextPath}/resources/images/approval/plus.gif'>");					
+ 							$li.prepend($img);
+ 						}
+ 						$ul.append($li);
+ 					} 
+ 				}
+ 				$("#udDeptList").append($ul);
+ 			}
+ 		});
+ 	}
      
      
      function underEmp(span, event){
@@ -1095,6 +1338,69 @@
  			alert("중복된 사용자는 추가할 수 없습니다.");
  		}
  	});
+     
+     $(".UDinout").click(function(){
+  		
+  		var selectEmp = $(".setEmpList").val();
+  		
+  		console.log($(".setEmpList").val());
+
+  		console.log($(this).text());
+  		
+  		var cnt = 0;
+  		if($(this).text() == '>') {
+  			$(this).parent().parent().parent().parent().find("select").find("option").each(function(){
+  				console.log($(this).val());
+  				for(var i = 0; i < selectEmp.length; i++) {
+  					if($(this).val() == selectEmp[i]) {
+  						cnt++;
+  					}
+  				}
+  			});
+  		}
+  		
+  		
+  		console.log(cnt);
+  		
+  		if(cnt <= 0) {
+  			if($(this).attr("name") == "setInputCircle"){
+  				var setEmpList = $(this).parent().parent().find(".udSetterList");
+  				console.log($(this).parent().parent().find(".udSetterList"));
+  				
+  				for(var i = 0; i < selectEmp.length; i++) {
+  					
+  					var emp = $("#" + selectEmp[i]).clone();
+  					
+  					console.log("들어는 오냐??");
+  					setEmpList.append(emp);
+  				}
+  				
+  			}else if($(this).attr("name") == "setOutputCircle"){
+  				var deleteEmp = $(".udSetterList").val();
+  				for(var i = 0; i < deleteEmp.length; i++) {
+  					$(".udSetterList").find("option#" + deleteEmp[i]).remove();
+  				}
+  			}else if($(this).attr("name") == "readInputCircle"){
+  				var readEmpList = $(this).parent().parent().find(".udReaderList");
+  				console.log($(this).parent().parent().find(".udReaderList"));
+  				
+  				for(var i = 0; i < selectEmp.length; i++) {
+  					
+  					var emp = $("#" + selectEmp[i]).clone();
+  					
+  					console.log("들어는 오냐??");
+  					readEmpList.append(emp);
+  				}
+  			}else if($(this).attr("name") == "readOutputCircle"){
+  				var deleteEmp = $(this).parent().parent().find(".udReaderList").val();
+  				for(var i = 0; i < deleteEmp.length; i++) {
+  					$(".udReaderList").find("option#" + deleteEmp[i]).remove();
+  				}
+  			}
+  		}else {
+  			alert("중복된 사용자는 추가할 수 없습니다.");
+  		}
+  	});
      
      
      function insertGscr(){
