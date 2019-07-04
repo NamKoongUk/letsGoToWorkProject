@@ -165,9 +165,8 @@ public class MailController {
 		System.out.println("sender : "+ sender);
 		
 		// 전송요청 
-		sender.toSendRequest();
-		
-		
+		SendMail sendMail = new SendMail();
+		sendMail.send(sender);
 		
 		int result = ms.sendMail(mail);
 		
