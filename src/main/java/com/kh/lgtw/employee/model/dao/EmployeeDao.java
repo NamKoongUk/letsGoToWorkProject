@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 
+import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.vo.DeptVo;
@@ -35,11 +36,15 @@ public interface EmployeeDao{
 
   	int insertDeptHistory(SqlSession sqlSession, DeptVo dpVo, JobVo jobVo);
 
-  	ArrayList<EmployeeResult> selectEmpListAdmin(SqlSession sqlSession);
+  	ArrayList<EmployeeResult> selectEmpListAdmin(SqlSession sqlSession, PageInfo pi);
 
 	ArrayList<JobVo> selectJobAdmin(SqlSession sqlSession);	
 
 	int insertEmpProfile(SqlSession sqlSession, Attachment attach);
+
+	int getEmpListCount(SqlSession sqlSession);
+
+	int deleteEmpList(SqlSession sqlSession, int empNo);
 
 
 

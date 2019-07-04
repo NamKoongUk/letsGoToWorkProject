@@ -1,14 +1,24 @@
 package com.kh.lgtw.employee.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +34,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.common.CommonUtils;
+import com.kh.lgtw.common.Pagination;
 import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.service.EmployeeService;
@@ -33,6 +45,7 @@ import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.employee.model.vo.EmployeeResult;
 import com.kh.lgtw.employee.model.vo.ExcelEmp;
 import com.kh.lgtw.employee.model.vo.JobVo;
+import com.kh.lgtw.employee.model.util.EmpExcelSample;
 import com.kh.lgtw.employee.model.util.ExcelFileType;
 
 @SessionAttributes("loginEmp")
@@ -146,16 +159,27 @@ public class EmployeeController {
 	
 	//직원관리
 	@RequestMapping("showEmployeeAdmin.em")
-	public String showEmployeeAdmin(Model model) {
+	public String showEmployeeAdmin(Model model, HttpServletRequest request) {
 		
-		ArrayList<EmployeeResult> list = empService.selectEmpListAdmin();
 		
+		int currentPage = 1;
+		
+		
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		int listCount = empService.getEmpListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		ArrayList<EmployeeResult> list = empService.selectEmpListAdmin(pi);
 		HashMap<String, Object> hmap = empService.selectJopDeptAdmin();
 		
 		
 		System.out.println(hmap.get("deptList"));
 		System.out.println(hmap.get("jobList"));
 		
+		model.addAttribute("pi",pi);
 		model.addAttribute("hmap",hmap);
 		model.addAttribute("list", list);
 		
@@ -433,6 +457,104 @@ public class EmployeeController {
 		
 		return view;
 	}
+	
+	@RequestMapping("deleteEmpList.em")
+	public String deleteEmpList(HttpServletRequest request, Model model) {
+		
+		String srr[] = request.getParameterValues("empNo");
+		
+		int[] emprr = new int[srr.length];
+		int result = 0;
+		
+		for(int i = 0; i<srr.length; i++) {
+			emprr[i]=Integer.parseInt(srr[i]);
+			result = empService.deleteEmpList(emprr[i]);
+		}
+		
+		return "redirect:showEmployeeAdmin.em";
+	}
+	
+	@RequestMapping("empSample.em")
+	public void empSample(Model model, HttpServletRequest request, HttpServletResponse response) {
+		
+		
+			
+			Workbook wb = new HSSFWorkbook();
+			
+			Sheet sheet1 = wb.createSheet("sampleEmp");
+			
+			sheet1.setColumnWidth(0, 5000);
+			sheet1.setColumnWidth(1, 5000);
+			sheet1.setColumnWidth(2, 5000);
+			sheet1.setColumnWidth(3, 5000);
+			sheet1.setColumnWidth(4, 5000);
+			sheet1.setColumnWidth(5, 5000);
+			
+			
+			Row row = null;
+			Cell cell = null;
+			
+			row = sheet1.createRow(0);
+			
+			cell = row.createCell(0);
+			cell.setCellValue("아이디");
+			cell = row.createCell(1);
+			cell.setCellValue("비밀번호");
+			cell = row.createCell(2);
+			cell.setCellValue("이름");
+			cell = row.createCell(3);
+			cell.setCellValue("전화번호");
+			cell = row.createCell(4);
+			cell.setCellValue("상태");
+			cell = row.createCell(5);
+			cell.setCellValue("입사일");
+			
+			row = sheet1.createRow(1);
+			cell = row.createCell(0);
+			cell.setCellValue("kh0101");
+			cell = row.createCell(1);
+			cell.setCellValue("1234");
+			cell = row.createCell(2);
+			cell.setCellValue("홍길동");
+			cell = row.createCell(3);
+			cell.setCellValue("010-1234-1234");
+			cell = row.createCell(4);
+			cell.setCellValue("Y");
+			cell = row.createCell(5);
+			cell.setCellValue("2019-01-01");
+			
+			row = sheet1.createRow(2);
+			cell = row.createCell(0);
+			cell.setCellValue("kh1223");
+			cell = row.createCell(1);
+			cell.setCellValue("5678");
+			cell = row.createCell(2);
+			cell.setCellValue("세종대왕");
+			cell = row.createCell(3);
+			cell.setCellValue("010-5959-7979");
+			cell = row.createCell(4);
+			cell.setCellValue("Y");
+			cell = row.createCell(5);
+			cell.setCellValue("2019-01-02");
+			
+			System.out.println("엑셀생성");
+			response.setHeader("Content-Type","text/html; charset=utf-8");
+			response.setContentType("ms-vnd/excel");
+			System.out.println("1확인");
+			response.setHeader("Content-Disposition","attachment;filename=Empsample.xls");
+			System.out.println("2확인");
+			
+			try {
+				wb.write(response.getOutputStream());
+				wb.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("3확인");
+		
+	}
+	
 }
 
 

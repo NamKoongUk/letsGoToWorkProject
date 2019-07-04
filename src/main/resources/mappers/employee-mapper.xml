@@ -147,6 +147,17 @@
 		VALUES(SEQ_ATTACHMENT_NO.NEXTVAL, #{originName},#{changeName},#{filePath},'ProfileImage',SEQ_EMPNO.CURRVAL)
 	</insert>
 	
+	<select id="selectEmpListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMPLOYEE
+		WHERE STATUS='Y'
+		AND EMP_ID != 'admin'
+	</select>
+	
+	<update id="deleteEmpList" parameterType="_int">
+		UPDATE EMPLOYEE SET STATUS = 'N' WHERE EMPNO=#{empNo}
+	</update>
+	
 	
 	
 </mapper>
