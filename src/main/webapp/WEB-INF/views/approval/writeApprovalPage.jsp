@@ -371,8 +371,9 @@
 				        </div>
 				        <div class="form-group">
 				            <div class="col-lg-12" align="right">
+				            	<button type="button" class="btn btn-md">임시저장</button>
 				            	<button type="button" class="btn btn-md btn-default">취소</button>
-				                <button type="submit" class="btn btn-md btn-primary">저장</button>
+				                <button type="submit" class="btn btn-md btn-primary">기안하기</button>
 				            </div>
 				        </div>
 				    </div>
@@ -807,11 +808,14 @@
 					$("select[name='empList']").children().remove();
 					
 					for(var i = 0; i < data.empList.length; i++) {
-						console.log(data.empList[i].empName);
-						var $option = $("<option id='" + data.empList[i].empNo + "' value='" + data.empList[i].empNo + "'>");
-						$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
-						
-						$("select[name='empList']").append($option);
+						if(${sessionScope.loginEmp.empNo} != data.empList[i].empNo){
+							console.log(data.empList[i].empName);
+							var $option = $("<option id='" + data.empList[i].empNo + "' value='" + data.empList[i].empNo + "'>");
+							$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
+							
+							$("select[name='empList']").append($option);
+							
+						}
 					}
 				}
 			});
@@ -823,11 +827,14 @@
 					console.log("성공");
 					
 					for(var i = 0; i < data.empList.length; i++) {
-						console.log(data.empList[i].empName);
-						var $option = $("<option id='" + data.empList[i].empNo + "' value='" + data.empList[i].empNo + "'>");
-						$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
-						
-						$("select[name='empList']").append($option);
+						if(${sessionScope.loginEmp.empNo} != data.empList[i].empNo){
+							console.log(data.empList[i].empName);
+							var $option = $("<option id='" + data.empList[i].empNo + "' value='" + data.empList[i].empNo + "'>");
+							$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
+							
+							$("select[name='empList']").append($option);
+							
+						}
 					} 
 					
 				}

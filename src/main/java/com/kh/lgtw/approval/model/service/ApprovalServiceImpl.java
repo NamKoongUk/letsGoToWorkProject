@@ -31,18 +31,28 @@ public class ApprovalServiceImpl implements ApprovalService{
 //		// TODO Auto-generated method stub
 //		return ad.showAllPrograssDocument(pi, session);
 //	}
-//	//결재대기문서 이동
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showWaitDcm(PageInfo pi) {
-//		// TODO Auto-generated method stub
-//		return ad.showWaitDcm(pi, session);
-//	}
-//	//처리예정문서 이동
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showIntendedDcm(PageInfo pi) {
-//		// TODO Auto-generated method stub
-//		return ad.showIntendedDcm(pi, session);
-//	}
+	//결재대기문서 이동
+	@Override
+	public ArrayList<HashMap<String, Object>> showWaitDcm(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return ad.showWaitDcm(pi, session);
+	}
+	@Override
+	public int selectWaitDcm(int empNo) {
+		// TODO Auto-generated method stub
+		return ad.selectWaitDcm(empNo, session);
+	}
+	//처리예정문서 이동
+	@Override
+	public ArrayList<HashMap<String, Object>> showIntendedDcm(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return ad.showIntendedDcm(pi, session);
+	}
+	@Override
+	public int selectIntendedDcm(int empNo) {
+		// TODO Auto-generated method stub
+		return ad.selectIntendedDcm(empNo, session);
+	}
 //	//처리중인문서 이동
 //	@Override
 //	public ArrayList<HashMap<String, Object>> showProgressgDcm(PageInfo pi) {
@@ -97,12 +107,21 @@ public class ApprovalServiceImpl implements ApprovalService{
 //		// TODO Auto-generated method stub
 //		return ad.showReceptionDcm(pi, session);
 //	}
-//	//완료문서-회람/참조 문서
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showCirculationDcm(PageInfo pi) {
-//		// TODO Auto-generated method stub
-//		return ad.showCirculationDcm(pi, session);
-//	}
+	//완료문서-회람/참조 문서
+	@Override
+	public ArrayList<HashMap<String, Object>> showCirculationDcm(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return ad.showCirculationDcm(pi, session);
+	}
+	@Override
+	public int selectCircleDcm(int empNo, String s) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("empNo", empNo);
+		map.put("sort", s);
+		
+		return ad.selectCircleDcm(map, session);
+	}
 //	//완료문서-반려문서
 //	@Override
 //	public ArrayList<HashMap<String, Object>> showRefuseDcm(PageInfo pi) {
@@ -222,18 +241,51 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return ad.showDetailDcm(session, adNo);
 	}
+	//결재리스트 불러오기
+	@Override
+	public HashMap<String, ArrayList<HashMap<String, Object>>> selectAppList(String adNo) {
+		
+		HashMap<String, ArrayList<HashMap<String, Object>>> appList = new HashMap<String, ArrayList<HashMap<String,Object>>>();
+		
+		ArrayList<HashMap<String, Object>> approval = ad.selectApprovalList(session, adNo, "결재");
+		ArrayList<HashMap<String, Object>> agree = ad.selectApprovalList(session, adNo, "합의");
+		ArrayList<HashMap<String, Object>> ref = ad.selectApprovalList(session, adNo, "참조");
+		ArrayList<HashMap<String, Object>> apply = ad.selectApprovalList(session, adNo, "신청");
+		ArrayList<HashMap<String, Object>> process = ad.selectApprovalList(session, adNo, "처리");
+		ArrayList<HashMap<String, Object>> payAgree = ad.selectApprovalList(session, adNo, "재무합의");
+		ArrayList<HashMap<String, Object>> send = ad.selectApprovalList(session, adNo, "수신");
+		ArrayList<HashMap<String, Object>> circle = ad.selectApprovalList(session, adNo, "회람");
+		
+		appList.put("approval", approval);
+		appList.put("agree", agree);
+		appList.put("ref", ref);
+		appList.put("apply", apply);
+		appList.put("apply", apply);
+		appList.put("process", process);
+		appList.put("payAgree", payAgree);
+		appList.put("send", send);
+		appList.put("circle", circle);
+		
+		
+		return appList;
+	}
 //	//문서결재
 //	@Override
 //	public int approvalDcm(String adNo, int eid) {
 //		// TODO Auto-generated method stub
 //		return ad.approvalDcm(session, eid, adNo);
 //	}
-//	//회람 or 수신 확인
-//	@Override
-//	public int confirmDcm(String adNo, int eid) {
-//		// TODO Auto-generated method stub
-//		return ad.confirmDcm(session, eid, adNo);
-//	}
+	//회람 or 수신 확인
+	@Override
+	public int confirmDcm(String adNo, int empNo) {
+		// TODO Auto-generated method stub
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("adNo", adNo);
+		map.put("empNo", empNo);
+		
+		return ad.confirmDcm(session, map);
+	}
 //	//수신, 회람추가
 //	@Override
 //	public int updateDcm(String adNo, int eid) {
@@ -385,6 +437,10 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return ad.autocompleteCircle(value, session);
 	}
+
+
+
+
 	
 	
 	

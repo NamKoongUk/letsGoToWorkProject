@@ -37,22 +37,30 @@ public class AprprovalController {
 
 	// ------------------------진행중인 문서------------------------------
 	// 진행중인 전체문서 이동
-//	@RequestMapping("approval.ap")
-//	public String approvalHome() {
-//		return "approval/approvalMain";
-//	}
-
 	@RequestMapping("showAllPrograssDcm.ap")
 	public String showAllPrograssDocument(HttpServletRequest request, Model model) {
 
-//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-//		
-//		PageInfo pi = new PageInfo();
-//		pi.setSortInfo(request.getParameter("sortInfo"));
-//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-//		pi.setEid(e.getEid());
+		Employee e = (Employee)request.getSession().getAttribute("loginEmp");
+		
+		int currentPage = 1;
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		
+		int listCount = as.selectWaitCircleDcm(e.getEmpNo());
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+	
+		pi.setEmpNo(e.getEmpNo());
+		pi.setSfCode("all");
 
-		// ArrayList<HashMap<String, Object>> list = as.showAllPrograssDocument(pi);
+		ArrayList<HashMap<String, Object>> list = as.showWaitCirculationDcm(pi);
+		ArrayList<HashMap<String, Object>> formList = as.selectFormList();
+//		System.out.println(list);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("formList", formList);
+		model.addAttribute("pi", pi);
 
 		return "progressDcm/allProgressDcm";
 	}
@@ -61,14 +69,28 @@ public class AprprovalController {
 	@RequestMapping("showWaitDcm.ap")
 	public String showWaitDcm(HttpServletRequest request, Model model) {
 
-//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-//		
-//		PageInfo pi = new PageInfo();
-//		pi.setSortInfo(request.getParameter("sortInfo"));
-//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-//		pi.setEid(e.getEid());
+		Employee e = (Employee)request.getSession().getAttribute("loginEmp");
+		
+		int currentPage = 1;
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		
+		int listCount = as.selectWaitDcm(e.getEmpNo());
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+	
+		pi.setEmpNo(e.getEmpNo());
+		pi.setSfCode("approvalWait");
 
-		// ArrayList<HashMap<String, Object>> list = as.showWaitDcm(pi);
+		ArrayList<HashMap<String, Object>> list = as.showWaitDcm(pi);
+		ArrayList<HashMap<String, Object>> formList = as.selectFormList();
+		System.out.println(list);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("formList", formList);
+		model.addAttribute("pi", pi);
+
 
 		return "progressDcm/approvalMain";
 	}
@@ -77,14 +99,27 @@ public class AprprovalController {
 	@RequestMapping("showIntendedDcm.ap")
 	public String showIntendedDcm(HttpServletRequest request, Model model) {
 
-//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-//		
-//		PageInfo pi = new PageInfo();
-//		pi.setSortInfo(request.getParameter("sortInfo"));
-//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-//		pi.setEid(e.getEid());
+		Employee e = (Employee)request.getSession().getAttribute("loginEmp");
+		
+		int currentPage = 1;
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		
+		int listCount = as.selectIntendedDcm(e.getEmpNo());
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+	
+		pi.setEmpNo(e.getEmpNo());
+		pi.setSfCode("approvalIntended");
 
-		// ArrayList<HashMap<String, Object>> list = as.showIntendedDcm(pi);
+		ArrayList<HashMap<String, Object>> list = as.showIntendedDcm(pi);
+		ArrayList<HashMap<String, Object>> formList = as.selectFormList();
+		System.out.println(list);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("formList", formList);
+		model.addAttribute("pi", pi);
 
 		return "progressDcm/intendedDcm";
 	}
@@ -242,14 +277,27 @@ public class AprprovalController {
 	@RequestMapping("showCirculationDcm.ap")
 	public String showCirculationDcm(HttpServletRequest request, Model model) {
 
-//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-//		
-//		PageInfo pi = new PageInfo();
-//		pi.setSortInfo(request.getParameter("sortInfo"));
-//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-//		pi.setEid(e.getEid());
+		Employee e = (Employee)request.getSession().getAttribute("loginEmp");
+		
+		int currentPage = 1;
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		
+		int listCount = as.selectCircleDcm(e.getEmpNo(), "circle");
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+	
+		pi.setEmpNo(e.getEmpNo());
+		pi.setSfCode("circle");
 
-		// ArrayList<HashMap<String, Object>> list = as.showCirculationDcm(pi);
+		ArrayList<HashMap<String, Object>> list = as.showCirculationDcm(pi);
+		ArrayList<HashMap<String, Object>> formList = as.selectFormList();
+		System.out.println(list);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("formList", formList);
+		model.addAttribute("pi", pi);
 
 		return "finDcm/circulationDcm";
 	}
@@ -502,10 +550,10 @@ public class AprprovalController {
 	public String showDetailDcm(Model model, String adNo) {
 
 		HashMap<String, Object> map = as.showDetailDcm(adNo);
-		
-		System.out.println("detailDcm : " + map);
-		
+		HashMap<String, ArrayList<HashMap<String, Object>>> appList = as.selectAppList(adNo);
+		System.out.println("map : " + map);		
 		model.addAttribute("map", map);
+		model.addAttribute("appList", appList);
 		
 		return "progressDcm/detailDcm";
 	}
@@ -520,12 +568,12 @@ public class AprprovalController {
 	}
 
 	// 회람 or 수신 확인
-	@RequestMapping("confirmDcm.ap")
-	public String confirmDcm(String adNo, int eid) {
+	@RequestMapping(value = "/approval/updateCircle", produces = "application/text; charset=utf8")
+	public @ResponseBody String confirmDcm(String adNo, int empNo) {
+		
+		 int result = as.confirmDcm(adNo, empNo);
 
-		// int result = as.confirmDcm(adNo, eid);
-
-		return "";
+		return "성공";
 	}
 
 	// 수신, 회람추가
@@ -578,8 +626,8 @@ public class AprprovalController {
 	public Map<String, ArrayList<HashMap<String, Object>>> selectUnderDept(@RequestParam(value = "deptCode") String deptCode){
 		
 		Map<String, ArrayList<HashMap<String, Object>>> map = as.selectUnderDept(deptCode);
-		System.out.println("하위부서 : " + map.get("deptList"));
-		System.out.println("하위부서 : " + map.get("empList"));
+//		System.out.println("하위부서 : " + map.get("deptList"));
+//		System.out.println("하위부서 : " + map.get("empList"));
 		
 		return map;
 		
@@ -599,7 +647,7 @@ public class AprprovalController {
 		
 		String signCode = request.getParameter("signCode");
 		
-		System.out.println(signCode);
+//		System.out.println(signCode);
 		Map<String, Object> appDcm = new HashMap<String, Object>();
 		appDcm.put("ad", ad);
 		
@@ -640,11 +688,8 @@ public class AprprovalController {
 		
 		int result = as.writeApproval(appDcm);
 		
-		if(result > 0) {
-			return "redirect:index.jsp";			
-		}else {
-			return "";
-		}
+		return "redirect:index.jsp";			
+		
 		
 	}
 	
