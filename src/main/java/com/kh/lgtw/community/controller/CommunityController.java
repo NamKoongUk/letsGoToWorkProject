@@ -199,12 +199,117 @@ public class CommunityController {
 		
 	}   
 	
+	//게시판 수정 취소 메소드
 	@RequestMapping("communityUpdateCencel.co")
-	public String communityUpdateCencel() {
+	public String communityUpdateCencel(HttpServletRequest request) {
 		
 	
-		return "redirect:managebulletinList.co";
+		return "redirect:index.jsp";
+	} 
+	
+	//게시글 수정폼
+	@RequestMapping("communityPostUpdateForm.co")
+	public String communityPostUpdateForm (HttpServletRequest request , Model model) {
+		
+		int contentno = Integer.parseInt(request.getParameter("contentno")); 
+		
+		System.out.println("CommunityPostUpdate request 값:" + contentno);
+		
+		CommunityPost cp = cs.communityPostUpdateForm(contentno);
+		
+		model.addAttribute("cp", cp);
+		
+		System.out.println("게시글 수정폼 cp 값: " +cp);
+		
+		
+		return "community/updateCommunityFormPS";
+	} 
+	
+	//게시글 수정 메소드
+	@RequestMapping("communityPostUpdate.co") 
+	public String  communityPostUpdate (CommunityPost cp ,HttpServletRequest request ) 
+	{  
+		
+		 int result = cs.communityPostUpdate(cp); 
+		 
+		 System.out.println("게시글 수정 성공 유무 : " +result); 
+		 System.out.println("게시글 정보 컨트롤러:" +cp);
+		 
+		
+		  if(result >0) 
+		  { 
+		   return "redirect:index.jsp"; 
+			  }
+		  else {
+		  System.out.println("잘못된 접근 입니다"); 
+		  return "redirect:index.jsp"; 
+		  }
+		 
+		 
+		 
+		
+		
+	} 
+	
+	//게시글 삭제
+	@RequestMapping("communityPostDelete.co")
+	
+	public String communityPostDelete (HttpServletRequest request) 
+	{
+		int contentno = Integer.parseInt(request.getParameter("contentno")); 
+		System.out.println("contentno 게시글 삭제 값 :" +contentno); 
+		
+		int result = cs.communityPostDelete(contentno); 
+		
+		System.out.println("게시글 삭제 유무:" +result);
+		
+
+		  if(result >0) 
+		  { 
+		   return "redirect:index.jsp"; 
+			  }
+		  else {
+		  System.out.println("잘못된 접근 입니다"); 
+		  return "redirect:index.jsp"; 
+		  }
+		
+		
+		
+		
+		
+		
+	} 
+	
+	//게시판 삭제
+	@RequestMapping("communityDelete.co")
+	public String communityDelete (HttpServletRequest request) {
+		
+		int bno = Integer.parseInt(request.getParameter("bno")); 
+		
+		System.out.println("게시판 삭제 :bno 값" +bno);
+		
+		int result = cs.communityDelete(bno);
+		System.out.println("게시글 삭제 유무:" +result);
+		
+
+		  if(result >0) 
+		  { 
+		   return "redirect:index.jsp"; 
+			  }
+		  else {
+		  System.out.println("잘못된 접근 입니다"); 
+		  return "redirect:index.jsp"; 
+		  }
+		
+		
+	} 
+	@RequestMapping("communityInsertCansel.co")  
+		public String communityInsertCansel (HttpServletRequest request) {
+		
+		return "redirect:index.jsp";
 	}
+	
+	
 	
 	
 	

@@ -31,6 +31,18 @@ public interface CommunityService
 	//게시판 수정 메소드
 	int communityUpdate(Community com);
 
+	//게시글 수정폼 메소드
+	CommunityPost communityPostUpdateForm(int contentno);
+
+	//게시글 수정 메소드
+	int communityPostUpdate(CommunityPost cp);
+
+	//게시글 삭제 메소드
+	int communityPostDelete(int contentno);
+
+	//게시판 삭제 메소드
+	int communityDelete(int bno);
+
 
 	
 

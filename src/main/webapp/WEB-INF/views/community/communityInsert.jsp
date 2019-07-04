@@ -66,7 +66,7 @@
 					
 					</table> 
 					<div align="center">
-						<button type="reset">작성취소 </button>
+						<button type="reset" onclick="location.href='communityInsertCansel.co'">작성취소 </button>
 						<button type="submit" >작성</button>
 					
 					</div>

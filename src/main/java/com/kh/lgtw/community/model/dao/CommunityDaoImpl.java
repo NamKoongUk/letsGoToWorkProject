@@ -82,6 +82,34 @@ public class CommunityDaoImpl implements CommunityDao {
 				
 	}
 
+	//게시글 수정폼 메소드
+	@Override
+	public CommunityPost communityPostUpdateForm(SqlSessionTemplate sqlSession, int contentno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Community.communityPostUpdateForm",contentno);
+	}
+	
+	//게시글 수정메소드
+	@Override
+	public int communityPostUpdate(SqlSessionTemplate sqlSession, CommunityPost cp) {
+		// TODO Auto-generated method stub
+		System.out.println("CommunityPost Dao :"+cp);
+		return sqlSession.update("Community.communityPostUpdate",cp);
+	}
+	//게시글 삭제 메소드
+	@Override
+	public int communityPostDelete(SqlSessionTemplate sqlSession, int contentno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("Community.communityPostDelete", contentno);
+	}
+    
+	//게시판 삭제 메소드
+	@Override
+	public int communityDelete(SqlSessionTemplate sqlSession, int bno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("Community.communityDelete", bno);
+	}
+
 	
 	
 

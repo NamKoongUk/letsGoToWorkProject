@@ -128,6 +128,7 @@
 				$(this).parents("tr").css({"background":"white","color":"black"});	
 			}).click(function(){
 				var bno =$(this).parents().children("td").eq(0).text();
+				console.log(bno);
 				location.href="communityPostList.co?bno="+bno;
 			
 			});	

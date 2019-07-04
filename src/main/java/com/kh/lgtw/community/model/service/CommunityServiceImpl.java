@@ -102,6 +102,39 @@ public class CommunityServiceImpl  implements CommunityService{
 	}
 
 
+	//게시글 수정폼 메소드
+	@Override
+	public CommunityPost communityPostUpdateForm(int contentno) {
+		
+		return cd.communityPostUpdateForm(sqlSession,contentno);
+	}
+
+
+	//게시글 수정
+	@Override
+	public int communityPostUpdate(CommunityPost cp) {
+		// TODO Auto-generated method stub 
+		System.out.println("CommunityPost 서비스 :"+cp);
+		return cd.communityPostUpdate(sqlSession,cp);
+	}
+
+
+    //게시글 삭제
+	@Override
+	public int communityPostDelete(int contentno) {
+		
+		return cd.communityPostDelete(sqlSession,contentno);
+	}
+
+
+	//게시판 삭제
+	@Override
+	public int communityDelete(int bno) {
+		// TODO Auto-generated method stub
+		return cd.communityDelete(sqlSession,bno);
+	}
+
+
 
 
 

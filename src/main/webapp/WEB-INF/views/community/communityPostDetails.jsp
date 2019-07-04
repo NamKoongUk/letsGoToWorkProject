@@ -22,14 +22,16 @@
 			<h1 class="title"></h1>
 			
 			<div class="content">
-			
-					<button type="button" class="btn btn-info btn-lg" onclick="revision();">수정</button>
+				
+					<button type="button" class="btn btn-info btn-lg" name="updateBtn" >수정</button>
 					<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">삭제</button>
 				<div>	
 						<table class="table table-striped" border="" >	
-								
-								<c:forEach var="c" items="${list }">  
-								<thead>
+										
+							<c:forEach var="c" items="${list }">  
+			                    <input id="bnohidden" type="hidden" name="bno" value="${c.bno }">     
+			                    <input id="contentNOHidden" type="hidden" name="bno" value="${c.contentNO }">  
+							 <thead>
 									<tr>
 										<th colspan="2"><h2>${c.btitle}</h2></th>
 			
@@ -46,19 +48,23 @@
 										<td height="500px">
 												<div style="margin-left:10px; ">
 												      ${c.bcontent}
-												      
-												      </div>
+												</div>
 										</td>
 					 
 				 					</tr> 
 											
 								</thead>
+								
+								
 								</c:forEach>
 							 </table>
 							
+							
+							
 									
 							
-					 </div>
+					 	 </div>
+					
 					 
 					 <br>
 					 <div >
@@ -96,7 +102,7 @@
 						          <p>게시글을 삭제 할까요 ?</p>
 						        </div>
 						        <div class="modal-footer">
-						          <button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+						          <button type="button" class="btn btn-default" data-dismiss="modal" name="deleteBtn">확인</button>
 						           <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
 								</div>
 							</div>
@@ -112,10 +118,21 @@
 	
 	<jsp:include page="../common/footer.jsp"/>
 	<script> 
-			function revision() {
+			$("button[name='updateBtn']").click(function(){
+				var contentno = $("#contentNOHidden").val();
 				
-				alert("게시글 이 수정 되었습니다.");
-			}
+				console.log(contentno);
+				
+				 location.href= "communityPostUpdateForm.co?contentno="+contentno;  
+			}); 
+			
+			$("button[name='deleteBtn']").click(function(){
+				var contentno = $("#contentNOHidden").val();
+				console.log(contentno);
+				
+				location.href ="communityPostDelete.co?contentno="+contentno;
+			});
+			
 			
 		
 		</script>
