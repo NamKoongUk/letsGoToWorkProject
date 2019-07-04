@@ -30,6 +30,18 @@ public interface CommunityDao {
 
 	int communityUpdate(Community com, SqlSessionTemplate sqlSession);
 
+	//게시글 수정 폼 메소드
+	CommunityPost communityPostUpdateForm(SqlSessionTemplate sqlSession, int contentno);
+
+	//게시글 수정 메소드 
+	int communityPostUpdate(SqlSessionTemplate sqlSession, CommunityPost cp);
+
+	//게시글 삭제 메소드 
+	int communityPostDelete(SqlSessionTemplate sqlSession, int contentno);
+
+	//게시판 삭제 메소드 
+	int communityDelete(SqlSessionTemplate sqlSession, int bno);
+
 	
 
 	

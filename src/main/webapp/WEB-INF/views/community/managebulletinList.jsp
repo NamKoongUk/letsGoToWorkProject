@@ -73,7 +73,7 @@
 			    <tbody>
 				      
 				      <tr>
-				        <td>${b.boardName}</td>
+				        <td><input type="hidden" name="bno" value="${b.bno }" id="bnohidden"> ${b.boardName}</td>
 				        <td>${b.boardType }</td>
 				        <td>${b.createUserName }</td>
 				        <td>${b.createDate }</td> 
@@ -81,8 +81,8 @@
 				      	
 				        
 											      	
-				        <td> <input type="hidden" name="bno" value="${b.bno }">  <button name="updateBtn" type="button" class="btn btn-info btn-lg">수정</button></td>
-				        <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">삭제</button></td>
+				        <td><button name="updateBtn" type="button" class="btn btn-info btn-lg" >수정</button></td>
+				        <td><button type="button" class="btn btn-info btn-lg" name="deleteBtn">삭제</button></td>
 				      </tr>
 				       
 				   	 </tbody>
@@ -92,7 +92,7 @@
 				  </table>
 				  
 				  <!-- Modal -->
-				    <div class="modal fade" id="myModal" role="dialog">
+				    <!-- <div class="modal fade" id="myModal" role="dialog">
 				   		<div class="modal-dialog">
 				    		<div class="modal-content">
 						        <div class="modal-header">
@@ -103,13 +103,13 @@
 						          <p>게시판을 삭제 할까요 ?</p>
 						        </div>
 						        <div class="modal-footer">
-						          <button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+						          <button type="button" class="btn btn-default" data-dismiss="modal" name="deleteBtn">확인</button>
 						           <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
 								</div>
 							</div>
 													
 						</div>
-					</div>
+					</div> -->
 							
 				</div>
 			 
@@ -120,7 +120,7 @@
 		
 		<script> 
 			$("button[name='updateBtn']").click(function(){
-				var bno = $(this).parent().children().eq(0).val();
+				var bno = $(this).parent().parent().children().eq(0).children().eq(0).val();
 		
 				console.log(bno);
 				/* document.write( typeof bno ); */
@@ -128,7 +128,26 @@
 				
 				
 				
+			}); 
+			
+			$("button[name='deleteBtn']").click(function(){
+				var bno = $(this).parent().parent().children().eq(0).children().eq(0).val();
+				console.log(bno);
+				
+				if(window.confirm("게시판을 삭제 할까요 ?")){
+					console.log("삭제할까요");
+					location.href = "communityDelete.co?bno="+bno;
+					
+				}else {
+					console.log("삭제하지마세여");
+				}
+				
+				
 			});
+			
+			
+			
+			
 		
 /* 			function revision() {
 				

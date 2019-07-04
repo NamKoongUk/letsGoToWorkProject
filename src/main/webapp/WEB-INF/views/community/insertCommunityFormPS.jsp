@@ -49,7 +49,7 @@
 	
 									<tr>
 	
-										<td colspan="2"><input type="text" class="form-control" placeholder="글 제목" name="btitle" maxlength="50"/></td>
+										<td colspan="2"><input type="text" class="form-control" placeholder="글 제목" name="btitle" maxlength="50" /></td>
 	
 								  </tr> 
 								  
