@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.vo.DeptVo;
@@ -34,9 +35,14 @@ public interface EmployeeService {
 
   int insertEmpQuick(Employee employee, DeptVo dpVo, JobVo jobVo);
 
-  ArrayList<EmployeeResult> selectEmpListAdmin();
+  ArrayList<EmployeeResult> selectEmpListAdmin(PageInfo pi);
 
   HashMap<String, Object> selectJopDeptAdmin();
+
+int getEmpListCount();
+
+int deleteEmpList(int empNo);
+
 
 
 

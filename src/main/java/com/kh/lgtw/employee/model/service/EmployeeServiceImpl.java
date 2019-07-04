@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.employee.model.dao.EmployeeDao;
 import com.kh.lgtw.employee.model.exception.LoginException;
@@ -229,10 +230,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public ArrayList<EmployeeResult> selectEmpListAdmin() {
+	public ArrayList<EmployeeResult> selectEmpListAdmin(PageInfo pi) {
 		
 		
-		return empDao.selectEmpListAdmin(sqlSession);
+		return empDao.selectEmpListAdmin(sqlSession,pi);
 	}
 
 	@Override
@@ -248,6 +249,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 		hmap.put("jobList", jobList);
 		
 		return hmap;
+	}
+
+	@Override
+	public int getEmpListCount() {
+		return empDao.getEmpListCount(sqlSession);
+	}
+
+	@Override
+	public int deleteEmpList(int empNo) {
+		return empDao.deleteEmpList(sqlSession,empNo);
 	}
 
 

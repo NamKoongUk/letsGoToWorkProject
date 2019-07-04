@@ -53,17 +53,15 @@
 			<hr>
 			<div class="content">
 				<div id="searchArea">
-					<input id="searchInput" type="text" placeholder="ID, 이름 검색">
+					<input id="searchInput" type="text" name="" placeholder="ID, 이름 검색">
 					<button id="searchBtn">검색</button>
 				</div>
-				<div style="margin-left:1%;">
-					<a class="cancle">삭제</a>
-				</div>
+				<br>
 				<form action="insertEmpQuick.em" method="post">
 				<table class="table">
 				    <thead>
 					      <tr class="info">
-					      	<th><input type="checkbox"></th>
+					      	<th><input type="checkbox" class="chk" name="checkAll" id="th_checkAll"></th>
 					        <th>이름</th>
 					        <th>ID</th>
 					        <th>비밀번호</th>
@@ -89,7 +87,6 @@
 					        		</c:forEach>
 					        	
 					        	</select>
-					        
 					        </th>
 					        <th>
 					        	<select name = "jobCode">
@@ -104,11 +101,11 @@
 				    </tbody>
 			 	 </table>
 			 	 </form>
-			 	 <form>
-			 	 	<table class="table">
+			 	 <form action="deleteEmpList.em" method="post">
+			 	 	<table class="table" id="empTable">
 			 	 		<c:forEach var="item" items="${list }">
 			 	 			<tr>
-				 	 			<td><input type="checkbox" value="${item.empNo }"></td>
+				 	 			<td><input type="checkbox" class="chk" name="empNo" value="${item.empNo }"></td>
 				 	 			<td><c:out value="${item.empName }"/></td>
 				 	 			<td><c:out value="${item.empId }"/></td>
 				 	 			<td>********</td>
@@ -116,7 +113,6 @@
 				 	 			<td><c:out value="${item.empPhone }"/></td>
 				 	 			<td><c:out value="${item.deptName }"/></td>
 				 	 			<td><c:out value="${item.jobName }"/></td>
-				 	 			
 				 	 			<td>
 				 	 				<c:choose>
 				 	 					<c:when test="${item.status eq 'Y' }">
@@ -126,19 +122,64 @@
 				 	 						휴직
 				 	 					</c:when>
 				 	 				</c:choose>
-				 	 			
 				 	 			</td>
 			 	 			</tr>
-			 	 			
 			 	 		</c:forEach>
 			 	 	</table>
-			 	 
+			 	 	<div style="margin-left:1%; margin-top:-1%;">
+						<input type="submit" class="btn btn-primary" value="삭제">
+					</div>
 			 	 </form>
-				
+			 	 	<br>
+			 	 	 <div id="pagingArea" align="center">
+						<c:if test="${pi.currentPage<=1 }">
+							[이전] 
+						</c:if>
+						<c:if test="${pi.currentPage>1 }">
+							<c:url var="blistBack" value="/showEmployeeAdmin.em">
+								<c:param name="currentPage" value="${pi.currentPage -1 }"/>
+							</c:url>
+							<a href="${blistBack }">[이전]</a> 
+						</c:if>
+						
+						<c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
+							<c:if test="${p eq pi.currentPage }">
+								<font color="red" size="4"><b>[${p }]</b></font>
+							</c:if>
+							<c:if test="${p ne pi.currentPage }">
+								<c:url var="blistCheck" value="/showEmployeeAdmin.em">
+									<c:param name="currentPage" value="${ p }"/>
+								</c:url>
+								<a href="${blistCheck }">${p }</a>
+							</c:if>
+						</c:forEach>
+						
+						<c:if test="${pi.currentPage == pi.maxPage }">
+							 [다음]
+						</c:if>
+						<c:if test="${pi.currentPage < pi.maxPage }">
+							<c:url var="blistEnd" value="/showEmployeeAdmin.em">
+								<c:param name="currentPage" value="${pi.currentPage +1 }"/>
+							</c:url>
+							<a href="${blistEnd }">[다음]</a>
+						</c:if>
+					</div>
+			 	 
 			</div>
+	<script>
+		$("#th_checkAll").click(function(){
+			if($("#th_checkAll").is(':checked')){
+				$(".chk").prop("checked",true);
+			}else{
+				$(".chk").prop("checked",false);
+			}
+		});
+		
+	</script>
 		</section>
 	</div>
-	
 	<jsp:include page="../common/footer.jsp" />
+	
+	
 </body>
 </html>

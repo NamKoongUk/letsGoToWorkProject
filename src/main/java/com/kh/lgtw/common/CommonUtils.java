@@ -1,6 +1,7 @@
 package com.kh.lgtw.common;
 
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.session.SqlSession;
@@ -16,4 +17,11 @@ public class CommonUtils {
 		System.out.println("sql : " + sql);
 		System.out.println("obj : " + obj);
 	}
+	
+	public static String getRandomString() {
+		
+		return UUID.randomUUID().toString().replaceAll("-", "");
+		
+	}
+	
 }

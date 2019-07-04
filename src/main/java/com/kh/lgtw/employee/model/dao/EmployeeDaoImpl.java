@@ -6,10 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.util.ExcelRead;
@@ -102,8 +104,13 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	}
 
 	@Override
-	public ArrayList<EmployeeResult> selectEmpListAdmin(SqlSession sqlSession) {
-		return (ArrayList)sqlSession.selectList("Employee.selectEmpListAdmin");
+	public ArrayList<EmployeeResult> selectEmpListAdmin(SqlSession sqlSession, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage()-1)*pi.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		
+		return (ArrayList)sqlSession.selectList("Employee.selectEmpListAdmin",null,rowBounds);
 	}
 
 
@@ -115,6 +122,16 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	@Override
 	public int insertEmpProfile(SqlSession sqlSession, Attachment attach) {
 		return sqlSession.insert("Employee.insertEmpProfile", attach);
+	}
+
+	@Override
+	public int getEmpListCount(SqlSession sqlSession) {
+		return sqlSession.selectOne("Employee.selectEmpListCount");
+	}
+
+	@Override
+	public int deleteEmpList(SqlSession sqlSession, int empNo) {
+		return sqlSession.update("Employee.deleteEmpList", empNo);
 	}
 
 	
