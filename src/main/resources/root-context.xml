@@ -10,27 +10,33 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
+	<!-- property파일  -->
+	<beans:bean id="propertyConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <beans:property name="location" value="classpath:application.properties"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <beans:property name="fileEncoding" value="UTF-8" />
+    </beans:bean>
+    
+
 	<bean id="dataSourceSpied"
 		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName"
-			 value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url"
-			value="jdbc:oracle:thin:@localhost:1521:XE" />
-		<property name="username" value="lgtw" />
-		<property name="password" value="lgtw" />
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
 		<property name="defaultAutoCommit" value="false" />
 	</bean>
 	<!-- <bean id="dataSourceSpied"
 		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName"
-			 value="${ datasource.driver-class-name }" />
+			 value="${spring.datasource.driver}" />
 		<property name="url"
-			value="${ datasource.url }" />
-		<property name="username" value="${ datasource.username }" />
-		<property name="password" value="${ datasource.password }" />
+			value="${spring.datasource.url}" />
+		<property name="username" value="${spring.datasource.username}" />
+		<property name="password" value="${spring.datasource.password}" />
 		<property name="defaultAutoCommit" value="false" />
-	</bean>
- -->
+	</bean> -->
+
 	<!-- data Source를 가로채셔 로그 생성 -->
 	<bean id="dataSource"
 		class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
