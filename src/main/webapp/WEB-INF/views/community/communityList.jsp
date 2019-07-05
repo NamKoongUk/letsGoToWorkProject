@@ -79,14 +79,16 @@
 			    </thead>
 			    
 			      <c:forEach var="b" items="${list }">  
+			    	
 			    <tbody>
 				    <!--  <tr>
 				        <td><a href="communityPostList.co">교육일정</a></td>
 				        <td>강형석</td>
 				        <td>2019-06-20</td>
 				      </tr> --> 
+				     
 				      <tr>
-				        <td>${b.ord}</td> 
+				        <td><input type="hidden" name="bno" value="${b.bno }"> ${b.ord}</td> 
 				        <td>${b.boardType }</td>
 				        <td>${b.boardName}</td>
 				        <td>${b.createUserName}</td>
@@ -127,9 +129,10 @@
 			}).mouseout(function(){ 
 				$(this).parents("tr").css({"background":"white","color":"black"});	
 			}).click(function(){
-				var bno =$(this).parents().children("td").eq(0).text();
+				/* var bno =$(this).parents().children("td").eq(0).text(); */
+				var bno =$(this).parents("tr").children("td").eq(0).children("input").val();
 				console.log(bno);
-				location.href="communityPostList.co?bno="+bno;
+				location.href="communityPostList.co?bno="+bno; 
 			
 			});	
 		});

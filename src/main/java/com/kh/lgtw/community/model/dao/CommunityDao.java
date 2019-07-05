@@ -42,6 +42,9 @@ public interface CommunityDao {
 	//게시판 삭제 메소드 
 	int communityDelete(SqlSessionTemplate sqlSession, int bno);
 
+	//게시글 임시저장 Insert 메소드
+	int temporayInsert(SqlSessionTemplate sqlSession, CommunityPost cp);
+
 	
 
 	

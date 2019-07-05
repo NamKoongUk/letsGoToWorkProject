@@ -6,11 +6,17 @@
 <head>
 <meta charset="UTF-8">
 <title>LetsGoToWork</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <style > 
 	.table{font-size:150%; }
 
 
 </style>
+  
 
 </head>
 <body>
@@ -39,7 +45,7 @@
 				     
 				      
 				      <tr>
-				        <td>${c.ord}</td>
+				        <td ><input type="hidden" name="contentNO" value="${c.contentNO }"> ${c.ord}</td>
 				        <td>${c.btitle}</td>
 				        <td>${c.createUserName}</td>
 						<td>${c.createDate}</td>				        
@@ -69,7 +75,7 @@
 			}).mouseout(function(){ 
 				$(this).parents("tr").css({"background":"white","color":"black"});	
 			}).click(function(){
-				var contentNO =$(this).parents().children("td").eq(0).text();
+				var contentNO =$(this).parents("tr").children("td").eq(0).children("input").val();
 				location.href="communityPostDetails.co?contentNO="+contentNO;
 			
 			});	

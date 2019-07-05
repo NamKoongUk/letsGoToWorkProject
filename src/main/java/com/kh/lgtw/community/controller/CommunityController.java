@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.lgtw.community.model.service.CommunityService;
@@ -110,7 +111,7 @@ public class CommunityController {
 	
 	// 개시글 생성용 매소드
 	@RequestMapping("communityPostInsert.co")
-	public String CommunityPostInsert(Community com,CommunityPost cp ,HttpSession session ){
+	public String CommunityPostInsert(Community com,CommunityPost cp ,HttpSession session){
 		
 		 Employee loginUser =(Employee)session.getAttribute("loginEmp"); 
 		
@@ -307,6 +308,26 @@ public class CommunityController {
 		public String communityInsertCansel (HttpServletRequest request) {
 		
 		return "redirect:index.jsp";
+	}
+	
+	//게시글 임시 저장  insert
+	@RequestMapping("temporayInsert.co") 
+		public String temporayInsert (Community com,CommunityPost cp ,HttpSession session) {
+		
+		Employee loginUser =(Employee)session.getAttribute("loginEmp"); 
+		
+		 
+		 System.out.println("임시 저장 :Community:" + com);
+		 System.out.println("임시 저장 :CommunityPost : " +cp);
+		 
+		  
+		 cp.setBno(com.getBno()); 
+		 cp.setBwriter(loginUser.getEmpNo());
+		 
+		 
+		 int result = cs.temporayInsert(cp);
+		
+		return "redirect:temporaryList.co";
 	}
 	
 	

@@ -135,6 +135,14 @@ public class CommunityServiceImpl  implements CommunityService{
 	}
 
 
+    //게시판 임시저장 insert 메소드
+	@Override
+	public int temporayInsert(CommunityPost cp) {
+		// TODO Auto-generated method stub
+		return cd.temporayInsert(sqlSession,cp);
+	}
+
+
 
 
 

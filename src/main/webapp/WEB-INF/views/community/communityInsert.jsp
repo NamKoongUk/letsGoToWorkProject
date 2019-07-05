@@ -46,23 +46,7 @@
 						 	</td>
 						</tr>
 						  
-						<!-- <tr height=50px;>
-							<td >게시판 기본 권한: </td> 
-							<td >
-								&nbsp;<input type="checkbox" name="authority" value="">읽기
-								<input type="checkbox" name="authority" value="">읽기/쓰기
-							</td>
-							 
-						</tr>  
-						<tr height=50px; >
-							<td>사용자 권한: </td>
-							<td><input type="text" name=""  id="" ></td> 
 							
-							<td>&nbsp; <button id="btn" onclick="">추가</button> </td> 
-							
-						</tr> 
-						
- -->						
 					
 					</table> 
 					<div align="center">

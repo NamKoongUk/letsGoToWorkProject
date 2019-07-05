@@ -119,15 +119,17 @@
   	   </insert>
   	   
   	 <!--게시판 수정 폼    -->
-  	   <select id="communityUpdateForm" resultMap="communityResultSet"> 
+  	   <select id="communityUpdateForm" resultMap="communityResultSet" parameterType="_int"> 
   	   	SELECT  B.* ,E.EMP_NAME
 		FROM  BOARD B 
 		JOIN  EMPLOYEE E ON (B.CREATE_USER=E.EMPNO) 
 		WHERE B.BNO =#{bno}
   	   		
   	   
-  	  <!--게시판 수정   -->
-  	   </select> 
+  	 
+  	   </select>  
+  	   
+  	   
   	  <update id="communityUpdate" parameterType="Community">
   	  	UPDATE BOARD 
 		SET BOARD_NAME = #{boardName} ,CREATE_DATE=SYSDATE,
@@ -136,15 +138,16 @@
 		WHERE BNO = #{bno}
   	  </update>
  <!--게시글 수정 폼  -->	
-    <select id="communityPostUpdateForm" resultMap="communityPostResultSet">
+    <select id="communityPostUpdateForm" resultMap="communityPostResultSet" parameterType="_int">
 		SELECT B.BNO,B.BOARD_NAME , C.*
 		FROM  BOARD B  
         JOIN CONTENT C ON(B.BNO = C.BNO)
+        WHERE C.CONTENT_NO = #{contentNO}
 	
 	</select>
 	
 <!-- 게시글 수정	      -->
-	<update id="communityPostUpdate" parameterType="CommunityPost" > 
+	<update id="communityPostUpdate" parameterType="CommunityPost"  > 
 		UPDATE CONTENT 
 		SET BTITLE=#{btitle} , BCONTENT=#{bcontent} , MODIFY_DATE=SYSDATE ,STATUS='N'
 		WHERE CONTENT_NO = #{contentNO}  
@@ -169,6 +172,12 @@
 	
 	</update>
 	
+<!--게시글 임시 저장 insert 	 -->
+	<insert id="temporayInsert" parameterType="CommunityPost">
+		INSERT INTO CONTENT 
+    	 VALUES(SEQ_CONTENT_NO.NEXTVAL,#{bno},#{bwriter},#{btitle},#{bcontent},SYSDATE,SYSDATE,0,'T')
+	
+	</insert>
 
 	
 
