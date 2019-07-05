@@ -100,6 +100,7 @@
       },
       eventDrop: function(info) {
     	  if(info.event.classNames[1] == "수정불가"){
+    		  alert("수정 권한이 없습니다.");
     		  info.revert();
     	  }else{
     		  console.log(info);
@@ -134,6 +135,7 @@
       },
       eventResize: function(info) {
     	  if(info.event.classNames[1] == "수정불가"){
+    		  alert("수정 권한이 없습니다.");
     		  info.revert();
     	  }else{
     		  var id = info.event.id;
