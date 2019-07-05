@@ -11,6 +11,7 @@ import java.util.List;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -107,7 +108,18 @@ public class EmployeeController {
 	}
 	//내 정보 페이지
 	@RequestMapping("showMyPage.em")
-	public String showEmpPage() {
+	public String showEmpPage(Model model, HttpSession session) {
+		
+		Employee employee = (Employee)session.getAttribute("loginEmp");
+		
+		HashMap<String, Object> deptJob = empService.selectEmpDeptJob(employee);
+		
+		HashMap<String, Object> hmap = empService.selectJopDeptAdmin();
+		
+		
+		model.addAttribute("hmap", hmap);
+		model.addAttribute("deptJob",deptJob);
+		
 		return "employee/myEmpPage";
 	}
 
@@ -599,6 +611,18 @@ public class EmployeeController {
 		
 		return view;
 		
+	}
+	
+	@RequestMapping("updateMyInfo.em")
+	public String updateMyInfo(Model model, HttpSession session, EmployeeResult employee) {
+		
+		Employee loginEmp =(Employee)session.getAttribute("loginEmp");
+		
+		System.out.println("로그인 정보 " + loginEmp);
+		System.out.println("수정 정보 " + employee);
+		
+		
+		return"";
 	}
 	
 }

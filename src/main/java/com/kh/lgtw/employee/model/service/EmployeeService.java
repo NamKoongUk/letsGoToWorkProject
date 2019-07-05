@@ -53,6 +53,9 @@ public interface EmployeeService {
 
 	List<EmployeeResult> xlsxEmpUpdate(MultipartHttpServletRequest request, MultipartFile excelFile);
 
+	HashMap<String, Object> selectEmpDeptJob(Employee employee);
+
+
 
 
 

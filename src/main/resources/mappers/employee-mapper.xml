@@ -80,8 +80,7 @@
 	<select id="loginCheck" resultMap="employeeResultSet" parameterType="Employee">
 		SELECT *
 		FROM EMPLOYEE
-		WHERE STATUS = 'Y' 
-		AND EMP_ID = #{empId}
+		WHERE EMP_ID = #{empId}
 	</select>
 	
 	<!-- id, pw 확인 -->
@@ -168,5 +167,23 @@
 		WHERE E.STATUS !='N' AND E.EMP_ID != 'admin'
 	</select>
 	
+	<update id="updateEmpExcel" parameterType="EmployeeResult">
+		UPDATE EMPLOYEE SET EMP_NAME = #{empName}, OFFICE_TEL=#{officeTel}, EMP_PHONE=#{empPhone}, STATUS=#{status} WHERE EMPNO=#{empNo}
+	</update>
+	
+	<update id="updateExcelDept" parameterType="EmployeeResult">
+		UPDATE DEPT_HISTORY SET DEPT_CODE = (SELECT DEPT_CODE FROM DEPT WHERE DEPT_NAME=#{deptName}) WHERE EMPNO=#{empNo}
+	</update>
+	
+	<update id="updateExcelJob" parameterType="EmployeeResult">
+		UPDATE PROMOTION_HISTORY SET JOB_CODE = (SELECT JOB_CODE FROM JOB WHERE JOB_NAME=#{jobName}) WHERE EMPNO=#{empNo}
+	</update>
+	
+	<select id="selectEmpJob" parameterType="Employee" resultType="PromotionHistory">
+		SELECT * FROM PROMOTION_HISTORY WHERE EMPNO=#{empNo}
+	</select>
+	<select id="selectEmpDept" parameterType="Employee" resultType="DeptHistory">
+		SELECT * FROM DEPT_HISTORY WHERE EMPNO=#{empNo}
+	</select>
 	
 </mapper>

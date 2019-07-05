@@ -7,7 +7,7 @@ public class Employee {
 	private String empId;
 	private String empPwd;
 	private String empName;
-	private Date empBirth;
+	private String empBirth;
 	private String gender;
 	private String empPhone;
 	private String officeTel;
@@ -29,7 +29,7 @@ public class Employee {
 	
 	public Employee() {}
 
-	public Employee(int empNo, String empId, String empPwd, String empName, Date empBirth, String gender,
+	public Employee(int empNo, String empId, String empPwd, String empName, String empBirth, String gender,
 			String empPhone, String officeTel, String address, String email, String managerType, String status,
 			Date enrollDate, Date retirementDate, String otherInfo, String personalInfoCheck, int refEmpNo,
 			Date lstartDate, Date lendDate, String leaveTerm, String leaveReason, String retirementReason,
@@ -92,11 +92,11 @@ public class Employee {
 		this.empName = empName;
 	}
 
-	public Date getEmpBirth() {
+	public String getEmpBirth() {
 		return empBirth;
 	}
 
-	public void setEmpBirth(Date empBirth) {
+	public void setEmpBirth(String empBirth) {
 		this.empBirth = empBirth;
 	}
 
@@ -254,8 +254,6 @@ public class Employee {
 				+ lstartDate + ", lendDate=" + lendDate + ", leaveTerm=" + leaveTerm + ", leaveReason=" + leaveReason
 				+ ", retirementReason=" + retirementReason + ", leaveType=" + leaveType + "]";
 	}
-	
-	
-	
+
 	
 }

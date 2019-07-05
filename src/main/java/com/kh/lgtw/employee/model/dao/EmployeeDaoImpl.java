@@ -16,11 +16,13 @@ import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.employee.model.exception.LoginException;
 import com.kh.lgtw.employee.model.util.ExcelRead;
 import com.kh.lgtw.employee.model.util.ExcelReadOption;
+import com.kh.lgtw.employee.model.vo.DeptHistory;
 import com.kh.lgtw.employee.model.vo.DeptVo;
 import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.employee.model.vo.EmployeeResult;
 import com.kh.lgtw.employee.model.vo.ExcelEmp;
 import com.kh.lgtw.employee.model.vo.JobVo;
+import com.kh.lgtw.employee.model.vo.PromotionHistory;
 
 @Repository
 public class EmployeeDaoImpl implements EmployeeDao{
@@ -137,6 +139,33 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	@Override
 	public ArrayList<EmployeeResult> dbEmpList(SqlSession sqlSession) {
 		return (ArrayList)sqlSession.selectList("Employee.dbEmpList");
+	}
+
+	@Override
+	public List<EmployeeResult> excelEmpUpdate(SqlSession sqlSession, List<EmployeeResult> list) {
+		
+		for(int i = 0; i<list.size(); i++) {
+			System.out.println("포문시작");
+			sqlSession.update("Employee.updateEmpExcel", list.get(i));
+			sqlSession.update("Employee.updateExcelDept", list.get(i));
+			sqlSession.update("Employee.updateExcelJob", list.get(i));
+		}
+		
+		
+		
+		System.out.println("포문완료");
+		
+		return list;
+	}
+
+	@Override
+	public PromotionHistory selectEmpJob(SqlSession sqlSession, Employee employee) {
+		return sqlSession.selectOne("Employee.selectEmpJob", employee);
+	}
+
+	@Override
+	public DeptHistory selectEmpDept(SqlSession sqlSession, Employee employee) {
+		return sqlSession.selectOne("Employee.selectEmpDept", employee);
 	}
 
 	

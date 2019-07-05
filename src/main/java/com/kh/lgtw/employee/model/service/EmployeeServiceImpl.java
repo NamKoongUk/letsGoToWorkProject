@@ -31,11 +31,13 @@ import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.employee.model.dao.EmployeeDao;
 import com.kh.lgtw.employee.model.exception.LoginException;
+import com.kh.lgtw.employee.model.vo.DeptHistory;
 import com.kh.lgtw.employee.model.vo.DeptVo;
 import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.employee.model.vo.EmployeeResult;
 import com.kh.lgtw.employee.model.vo.ExcelEmp;
 import com.kh.lgtw.employee.model.vo.JobVo;
+import com.kh.lgtw.employee.model.vo.PromotionHistory;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -186,13 +188,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 						}
 						
 						list.add(excelEmp);
-						
 					}
 				}
 			}
 			
 		}
-			
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -206,7 +206,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		
 		daoList = empDao.excelEmpInsert(sqlSession, list);
-		
 		
 		return daoList;
 	}
@@ -238,8 +237,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public ArrayList<EmployeeResult> selectEmpListAdmin(PageInfo pi) {
-		
-		
 		return empDao.selectEmpListAdmin(sqlSession,pi);
 	}
 
@@ -359,8 +356,117 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<EmployeeResult> xlsxEmpUpdate(MultipartHttpServletRequest request, MultipartFile excelFile) {
-		return null;
+		//System.out.println("엑셀 XLSX");
+		
+		List<EmployeeResult> list = new ArrayList<>();
+		
+		MultipartFile file = request.getFile("excelFile");
+		
+		XSSFWorkbook workbook = null;
+		
+		try {
+			
+			workbook = new XSSFWorkbook(file.getInputStream());
+			
+			XSSFSheet curSheet;
+			XSSFRow curRow;
+			XSSFCell curCell;
+			EmployeeResult employeeResult;
+			
+			String filePath = "스트링"+file.getOriginalFilename();
+			
+			//System.out.println("서비스 엑셀파일 확인" + filePath);
+			
+		for(int sheetIndex = 0; sheetIndex<workbook.getNumberOfSheets(); sheetIndex++) {
+			//System.out.println("시트 확인"+workbook.getNumberOfSheets());
+			//System.out.println(sheetIndex);
+			//System.out.println(workbook.getNumberOfSheets());
+			
+			curSheet =workbook.getSheetAt(sheetIndex);
+			
+			for(int rowIndex = 0; rowIndex<curSheet.getPhysicalNumberOfRows(); rowIndex++) {
+				//System.out.println("로우 확인"+curSheet.getPhysicalNumberOfRows());
+				if(rowIndex!=0) {
+					curRow=curSheet.getRow(rowIndex);
+					
+					employeeResult = new EmployeeResult();
+					
+					String value;
+					
+					if(curRow.getCell(0)!=null) {
+						for(int cellIndex=0; cellIndex<curRow.getPhysicalNumberOfCells(); cellIndex++) {
+							curCell = curRow.getCell(cellIndex);
+							
+							//System.out.println("셀타입 확인:"+curCell.getCellType());
+							
+							if(true) {
+								value="";
+								
+								switch (curCell.getCellType()) {
+								case FORMULA: value = curCell.getCellFormula(); break;
+								case NUMERIC:
+									if (HSSFDateUtil.isCellDateFormatted(curCell)){ 
+										SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+									value= formatter.format(curCell.getDateCellValue());  break;
+									}else{
+									 value = (int)curCell.getNumericCellValue() + "";
+									 break;
+									}
+								case STRING: value = curCell.getStringCellValue() + ""; break;
+								case BLANK: value = curCell.getBooleanCellValue() + ""; break;
+								case ERROR: value = curCell.getErrorCellValue() + ""; break;
+								default: value = new String(); break;
+								} // end switch
+								
+								switch(cellIndex) {
+								case 0 : employeeResult.setEmpNo(Integer.valueOf(value)); break;
+								case 1 : employeeResult.setEmpId(value); break;
+								case 2 : employeeResult.setEmpName(value); break;
+								case 3 : employeeResult.setDeptName(value); break;
+								case 4 : employeeResult.setJobName(value); break;
+								case 5 : employeeResult.setOfficeTel(value); break;
+								case 6 : employeeResult.setEmpPhone(value); break;
+								case 7 : employeeResult.setStatus(value); break;
+								default: break;
+								}
+							}
+						}
+						
+						list.add(employeeResult);
+						
+					}
+				}
+			}
+			
+		}
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		List<EmployeeResult> daoList = new ArrayList<>();
+		
+		daoList = empDao.excelEmpUpdate(sqlSession, list);
+		
+		
+		return daoList;
 	}
+
+	@Override
+	public HashMap<String, Object> selectEmpDeptJob(Employee employee) {
+		HashMap<String, Object> hmap = null;
+		
+		PromotionHistory jobHistory = empDao.selectEmpJob(sqlSession, employee);
+		DeptHistory dpHistory = empDao.selectEmpDept(sqlSession, employee);
+		
+		hmap = new HashMap<String, Object>();
+		hmap.put("jobHistory", jobHistory);
+		hmap.put("dpHistory", dpHistory);
+		
+		return hmap;
+	}
+
 
 
 
