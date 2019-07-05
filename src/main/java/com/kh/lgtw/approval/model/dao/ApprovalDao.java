@@ -154,4 +154,16 @@ public interface ApprovalDao {
 
 	String selectNormalApprovalYN(SqlSession session, HashMap<String, Object> map);
 
+	int countAgreeMember(SqlSession session, HashMap<String, Object> map);
+
+	int countPayAgreeMember(SqlSession session, HashMap<String, Object> map);
+
+	int updateAdStatusAndLevel(SqlSession session, HashMap<String, Object> map, String string);
+
+	String selectCircleEmp(SqlSession session, HashMap<String, Object> map);
+
+	int updateAgree(SqlSession session, HashMap<String, Object> map);
+
+	String selectAgreeApprovalYN(SqlSession session, HashMap<String, Object> map);
+
 }

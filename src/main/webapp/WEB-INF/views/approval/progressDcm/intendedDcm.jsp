@@ -37,7 +37,7 @@
 				    <tbody>
 				      <c:forEach var="ad" items="${ requestScope.list }">
 				      	<tr>
-				      		<td>${ ad.adNo }</td>
+				      		<td><input type="hidden" value="${ ad.adNo }">${ ad.adNo }</td>
 				      		<td>${ ad.adTitle }</td>
 				      		<td>${ ad.adWriterName }</td>
 				      		<td>${ ad.adStartDate }</td>
@@ -88,17 +88,8 @@
 	
 	<jsp:include page="../../common/footer.jsp" />
 	<script>
-		$("#checkAll").click(function(){
-			if($("#checkAll").prop("checked")) {				
-				$("input[name='check']").prop("checked", true);
-			}else {
-				$("input[name='check']").prop("checked", false);
-			}
-			
-		});
-		
 		$(".table").find("td").click(function(){
-			var adNo = $(this).parents().children("th").eq(0).children().eq(0).val();
+			var adNo = $(this).parents().children("td").eq(0).children().eq(0).val();
 			console.log(adNo);
 			location.href="${ contextPath }/showDetailDcm.ap?adNo=" + adNo;
 		});

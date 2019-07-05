@@ -125,6 +125,8 @@ public interface ApprovalService {
 
 	int selectWaitRecptionDcm(int empNo);
 
+	int updateAgree(HashMap<String, Object> map);
+
 	
 
 }
