@@ -44,6 +44,9 @@ public interface CommunityDao {
 
 	//게시글 임시저장 Insert 메소드
 	int temporayInsert(SqlSessionTemplate sqlSession, CommunityPost cp);
+    
+	//댓글 목록 조회
+	ArrayList<CommunityComment> commentlist(SqlSessionTemplate sqlSession, int contentNO);
 
 	
 

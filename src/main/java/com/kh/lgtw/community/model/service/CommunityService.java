@@ -46,6 +46,9 @@ public interface CommunityService
 	//게시판  임시 저장 Insert 메소드 
 	int temporayInsert(CommunityPost cp);
 
+    //댓글 목록 리스트 	
+	ArrayList<CommunityComment> commentlist(int contentNO);
+
 
 	
 

@@ -57,6 +57,7 @@
 				  <table class="table">
 					    <thead>
 					      <tr>
+					        <th>게시판번호</th>
 					        <th>게시판 이름</th>
 					        <th>게시판 작성자</th>
 					        <th>게시판 작성일자</th>
@@ -65,6 +66,7 @@
 					    <c:forEach var="c" items="${list }">
 					    <tbody>
 						     <tr>
+						        <td><input type="hidden" name= " contentNO" value="${c.contentNO }">${c.ord}</td>
 						        <td>${c.btitle}</td>
 						        <td>${c.createUserName}</td>
 						        <td>${c.createDate}</td>

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.lgtw.community.model.service.CommunityService;
 import com.kh.lgtw.community.model.vo.Community;
+import com.kh.lgtw.community.model.vo.CommunityComment;
 import com.kh.lgtw.community.model.vo.CommunityPost;
 import com.kh.lgtw.employee.model.vo.Employee;
 @SessionAttributes("loginEmp")
@@ -154,7 +155,11 @@ public class CommunityController {
 		
 		System.out.println("게시글 상세  contentNO 값:"+contentNO);
 		ArrayList<CommunityPost> list = cs.CommunityPostDetails(contentNO);
+		ArrayList<CommunityComment>commentlist = cs.commentlist(contentNO); 
 		model.addAttribute("list",list);
+		model.addAttribute("commentlist",commentlist );
+		
+		System.out.println("comentComment" +commentlist );
 		return "community/communityPostDetails";
 	}
 	
@@ -304,6 +309,7 @@ public class CommunityController {
 		
 		
 	} 
+	//게시판 생성 취소
 	@RequestMapping("communityInsertCansel.co")  
 		public String communityInsertCansel (HttpServletRequest request) {
 		
