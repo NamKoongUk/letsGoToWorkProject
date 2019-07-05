@@ -53,24 +53,39 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return ad.selectIntendedDcm(empNo, session);
 	}
-//	//처리중인문서 이동
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showProgressgDcm(PageInfo pi) {
-//		// TODO Auto-generated method stub
-//		return ad.showProgressgDcm(pi, session);
-//	}
+	//처리중인문서 이동
+	@Override
+	public ArrayList<HashMap<String, Object>> showProgressgDcm(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return ad.showProgressgDcm(pi, session);
+	}
+	@Override
+	public int selectProgressDcm(int empNo, String string) {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("empNo", empNo);
+		map.put("type", string);
+		
+		return ad.selectProgressDcm(map, session);
+	}
+
 //	//완료문서 이동
 //	@Override
 //	public ArrayList<HashMap<String, Object>> showFinishDcm(PageInfo pi) {
 //		// TODO Auto-generated method stub
 //		return ad.showFinishDcm(pi, session);
 //	}
-//	//수신대기 문서 이동
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showWaitReceptionDcm(PageInfo pi) {
-//		// TODO Auto-generated method stub
-//		return ad.showWaitReceptionDcm(pi, session);
-//	}
+	//수신대기 문서 이동
+	@Override
+	public ArrayList<HashMap<String, Object>> showWaitReceptionDcm(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return ad.showWaitReceptionDcm(pi, session);
+	}
+	@Override
+	public int selectWaitRecptionDcm(int empNo) {
+		// TODO Auto-generated method stub
+		return ad.selectWaitReceptionDcm(empNo, session);
+	}
 //	//회람대기 문서 이동
 	@Override
 	public ArrayList<HashMap<String, Object>> showWaitCirculationDcm(PageInfo pi) {
@@ -269,12 +284,29 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		return appList;
 	}
-//	//문서결재
-//	@Override
-//	public int approvalDcm(String adNo, int eid) {
-//		// TODO Auto-generated method stub
-//		return ad.approvalDcm(session, eid, adNo);
-//	}
+	//문서결재
+	@Override
+	public int updateApproval(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		int result = ad.updateApproval(session, map);
+		
+		if(result > 0) {
+			int result2 = ad.updateAdLevel(session, map);
+			if(result2 > 0) {
+				String result3 = ad.selectApprovalYN(session, map);
+				if(result3.equals("Y")) {
+					int result4 = ad.updateAdStatus(session, map, "완료");
+				}else {
+					String result5 = ad.selectNormalApprovalYN(session, map);
+					if(result5.equals("Y")) {
+						int result6 = ad.updateAdStatus(session, map, "결재완료");
+					}
+				}
+			}
+		}
+		
+		return 0;
+	}
 	//회람 or 수신 확인
 	@Override
 	public int confirmDcm(String adNo, int empNo) {
@@ -437,6 +469,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return ad.autocompleteCircle(value, session);
 	}
+
 
 
 

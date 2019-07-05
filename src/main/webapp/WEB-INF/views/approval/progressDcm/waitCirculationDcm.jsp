@@ -15,7 +15,7 @@
 		
 		<section class="col-sm-10">
 		<!-- 진행중인문서-회람문서 -->
-			<h3 class="title">회람문서</h3>
+			<h3 class="title">회람 대기 문서</h3>
 			<hr>
 			<div class="content">
 				<select class="form-control" style="width:150px; display:inline-block;">

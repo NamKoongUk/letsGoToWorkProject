@@ -128,21 +128,34 @@ public class AprprovalController {
 	@RequestMapping("showProgressgDcm.ap")
 	public String showProgressgDcm(HttpServletRequest request, Model model) {
 
-//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-//		
-//		PageInfo pi = new PageInfo();
-//		pi.setSortInfo(request.getParameter("sortInfo"));
-//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-//		pi.setEid(e.getEid());
-//		
-		// ArrayList<HashMap<String, Object>> list = as.showProgressgDcm(pi);
+		Employee e = (Employee)request.getSession().getAttribute("loginEmp");
+		
+		int currentPage = 1;
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		
+		int listCount = as.selectProgressDcm(e.getEmpNo(), "progress");
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+	
+		pi.setEmpNo(e.getEmpNo());
+		pi.setSfCode("approvalProgress");
+
+		ArrayList<HashMap<String, Object>> list = as.showProgressgDcm(pi);
+		ArrayList<HashMap<String, Object>> formList = as.selectFormList();
+		System.out.println(list);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("formList", formList);
+		model.addAttribute("pi", pi);
 
 		return "progressDcm/approvalProgressDcm";
 	}
 
-	// 완료문서 이동
-	@RequestMapping("showFinishDcm.ap")
-	public String showFinishDcm(HttpServletRequest request, Model model) {
+//	// 완료문서 이동
+//	@RequestMapping("showFinishDcm.ap")
+//	public String showFinishDcm(HttpServletRequest request, Model model) {
 //		
 //		Employee e = (Employee)request.getSession().getAttribute("loginUser");
 //		
@@ -150,31 +163,38 @@ public class AprprovalController {
 //		pi.setSortInfo(request.getParameter("sortInfo"));
 //		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
 //		pi.setEid(e.getEid());
-
-		// ArrayList<HashMap<String, Object>> list = as.showFinishDcm(pi);
-
-		return "progressDcm/finishDcm";
-	}
+//
+//		ArrayList<HashMap<String, Object>> list = as.showFinishDcm(pi);
+//
+//		return "progressDcm/finishDcm";
+//	}
 
 	// 수신대기 문서 이동
 	@RequestMapping("showWaitReceptionDcm.ap")
 	public String showWaitReceptionDcm(HttpServletRequest request, Model model) {
 
-//		Employee e = (Employee)request.getSession().getAttribute("loginUEmp");
-//		
-//		int currentPage = 1;
-//		if(request.getParameter("currentPage") != null) {
-//			currentPage = Integer.parseInt(request.getParameter("currentPage"));
-//		}
-//		
-//		int listCount = as.selectWaitCircleDcm();
-//		
-//		PageInfo pi = new PageInfo();
-//		pi.setSortInfo(request.getParameter("sortInfo"));
-//		pi.setCurrentPage(currentPage);
-//		pi.setEid(e.getEmpNo());
-//
-//		ArrayList<HashMap<String, Object>> list = as.showWaitReceptionDcm(pi);
+		Employee e = (Employee)request.getSession().getAttribute("loginEmp");
+		
+		int currentPage = 1;
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		
+		int listCount = as.selectWaitRecptionDcm(e.getEmpNo());
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+	
+		pi.setEmpNo(e.getEmpNo());
+		pi.setSfCode("reception");
+
+		ArrayList<HashMap<String, Object>> list = as.showWaitReceptionDcm(pi);
+		ArrayList<HashMap<String, Object>> formList = as.selectFormList();
+		System.out.println(list);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("formList", formList);
+		model.addAttribute("pi", pi);
+
 
 		return "progressDcm/waitReceptionDcm";
 	}
@@ -559,12 +579,17 @@ public class AprprovalController {
 	}
 
 	// 문서결재
-	@RequestMapping("approvalDcm.ap")
-	public String approvalDcm(String adNo, int eid) {
+	@RequestMapping(value = "/approval/updateApproval", produces = "application/text; charset=utf8")
+	public @ResponseBody String updateApproval(String adNo, int empNo, String status) {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("adNo", adNo);
+		map.put("empNo", empNo);
+		map.put("status", status);
+		
+		int result = as.updateApproval(map);
 
-		// int result = as.approvalDcm(adNo, eid);
-
-		return "";
+		return "성공";
 	}
 
 	// 회람 or 수신 확인
@@ -659,27 +684,39 @@ public class AprprovalController {
 				break;
 				
 		case "approvalSend": appDcm.put("approval", approval);
-				appDcm.put("reference", reference);
+				if(reference != null) {
+					appDcm.put("reference", reference);					
+				}
 				appDcm.put("send", send);
 				appDcm.put("type", 2);
 				break;
 				
 		case "normalApproval": appDcm.put("approval", approval);
-				appDcm.put("agree", agree);
-				appDcm.put("reference", reference);	
+				if(agree != null) {
+					appDcm.put("agree", agree);					
+				}
+				if(reference != null) {
+					appDcm.put("reference", reference);					
+				}
 				appDcm.put("type", 3);
 			break;
 			
 		case "agreementApproval": appDcm.put("approval", approval);
 				appDcm.put("payAgree", payAgree);
-				appDcm.put("agree", agree);
-				appDcm.put("reference", reference); 	
+				if(agree != null) {
+					appDcm.put("agree", agree);					
+				}
+				if(reference != null) {
+					appDcm.put("reference", reference);					
+				}	
 				appDcm.put("type", 4);
 			break;
 			
 		case "applyDcm": appDcm.put("apply", apply);
 				appDcm.put("process", process);
-				appDcm.put("reference", reference);
+				if(reference != null) {
+					appDcm.put("reference", reference);					
+				}
 				appDcm.put("type", 5);
 			break;
 

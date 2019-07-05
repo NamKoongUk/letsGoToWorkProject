@@ -25,13 +25,11 @@ public interface ApprovalDao {
 //
 	ArrayList<HashMap<String, Object>> showIntendedDcm(PageInfo pi, SqlSession session);
 //
-//	ArrayList<HashMap<String, Object>> showProgressgDcm(PageInfo pi, SqlSession session);
+	ArrayList<HashMap<String, Object>> showProgressgDcm(PageInfo pi, SqlSession session);
 //
 //	ArrayList<HashMap<String, Object>> showFinishDcm(PageInfo pi, SqlSession session);
 //
-//	ArrayList<HashMap<String, Object>> showWaitReceptionDcm(PageInfo pi, SqlSession session);
-//
-//	ArrayList<HashMap<String, Object>> showWaitCirculationDcm(PageInfo pi, SqlSession session);
+	ArrayList<HashMap<String, Object>> showWaitReceptionDcm(PageInfo pi, SqlSession session);
 //
 //	ArrayList<HashMap<String, Object>> showAllFinishDcm(PageInfo pi, SqlSession session);
 //
@@ -72,7 +70,7 @@ public interface ApprovalDao {
 //
 	HashMap<String, Object> showDetailDcm(SqlSession session, String adNo);
 //
-//	int approvalDcm(SqlSession session, int eid, String adNo);
+	int updateApproval(SqlSession session, HashMap<String, Object> map);
 //
 	int confirmDcm(SqlSession session, HashMap<String, Object> map);
 //
@@ -143,5 +141,17 @@ public interface ApprovalDao {
 	int selectIntendedDcm(int empNo, SqlSession session);
 
 	int selectCircleDcm(HashMap<String, Object> map, SqlSession session);
+
+	int selectProgressDcm(HashMap<String, Object> map, SqlSession session);
+
+	int selectWaitReceptionDcm(int empNo, SqlSession session);
+
+	int updateAdLevel(SqlSession session, HashMap<String, Object> map);
+
+	String selectApprovalYN(SqlSession session, HashMap<String, Object> map);
+
+	int updateAdStatus(SqlSession session, HashMap<String, Object> map, String string);
+
+	String selectNormalApprovalYN(SqlSession session, HashMap<String, Object> map);
 
 }
