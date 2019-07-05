@@ -24,9 +24,8 @@
 		</li>
 	</ul>
 	<form id="chatForm">
-		<input type="hidden" name="hidden1" value="우기기기" />
-		<input type="hidden" name="hidden2" value="123123" />
-		<input type="hidden" name="hidden3" value="555" />
+		<input type="hidden" name="hidden1" value="${loginEmp.empId}" />
+		<input type="hidden" name="hidden2" value="${loginEmp.empName}" />
 	</form>
 	
 </div>
