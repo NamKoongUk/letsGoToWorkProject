@@ -19,36 +19,35 @@
 		<jsp:include page="../common/sideMenu/community.jsp"/>
 		
 		<section class="col-sm-10">
-			<h1 class="title">글작성</h1> 
+			<h1 class="title">게시글 수정</h1> 
 		
 			<div class="content">
-					<form method="post" action=""  id="insertPost" >
+					<form method="post" action="communityPostUpdate.co"  >
 							
 						
-						<label>&nbsp;게시판 종류 :</label>
+						<label>&nbsp;게시판 종류 : ${cp.bname } </label>
+							<input type="hidden" name="contentNO" value="${cp.contentNO }">	
 								
-								
-								<select id="selectBoard" name="bno">
+								<%-- <select name="bno">
 								<c:forEach var="b" items="${ requestScope.list}">
 								   	     <option value='${ b.bno}' selected>${b.boardName}</option>
-								   	     
-								   	
+								   	      
 					   	
 					   			
 					   			
 					   			</c:forEach>
 					   			</select>
 					   			
-					   					<!-- <input type="hidden" name="bno"> --> 
-
+					   	 --%>				<!-- <input type="hidden" name="bno"> --> 
+							 
 							<table class="table table-striped" >
 
 								<tbody>
 													
-	
+												
 									<tr>
 	
-										<td colspan="2"><input type="text" class="form-control" placeholder="글 제목" name="btitle" id="selectbtitle" maxlength="50" /></td>
+										<td colspan="2"><input type="text" class="form-control" placeholder="글 제목" name="btitle" maxlength="50" value="${cp.btitle }"/></td>
 	
 								  </tr> 
 								  
@@ -63,6 +62,8 @@
 
 							
 							</table>
+							  
+								
 					<div id="signFormArea">
 			
 					</div>
@@ -72,13 +73,13 @@
 					    <div class="form-group">
 					        <div class="form-group">
 					            <div class="col-lg-12">
-				 	                <textarea name="bcontent" id="ckeditor"></textarea>
+					                <textarea name="bcontent" id="ckeditor" >${cp.bcontent }</textarea>
 					            </div>
 					        </div>
 					        <div class="form-group">
 					            <div class="col-lg-12" align="center">
-					            	<button type="button" class="btn btn-md btn-default" name="btn" onclick="temporay()">임시저장</button>
-					                <button type="button" class="btn btn-md btn-primary" onclick="insert()">저장</button>
+					            	<button type="button" class="btn btn-md btn-default">수정 취소</button>
+					                <button type="submit" class="btn btn-md btn-primary">수정</button>
 					            </div>
 					        </div>
 					    </div>
@@ -125,21 +126,7 @@
             }
         });
          
-    }); 
-    	
- /* 게시글  Insert  */  
-    function insert(){
-    	 $("#insertPost").attr("action" ,"${contextPath }/communityPostInsert.co");
-    	 $("#insertPost").submit();    	 
-    	};
-  /* 게시글 임시 저장  Insert    */	
-     function temporay(){
-    	$("#insertPost").attr("action","${contextPath}/temporayInsert.co"); 
-    	$("#insertPost").submit();
-     }	
-    	
-  
-    
+    });
 		
 	
 	</script>

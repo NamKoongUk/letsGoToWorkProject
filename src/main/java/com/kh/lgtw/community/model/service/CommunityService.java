@@ -43,6 +43,9 @@ public interface CommunityService
 	//게시판 삭제 메소드
 	int communityDelete(int bno);
 
+	//게시판  임시 저장 Insert 메소드 
+	int temporayInsert(CommunityPost cp);
+
 
 	
 

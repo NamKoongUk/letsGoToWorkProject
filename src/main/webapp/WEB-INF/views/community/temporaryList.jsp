@@ -92,5 +92,22 @@
 	
 	
 	<jsp:include page="../common/footer.jsp" />
+	
+	<script>
+		$(function(){
+			$(".table").find("td").mouseenter(function(){
+				$(this).parents("tr").css({"background":"lightblue", "color":"white" ,"cursor":"pointer"});	
+			}).mouseout(function(){ 
+				$(this).parents("tr").css({"background":"white","color":"black"});	
+			}).click(function(){
+				var contentNO =$(this).parents("tr").children("td").eq(0).children("input").val();
+				location.href="communityPostDetails.co?contentNO="+contentNO;
+			
+			});	
+		});
+		
+	
+	</script>
+	
 </body>
 </html>

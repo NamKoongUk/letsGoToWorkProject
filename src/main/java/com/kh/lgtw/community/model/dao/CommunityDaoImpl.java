@@ -110,6 +110,12 @@ public class CommunityDaoImpl implements CommunityDao {
 		return sqlSession.update("Community.communityDelete", bno);
 	}
 
+	@Override
+	public int temporayInsert(SqlSessionTemplate sqlSession, CommunityPost cp) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("Community.temporayInsert", cp);
+	}
+
 	
 	
 
