@@ -10,11 +10,13 @@ import org.mybatis.spring.SqlSessionTemplate;
 import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.employee.model.exception.LoginException;
+import com.kh.lgtw.employee.model.vo.DeptHistory;
 import com.kh.lgtw.employee.model.vo.DeptVo;
 import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.employee.model.vo.EmployeeResult;
 import com.kh.lgtw.employee.model.vo.ExcelEmp;
 import com.kh.lgtw.employee.model.vo.JobVo;
+import com.kh.lgtw.employee.model.vo.PromotionHistory;
 
 public interface EmployeeDao{
 
@@ -47,6 +49,13 @@ public interface EmployeeDao{
 	int deleteEmpList(SqlSession sqlSession, int empNo);
 
 	ArrayList<EmployeeResult> dbEmpList(SqlSession sqlSession);
+
+	List<EmployeeResult> excelEmpUpdate(SqlSession sqlSession, List<EmployeeResult> list);
+
+	PromotionHistory selectEmpJob(SqlSession sqlSession, Employee employee);
+
+	DeptHistory selectEmpDept(SqlSession sqlSession, Employee employee);
+
 
 
 

@@ -35,7 +35,8 @@
 						<p>
 							오피스에 이미 등록된 사용자 정보를 엑셀 파일에서 수정하여 최대 100건까지 일괄 적용할 수 있습니다. <br>
 							수정 양식을 다운로드 받아, 수정할 구성원 정보를 편집하세요. <br>
-							수정 사항이 없는 직원은 행을 삭제해 주세요. <a id="download" href="<c:url value='/dbEmpList.em' />">수정양식(직원데이터)</a> <br>
+							수정 사항이 없는 직원은 행을 삭제하세요.<br> 
+							공백이 없도록 하고 업로드를 진행 하세요.<a id="download" href="<c:url value='/dbEmpList.em' />">수정양식(직원데이터)</a> <br>
 							 (※ 사번, 아이디는 수정할 수 없습니다.) 
 							<br>
 						</p>
@@ -48,7 +49,6 @@
 									<button type="submit" id="addExcelImortBtn" class="btn" onclick="check();"><span>추가</span></button> 
 								</div>
 							</form>
-				
 			</div>
 		</section>
 	</div>
