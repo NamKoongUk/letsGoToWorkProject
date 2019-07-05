@@ -143,6 +143,14 @@ public class CommunityServiceImpl  implements CommunityService{
 	}
 
 
+    //댓글리스트 조회 메소드 
+	@Override
+	public ArrayList<CommunityComment> commentlist(int contentNO) {
+		// TODO Auto-generated method stub
+		return cd.commentlist(sqlSession,contentNO);
+	}
+
+
 
 
 
