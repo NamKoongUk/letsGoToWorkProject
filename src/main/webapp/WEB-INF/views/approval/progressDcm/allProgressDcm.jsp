@@ -50,7 +50,7 @@
 				      		<td>${ ad.adWriterName }</td>
 				      		<td>${ ad.adStartDate }</td>
 				      		<td>${ ad.afName }</td>
-				      		<td>${ ad.status }</td>
+				      		<td>${ ad.adStatus }</td>
 				      	</tr>
 				      </c:forEach>
 				    </tbody>

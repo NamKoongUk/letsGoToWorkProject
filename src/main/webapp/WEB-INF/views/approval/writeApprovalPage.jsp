@@ -77,6 +77,7 @@
 			
 			<div id="area" class="content" style="visibility:hidden;">
 					<a href="#" data-toggle="modal" data-target="#myModal" onclick="selectEmp();">결재선설정</a><br>
+					
 					<div id="myModal" class="modal fade" role="dialog">
 					  <div class="modal-dialog">			
 					    <!-- Modal content-->

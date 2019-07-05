@@ -290,23 +290,54 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		int result = ad.updateApproval(session, map);
 		
-		if(result > 0) {
+		if(result > 0 && ((String)map.get("status")).equals("결재")) {
 			int result2 = ad.updateAdLevel(session, map);
 			if(result2 > 0) {
-				String result3 = ad.selectApprovalYN(session, map);
+				String result3 = ad.selectNormalApprovalYN(session, map);
 				if(result3.equals("Y")) {
-					int result4 = ad.updateAdStatus(session, map, "완료");
-				}else {
-					String result5 = ad.selectNormalApprovalYN(session, map);
-					if(result5.equals("Y")) {
-						int result6 = ad.updateAdStatus(session, map, "결재완료");
+					String result4 = ad.selectApprovalYN(session, map);
+					if(result4.equals("Y")) {
+						int result5 = ad.updateAdStatus(session, map, "완료");
+					}else {
+						int result6 = ad.countAgreeMember(session, map);
+						int result7 = ad.countPayAgreeMember(session, map);
+						if(result6 > 0) {
+							int result8 = ad.updateAdStatusAndLevel(session, map, "합의대기");
+						}else if(result7 > 0){
+							int result9 = ad.updateAdStatusAndLevel(session, map, "재무합의대기");
+						}
 					}
 				}
 			}
+		}else {
+			int result5 = ad.updateAdStatus(session, map, "반려");
 		}
 		
-		return 0;
+		return result;
 	}
+	//문서합의
+	@Override
+	public int updateAgree(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		int result = ad.updateAgree(session, map);
+		
+		if(result > 0 && ((String)map.get("status")).equals("결재")) {
+			String result2 = ad.selectAgreeApprovalYN(session, map);
+			if(result2.equals("Y")) {
+				String result4 = ad.selectApprovalYN(session, map);
+				if(result4.equals("Y")) {
+					int result5 = ad.updateAdStatus(session, map, "완료");
+				}else {
+					int result6 = ad.updateAdStatusAndLevel(session, map, "재무합의대기");
+				}
+			}
+		}else {
+			int result5 = ad.updateAdStatus(session, map, "반려");
+		}
+		
+		return result;
+	}
+	
 	//회람 or 수신 확인
 	@Override
 	public int confirmDcm(String adNo, int empNo) {
@@ -315,6 +346,15 @@ public class ApprovalServiceImpl implements ApprovalService{
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("adNo", adNo);
 		map.put("empNo", empNo);
+		
+		int result = ad.confirmDcm(session, map);
+		
+		if(result > 0) {
+			String result2 = ad.selectCircleEmp(session, map);
+			if(result2.equals("Y")) {
+				ad.updateAdStatus(session, map, "완료");
+			}
+		}
 		
 		return ad.confirmDcm(session, map);
 	}

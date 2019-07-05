@@ -591,6 +591,20 @@ public class AprprovalController {
 
 		return "성공";
 	}
+	
+	// 문서 합의결재
+	@RequestMapping(value = "/approval/updateAgree", produces = "application/text; charset=utf8")
+	public @ResponseBody String updateAgree(String adNo, int empNo, String status) {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("adNo", adNo);
+		map.put("empNo", empNo);
+		map.put("status", status);
+		
+		int result = as.updateAgree(map);
+
+		return "성공";
+	}
 
 	// 회람 or 수신 확인
 	@RequestMapping(value = "/approval/updateCircle", produces = "application/text; charset=utf8")

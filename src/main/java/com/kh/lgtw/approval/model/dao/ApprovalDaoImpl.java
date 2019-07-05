@@ -340,6 +340,38 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		// TODO Auto-generated method stub
 		return session.update("Approval.confirmDcm", map);
 	}
+	//합의자조회
+	@Override
+	public int countAgreeMember(SqlSession session, HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.countAgreeMember", map);
+	}
+	//재무합의자 조회
+	@Override
+	public int countPayAgreeMember(SqlSession session, HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.countPayAgreeMember", map);
+	}
+	//문서 상태 및 레벨 초기화
+	@Override
+	public int updateAdStatusAndLevel(SqlSession session, HashMap<String, Object> map, String string) {
+		// TODO Auto-generated method stub
+		map.put("status", string);
+		return session.update("Approval.updateAdStatusAndLevel", map);
+	}
+	//합의결재
+	@Override
+	public int updateAgree(SqlSession session, HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	//합의
+	@Override
+	public String selectAgreeApprovalYN(SqlSession session, HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.selectAgreeApprovalYN", map);
+	}
+	
 //	//수신, 회람추가
 //	@Override
 //	public int updateDcm(SqlSession session, int eid, String adNo) {
@@ -464,6 +496,7 @@ public class ApprovalDaoImpl implements ApprovalDao{
 			map.put("alEmpno", circle[i]);
 			map.put("alRoll", "회람자");
 			map.put("alLevel", 1);
+			map.put("status", "회람대기");
 			
 			result1 = session.insert("Approval.insertApprovalList", map);
 		}
@@ -491,6 +524,7 @@ public class ApprovalDaoImpl implements ApprovalDao{
 			map.put("alEmpno", approval[i]);
 			map.put("alRoll", "결재자");
 			map.put("alLevel", i + 1);
+			map.put("status", "대기");
 			
 			result1 = session.insert("Approval.insertApprovalList", map);
 		}
@@ -518,6 +552,7 @@ public class ApprovalDaoImpl implements ApprovalDao{
 			map.put("alEmpno", ref[i]);
 			map.put("alRoll", "참조자");
 			map.put("alLevel", 1);
+			map.put("status", "참조");
 			
 			result1 = session.insert("Approval.insertApprovalList", map);
 		}
@@ -545,6 +580,8 @@ public class ApprovalDaoImpl implements ApprovalDao{
 			map.put("alEmpno", payAgree[i]);
 			map.put("alRoll", "재무합의자");
 			map.put("alLevel", i + 1);
+			map.put("status", "재무합의대기");
+			
 			
 			result1 = session.insert("Approval.insertApprovalList", map);
 		}
@@ -571,6 +608,7 @@ public class ApprovalDaoImpl implements ApprovalDao{
 			map.put("alEmpno", apply[i]);
 			map.put("alRoll", "신청자");
 			map.put("alLevel", 1);
+			map.put("status", "신청대기");
 			
 			result1 = session.insert("Approval.insertApprovalList", map);
 		}
@@ -597,6 +635,7 @@ public class ApprovalDaoImpl implements ApprovalDao{
 			map.put("alEmpno", process[i]);
 			map.put("alRoll", "처리자");
 			map.put("alLevel", 1);
+			map.put("status", "처리대기");
 			
 			result1 = session.insert("Approval.insertApprovalList", appDcm);
 		}
@@ -623,6 +662,7 @@ public class ApprovalDaoImpl implements ApprovalDao{
 			map.put("alEmpno", send[i]);
 			map.put("alRoll", "수신자");
 			map.put("alLevel", 1);
+			map.put("status", "수신대기");
 			
 			result1 = session.insert("Approval.insertApprovalList", map);
 		}
@@ -649,6 +689,7 @@ public class ApprovalDaoImpl implements ApprovalDao{
 			map.put("alEmpno", agree[i]);
 			map.put("alRoll", "합의자");
 			map.put("alLevel", 1);
+			map.put("status", "합의대기");
 			
 			result1 = session.insert("Approval.insertApprovalList", map);
 		}
@@ -659,6 +700,16 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		
 		return result;
 	}
+
+	@Override
+	public String selectCircleEmp(SqlSession session, HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.selectCircleEmp", map);
+	}
+
+
+
+	
 
 
 
