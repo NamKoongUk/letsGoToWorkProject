@@ -23,11 +23,11 @@ public interface ApprovalService {
 //
 	ArrayList<HashMap<String, Object>> showIntendedDcm(PageInfo pi);
 //
-//	ArrayList<HashMap<String, Object>> showProgressgDcm(PageInfo pi);
+	ArrayList<HashMap<String, Object>> showProgressgDcm(PageInfo pi);
 //
 //	ArrayList<HashMap<String, Object>> showFinishDcm(PageInfo pi);
 //
-//	ArrayList<HashMap<String, Object>> showWaitReceptionDcm(PageInfo pi);
+	ArrayList<HashMap<String, Object>> showWaitReceptionDcm(PageInfo pi);
 //
 //	ArrayList<HashMap<String, Object>> showWaitCirculationDcm(PageInfo pi);
 //
@@ -69,7 +69,7 @@ public interface ApprovalService {
 //
 //	HashMap<String, Object> showDetailDcm(String adNo);
 //
-//	int approvalDcm(String adNo, int eid);
+	int updateApproval(HashMap<String, Object> map);
 //
 	int confirmDcm(String adNo, int eid);
 //
@@ -120,6 +120,10 @@ public interface ApprovalService {
 	int selectIntendedDcm(int empNo);
 
 	int selectCircleDcm(int empNo, String string);
+
+	int selectProgressDcm(int empNo, String string);
+
+	int selectWaitRecptionDcm(int empNo);
 
 	
 
