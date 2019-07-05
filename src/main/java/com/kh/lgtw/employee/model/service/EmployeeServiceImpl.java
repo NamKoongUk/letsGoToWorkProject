@@ -8,9 +8,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -76,13 +82,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 //	}
 
 	@Override
-	public int insertEmpOne(Employee employee, Attachment attach) {
+	public int insertEmpOne(Employee employee, Attachment attach, DeptVo dpVo, JobVo jobVo) {
 		
 		int result = 0;
 		
 		 int empInsert = empDao.inSertEmpOne(sqlSession, employee);
 		
 		 if(empInsert > 0) {
+			 int deptHistory = empDao.insertDeptHistory(sqlSession, dpVo, jobVo);
 			 int empPro = empDao.insertEmpProfile(sqlSession, attach);
 		 }
 		
@@ -99,7 +106,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		System.out.println("엑셀 XLS");
 		return null;
 	}
-
+	
+	//Emp 엑셀 insert
 	@Override
 	public List<ExcelEmp> xlsxEmpInsert(MultipartHttpServletRequest request, MultipartFile excelFile) {
 		
@@ -222,7 +230,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		if(empNum>0) {
 			int deptHistory = empDao.insertDeptHistory(sqlSession, dpVo, jobVo);
-			
 			result=1;
 		}
 		
@@ -260,6 +267,101 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public int deleteEmpList(int empNo) {
 		return empDao.deleteEmpList(sqlSession,empNo);
 	}
+
+	@Override
+	public int insertEmpOneNoAttach(Employee employee, DeptVo dpVo, JobVo jobVo) {
+		int empNum = empDao.inSertEmpOne(sqlSession, employee);
+		int result = 0;
+		
+		if(empNum>0) {
+			int deptHistory = empDao.insertDeptHistory(sqlSession, dpVo, jobVo);
+			result=1;
+		}
+		
+		
+		return result;
+	}
+
+	@Override
+	public void dbEmpList(HttpServletResponse response) {
+		ArrayList<EmployeeResult> list = empDao.dbEmpList(sqlSession);
+		
+		SXSSFWorkbook wb = new SXSSFWorkbook();
+		Sheet sheet = wb.createSheet();
+		
+		sheet.setColumnWidth(0, 3000);
+		sheet.setColumnWidth(1, 5000);
+		sheet.setColumnWidth(2, 5000);
+		sheet.setColumnWidth(3, 5000);
+		sheet.setColumnWidth(4, 5000);
+		sheet.setColumnWidth(5, 7000);
+		sheet.setColumnWidth(6, 7000);
+		sheet.setColumnWidth(7, 3000);
+		
+		Row row = null;
+		Cell cell = null;
+		
+		row = sheet.createRow(0);
+		cell = row.createCell(0);
+		cell.setCellValue("사번");
+		cell = row.createCell(1);
+		cell.setCellValue("아이디");
+		cell = row.createCell(2);
+		cell.setCellValue("직원 이름");
+		cell = row.createCell(3);
+		cell.setCellValue("부서");
+		cell = row.createCell(4);
+		cell.setCellValue("직급");
+		cell = row.createCell(5);
+		cell.setCellValue("내선번호");
+		cell = row.createCell(6);
+		cell.setCellValue("휴대전화");
+		cell = row.createCell(7);
+		cell.setCellValue("상태(근무:Y/휴직:H/퇴사:N)");
+		
+		for(int i = 0; i<list.size(); i++) {
+			row = sheet.createRow(i+1);
+				cell = row.createCell(0);
+				cell.setCellValue(list.get(i).getEmpNo());
+				cell = row.createCell(1);
+				cell.setCellValue(list.get(i).getEmpId());
+				cell = row.createCell(2);
+				cell.setCellValue(list.get(i).getEmpName());
+				cell = row.createCell(3);
+				cell.setCellValue(list.get(i).getDeptName());
+				cell = row.createCell(4);
+				cell.setCellValue(list.get(i).getJobName());
+				cell = row.createCell(5);
+				cell.setCellValue(list.get(i).getOfficeTel());
+				cell = row.createCell(6);
+				cell.setCellValue(list.get(i).getEmpPhone());
+				cell = row.createCell(7);
+				cell.setCellValue(list.get(i).getStatus());
+		}
+		
+		try {
+			response.setHeader("Set-Cookie", "fileDownload=true; path=/");
+			response.setHeader("Content-Disposition", String.format("attachment; filename=\"dataEmp.xlsx\""));
+			wb.write(response.getOutputStream());
+			wb.dispose();
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public List<EmployeeResult> xlsEmpUpdate(MultipartHttpServletRequest request, MultipartFile excelFile) {
+		return null;
+	}
+
+	@Override
+	public List<EmployeeResult> xlsxEmpUpdate(MultipartHttpServletRequest request, MultipartFile excelFile) {
+		return null;
+	}
+
 
 
 	//	@Override

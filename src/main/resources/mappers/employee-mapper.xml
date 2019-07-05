@@ -158,6 +158,15 @@
 		UPDATE EMPLOYEE SET STATUS = 'N' WHERE EMPNO=#{empNo}
 	</update>
 	
+	<select id="dbEmpList" resultMap="empListResult">
+		SELECT E.EMPNO, E.EMP_ID, E.EMP_NAME, D.DEPT_NAME, J.JOB_NAME, E.OFFICE_TEL, E.EMP_PHONE, E.STATUS
+		FROM EMPLOYEE E
+		LEFT JOIN promotion_history PH ON(E.EMPNO=PH.EMPNO)
+		LEFT JOIN JOB J ON(ph.job_code=J.JOB_CODE)
+		LEFT JOIN DEPT_HISTORY DH ON (E.EMPNO=DH.EMPNO)
+		LEFT JOIN DEPT D ON (DH.DEPT_CODE=D.DEPT_CODE)
+		WHERE E.STATUS !='N' AND E.EMP_ID != 'admin'
+	</select>
 	
 	
 </mapper>

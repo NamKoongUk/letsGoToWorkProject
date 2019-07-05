@@ -134,6 +134,11 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		return sqlSession.update("Employee.deleteEmpList", empNo);
 	}
 
+	@Override
+	public ArrayList<EmployeeResult> dbEmpList(SqlSession sqlSession) {
+		return (ArrayList)sqlSession.selectList("Employee.dbEmpList");
+	}
+
 	
 
 
