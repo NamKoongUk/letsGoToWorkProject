@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -21,7 +23,7 @@ public interface EmployeeService {
 
 	Employee loginCheck(Employee employee) throws LoginException;
 
-	int insertEmpOne(Employee employee, Attachment attach);
+	int insertEmpOne(Employee employee, Attachment attach, DeptVo dpVo, JobVo jobVo);
 
 	int empExcelUpload(File destFile);
 
@@ -31,17 +33,26 @@ public interface EmployeeService {
 
 	List<String> selectEmpEamilForName(String sName);
 	
-  ArrayList<DeptVo> selectDeptList();
+	ArrayList<DeptVo> selectDeptList();
+	
+    int insertEmpQuick(Employee employee, DeptVo dpVo, JobVo jobVo);
+	
+    ArrayList<EmployeeResult> selectEmpListAdmin(PageInfo pi);
+	
+    HashMap<String, Object> selectJopDeptAdmin();
+	
+	int getEmpListCount();
+	
+	int deleteEmpList(int empNo);
+	
+	int insertEmpOneNoAttach(Employee employee,DeptVo dpVo, JobVo jobVo);
 
-  int insertEmpQuick(Employee employee, DeptVo dpVo, JobVo jobVo);
+	void dbEmpList(HttpServletResponse response);
 
-  ArrayList<EmployeeResult> selectEmpListAdmin(PageInfo pi);
+	List<EmployeeResult> xlsEmpUpdate(MultipartHttpServletRequest request, MultipartFile excelFile);
 
-  HashMap<String, Object> selectJopDeptAdmin();
+	List<EmployeeResult> xlsxEmpUpdate(MultipartHttpServletRequest request, MultipartFile excelFile);
 
-int getEmpListCount();
-
-int deleteEmpList(int empNo);
 
 
 

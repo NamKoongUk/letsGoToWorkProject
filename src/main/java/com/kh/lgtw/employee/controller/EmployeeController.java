@@ -161,9 +161,7 @@ public class EmployeeController {
 	@RequestMapping("showEmployeeAdmin.em")
 	public String showEmployeeAdmin(Model model, HttpServletRequest request) {
 		
-		
 		int currentPage = 1;
-		
 		
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
@@ -215,9 +213,15 @@ public class EmployeeController {
 		return "employee/empClctvRegister";
 	}
 	
-	//직원 상세 등록
+	//직원 상세 등록 페이지
 	@RequestMapping("showEmpOneRegister.em")
-	public String showEmpOneRegister() {
+	public String showEmpOneRegister(Model model) {
+		
+		HashMap<String, Object> hmap = empService.selectJopDeptAdmin();
+		
+		model.addAttribute("hmap", hmap);
+		
+		
 		return "employee/empOneRegister";
 	}
 	
@@ -351,14 +355,20 @@ public class EmployeeController {
 	
 	//사원 한명 추가 
 	@RequestMapping("insertOneEmpl.em")
-	public String insertEmployee(Employee employee, String zipCode, String address1, String address2, Model model, HttpServletRequest request, @RequestParam(name="profile",required=false) MultipartFile profile){
+	public String insertEmployee(Employee employee, DeptVo dpVo, JobVo jobVo, String zipCode, String address1, String address2, Model model, HttpServletRequest request, @RequestParam(name="profile",required=false) MultipartFile profile){
 //		System.out.println("주소:" +address1+address2+zipCode);
 		
 		String address = address1 + "|" + address2 + "|" +zipCode;
-		
 		employee.setAddress(address);
+		employee.setEmpPwd(passwordEncoder.encode(employee.getEmpPwd()));
 		
-		if(profile != null) {
+		String type = profile.getOriginalFilename();
+		
+		
+		System.out.println(profile);
+		System.out.println("없을때 이름"+profile.getOriginalFilename());
+		
+		if(!type.equals("")) {
 			try {
 				String root =request.getSession().getServletContext().getRealPath("resources");
 				
@@ -371,18 +381,16 @@ public class EmployeeController {
 				String changeName = CommonUtils.getRandomString();
 				profile.transferTo(new File(filePath+"\\"+changeName+ext));
 				
-				employee.setEmpPwd(passwordEncoder.encode(employee.getEmpPwd()));
-				
 				Attachment attach = new Attachment();
 				attach.setOriginName(originFileName);
 				attach.setChangeName(changeName);
 				attach.setFilePath(filePath);
 				
 				
-				int result = empService.insertEmpOne(employee, attach);
+				int result = empService.insertEmpOne(employee, attach, dpVo, jobVo);
 				
 				if(result > 0) {
-					return "redirect:showEmpOneRegister.em";
+					return "redirect:showEmployeeAdmin.em";
 				}else {
 					return "employee/empOneRegister";
 				}
@@ -393,7 +401,14 @@ public class EmployeeController {
 				return "employee/empOneRegister";
 			}
 		}else {
-			return "";
+			
+			int result1 = empService.insertEmpOneNoAttach(employee, dpVo, jobVo);
+			
+			if(result1 > 0) {
+				return "redirect:showEmployeeAdmin.em";
+			}else {
+				return "employee/empOneRegister";
+			}
 			
 		}
 		
@@ -432,9 +447,9 @@ public class EmployeeController {
 		
 		MultipartFile excelFile = request.getFile("excelFile");
 		
-		if(excelFile == null || excelFile.isEmpty()) {
-			throw new RuntimeException("엑셀파일을 선택해주세요");
-		}
+//		if(excelFile == null || excelFile.isEmpty()) {
+//			throw new RuntimeException("엑셀파일을 선택해주세요");
+//		}
 		
 		String filePath = excelFile.getOriginalFilename();
 		
@@ -458,6 +473,7 @@ public class EmployeeController {
 		return view;
 	}
 	
+	//직원 삭제
 	@RequestMapping("deleteEmpList.em")
 	public String deleteEmpList(HttpServletRequest request, Model model) {
 		
@@ -474,6 +490,7 @@ public class EmployeeController {
 		return "redirect:showEmployeeAdmin.em";
 	}
 	
+	//DB직원 엑셀 다운로드
 	@RequestMapping("empSample.em")
 	public void empSample(Model model, HttpServletRequest request, HttpServletResponse response) {
 		
@@ -552,6 +569,35 @@ public class EmployeeController {
 				e.printStackTrace();
 			}
 			System.out.println("3확인");
+	}
+	
+	@RequestMapping("dbEmpList.em")
+	public void dbEmpList(Model model, HttpServletRequest request, HttpServletResponse response) {
+		empService.dbEmpList(response);
+	}
+	
+	@RequestMapping("empUpdateExcelUpload.em")
+	public ModelAndView empUpdateExcelUpload(MultipartHttpServletRequest request) {
+		MultipartFile excelFile = request.getFile("excelFile");
+		
+		String filePath = excelFile.getOriginalFilename();
+		
+		List<EmployeeResult> list = new ArrayList<>();
+		
+		if(filePath.toUpperCase().endsWith(".XLS")) {
+			
+			list = empService.xlsEmpUpdate(request, excelFile);
+		
+		}else if(filePath.toUpperCase().endsWith(".XLSX")) {
+			list = empService.xlsxEmpUpdate(request, excelFile);
+		}
+		
+		
+		ModelAndView view = new ModelAndView();
+		
+		view.setViewName("redirect:showUpdateEmpClctv.em");
+		
+		return view;
 		
 	}
 	

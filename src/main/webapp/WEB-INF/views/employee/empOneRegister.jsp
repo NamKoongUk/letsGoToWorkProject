@@ -38,6 +38,8 @@
 	<jsp:include page="../common/menubar.jsp"/>
 	<div class="row wrap">
 		<jsp:include page="../common/sideMenu/employee.jsp"/>
+		<c:set var = "deptList" value="${hmap.deptList }" />
+		<c:set var = "jobList" value="${hmap.jobList }" />
 		
 		<section class="col-sm-10">
 			<h1 class="title">사용자 추가</h1>
@@ -57,7 +59,7 @@
 						<div id="infoArea" style="margin-left:15%;">
 							<table>
 								<tr>
-									<td>이이디</td>
+									<td>아이디</td>
 									<td><input type="text" class="form-control" name="empId"></td>
 								</tr>
 								<tr>
@@ -70,11 +72,24 @@
 								</tr>
 								<tr>
 									<td>소속</td>
-									<td><input type="text" class="form-control" name=""></td>
+									<td>
+										<select name = "deptCode">
+							        		<c:forEach var="item" items="${deptList }">
+							        			<option value="${item.deptCode }"><c:out value="${item.deptName }"></c:out></option>
+							        		</c:forEach>
+					        	
+					        			</select>
+									</td>
 								</tr>
 								<tr>
 									<td>직급</td>
-									<td><input type="text" class="form-control"></td>
+									<td>
+										<select name = "jobCode">
+											<c:forEach var="item" items="${jobList }">
+						        			<option value="${item.jobCode }"><c:out value="${item.jobName }"></c:out></option>
+						        			</c:forEach>
+										</select>
+									</td>
 								</tr>
 								<tr>
 									<td>사내전화</td>

@@ -46,6 +46,8 @@ public interface EmployeeDao{
 
 	int deleteEmpList(SqlSession sqlSession, int empNo);
 
+	ArrayList<EmployeeResult> dbEmpList(SqlSession sqlSession);
+
 
 
 
