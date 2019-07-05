@@ -57,7 +57,7 @@
 						<li><a href="${contextPath}/employee.em">인사관리</a></li>
 						<li><a href="${contextPath}/mail.ma">웹메일</a></li>
 						<li><a href="${contextPath}/scheduler.sc">일정관리</a></li>
-						<li><a href="${contextPath}/messenger/main">메신저</a></li>
+						<li><a href="${contextPath}/messenger">메신저</a></li>
 						<li><a href="${contextPath}/community.co">커뮤니티</a></li>
 					</ul>
 					<c:if test="${ empty loginEmp }"></c:if>

@@ -49,46 +49,6 @@
 							<td>안녕하세요 임시자료에욧</td>
 							<td>2019-01-01</td>
 						</tr>
-						<tr>
-							<td><input type="checkbox"/></td>
-							<td><img src="${ contextPath }/resources/images/mail/readMailY.PNG" width="70px"></td>
-							<td>gora7@naver.com</td>
-							<td>받은메일</td>
-							<td>메일메일메일</td>
-							<td>2019-02-03</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"/></td>
-							<td><img src="${ contextPath }/resources/images/mail/readMailN.PNG" width="70px"></td>
-							<td>김채연 사원</td>
-							<td>보낸메일</td>
-							<td>안녕하세요 임시자료에욧</td>
-							<td>2019-01-01</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"/></td>
-							<td><img src="${ contextPath }/resources/images/mail/readMailY.PNG" width="70px"></td>
-							<td>gora7@naver.com</td>
-							<td>받은메일</td>
-							<td>메일메일메일</td>
-							<td>2019-02-03</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"/></td>
-							<td><img src="${ contextPath }/resources/images/mail/readMailN.PNG" width="70px"></td>
-							<td>김채연 사원</td>
-							<td>보낸메일</td>
-							<td>안녕하세요 임시자료에욧</td>
-							<td>2019-01-01</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"/></td>
-							<td><img src="${ contextPath }/resources/images/mail/readMailY.PNG" width="70px"></td>
-							<td>gora7@naver.com</td>
-							<td>받은메일</td>
-							<td>메일메일메일</td>
-							<td>2019-02-03</td>
-						</tr>
 					</table>
 					<br>
 					<div class="bottomBtn" align="right"> 
