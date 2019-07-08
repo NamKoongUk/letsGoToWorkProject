@@ -14,7 +14,6 @@
 		<jsp:include page="../../common/sideMenu/approval.jsp"/>
 		
 		<section class="col-sm-10">
-		<!-- 진행중인문서-회람문서 -->
 			<h3 class="title">회람/참조 완료문서</h3>
 			<hr>
 			<div class="content">

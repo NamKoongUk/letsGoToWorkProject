@@ -12,6 +12,9 @@
 		font-size:15px !important;
 		cursor:pointer;
 	}
+	.badge{
+		background-color:#a1a1a1!important;
+	}
 </style>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">    
 <div class="col-sm-2 sidenav visible-sm visible-md visible-lg">
@@ -20,15 +23,15 @@
 		<hr>
 		<li>
 			<button onclick="myFunction('prograssDcm')" class="accordionBtn">진행중인 문서</button>
-				<div id="prograssDcm" class="w3-container w3-hide w3-animate-opacity contentSelectArea">
+				<div id="prograssDcm" class="w3-hide w3-animate-opacity contentSelectArea">
 					<ul>
-						<li onclick="location.href='${ contextPath }/showAllPrograssDcm.ap'" class="list">전체문서</li>
-						<li onclick="location.href='${ contextPath }/myWriteDcm.ap'" class="list">기안한 문서</li>
-						<li onclick="location.href='${ contextPath }/showWaitDcm.ap'" class="list">처리대기</li>
-						<li onclick="location.href='${ contextPath }/showIntendedDcm.ap'" class="list">처리예정</li>
-						<li onclick="location.href='${ contextPath }/showProgressgDcm.ap'" class="list">처리 중</li>
-						<li onclick="location.href='${ contextPath }/showWaitReceptionDcm.ap'" class="list">수신대기문서</li>
-						<li onclick="location.href='${ contextPath }/showWaitCirculationDcm.ap'" class="list">회람대기문서</li>
+						<li onclick="location.href='${ contextPath }/showAllPrograssDcm.ap'" class="list" id="all">전체문서</li>
+						<li onclick="location.href='${ contextPath }/myWriteDcm.ap'" class="list" id="write">기안한 문서</li>
+						<li onclick="location.href='${ contextPath }/showWaitDcm.ap'" class="list" id="wait">처리대기</li>
+						<li onclick="location.href='${ contextPath }/showIntendedDcm.ap'" class="list" id="intended">처리예정</li>
+						<li onclick="location.href='${ contextPath }/showProgressgDcm.ap'" class="list" id="progress">처리 중</li>
+						<li onclick="location.href='${ contextPath }/showWaitReceptionDcm.ap'" class="list" id="reception">수신대기문서</li>
+						<li onclick="location.href='${ contextPath }/showWaitCirculationDcm.ap'" class="list" id="circle">회람대기문서</li>
 					</ul>
 				</div>
 			<button style="margin-top:8px;" onclick="myFunction('finDcm')" class="accordionBtn">완료 문서</button>
@@ -67,4 +70,40 @@
 	    x.className = x.className.replace(" w3-show", "");
 	  }
 	}
+	
+	$(function(){
+		var empNo = ${sessionScope.loginEmp.empNo};
+		$.ajax({
+			url:"${contextPath}/approval/selectDcmCount",
+			type:"get",
+			data:{empNo:empNo},
+			success:function(data){
+				if(data.all != 0) {
+					var $span = $("<span class='badge pull-right badge-pill' style='width:30px; margin-left:-28px; margin-top:17px;'>").append(data.all);
+					$("#all").append($span);					
+				}else if(data.wait == 0){
+					var $span2 = $("<span class='badge pull-right badge-pill' style='width:30px; margin-left:-28px; margin-top:17px;'>").append(data.wait);
+					$("#wait").append($span2);
+				}else if(data.write == 0){
+					var $span3 = $("<span class='badge pull-right badge-pill' style='width:30px; margin-left:-28px; margin-top:17px;'>").append(data.write);
+					$("#write").append($span3);
+				}else if(data.progress == 0){
+					var $span4 = $("<span class='badge pull-right badge-pill' style='width:30px; margin-left:-28px; margin-top:17px;'>").append(data.progress);
+					$("#progress").append($span4);
+				}else if(data.intended == 0){
+					var $span5 = $("<span class='badge pull-right badge-pill' style='width:30px; margin-left:-28px; margin-top:17px;'>").append(data.intended);
+					$("#intended").append($span5);
+				}else if(data.circle == 0){
+					var $span6 = $("<span class='badge pull-right badge-pill' style='width:30px; margin-left:-28px; margin-top:17px;'>").append(data.circle);
+					$("#circle").append($span6);
+				}else if(data.reception == 0){
+					var $span7 = $("<span class='badge pull-right badge-pill' style='width:30px; margin-left:-28px; margin-top:17px;'>").append(data.reception);
+					$("#reception").append($span7);
+				}
+
+				
+			}
+		});
+	});
+	
 </script>

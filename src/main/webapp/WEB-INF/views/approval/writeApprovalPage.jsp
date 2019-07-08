@@ -372,7 +372,7 @@
 				        </div>
 				        <div class="form-group">
 				            <div class="col-lg-12" align="right">
-				            	<button type="button" class="btn btn-md">임시저장</button>
+				            	<button type="button" class="btn btn-md" id="save">임시저장</button>
 				            	<button type="button" class="btn btn-md btn-default">취소</button>
 				                <button type="submit" class="btn btn-md btn-primary">기안하기</button>
 				            </div>
@@ -386,6 +386,12 @@
 	
 	<jsp:include page="../common/footer.jsp" />
 <script>
+	document.addEventListener('keydown', function(event) {
+	    if (event.keyCode === 13) {
+	        event.preventDefault();
+	    }
+	}, true);
+	
 	function insertInSignForm(){
 		var approvalCount = 0;
 		var payAgreeCount = 0;

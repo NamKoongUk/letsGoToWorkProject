@@ -15,7 +15,7 @@
 		
 		<section class="col-sm-10">
 		<!-- 진행중인문서-회람문서 -->
-			<h3 class="title">전체 완료문서</h3>
+			<h3 class="title">완료 문서</h3>
 			<hr>
 			<div class="content">
 				<select class="form-control" style="width:150px; display:inline-block;">
@@ -24,19 +24,13 @@
 						<option value="${ form.afNo }">${ form.afName }</option>
 					</c:forEach>
 				</select>
-				<button onclick="" style="float:right; margin-left:8px;" class="btn btn-primary">확인</button>
-				<select class="form-control" style="width:150px;display:inline-block; float:right;">
-					<option>선택</option>
-					<option>확인</option>
-				</select>
 				<table class="table table-hover">
 				    <thead>
 				      <tr>
-				      	<th><input type="checkbox" id="checkAll"></th>
 				        <th>문서번호</th>
 				        <th>제목</th>
 				        <th>기안자</th>
-				        <th>기안일</th>
+				        <th>결재완료일</th>
 				        <th>구분</th>
 				  		<th>상태</th>
 				      </tr>
@@ -44,13 +38,12 @@
 				    <tbody>
 				      <c:forEach var="ad" items="${ requestScope.list }">
 				      	<tr>
-				      		<th><input type="checkbox" name="check" value="${ ad.adNo }"></th>
-				      		<td>${ ad.adNo }</td>
+				      		<td><input type="hidden" name="check" value="${ ad.adNo }">${ ad.adNo }</td>
 				      		<td>${ ad.adTitle }</td>
-				      		<td>${ ad.adWriterName }</td>
-				      		<td>${ ad.adStartDate }</td>
+				      		<td>${ ad.empName }</td>
+				      		<td>${ ad.adEndDate }</td>
 				      		<td>${ ad.afName }</td>
-				      		<td>${ ad.status }</td>
+				      		<td>${ ad.adStatus }</td>
 				      	</tr>
 				      </c:forEach>
 				    </tbody>
@@ -107,7 +100,7 @@
 		});
 		
 		$(".table").find("td").click(function(){
-			var adNo = $(this).parents().children("th").eq(0).children().eq(0).val();
+			var adNo = $(this).parents().children("td").eq(0).children().eq(0).val();
 			console.log(adNo);
 			location.href="${ contextPath }/showDetailDcm.ap?adNo=" + adNo;
 		});

@@ -112,6 +112,13 @@
                                     		
                                     			<td><font color="green">결재</font></td>
                                     		</c:if>
+                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '반려'}">
+                                    			<td><font color="red">반려</font></td>
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '반려'}">
+                                    		
+                                    			<td><font color="red">반려</font></td>
+                                    		</c:if>
                                     		<%-- <c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel }">
                                     			<td><font color="red">결재대기</font></td>
                                     		</c:if> --%>
@@ -166,13 +173,20 @@
                                          <c:forEach begin="0" end="7" step="1" varStatus="i">
                                     	<c:if test="${ fn:length(requestScope.appList.send) > i.index }">
                                     		<c:if test="${ requestScope.appList.send[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.send[i.index].alLevel && requestScope.appList.send[i.index].alStatus == '수신대기'}">
-                                    			<label>${ requestScope.appList.send[i.index].approvaler } <font color="yellowgreen" size="2px"><a href="#" onclick="updateConfirmDcm();">확인</a></font></label>&nbsp;&nbsp;
+                                    			<label>${ requestScope.appList.send[i.index].approvaler } <font color="yellowgreen" size="2px"><a href="#" onclick="updateSendConfirmDcm();">확인</a></font></label>&nbsp;&nbsp;
                                     		</c:if>
                                     		<c:if test="${ requestScope.appList.send[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.send[i.index].alLevel && requestScope.appList.send[i.index].alStatus == '결재'}">
                                     			<label>${ requestScope.appList.send[i.index].approvaler } <font color="green" size="2px">완료</font></label>
                                     		</c:if>
                                     		<c:if test="${ requestScope.appList.send[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.send[i.index].alLevel && requestScope.appList.send[i.index].alStatus == '결재'}">
                                     			<label>${ requestScope.appList.send[i.index].approvaler } <font color="green" size="2px">완료</font></label>
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.send[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.send[i.index].alLevel && requestScope.appList.send[i.index].alStatus == '반려'}">
+                                    			<td><font color="red">반려</font></td>
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.send[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.send[i.index].alLevel && requestScope.appList.send[i.index].alStatus == '반려'}">
+                                    		
+                                    			<td><font color="red">반려</font></td>
                                     		</c:if>
                                     		<%-- <c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel }">
                                     			<td><font color="red">결재대기</font></td>
@@ -223,6 +237,13 @@
                                     		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '결재'}">
                                     		
                                     			<td><font color="green">결재</font></td>
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '반려'}">
+                                    			<td><font color="red">반려</font></td>
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '반려'}">
+                                    		
+                                    			<td><font color="red">반려</font></td>
                                     		</c:if>
                                     		<%-- <c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel }">
                                     			<td><font color="red">결재대기</font></td>
@@ -279,6 +300,13 @@
 	                                    			<td width="80px" height="20px">
 		                                    				<c:out value="${ requestScope.appList.agree[i.index].approvaler }"/> <font size="2px" color="blue">결재</font>
 	                                    			</td>
+	                                    		</c:if>
+	                                    		<c:if test="${ requestScope.appList.agree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.agree[i.index].alLevel && requestScope.appList.agree[i.index].alStatus == '반려'}">
+                                    				<td><c:out value="${ requestScope.appList.agree[i.index].approvaler }"/> <font size="2px" color="red">반려</font></td>
+	                                    		</c:if>
+	                                    		<c:if test="${ requestScope.appList.agree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.agree[i.index].alLevel && requestScope.appList.agree[i.index].alStatus == '반려'}">
+	                                    		
+	                                    			<td><c:out value="${ requestScope.appList.agree[i.index].approvaler }"/> <font size="2px" color="red">반려</font></td>
 	                                    		</c:if>
 	                                    		<%-- <c:if test="${ requestScope.appList.agree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adStatus == '반려' }">
 	                                    			<td width="80px" height="20px">
@@ -357,6 +385,13 @@
                                     		
                                     			<td><font color="green">결재완료</font></td>
                                     		</c:if>
+                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '반려'}">
+                                    			<td><font color="red">반려</font></td>
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '반려'}">
+                                    		
+                                    			<td><font color="red">반려</font></td>
+                                    		</c:if>
                                     		<%-- <c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel }">
                                     			<td><font color="red">결재대기</font></td>
                                     		</c:if> --%>
@@ -416,6 +451,13 @@
                                     		<c:if test="${ requestScope.appList.payAgree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.payAgree[i.index].alLevel && requestScope.appList.payAgree[i.index].alStatus != '결재' }">
                                     			<td><font color="red">결재대기</font></td>
                                     		</c:if>
+                                    		<c:if test="${ requestScope.appList.payAgree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.payAgree[i.index].alLevel && requestScope.appList.payAgree[i.index].alStatus == '반려'}">
+                                    			<td><font color="red">반려</font></td>
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.payAgree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.payAgree[i.index].alLevel && requestScope.appList.payAgree[i.index].alStatus == '반려'}">
+                                    		
+                                    			<td><font color="red">반려</font></td>
+                                    		</c:if>
                                     		<c:if test="${ requestScope.appList.payAgree[i.index].alEmpNo != sessionScope.loginEmp.empNo }">
 	                                    		<c:if test="${ requestScope.appList.payAgree[i.index].alStatus == '재무합의대기' }">
 	                                    			<td><font color="red">결재대기</font></td>
@@ -467,6 +509,16 @@
 	                                    		<c:if test="${ requestScope.appList.agree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adStatus != '합의대기' && requestScope.appList.agree[i.index].alStatus == '결재' }">
 	                                    			<td width="80px" height="20px">
 		                                    				<c:out value="${ requestScope.appList.agree[i.index].approvaler }"/> <font size="2px" color="blue">결재</font>
+	                                    			</td>
+	                                    		</c:if>
+	                                    		<c:if test="${ requestScope.appList.agree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adStatus == '합의대기' && requestScope.appList.agree[i.index].alStatus == '반려' }">
+	                                    			<td width="80px" height="20px">
+		                                    				<c:out value="${ requestScope.appList.agree[i.index].approvaler }"/> <font size="2px" color="red">반려</font>
+	                                    			</td>
+	                                    		</c:if>
+	                                    		<c:if test="${ requestScope.appList.agree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adStatus != '합의대기' && requestScope.appList.agree[i.index].alStatus == '반려' }">
+	                                    			<td width="80px" height="20px">
+		                                    				<c:out value="${ requestScope.appList.agree[i.index].approvaler }"/> <font size="2px" color="red">반려</font>
 	                                    			</td>
 	                                    		</c:if>
 	                                    		
@@ -529,6 +581,13 @@
                                     		<c:if test="${ requestScope.appList.apply[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.apply[i.index].alLevel && requestScope.appList.apply[i.index].alStatus == '대기' }">
                                     			<td><font color="red">결재대기</font></td>
                                     		</c:if>
+                                    		<c:if test="${ requestScope.appList.apply[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.apply[i.index].alLevel && requestScope.appList.apply[i.index].alStatus == '반려'}">
+                                    			<td><font color="red">반려</font></td>
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.apply[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.apply[i.index].alLevel && requestScope.appList.apply[i.index].alStatus == '반려'}">
+                                    		
+                                    			<td><font color="red">반려</font></td>
+                                    		</c:if>
                                     		<c:if test="${ requestScope.appList.apply[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adStatus == '대기' && requestScope.appList.apply[i.index].alStatus == '결재' }">
 	                                    			<td width="80px" height="20px">
 		                                    			<font size="2px" color="green">결재완료</font>
@@ -589,6 +648,13 @@
                                     		<c:if test="${ requestScope.appList.process[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.process[i.index].alLevel && requestScope.appList.process[i.index].alStatus == '결재'}">
                                     		
                                     			<td><font color="green">결재완료</font></td>
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.process[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.process[i.index].alLevel && requestScope.appList.process[i.index].alStatus == '반려'}">
+                                    			<td><font color="red">반려</font></td>
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.process[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.process[i.index].alLevel && requestScope.appList.process[i.index].alStatus == '반려'}">
+                                    		
+                                    			<td><font color="red">반려</font></td>
                                     		</c:if>
                                     		<%-- <c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel }">
                                     			<td><font color="red">결재대기</font></td>
@@ -916,6 +982,28 @@
 			if(window.confirm("확인처리 하시겠습니까?")){
 				$.ajax({
 					url:"${contextPath}/approval/updateCircle",
+					type:"get",
+					data:{empNo:empNo, adNo:adNo},
+					success:function(data){
+						alert("확인처리가 완료되었습니다.");
+						location.href="${contextPath}/showWaitDcm.ap";
+					}
+				});
+			}else {
+				alert("취소되었습니다");
+			}
+		}
+		
+		function updateSendConfirmDcm(){
+			var empNo = "${sessionScope.loginEmp.empNo}";
+			var adNo = "${requestScope.map.adNo}";
+			
+			console.log(empNo);
+			console.log(adNo);
+			
+			if(window.confirm("확인처리 하시겠습니까?")){
+				$.ajax({
+					url:"${contextPath}/approval/updateSend",
 					type:"get",
 					data:{empNo:empNo, adNo:adNo},
 					success:function(data){

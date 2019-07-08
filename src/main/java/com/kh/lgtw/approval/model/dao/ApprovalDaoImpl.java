@@ -148,13 +148,18 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		pi.setSort(jobCode);
 		
-		return (ArrayList)session.selectList("Approval.showAllFinishDcm", jobCode, rowBounds);		
+		return (ArrayList)session.selectList("Approval.showAllFinishDcm", pi, rowBounds);		
 	}
 	@Override
-	public int selecAllFinishDcm(String jobCode, SqlSession session) {
+	public int selecAllFinishDcm(int empNo, String jobCode, SqlSession session) {
 		// TODO Auto-generated method stub
-		return session.selectOne("Approval.selecAllFinishDcm", jobCode);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("empNo", empNo);
+		map.put("jobCode", jobCode);
+		
+		return session.selectOne("Approval.selecAllFinishDcm", map);
 	}
 
 //	//완료문서-기안한문서
@@ -191,12 +196,21 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		// TODO Auto-generated method stub
 		return session.selectOne("Approval.selectCircleDcm", map);
 	}
-//	//완료문서-반려문서
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showRefuseDcm(PageInfo pi, SqlSession session) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	//반려문서
+	@Override
+	public int selectRefuseDcm(SqlSession session, String jobCode) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.selectRefuseDcm", jobCode);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> showRefuseDcm(PageInfo pi, String jobCode, SqlSession session) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		
+		return (ArrayList)session.selectList("Approval.showRefuseDcm", jobCode, rowBounds);
+	}
 //	//완료문서-임시저장문서
 //	@Override
 //	public ArrayList<HashMap<String, Object>> showSaveDcm(PageInfo pi, SqlSession session) {
@@ -752,12 +766,54 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		// TODO Auto-generated method stub
 		return session.selectOne("Approval.selectCircleEmp", map);
 	}
+	
+	@Override
+	public String selectSendEmp(SqlSession session, HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.selectSendEmp", map);
+	}
 
 	@Override
 	public String selectEmpJobCode(Employee e, SqlSession session) {
 		// TODO Auto-generated method stub
 		return session.selectOne("Approval.selectJobCode", e.getEmpNo());
 	}
+	//완료 결재문서
+	@Override
+	public int selectFinApprovaldDcm(SqlSession session, String jobCode) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.selectFinApprovalDcm", jobCode);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> showFinApprovaldDcm(PageInfo pi, String jobCode, SqlSession session) {
+		// TODO Auto-generated method stub
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		
+		return (ArrayList)session.selectList("Approval.showFinApprovalDcm", jobCode, rowBounds);
+	}
+	// 완료 기안한 문서
+	@Override
+	public int selectWriteDcm(SqlSession session, Employee e) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.selectWriteDcm", e.getEmpNo());
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> showWriteDcm(SqlSession session, PageInfo pi) {
+		// TODO Auto-generated method stub
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		
+		return (ArrayList)session.selectList("Approval.showWriteDcm", pi, rowBounds);
+	}
+
+
+
+	
 
 
 
