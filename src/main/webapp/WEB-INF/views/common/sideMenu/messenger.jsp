@@ -13,11 +13,10 @@
 		</button>
 			<div id="Demo1" class="w3-container w3-hide w3-animate-opacity contentSelectArea">
 				<ul>
-					<li>전체쪽지함</li>
-					<li>받은쪽지함</li>
-					<li>보낸쪽지함</li>
-					<li>임시저장</li>
-					<li>휴지통</li>
+					<li onclick="resMessenger()">받은쪽지함</li>
+					<li onclick="reqMessenger()">보낸쪽지함</li>
+					<li onclick="stoMessenger()">임시저장</li>
+					<li onclick="delMessenger()">휴지통</li>
 				</ul>
 			</div>
 			<button style="margin-top:8px;" onclick="callMessenger()">메신저</button>

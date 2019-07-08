@@ -8,7 +8,105 @@
 		<id column="" property="PK"/>
 		<result column="" property="필드 명"/>
 	</resultMap>
-	
+		
 	쿼리문 작성
 	<select id="구분이름" parameterType="매개변수 타입"> </select> -->
+	<resultMap type="java.util.HashMap" id="messengerResultMap">
+		<id property="msgNo" column="MSG_NO" />
+		<result property="msgTitle" column="MSGTITLE"/>
+		<result property="msgContent" column="MSGCONTENT"/>
+		<result property="sendDate" column="SEND_DATE"/>
+		<result property="sender" column="SENDER"/>
+		<result property="recipient" column="RECIPIENT"/>
+		<result property="readStatus" column="READ_STATUS"/>
+		<result property="status" column="STATUS"/>
+		<result property="msgGroup" column="MSG_GROUP"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="deptName" column="DEPT_NAME"/>
+		<result property="jobName" column="JOB_NAME"/>
+	
+	</resultMap>
+		
+	<insert id="sendMessenger" parameterType="java.util.Map">
+		<selectKey keyProperty="groupId" resultType="int" order="BEFORE">
+				SELECT SEQ_MSG_GROUP.CURRVAL From DUAL
+			</selectKey>
+			INSERT INTO MESSENSER
+			<if test="sendType=='save'">
+				VALUES (SEQ_MSG_NO.NEXTVAL, #{messengerName}, #{messengerContent}, SYSDATE, #{sender}, #{sendEmp}, 'N','S','Y',#{groupId})
+			</if>
+			<if test="sendType='send'">
+				VALUES (SEQ_MSG_NO.NEXTVAL, #{messengerName}, #{messengerContent}, SYSDATE, #{sender}, #{sendEmp}, 'N','Y','Y',#{groupId})
+			</if>
+	</insert>
+	
+	<select id="msgNoSeq" resultType="int">
+		SELECT SEQ_MSG_GROUP.NEXTVAL From DUAL
+	</select>
+	
+	<select id="selctMessengerList" resultMap="messengerResultMap" parameterType="java.util.Map">
+		SELECT M.MSG_NO,M.MSGTITLE,M.MSGCONTENT,M.SEND_DATE,M.SENDER,M.RECIPIENT,M.READ_STATUS,M.STATUS,M.MSG_GROUP,E.EMP_NAME,D.DEPT_NAME,J.JOB_NAME
+		FROM MESSENSER M 
+		<if test="status =='res'">
+		JOIN EMPLOYEE E ON (M.SENDER = E.EMPNO)
+		</if>
+		<if test="status =='req'">
+		JOIN EMPLOYEE E ON (M.RECIPIENT = E.EMPNO)
+		</if>
+		JOIN DEPT_HISTORY DH ON(E.EMPNO = DH.EMPNO)
+		JOIN DEPT D ON (D.DEPT_CODE = DH.DEPT_CODE)
+		JOIN PROMOTION_HISTORY PH ON(PH.EMPNO = E.EMPNO)
+		JOIN JOB J ON(J.JOB_CODE = PH.JOB_CODE)
+		WHERE 1=1
+		<if test="status =='res'">
+		AND M.RECIPIENT = #{empNo}
+		</if>
+		<if test="status =='req'">
+		AND M.SENDER = #{empNo}
+		</if>
+		<if test="searchCondition =='name'">
+		AND M.MSGTITLE LIKE  '%' || #{content} || '%'
+		</if>
+		<if test="searchCondition =='writer'">
+		AND E.EMP_NAME LIKE  '%' || #{content} || '%'
+		</if>
+		<if test="searchCondition =='content'">
+		AND M.MSGCONTENT LIKE  '%' || #{content} || '%'
+		</if>
+		AND M.SEND_DATE BETWEEN TO_DATE(#{startDate}) AND TO_DATE(#{endDate}) + 1
+		ORDER BY SEND_DATE DESC
+	</select>
+	
+	<select id="selectMessengerCount" parameterType="java.util.Map" resultType="_int">
+		SELECT COUNT(*)
+		FROM MESSENSER M 
+		<if test="status =='res'">
+		JOIN EMPLOYEE E ON (M.SENDER = E.EMPNO)
+		</if>
+		<if test="status =='req'">
+		JOIN EMPLOYEE E ON (M.RECIPIENT = E.EMPNO)
+		</if>
+		JOIN DEPT_HISTORY DH ON(E.EMPNO = DH.EMPNO)
+		JOIN DEPT D ON (D.DEPT_CODE = DH.DEPT_CODE)
+		JOIN PROMOTION_HISTORY PH ON(PH.EMPNO = E.EMPNO)
+		JOIN JOB J ON(J.JOB_CODE = PH.JOB_CODE)
+		WHERE 1=1
+		<if test="status =='res'">
+		AND M.RECIPIENT = #{empNo}
+		</if>
+		<if test="status =='req'">	
+		AND M.SENDER = #{empNo}
+		</if>
+		<if test="searchCondition =='name'">
+		AND M.MSGTITLE LIKE  '%' || #{content} || '%'
+		</if>
+		<if test="searchCondition =='writer'">
+		AND E.EMP_NAME LIKE  '%' || #{content} || '%'
+		</if>
+		<if test="searchCondition =='content'">
+		AND M.MSGCONTENT LIKE  '%' || #{content} || '%'
+		</if>
+		AND M.SEND_DATE BETWEEN TO_DATE(#{startDate}) AND TO_DATE(#{endDate}) + 1
+	</select>	
+		
 </mapper>

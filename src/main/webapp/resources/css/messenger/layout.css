@@ -22,22 +22,15 @@
 	color: black;
 }
 .searchArea{
-	margin-left: 7%;
 	margin-bottom : 20px;
 }
 .searchArea > *{
 	height : 20px;
-	width: 15% !important;
 }
-.form-control{
-	display: inline-block;
-	float : left;
-	margin-left:3px;
-}
+
 .searchBtn{
 	height : 35px;
-	padding: 5px 17px;
-	margin-left: 15px;
+	/* width:100% !important; */
 	border: 3px solid rgba(191, 191, 191, 1.0);
 	background : rgba(191, 191, 191, 1.0);
 	color: white;
@@ -55,4 +48,16 @@
 .contentSelectArea li:hover{
 	background:#80aaff !important;
 	color:white !important;
+}
+
+.content form-group{
+	width:100%
+}
+
+.datepicker-here{
+	
+} 
+.form-group < table{
+	width:100%;
+	
 }
