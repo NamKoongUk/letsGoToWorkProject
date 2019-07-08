@@ -14,7 +14,7 @@ public class Sender implements java.io.Serializable{
 	private List<String> to = new ArrayList<>();		// 받는곳
 	private String subject;								// 제목
 	private String content;								// 내용
-	
+	 
 	public Sender() {}
 
 	public Sender(String from, List<String> to, String subject, String content) {

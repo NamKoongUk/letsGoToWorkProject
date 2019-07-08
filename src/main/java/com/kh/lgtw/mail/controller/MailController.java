@@ -52,7 +52,7 @@ public class MailController {
 	@Autowired private MailService ms;
 	private HttpStatus httpStatus;
 	@Autowired private EmployeeService es;
-	
+	 
 	// 전체 메일 리스트
 	@RequestMapping("mail.ma")
 	public String mailHome() {
