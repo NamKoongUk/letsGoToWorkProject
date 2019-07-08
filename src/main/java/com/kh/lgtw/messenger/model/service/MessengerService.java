@@ -14,11 +14,12 @@ public interface MessengerService {
 	//MessengerCount 조회
 	int selectMessengerCount(Map<String, Object> params);
 	
+	//MessengerDetail 조회
+	HashMap<String, Object> selectDetailMessneger(Map<String, Object> params);
+	
 	String deleteMessenger(String msgNo);
 
 	String selectStorageMessenger(String msgGno);
-
-	String selectDetailMessneger(String msgNo);
 
 
 }

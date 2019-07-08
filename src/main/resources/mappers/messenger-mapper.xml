@@ -24,7 +24,6 @@
 		<result property="empName" column="EMP_NAME"/>
 		<result property="deptName" column="DEPT_NAME"/>
 		<result property="jobName" column="JOB_NAME"/>
-	
 	</resultMap>
 		
 	<insert id="sendMessenger" parameterType="java.util.Map">
@@ -33,10 +32,10 @@
 			</selectKey>
 			INSERT INTO MESSENSER
 			<if test="sendType=='save'">
-				VALUES (SEQ_MSG_NO.NEXTVAL, #{messengerName}, #{messengerContent}, SYSDATE, #{sender}, #{sendEmp}, 'N','S','Y',#{groupId})
+				VALUES (SEQ_MSG_NO.NEXTVAL, #{messengerName}, #{messengerContent}, SYSDATE, #{sender}, #{sendEmp}, 'N','S',#{groupId})
 			</if>
-			<if test="sendType='send'">
-				VALUES (SEQ_MSG_NO.NEXTVAL, #{messengerName}, #{messengerContent}, SYSDATE, #{sender}, #{sendEmp}, 'N','Y','Y',#{groupId})
+			<if test="sendType=='send'">
+				VALUES (SEQ_MSG_NO.NEXTVAL, #{messengerName}, #{messengerContent}, SYSDATE, #{sender}, #{sendEmp}, 'N','Y',#{groupId})
 			</if>
 	</insert>
 	
@@ -47,10 +46,10 @@
 	<select id="selctMessengerList" resultMap="messengerResultMap" parameterType="java.util.Map">
 		SELECT M.MSG_NO,M.MSGTITLE,M.MSGCONTENT,M.SEND_DATE,M.SENDER,M.RECIPIENT,M.READ_STATUS,M.STATUS,M.MSG_GROUP,E.EMP_NAME,D.DEPT_NAME,J.JOB_NAME
 		FROM MESSENSER M 
-		<if test="status =='res'">
+		<if test="status =='res' || status=='del' ">
 		JOIN EMPLOYEE E ON (M.SENDER = E.EMPNO)
 		</if>
-		<if test="status =='req'">
+		<if test="status =='req' || status=='sto'">
 		JOIN EMPLOYEE E ON (M.RECIPIENT = E.EMPNO)
 		</if>
 		JOIN DEPT_HISTORY DH ON(E.EMPNO = DH.EMPNO)
@@ -58,10 +57,10 @@
 		JOIN PROMOTION_HISTORY PH ON(PH.EMPNO = E.EMPNO)
 		JOIN JOB J ON(J.JOB_CODE = PH.JOB_CODE)
 		WHERE 1=1
-		<if test="status =='res'">
+		<if test="status =='res' || status=='del'">
 		AND M.RECIPIENT = #{empNo}
 		</if>
-		<if test="status =='req'">
+		<if test="status =='req' || status=='sto'">
 		AND M.SENDER = #{empNo}
 		</if>
 		<if test="searchCondition =='name'">
@@ -72,6 +71,15 @@
 		</if>
 		<if test="searchCondition =='content'">
 		AND M.MSGCONTENT LIKE  '%' || #{content} || '%'
+		</if>
+		<if test="status =='res' || status =='req'">
+		AND M.STATUS = 'Y'
+		</if>
+		<if test="status=='sto'">
+		AND M.STATUS = 'S'
+		</if>
+		<if test="status=='del'">
+		AND M.STATUS = 'N'
 		</if>
 		AND M.SEND_DATE BETWEEN TO_DATE(#{startDate}) AND TO_DATE(#{endDate}) + 1
 		ORDER BY SEND_DATE DESC
@@ -80,10 +88,10 @@
 	<select id="selectMessengerCount" parameterType="java.util.Map" resultType="_int">
 		SELECT COUNT(*)
 		FROM MESSENSER M 
-		<if test="status =='res'">
+		<if test="status =='res' || status=='del'">
 		JOIN EMPLOYEE E ON (M.SENDER = E.EMPNO)
 		</if>
-		<if test="status =='req'">
+		<if test="status =='req' || status=='sto'">
 		JOIN EMPLOYEE E ON (M.RECIPIENT = E.EMPNO)
 		</if>
 		JOIN DEPT_HISTORY DH ON(E.EMPNO = DH.EMPNO)
@@ -91,10 +99,10 @@
 		JOIN PROMOTION_HISTORY PH ON(PH.EMPNO = E.EMPNO)
 		JOIN JOB J ON(J.JOB_CODE = PH.JOB_CODE)
 		WHERE 1=1
-		<if test="status =='res'">
+		<if test="status =='res' || status=='del'">
 		AND M.RECIPIENT = #{empNo}
 		</if>
-		<if test="status =='req'">	
+		<if test="status =='req' || status=='sto'">	
 		AND M.SENDER = #{empNo}
 		</if>
 		<if test="searchCondition =='name'">
@@ -106,7 +114,36 @@
 		<if test="searchCondition =='content'">
 		AND M.MSGCONTENT LIKE  '%' || #{content} || '%'
 		</if>
+		<if test="status =='res' || status =='req'">
+		AND M.STATUS = 'Y'
+		</if>
+		<if test="status=='sto'">
+		AND M.STATUS = 'S'
+		</if>
+		<if test="status=='del'">
+		AND M.STATUS = 'N'
+		</if>
 		AND M.SEND_DATE BETWEEN TO_DATE(#{startDate}) AND TO_DATE(#{endDate}) + 1
 	</select>	
+	
+	<select id="selectMessengerDetail" parameterType="java.util.Map" resultMap="messengerResultMap">
+		SELECT M.MSG_NO,M.MSGTITLE,M.MSGCONTENT,M.SEND_DATE,M.SENDER,M.RECIPIENT,M.READ_STATUS,M.STATUS,M.MSG_GROUP,E.EMP_NAME,D.DEPT_NAME,J.JOB_NAME
+		FROM MESSENSER M
+		<if test="messageType =='res' || messageType=='del'">
+		JOIN EMPLOYEE E ON (M.SENDER = E.EMPNO)
+		</if>
+		<if test="messageType =='req' || messageType=='sto'">	
+		JOIN EMPLOYEE E ON (M.RECIPIENT = E.EMPNO)
+		</if>
+		JOIN DEPT_HISTORY DH ON(E.EMPNO = DH.EMPNO)
+		JOIN DEPT D ON (D.DEPT_CODE = DH.DEPT_CODE)
+		JOIN PROMOTION_HISTORY PH ON(PH.EMPNO = E.EMPNO)
+		JOIN JOB J ON(J.JOB_CODE = PH.JOB_CODE)
+		WHERE 1=1
+		AND M.MSG_NO = #{msgNo}
+		<if test="messageType =='res' || messageType=='del'">
+			AND M.RECIPIENT = #{empNo}
+		</if>
+	</select>
 		
 </mapper>
