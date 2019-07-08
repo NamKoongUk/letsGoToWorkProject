@@ -37,6 +37,12 @@ public class MessengerController {
 		return "messenger/messengerMain";
 	}
 	
+	//쪽지 전송페이지(페이지전환)
+	@RequestMapping("/showMessenger")
+	public String showMessenger(Model model) {
+		return "messenger/messengerSend";
+	}
+	
 	//쪽지 전송 or 저장(페이지전환)
 	@PostMapping(value="/sendMessenger")
 	public String sendMessenger(@RequestParam Map<String,Object> params, @RequestParam("sendEmp") List<Integer> sendEmp) {
@@ -68,30 +74,31 @@ public class MessengerController {
 		return new ResponseEntity<HashMap<String,Object>>(hmap,HttpStatus.OK);
 	}
 	
+	//쪽지 디테일
+	@GetMapping("/selectDetailMessenger/{msgNo}/{messageType}/{empNo}")
+	public ResponseEntity<HashMap<String, Object>> selectDetailMessneger(@PathVariable Map<String, Object> params) {
+		System.out.println(params);
+		HashMap<String, Object> hmap = (HashMap<String, Object>) ms.selectDetailMessneger(params);
+		return new ResponseEntity<HashMap<String,Object>>(hmap, HttpStatus.OK);
+	}
+	
 	//쪽지 삭제(휴지통)(페이지전환)
 	@PutMapping("/deleteMessenger")
 	public String deleteMessenger(@RequestBody String msgNo, Model model) {
 		ms.deleteMessenger(msgNo);
 		return "";
 	}
+	
 	//임지저장 쪽지 조회(ajax)
 	@GetMapping(value="/selectStorageMessenger/{msgGno}", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public @ResponseBody Messenger selectStorageMessenger(@PathVariable("msgGno") String msgGno , Model model) {
 		ms.selectStorageMessenger(msgGno);
 		return null;
 	}
-	
-	//페이지 전환
-	//쪽지 디테일(페이지전환)
-	@GetMapping("/selectDetailMessenger")
-	public String selectDetailMessneger(@RequestParam("msgNo")String msgNo, Model model) {
-		ms.selectDetailMessneger(msgNo);
-		return "";
+	//쪽지 답장
+	@PostMapping(value="/reSendMessenger")
+	public void reSendMessenger(@RequestBody Map<String,Object> params) {
+		System.out.println(params);
 	}
-	//쪽지 전송페이지(페이지전환)
-		@RequestMapping("/showMessenger")
-		public String showMessenger(Model model) {
-			return "messenger/messengerSend";
-		}
-	
+
 }

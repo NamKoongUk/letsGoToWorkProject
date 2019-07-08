@@ -28,10 +28,17 @@ public class MessengerServiceImpl implements MessengerService {
 	public ArrayList<HashMap<String, Object>> selectMessenger(Map<String, Object> params) {
 		return md.selectMessenger(params, sqlSession);
 	}
+	
 	//Messenger Count 조회
 	@Override
 	public int selectMessengerCount(Map<String, Object> params) {
 		return md.selectMessengerCount(params, sqlSession);
+	}
+	
+	//MessengerDatail 조회
+	@Override
+	public HashMap<String, Object> selectDetailMessneger(Map<String, Object> params) {
+		return md.selectDetailMessneger(params, sqlSession);
 	}
 	
 	@Override
@@ -46,10 +53,7 @@ public class MessengerServiceImpl implements MessengerService {
 		return md.selectStorageMessenger(msgGno);
 	}
 
-	@Override
-	public String selectDetailMessneger(String msgNo) {
-		// TODO Auto-generated method stub
-		return md.selectDetailMessneger(msgNo);
-	}
+	
+
 
 }

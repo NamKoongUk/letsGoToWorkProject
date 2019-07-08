@@ -42,6 +42,13 @@ public class MessengerDaoImpl implements MessengerDao {
 		return (ArrayList)sqlSession.selectList("Messenger.selctMessengerList", params,rowBounds);
 	}
 	
+	//메세지 디테일 조회용 메소드
+	@Override
+	public HashMap<String, Object> selectDetailMessneger(Map<String, Object> params, SqlSession sqlSession) {
+		return sqlSession.selectOne("Messenger.selectMessengerDetail", params);
+	}
+	
+	
 	@Override
 	public int selectMessengerCount(Map<String, Object> params, SqlSession sqlSession) {
 		return sqlSession.selectOne("Messenger.selectMessengerCount",params);
@@ -59,11 +66,7 @@ public class MessengerDaoImpl implements MessengerDao {
 		return null;
 	}
 
-	@Override
-	public String selectDetailMessneger(String msgNo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 
 	
