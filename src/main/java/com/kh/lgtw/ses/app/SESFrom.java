@@ -16,7 +16,7 @@ public enum SESFrom {
 	} 
 	
 	public String getEmail() {
-		return email;
+		return email; 
 	}
 	
 	public String getName() {

@@ -6,7 +6,7 @@ import com.kh.lgtw.mail.controller.SendMail;
 
 // 메일 전송 서비스 
 public class MailSendingService {
-
+ 
 	private SendMail sendMail;
 
 	@Autowired 

@@ -7,7 +7,7 @@
 	<!-- beans bean이면 bean으로 생성 =-> beans:benas면 beans로 생성 -->
 	<beans:bean id="bcryptPasswordEncoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-
+ 
 	<!-- 인증 -->
 	<!-- <beans:bean id="amazonSimpleEmailServiceAsync"
 	 	class="com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceAsync">

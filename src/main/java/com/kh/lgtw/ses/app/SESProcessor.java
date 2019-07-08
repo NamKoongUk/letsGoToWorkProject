@@ -17,7 +17,7 @@ public class SESProcessor extends Thread{
     private SESWorker[] workers;
 
     private final Queue<AmazonEmail> queue = new LinkedList<>();
- 
+  
     private final int MAX_SLEEP_TIME = 3 * 60 * 60 * 1000; //3 hours
 
     private final int MAX_WORKERS = 1;

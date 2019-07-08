@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.lgtw.ses.app.AmazonEmail;
 import com.kh.lgtw.ses.app.SESFrom;
 import com.kh.lgtw.ses.app.SESProcessor;
-
+ 
 @RestController
 public class AppController {
 	@RequestMapping("/")

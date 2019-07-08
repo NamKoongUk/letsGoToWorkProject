@@ -39,7 +39,7 @@ public class SESWorker extends Thread {
     private AmazonSimpleEmailService sesClient;
 
     private final int id;
- 
+  
     public SESWorker(int id) {
         super("SESWorker-" + id);
         setDaemon(true);

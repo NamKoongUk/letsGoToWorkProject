@@ -26,8 +26,8 @@ public class SendMail {
 			AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.standard()
 							.withCredentials(credentialsProvider)
 							.withRegion("us-east-1")
-							.build();
-			
+					 		.build();
+			 
 			// 메일 전송  
 			client.sendEmail(sender.toSendRequest());
 
