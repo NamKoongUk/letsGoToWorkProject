@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +41,8 @@ import com.kh.lgtw.common.Pagination;
 import com.kh.lgtw.employee.controller.EmployeeController;
 import com.kh.lgtw.employee.model.service.EmployeeService;
 import com.kh.lgtw.employee.model.vo.Employee;
+import com.kh.lgtw.mail.cloudSpringAws.JavaMailSender;
+import com.kh.lgtw.mail.cloudSpringAws.MailSendingService;
 import com.kh.lgtw.mail.model.service.MailService;
 import com.kh.lgtw.mail.model.vo.Absence;
 import com.kh.lgtw.mail.model.vo.ListCondition;
@@ -50,9 +53,12 @@ import com.kh.lgtw.mail.model.vo.Sender;
 //@RestController
 public class MailController {
 	@Autowired private MailService ms;
-	private HttpStatus httpStatus;
 	@Autowired private EmployeeService es;
-	 
+	@Autowired private JavaMailSender mailSender; 
+
+	private HttpStatus httpStatus;
+	private SimpleMailMessage simpleMailMessage;
+	
 	// 전체 메일 리스트
 	@RequestMapping("mail.ma")
 	public String mailHome() {
@@ -135,24 +141,6 @@ public class MailController {
 		mail.setmSize(12345);
 		System.out.println("mail : " + mail);
 		
-//		private int mailNo; 				// 메일번호
-//		private String mTitle;				// 제목
-//		private String mContent;			// 내용
-//		private String sendMail;			// 보내는메일
-//		private String reciveMail;			// 받는메일
-//		private String dStatus;				// 삭제여부
-//		private Date sendDate;				// 보낸날짜
-//		private String rStatus;				// 읽음여부
-//		private String mailType;			// 메일 종류
-//		private int mSize;					// 용량
-//		private String reservationCheck;	// 예약여부
-//		private Date reservationDate;		// 예약일
-//		private Date reservationTime;		// 예약시간
-		
-//		private String from;								// 보내는곳
-//		private List<String> to = new ArrayList<>();		// 받는곳
-//		private String subject;								// 제목
-//		private String content;								// 내용
 		Sender sender = new Sender();
 		
 		List<String> toList = new ArrayList<>();
@@ -164,10 +152,27 @@ public class MailController {
 		sender.setContent(mail.getmContent());
 		System.out.println("sender : "+ sender);
 		
-		// 전송요청 
-		SendMail sendMail = new SendMail();
-		sendMail.send(sender);
+		// 전송요청
+//		System.out.println("snedMail.send를 이용한 메일 발송 시작");
+//		SendMail sendMail = new SendMail();
+//		sendMail.send(sender);
+//		System.out.println("snedMail.send를 이용한 메일 발송 완료");
+		System.out.println("JavaMailSender를 이용한 메일 발송 시작");
 		
+		// JavaMailSender로 전송요청
+		
+		simpleMailMessage = new SimpleMailMessage();
+		simpleMailMessage.setFrom(sender.getFrom());
+		simpleMailMessage.setTo(sender.getTo().get(0));
+		simpleMailMessage.setSubject(sender.getSubject());
+		simpleMailMessage.setText(sender.getContent());
+		System.out.println("simpleMailMessage : " + simpleMailMessage);
+		System.out.println("mailSender 너는 왜 널이니.. " + mailSender);
+		mailSender.send(simpleMailMessage);
+		
+		System.out.println("JavaMailSender를 이용한 메일 발송 완료!");
+		
+		// 전송이 완료되었을 때 데이터 베이스에 정보 저장 
 		int result = ms.sendMail(mail);
 		
 		return "redirect:/mail";
