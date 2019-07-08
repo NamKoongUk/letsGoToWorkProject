@@ -28,7 +28,7 @@ public interface EmployeeDao{
 
 	int empExcelUpload(SqlSession sqlSession, File destFile);
 
-	List<ExcelEmp> excelEmpInsert(SqlSession sqlSession, List<ExcelEmp> list);
+	List<ExcelEmp> excelEmpInsert(SqlSession sqlSession, List<ExcelEmp> list, Attachment attach);
 
 	List<String> selectEmpEmailForName(SqlSession sqlSession, String sName);
 	
@@ -57,6 +57,8 @@ public interface EmployeeDao{
 	DeptHistory selectEmpDept(SqlSession sqlSession, Employee employee);
 
 	Attachment selectProfile(SqlSession sqlSession, Employee employee);
+
+	String selectUpCheckPwd(SqlSession sqlSession, EmployeeResult employee);
 
 
 

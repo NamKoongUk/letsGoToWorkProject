@@ -69,12 +69,12 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	}
 
 	@Override
-	public List<ExcelEmp> excelEmpInsert(SqlSession sqlSession, List<ExcelEmp> list) {
+	public List<ExcelEmp> excelEmpInsert(SqlSession sqlSession, List<ExcelEmp> list, Attachment attach) {
 		
 		for(int i = 0; i<list.size(); i++) {
 			System.out.println("포문시작");
 			sqlSession.insert("ExcelEmp.insertEmpExcel", list.get(i));
-			
+			sqlSession.insert("Employee.insertEmpProfile", attach);
 		}
 		
 		System.out.println("포문완료");
@@ -171,6 +171,11 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	@Override
 	public Attachment selectProfile(SqlSession sqlSession, Employee employee) {
 		return sqlSession.selectOne("Employee.selectProfile", employee);
+	}
+
+	@Override
+	public String selectUpCheckPwd(SqlSession sqlSession, EmployeeResult employee) {
+		return sqlSession.selectOne("Employee.selectUpCheckPwd",employee);
 	}
 
 	

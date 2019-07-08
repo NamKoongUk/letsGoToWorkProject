@@ -3,6 +3,7 @@ package com.kh.lgtw.employee.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -120,19 +121,25 @@ public class EmployeeController {
 		
 		attach = empService.selectProfile(employee);
 		
-		String[] addArr = employee.getAddress().split("\\|");
-		
-		for(int i=0; i<addArr.length; i++) {
-			System.out.println(addArr[i]);
+		if(employee.getAddress() != null) {
+			String[] addArr = employee.getAddress().split("\\|");
+			
+			for(int i=0; i<addArr.length; i++) {
+				System.out.println(addArr[i]);
+			}
+			
+			model.addAttribute("address",addArr);
 		}
 		
-		System.out.println(attach);
-		System.out.println("파일패스"+attach.getFilePath());
+		
+		/*
+		 * System.out.println(attach); System.out.println("파일패스"+attach.getFilePath());
+		 */
 		
 		model.addAttribute("hmap", hmap);
 		model.addAttribute("deptJob",deptJob);
 		model.addAttribute("attach",attach);
-		model.addAttribute("address",addArr);
+		
 		
 		return "employee/myEmpPage";
 	}
@@ -213,15 +220,28 @@ public class EmployeeController {
 	
 	//직원 빠르게 등록
 	@RequestMapping("insertEmpQuick.em")
-	public String insertEmpQuick(Employee employee, DeptVo dpVo, JobVo jobVo, Model model) {
+	public String insertEmpQuick(Employee employee, DeptVo dpVo, JobVo jobVo, Model model, HttpServletRequest request) {
 		
 		System.out.println("퀵등록 emp:" + employee);
 		System.out.println("부서:" + dpVo.getDeptCode());
 		System.out.println("직급:" +jobVo.getJobCode());
 		
+		
+		Attachment attach = new Attachment();
+		
+		String root =request.getSession().getServletContext().getRealPath("resources");
+		String imgfilePath = root+"\\images\\profile";
+		String origin = "users.jpg";
+		String change = CommonUtils.getRandomString();
+		
+		attach.setFilePath(imgfilePath);
+		attach.setOriginName(origin);
+		attach.setChangeName(change);
+		
+		
 		employee.setEmpPwd(passwordEncoder.encode(employee.getEmpPwd()));
 		
-		int result = empService.insertEmpQuick(employee, dpVo, jobVo);
+		int result = empService.insertEmpQuick(employee, dpVo, jobVo,attach);
 		
 		if(result>0) {
 			return "redirect:showEmployeeAdmin.em";
@@ -398,6 +418,8 @@ public class EmployeeController {
 			try {
 				String root =request.getSession().getServletContext().getRealPath("resources");
 				
+				System.out.println("루트확인:"+root);
+				
 				String filePath = root +"\\images\\profile";
 				
 				System.out.println(filePath);
@@ -428,9 +450,22 @@ public class EmployeeController {
 			}
 		}else {
 			
-			int result1 = empService.insertEmpOneNoAttach(employee, dpVo, jobVo);
+			//프로필 생성용 attachment
+			Attachment attach = new Attachment();
 			
-			if(result1 > 0) {
+			String root =request.getSession().getServletContext().getRealPath("resources");
+			String imgfilePath = root+"\\images\\profile";
+			String origin = "users.jpg";
+			String change = CommonUtils.getRandomString();
+			
+			attach.setFilePath(imgfilePath);
+			attach.setOriginName(origin);
+			attach.setChangeName(change);
+			
+			
+			int result = empService.insertEmpOne(employee, attach, dpVo, jobVo);
+			
+			if(result > 0) {
 				return "redirect:showEmployeeAdmin.em";
 			}else {
 				return "employee/empOneRegister";
@@ -471,13 +506,25 @@ public class EmployeeController {
 	public ModelAndView empExcelUpload(MultipartHttpServletRequest request) {
 		System.out.println("업로드 진행");
 		
+		//엑셀로 등록시 프로필 생성용 attachment
+		Attachment attach = new Attachment();
+		
+		String root =request.getSession().getServletContext().getRealPath("resources");
+		String imgfilePath = root+"\\images\\profile";
+		String origin = "users.jpg";
+		String change = CommonUtils.getRandomString();
+		
+		attach.setFilePath(imgfilePath);
+		attach.setOriginName(origin);
+		attach.setChangeName(change);
+		
+		
+		System.out.println("루트 확인"+root);
+		
 		MultipartFile excelFile = request.getFile("excelFile");
-		
-//		if(excelFile == null || excelFile.isEmpty()) {
-//			throw new RuntimeException("엑셀파일을 선택해주세요");
-//		}
-		
 		String filePath = excelFile.getOriginalFilename();
+		
+		System.out.println("파일 패스 확인"+filePath);
 		
 		List<ExcelEmp> list = new ArrayList<>();
 		
@@ -486,7 +533,7 @@ public class EmployeeController {
 			list = empService.xlsEmpInsert(request, excelFile);
 		
 		}else if(filePath.toUpperCase().endsWith(".XLSX")) {
-			list = empService.xlsxEmpInsert(request, excelFile);
+			list = empService.xlsxEmpInsert(request, excelFile, attach);
 		}
 		
 		System.out.println("파일패스:" + filePath);
@@ -626,20 +673,87 @@ public class EmployeeController {
 	}
 	
 	@RequestMapping("updateMyInfo.em")
-	public String updateMyInfo(Model model, HttpSession session, EmployeeResult employee, Attachment attach, @RequestParam(name="profile",required=false) MultipartFile profile) {
+	public String updateMyInfo(Model model, HttpSession session, EmployeeResult employee, DeptVo dpVo, JobVo jobVo, String zipCode, String address1, String address2,HttpServletRequest request,
+							String updatePwd1, String updatePwd2, @RequestParam(name="profile",required=false) MultipartFile profile, HttpServletResponse response) {
 		
 		Employee loginEmp =(Employee)session.getAttribute("loginEmp");
 		
-		System.out.println("로그인 정보 " + loginEmp);
-		System.out.println("수정 정보 " + employee);
-		System.out.println(profile.getOriginalFilename());
-		System.out.println("프로필 "+ attach);
+		String address = address1 + "|" + address2 + "|" +zipCode;
+		employee.setAddress(address);
 		
-		if(attach != null) {
-			
+		System.out.println(employee.getEmpPwd());
+		
+		if(employee.getEmpPwd().equals("")) {
+			model.addAttribute("msg","현재 비밀번호를 입력해주세요.");
+			model.addAttribute("url","showMyPage.em");
+			return "employee/checkPwd";
 		}
 		
-		return"";
+		
+		int pwdCheck = empService.updatePwdCheck(employee);
+		
+		if(pwdCheck>0) {
+			if(updatePwd1.equals(updatePwd2)) {
+				
+				try {
+					String root =request.getSession().getServletContext().getRealPath("resources");
+					
+					System.out.println("루트확인:"+root);
+					
+					String filePath = root +"\\images\\profile";
+					
+					System.out.println(filePath);
+					
+					String originFileName = profile.getOriginalFilename();
+					String ext = originFileName.substring(originFileName.lastIndexOf("."));
+					String changeName = CommonUtils.getRandomString()+ext;
+					profile.transferTo(new File(filePath+"\\"+changeName+ext));
+					Attachment attach = new Attachment();
+					attach.setOriginName(originFileName);
+					attach.setChangeName(changeName);
+					attach.setFilePath(filePath);
+					
+					System.out.println("오리진"+attach.getOriginName());
+					System.out.println("change"+attach.getChangeName());
+					System.out.println("filepath"+attach.getFilePath());
+					
+					employee.setEmpPwd(passwordEncoder.encode(updatePwd1));
+					System.out.println(employee.getEmpPwd());
+					
+					
+				} catch (IllegalStateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+				//int updateEmp = empService.updateEmpInfo(employee);
+				
+				
+			}else {
+				model.addAttribute("msg","변경할 비밀번호가 일치하지 않습니다.");
+				model.addAttribute("url","showMyPage.em");
+				
+				return "employee/checkPwd";
+			}
+			
+		}else {
+			model.addAttribute("msg","비밀번호가 일치하지 않습니다..");
+			model.addAttribute("url","showMyPage.em");
+			
+			return "employee/checkPwd";
+		}
+		
+		//		System.out.println("프로필 "+ attach);
+//		
+//		if(attach != null) {
+//			
+//		}
+		
+		return "redirect:showMyPage.em";
 	}
 	
 }

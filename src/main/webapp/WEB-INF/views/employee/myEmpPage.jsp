@@ -35,6 +35,7 @@
 	<c:set var ="dept" value="${deptJob.dpHistory }"/>
 	<c:set var ="job" value="${deptJob.jobHistory }"/>
 	
+	
 	 
 	<div class="row wrap">
 		<jsp:include page="../common/sideMenu/employee.jsp"/>
@@ -44,7 +45,15 @@
 			<div class="content">
 				<form action="updateMyInfo.em" method="post" enctype="multipart/form-data">
 					<div id="proflieArea">
-						<img id="profileIcon" name="changeName" src="${contextPath }/resources/images/profile/${attach.changeName}.jpg" width="150px;" height="200px;">
+						<c:if test="${!attach.originName eq 'users.jpg' }">
+							<img id="profileIcon" name="changeName" src="${contextPath }/resources/images/profile/${attach.changeName}.jpg" width="150px;" height="200px;">
+						</c:if>
+						<c:if test="${attach.originName eq 'users.jpg' }">
+							<img id="profileIcon" name="changeName" src="${contextPath }/resources/images/profile/users.jpg" width="150px;" height="200px;">
+						</c:if>
+						<c:if test="${empty attach.originName }">
+							<img id="profileIcon" name="changeName" src="${contextPath }/resources/images/profile/users.jpg" width="150px;" height="200px;">
+						</c:if>
 					</div>
 					<div id="empInfoTable">
 					<table>
@@ -54,7 +63,7 @@
 						</tr>
 						<tr>
 							<td>아이디</td>
-							<td><c:out value="${loginEmp.empId }"/></td>
+							<td><input type="text" name="empId" value="${loginEmp.empId }" readonly></td>
 						</tr>
 						<tr>
 							<td>현재 비밀번호</td>
@@ -62,7 +71,11 @@
 						</tr>
 						<tr>
 							<td>변경할 비밀번호</td>
-							<td><input style="width:250px;" type="password" name="updatePwd" placeholder="변경할 비밀번호를 입력하세요"></td>
+							<td><input style="width:250px;" type="password" name="updatePwd1" placeholder="변경할 비밀번호를 입력하세요"></td>
+						</tr>
+						<tr>
+							<td>변경할 비밀번호 확인</td>
+							<td><input style="width:250px;" type="password" name="updatePwd2" placeholder="비밀번호를 한번 더 입력하세요"></td>
 						</tr>
 						
 						<tr>
