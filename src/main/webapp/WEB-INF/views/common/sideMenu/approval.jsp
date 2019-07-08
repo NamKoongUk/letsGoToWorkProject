@@ -23,10 +23,10 @@
 				<div id="prograssDcm" class="w3-container w3-hide w3-animate-opacity contentSelectArea">
 					<ul>
 						<li onclick="location.href='${ contextPath }/showAllPrograssDcm.ap'" class="list">전체문서</li>
+						<li onclick="location.href='${ contextPath }/myWriteDcm.ap'" class="list">기안한 문서</li>
 						<li onclick="location.href='${ contextPath }/showWaitDcm.ap'" class="list">처리대기</li>
 						<li onclick="location.href='${ contextPath }/showIntendedDcm.ap'" class="list">처리예정</li>
 						<li onclick="location.href='${ contextPath }/showProgressgDcm.ap'" class="list">처리 중</li>
-						<li onclick="location.href='${ contextPath }/showFinishDcm.ap'" class="list">완료문서</li>
 						<li onclick="location.href='${ contextPath }/showWaitReceptionDcm.ap'" class="list">수신대기문서</li>
 						<li onclick="location.href='${ contextPath }/showWaitCirculationDcm.ap'" class="list">회람대기문서</li>
 					</ul>

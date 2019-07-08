@@ -37,10 +37,6 @@ public class PageInfo implements Serializable{
 		this.empNo = empNo;
 	}
 
-
-
-
-
 	public PageInfo(int currentPage, int listCount, int limit, int maxPage, int startPage, int endPage) {
 		super();
 		this.currentPage = currentPage;

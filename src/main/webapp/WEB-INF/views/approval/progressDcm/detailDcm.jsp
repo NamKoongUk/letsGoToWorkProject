@@ -67,11 +67,17 @@
 									<td width="100px" style="background:#e8e8e8">회람</td>
 									<td align="left" id="circleEmp">
 										<c:forEach var="al" items="${ requestScope.map.appList }">
-											<c:if test="${ sessionScope.loginEmp.empNo == al.alEmpNo }">
+											<c:if test="${ sessionScope.loginEmp.empNo == al.alEmpNo && al.alStatus == '회람대기'}">
 												<label>${ al.approvaler } <font color="yellowgreen" size="2px"><a href="#" onclick="updateConfirmDcm();">확인</a></font></label>&nbsp;&nbsp;
 											</c:if>
-											<c:if test="${ sessionScope.loginEmp.empNo != al.alEmpNo }">
-												<label>${ al.approvaler }</label>&nbsp;&nbsp;
+											<c:if test="${ sessionScope.loginEmp.empNo == al.alEmpNo && al.alStatus == '결재'}">
+												<label>${ al.approvaler } <font color="green" size="2px">완료</font></label>&nbsp;&nbsp;
+											</c:if>
+											<c:if test="${ sessionScope.loginEmp.empNo != al.alEmpNo && al.alStatus == '회람대기' }">
+												<label>${ al.approvaler } <font color="red" size="2px">대기</font></label>&nbsp;&nbsp;
+											</c:if>
+											<c:if test="${ sessionScope.loginEmp.empNo != al.alEmpNo && al.alStatus == '결재' }">
+												<label>${ al.approvaler } <font color="green" size="2px">완료</font></label>&nbsp;&nbsp;
 											</c:if>
 											
 										</c:forEach>
@@ -96,22 +102,29 @@
                                 <tr height="75px" id="approval">
                                      <c:forEach begin="0" end="7" step="1" varStatus="i">
                                     	<c:if test="${ fn:length(requestScope.appList.approval) > i.index }">
-                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.approval[i.index].alLevel }">
-                                    			<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">결재하기</button></td>
+                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '대기'}">
+                                    			<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal6">결재하기</button></td>
                                     		</c:if>
-                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel }">
+                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '결재'}">
+                                    			<td><font color="green">결재</font></td>
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '결재'}">
+                                    		
+                                    			<td><font color="green">결재</font></td>
+                                    		</c:if>
+                                    		<%-- <c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel }">
                                     			<td><font color="red">결재대기</font></td>
-                                    		</c:if>
+                                    		</c:if> --%>
                                     		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo != sessionScope.loginEmp.empNo }">
 	                                    		<c:if test="${ requestScope.appList.approval[i.index].alStatus == '대기' }">
 	                                    			<td><font color="red">결재대기</font></td>
 	                                    		</c:if>
 	                                    		<c:if test="${ requestScope.appList.approval[i.index].alStatus == '결재' }">
 	                                    			<td><font color="green">결재</font></td>
-	                                    		</c:if>   
+	                                    		</c:if>             
 	                                    		<c:if test="${ requestScope.appList.approval[i.index].alStatus == '반려' }">
 	                                    			<td><font color="red">반려</font></td>
-	                                    		</c:if>                                   			
+	                                    		</c:if>                        			
                                     		</c:if>
                                     	</c:if>
                                     	<c:if test="${ fn:length(requestScope.appList.approval) <= i.index }">
@@ -150,16 +163,36 @@
                                 <tr>
                                      <td style="background:#e8e8e8;">수신</td>
                                      <td style="text-align:left" colspan="8" id="sendEmpName">
-                                          <c:forEach begin="0" end="7" step="1" varStatus="i">
-	                                    	<c:if test="${ fn:length(requestScope.appList.send) > i.index }">
-	                                    		<c:if test="${ requestScope.appList.send[i.index].alEmpNo == sessionScope.loginEmp.empNo }">
-	                                    			<c:out value="${ requestScope.appList.ref[i.index].approvaler }"/> <font size="2px" color="yellowgreen"><a href="#" onclick="updateConfirmDcm();">확인</a></font> &nbsp;
+                                         <c:forEach begin="0" end="7" step="1" varStatus="i">
+                                    	<c:if test="${ fn:length(requestScope.appList.send) > i.index }">
+                                    		<c:if test="${ requestScope.appList.send[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.send[i.index].alLevel && requestScope.appList.send[i.index].alStatus == '수신대기'}">
+                                    			<label>${ requestScope.appList.send[i.index].approvaler } <font color="yellowgreen" size="2px"><a href="#" onclick="updateConfirmDcm();">확인</a></font></label>&nbsp;&nbsp;
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.send[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.send[i.index].alLevel && requestScope.appList.send[i.index].alStatus == '결재'}">
+                                    			<label>${ requestScope.appList.send[i.index].approvaler } <font color="green" size="2px">완료</font></label>
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.send[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.send[i.index].alLevel && requestScope.appList.send[i.index].alStatus == '결재'}">
+                                    			<label>${ requestScope.appList.send[i.index].approvaler } <font color="green" size="2px">완료</font></label>
+                                    		</c:if>
+                                    		<%-- <c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel }">
+                                    			<td><font color="red">결재대기</font></td>
+                                    		</c:if> --%>
+                                    		<c:if test="${ requestScope.appList.send[i.index].alEmpNo != sessionScope.loginEmp.empNo }">
+	                                    		<c:if test="${ requestScope.appList.send[i.index].alStatus == '수신대기' }">
+	                                    			<label>${ requestScope.appList.send[i.index].approvaler } <font color="red" size="2px">대기</font></label>
 	                                    		</c:if>
-	                                    		<c:if test="${ requestScope.appList.send[i.index].alEmpNo != sessionScope.loginEmp.empNo }">
-	                                    			<c:out value="${ requestScope.appList.send[i.index].approvaler }"/> &nbsp;
-	                                    		</c:if>
-	                                    	</c:if>
-                                    	</c:forEach>
+	                                    		<c:if test="${ requestScope.appList.send[i.index].alStatus == '결재' }">
+	                                    			<label>${ requestScope.appList.send[i.index].approvaler } <font color="green" size="2px">완료</font></label>
+	                                    		</c:if>             
+	                                    		<c:if test="${ requestScope.appList.send[i.index].alStatus == '반려' }">
+	                                    			<label>${ requestScope.appList.send[i.index].approvaler } <font color="red" size="2px">반려</font></label>
+	                                    		</c:if>                        			
+                                    		</c:if>
+                                    	</c:if>
+                                    	<c:if test="${ fn:length(requestScope.appList.send) <= i.index }">
+                                    		
+                                    	</c:if>
+                                    </c:forEach>
                                      </td>
                                 </tr>
                         	</table>
@@ -312,24 +345,31 @@
                                     </c:forEach>
                                 </tr>
                                 <tr height="75px" id="approval">
-                                    <c:forEach begin="0" end="7" step="1" varStatus="i">
+                                     <c:forEach begin="0" end="7" step="1" varStatus="i">
                                     	<c:if test="${ fn:length(requestScope.appList.approval) > i.index }">
-                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.approval[i.index].alLevel }">
+                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '대기'}">
                                     			<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">결재하기</button></td>
                                     		</c:if>
-                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel }">
-                                    			<td><font color="red">결재대기</font></td>
+                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '결재'}">
+                                    			<td><font color="green">결재완료</font></td>
                                     		</c:if>
+                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '결재'}">
+                                    		
+                                    			<td><font color="green">결재완료</font></td>
+                                    		</c:if>
+                                    		<%-- <c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel }">
+                                    			<td><font color="red">결재대기</font></td>
+                                    		</c:if> --%>
                                     		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo != sessionScope.loginEmp.empNo }">
 	                                    		<c:if test="${ requestScope.appList.approval[i.index].alStatus == '대기' }">
 	                                    			<td><font color="red">결재대기</font></td>
 	                                    		</c:if>
 	                                    		<c:if test="${ requestScope.appList.approval[i.index].alStatus == '결재' }">
-	                                    			<td><font color="green">결재</font></td>
-	                                    		</c:if>
+	                                    			<td><font color="green">결재완료</font></td>
+	                                    		</c:if>             
 	                                    		<c:if test="${ requestScope.appList.approval[i.index].alStatus == '반려' }">
 	                                    			<td><font color="red">반려</font></td>
-	                                    		</c:if>                                     			
+	                                    		</c:if>                        			
                                     		</c:if>
                                     	</c:if>
                                     	<c:if test="${ fn:length(requestScope.appList.approval) <= i.index }">
@@ -361,13 +401,19 @@
                                 <tr height="75px" id="payAgreeApproval">
 	                                <c:forEach begin="0" end="7" step="1" varStatus="i">
                                     	<c:if test="${ fn:length(requestScope.appList.payAgree) > i.index }">
-                                    		<c:if test="${ requestScope.appList.payAgree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.payAgree[i.index].alLevel && requestScope.map.adStatus == '재무합의대기' }">
+                                    		<c:if test="${ requestScope.appList.payAgree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.payAgree[i.index].alLevel && requestScope.appList.payAgree[i.index].alStatus == '재무합의대기' }">
                                     			<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal3">결재하기</button></td>
                                     		</c:if>
-                                    		<c:if test="${ requestScope.appList.payAgree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.payAgree[i.index].alLevel && requestScope.map.adStatus != '재무합의대기' }">
+                                    		<%-- <c:if test="${ requestScope.appList.payAgree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.payAgree[i.index].alLevel && requestScope.appList.payAgree[i.index].alStatus != '결재' }">
                                     			<td><font color="red">결재대기</font></td>
+                                    		</c:if> --%>
+                                    		<c:if test="${ requestScope.appList.payAgree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.payAgree[i.index].alLevel && requestScope.appList.payAgree[i.index].alStatus == '결재' }">
+                                    			<td><font color="green">결재완료</font></td>
                                     		</c:if>
-                                    		<c:if test="${ requestScope.appList.payAgree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.payAgree[i.index].alLevel }">
+                                    		<c:if test="${ requestScope.appList.payAgree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.payAgree[i.index].alLevel && requestScope.appList.payAgree[i.index].alStatus == '결재' }">
+                                    			<td><font color="green">결재완료</font></td>
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.payAgree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.payAgree[i.index].alLevel && requestScope.appList.payAgree[i.index].alStatus != '결재' }">
                                     			<td><font color="red">결재대기</font></td>
                                     		</c:if>
                                     		<c:if test="${ requestScope.appList.payAgree[i.index].alEmpNo != sessionScope.loginEmp.empNo }">
@@ -375,7 +421,7 @@
 	                                    			<td><font color="red">결재대기</font></td>
 	                                    		</c:if>
 	                                    		<c:if test="${ requestScope.appList.payAgree[i.index].alStatus == '결재' }">
-	                                    			<td><font color="green">결재</font></td>
+	                                    			<td><font color="green">결재완료</font></td>
 	                                    		</c:if>                   
 	                                    		<c:if test="${ requestScope.appList.payAgree[i.index].alStatus == '반려' }">
 	                                    			<td><font color="red">반려</font></td>
@@ -401,29 +447,36 @@
                                 	<td style="background:#e8e8e8;">합의</td>
                                 	<c:forEach begin="0" end="7" step="1" varStatus="i">
 	                                    	<c:if test="${ fn:length(requestScope.appList.agree) > i.index }">
-	                                    		<c:if test="${ requestScope.appList.agree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.appList.alStatus == '합의대기' }">
+	                                    		<c:if test="${ requestScope.appList.agree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adStatus == '합의대기' && requestScope.appList.agree[i.index].alStatus == '합의대기' }">
 	                                    			<td width="80px" height="20px">
 	                                    				<c:out value="${ requestScope.appList.agree[i.index].approvaler }"/>
 	                                    				<a href="#" data-toggle="modal" data-target="#myModal2" ><font color="yellowgreen" size="2px"> 확인</font></a>
 	                                    			</td>
 	                                    		</c:if>
-	                                    		<c:if test="${ requestScope.appList.agree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.appList.alStatus != '합의대기' }">
+	                                    		<c:if test="${ requestScope.appList.agree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adStatus != '합의대기' && requestScope.appList.agree[i.index].alStatus == '합의대기' }">
 	                                    			<td width="80px" height="20px">
-		                                    				${ requestScope.appList.agree[i.index].approvaler } <font size="2px" color="red">대기</font>
+	                                    				<c:out value="${ requestScope.appList.agree[i.index].approvaler }"/>
+	                                    				${ requestScope.appList.agree[i.index].approvaler } <font size="2px" color="red">대기</font>
 	                                    			</td>
 	                                    		</c:if>
-	                                    		<%-- <c:if test="${ requestScope.appList.agree[i.index].alEmpNo != sessionScope.loginEmp.empNo && requestScope.appList.alStatus == '합의대기' }">
+	                                    		<c:if test="${ requestScope.appList.agree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adStatus == '합의대기' && requestScope.appList.agree[i.index].alStatus == '결재' }">
 	                                    			<td width="80px" height="20px">
-		                                    				${ requestScope.appList.agree[i.index].approvaler } <font size="2px" color="red">대기</font>
+		                                    				<c:out value="${ requestScope.appList.agree[i.index].approvaler }"/> <font size="2px" color="blue">결재</font>
 	                                    			</td>
-	                                    		</c:if> --%>
+	                                    		</c:if>
+	                                    		<c:if test="${ requestScope.appList.agree[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adStatus != '합의대기' && requestScope.appList.agree[i.index].alStatus == '결재' }">
+	                                    			<td width="80px" height="20px">
+		                                    				<c:out value="${ requestScope.appList.agree[i.index].approvaler }"/> <font size="2px" color="blue">결재</font>
+	                                    			</td>
+	                                    		</c:if>
+	                                    		
 	                                    		<c:if test="${ requestScope.appList.agree[i.index].alEmpNo != sessionScope.loginEmp.empNo }">
 	                                    			<c:if test="${ requestScope.appList.agree[i.index].alStatus == '합의대기' }">
 		                                    			<td width="80px" height="20px">
 		                                    				${ requestScope.appList.agree[i.index].approvaler } <font size="2px" color="red">대기</font>
 		                                    			</td>
 	                                    			</c:if>
-	                                    			<c:if test="${ requestScope.appList.agree[i.index].alStatus == '확인' }">
+	                                    			<c:if test="${ requestScope.appList.agree[i.index].alStatus == '결재' }">
 		                                    			<td width="80px" height="20px">
 		                                    				${ requestScope.appList.agree[i.index].approvaler } 
 		                                    				<font color="blue" size="2px"> 완료</font>
@@ -470,11 +523,21 @@
                                 <tr height="75px" id="applyApproval">
                                         <c:forEach begin="0" end="7" step="1" varStatus="i">
                                     	<c:if test="${ fn:length(requestScope.appList.apply) > i.index }">
-                                    		<c:if test="${ requestScope.appList.apply[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.apply[i.index].alLevel }">
-                                    			<td><button onclick="updateApply();">결재하기</button></td>
+                                    		<c:if test="${ requestScope.appList.apply[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.apply[i.index].alLevel && requestScope.appList.apply[i.index].alStatus == '대기' }">
+                                    			<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">결재하기</button></td>
                                     		</c:if>
-                                    		<c:if test="${ requestScope.appList.apply[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.apply[i.index].alLevel }">
+                                    		<c:if test="${ requestScope.appList.apply[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.apply[i.index].alLevel && requestScope.appList.apply[i.index].alStatus == '대기' }">
                                     			<td><font color="red">결재대기</font></td>
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.apply[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adStatus == '대기' && requestScope.appList.apply[i.index].alStatus == '결재' }">
+	                                    			<td width="80px" height="20px">
+		                                    			<font size="2px" color="green">결재완료</font>
+	                                    			</td>
+	                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.apply[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adStatus != '대기' && requestScope.appList.apply[i.index].alStatus == '결재' }">
+                                    			<td width="80px" height="20px">
+	                                    				<font size="2px" color="green">결재완료</font>
+                                    			</td>
                                     		</c:if>
                                     		<c:if test="${ requestScope.appList.apply[i.index].alEmpNo != sessionScope.loginEmp.empNo }">
 	                                    		<c:if test="${ requestScope.appList.payAgree[i.index].alStatus == '대기' }">
@@ -517,22 +580,29 @@
                                 <tr height="75px" id="processApproval">
                                      <c:forEach begin="0" end="7" step="1" varStatus="i">
                                     	<c:if test="${ fn:length(requestScope.appList.process) > i.index }">
-                                    		<c:if test="${ requestScope.appList.process[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.process[i.index].alLevel }">
-                                    			<td><button onclick="updateProcees();">결재하기</button></td>
+                                    		<c:if test="${ requestScope.appList.process[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.process[i.index].alLevel && requestScope.appList.process[i.index].alStatus == '처리대기'}">
+                                    			<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">결재하기</button></td>
                                     		</c:if>
-                                    		<c:if test="${ requestScope.appList.process[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.process[i.index].alLevel }">
+                                    		<c:if test="${ requestScope.appList.process[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.process[i.index].alLevel && requestScope.appList.process[i.index].alStatus == '결재'}">
+                                    			<td><font color="green">결재완료</font></td>
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.process[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.process[i.index].alLevel && requestScope.appList.process[i.index].alStatus == '결재'}">
+                                    		
+                                    			<td><font color="green">결재완료</font></td>
+                                    		</c:if>
+                                    		<%-- <c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel }">
                                     			<td><font color="red">결재대기</font></td>
-                                    		</c:if>
+                                    		</c:if> --%>
                                     		<c:if test="${ requestScope.appList.process[i.index].alEmpNo != sessionScope.loginEmp.empNo }">
-	                                    		<c:if test="${ requestScope.appList.payAgree[i.index].alStatus == '대기' }">
+	                                    		<c:if test="${ requestScope.appList.process[i.index].alStatus == '처리대기' }">
 	                                    			<td><font color="red">결재대기</font></td>
 	                                    		</c:if>
 	                                    		<c:if test="${ requestScope.appList.process[i.index].alStatus == '결재' }">
-	                                    			<td><font color="green">결재</font></td>
-	                                    		</c:if>   
+	                                    			<td><font color="green">결재완료</font></td>
+	                                    		</c:if>             
 	                                    		<c:if test="${ requestScope.appList.process[i.index].alStatus == '반려' }">
-	                                    			<td><font color="green">반려</font></td>
-	                                    		</c:if>                                 			
+	                                    			<td><font color="red">반려</font></td>
+	                                    		</c:if>                        			
                                     		</c:if>
                                     	</c:if>
                                     	<c:if test="${ fn:length(requestScope.appList.process) <= i.index }">
@@ -645,7 +715,7 @@
 	        <label class="radio-inline"><input type="radio" name="payAgree" value="반려">반려</label>
 	      </div>
 	      <div class="modal-footer">
-	      	<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal3">결재하기</button></td>
+	      	<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updatePayAgree();">확인</button>
 	        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
 	      </div>
 	    </div>
@@ -654,12 +724,133 @@
 	</div>
 	
 	
+	
+	<!-- Modal -->
+	<div id="myModal4" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+	
+	    <!-- Modal content-->
+	    <div class="modal-content" style="width:300px;">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">결재</h4>
+	      </div>
+	      <div class="modal-body" align="center">
+	      	<h6>결재 또는 반려를 선택해주세요</h6>
+	        <label class="radio-inline"><input type="radio" name="apply" value="결재" checked>결재</label>
+	        <label class="radio-inline"><input type="radio" name="apply" value="반려">반려</label>
+	      </div>
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updateApply();">확인</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+	      </div>
+	    </div>
+	
+	  </div>
+	</div>
+	
+	<!-- Modal -->
+	<div id="myModal5" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+	
+	    <!-- Modal content-->
+	    <div class="modal-content" style="width:300px;">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">결재</h4>
+	      </div>
+	      <div class="modal-body" align="center">
+	      	<h6>결재 또는 반려를 선택해주세요</h6>
+	        <label class="radio-inline"><input type="radio" name="process" value="결재" checked>결재</label>
+	        <label class="radio-inline"><input type="radio" name="process" value="반려">반려</label>
+	      </div>
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updateProcees();">확인</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+	      </div>
+	    </div>
+	
+	  </div>
+	</div>
+	
+	<div id="myModal6" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+	
+	    <!-- Modal content-->
+	    <div class="modal-content" style="width:300px;">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">결재</h4>
+	      </div>
+	      <div class="modal-body" align="center">
+	      	<h6>결재 또는 반려를 선택해주세요</h6>
+	        <label class="radio-inline"><input type="radio" name="approve" value="결재" checked>결재</label>
+	        <label class="radio-inline"><input type="radio" name="approve" value="반려">반려</label>
+	      </div>
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updateSendApproval();">확인</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+	      </div>
+	    </div>
+	
+	  </div>
+	</div>
+	
 	<script>	
-		function updateProcees(){
+		function updateSendApproval(){
+			var empNo = "${sessionScope.loginEmp.empNo}";
+			var adNo = "${requestScope.map.adNo}";
+			var status = $("input[name='process']:checked").val();
 			
+			$.ajax({
+				url:"${contextPath}/approval/updateSendApproval",
+				type:"get",
+				data:{empNo:empNo, adNo:adNo, status:status},
+				success:function(data){
+					console.log(data);
+					if(data == '성공') {
+						alert("성공적으로 " + status + "되었습니다");
+						location.href="${contextPath}/showWaitDcm.ap"; 
+					}
+				}
+			});
+		}
+	
+		function updateProcees(){
+			var empNo = "${sessionScope.loginEmp.empNo}";
+			var adNo = "${requestScope.map.adNo}";
+			var status = $("input[name='process']:checked").val();
+			
+			$.ajax({
+				url:"${contextPath}/approval/updateProcees",
+				type:"get",
+				data:{empNo:empNo, adNo:adNo, status:status},
+				success:function(data){
+					console.log(data);
+					if(data == '성공') {
+						alert("성공적으로 " + status + "되었습니다");
+						location.href="${contextPath}/showWaitDcm.ap"; 
+					}
+				}
+			});
 		}
 		function updateApply(){
-					
+			var empNo = "${sessionScope.loginEmp.empNo}";
+			var adNo = "${requestScope.map.adNo}";
+			var status = $("input[name='apply']:checked").val();
+			
+			$.ajax({
+				url:"${contextPath}/approval/updateApply",
+				type:"get",
+				data:{empNo:empNo, adNo:adNo, status:status},
+				success:function(data){
+					console.log(data);
+					if(data == '성공') {
+						alert("성공적으로 " + status + "되었습니다");
+						location.href="${contextPath}/showWaitDcm.ap"; 
+					}
+				}
+			});	
 		}
 		function updateApproval(){
 			var empNo = "${sessionScope.loginEmp.empNo}";
@@ -685,7 +876,7 @@
 			var status = $("input[name='agree']:checked").val();
 			
 			$.ajax({
-				url:"${contextPath}/approval/updateApproval",
+				url:"${contextPath}/approval/updateAgree",
 				type:"get",
 				data:{empNo:empNo, adNo:adNo, status:status},
 				success:function(data){
@@ -703,7 +894,7 @@
 			var status = $("input[name='payAgree']:checked").val();
 			
 			$.ajax({
-				url:"${contextPath}/approval/updateApproval",
+				url:"${contextPath}/approval/updatePayAgree",
 				type:"get",
 				data:{empNo:empNo, adNo:adNo, status:status},
 				success:function(data){

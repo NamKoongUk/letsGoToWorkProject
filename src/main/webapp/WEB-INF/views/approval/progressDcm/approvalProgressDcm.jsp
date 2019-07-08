@@ -38,6 +38,7 @@
 				        <th>기안일</th>
 				        <th>구분</th>
 				  		<th>상태</th>
+				  		<td>역할</td>
 				      </tr>
 				    </thead>
 				    <tbody>
@@ -48,7 +49,8 @@
 				      		<td>${ ad.adWriterName }</td>
 				      		<td>${ ad.adStartDate }</td>
 				      		<td>${ ad.afName }</td>
-				      		<td>${ ad.status }</td>
+				      		<td>${ ad.adStatus }</td>
+				      		<td>${ ad.alRoll }</td>
 				      	</tr>
 				      </c:forEach>
 				    </tbody>

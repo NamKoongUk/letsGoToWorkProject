@@ -79,7 +79,7 @@
 	                        <li><a href="${ contextPath }/showWaitCirculationDcm.ap?currentPage=${ pi.currentPage + 1 }">></a></li>
 	                     </c:if>
 	                     <c:if test="${ pi.endPage == pi.currentPage }">
-	                        <li><a href="#">></a></li>
+	                        <li><a href="#">></a></li> 
 	                     </c:if>
 	                     <c:if test="${ pi.endPage != pi.maxPage }">
 	                        <li><a href="${ contextPath }/showWaitCirculationDcm.ap?currentPage=${ pi.endPage + 1 }">>></a></li>

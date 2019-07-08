@@ -24,15 +24,10 @@
 						<option value="${ form.afNo }">${ form.afName }</option>
 					</c:forEach>
 				</select>
-				<button onclick="" style="float:right; margin-left:8px;" class="btn btn-primary">확인</button>
-				<select class="form-control" style="width:150px;display:inline-block; float:right;">
-					<option>선택</option>
-					<option>확인</option>
-				</select>
+				
 				<table class="table table-hover">
 				    <thead>
 				      <tr>
-				      	<th><input type="checkbox" id="checkAll"></th>
 				        <th>문서번호</th>
 				        <th>제목</th>
 				        <th>기안자</th>
@@ -44,8 +39,7 @@
 				    <tbody>
 				      <c:forEach var="ad" items="${ requestScope.list }">
 				      	<tr>
-				      		<th><input type="checkbox" name="check" value="${ ad.adNo }"></th>
-				      		<td>${ ad.adNo }</td>
+				      		<td><input type="hidden" value="${ ad.adNo }">${ ad.adNo }</td>
 				      		<td>${ ad.adTitle }</td>
 				      		<td>${ ad.adWriterName }</td>
 				      		<td>${ ad.adStartDate }</td>
@@ -107,7 +101,7 @@
 		});
 		
 		$(".table").find("td").click(function(){
-			var adNo = $(this).parents().children("th").eq(0).children().eq(0).val();
+			var adNo = $(this).parents().children("td").eq(0).children().eq(0).val();
 			console.log(adNo);
 			location.href="${ contextPath }/showDetailDcm.ap?adNo=" + adNo;
 		});

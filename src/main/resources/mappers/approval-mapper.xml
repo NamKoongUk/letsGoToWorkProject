@@ -133,6 +133,7 @@
 		<result property="adWriterName" column="AD_DCM_WRITER"/>
 		<result property="afName" column="AF_NAME"/>
 		<result property="securityCode" column="SECURITY_CODE"/>
+		<result property="securityGrade" column="SECURITY_GRADE"/>
 		<result property="afDate" column="AF_DATE"/>
 		<result property="adLevel" column="AD_LEVEL"/>
 		<result property="deptCode" column="DEPT_CODE"/>
@@ -317,6 +318,7 @@
         LEFT JOIN JOB J ON(J.JOB_CODE = PH.JOB_CODE)
 		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
 		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
+		JOIN SECURITY S ON(S.SECURITY_CODE = AF.SECURITY_CODE)
 		WHERE AD.AD_NO = #{adNo}
 		ORDER BY AL_ROLL, AL_LEVEL
 	</select>
@@ -385,7 +387,7 @@
 		WHERE AL_EMPNO = #{empNo}
 		AND AD_STATUS = AL_STATUS
 		<!-- AND (AD_STATUS = '대기' OR AD_STATUS = '합의대기' OR AD_STATUS = '재무합의대기') -->
-		AND (AL_ROLL = '합의자' OR AL_ROLL = '결재자' OR AL_ROLL = '재무합의자' OR AL_ROLL = '수신자' OR AL_ROLL = '신청자')
+		AND (AL_ROLL = '합의자' OR AL_ROLL = '결재자' OR AL_ROLL = '재무합의자' OR AL_ROLL = '수신자' OR AL_ROLL = '신청자' OR AL_ROLL = '처리자')
 		AND AD_LEVEL = AL_LEVEL
 	</select>
 	<!-- 진행예정인문서 -->
@@ -435,7 +437,7 @@
 		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
 		WHERE AL_EMPNO = #{empNo}
 		AND AL_STATUS = '결재'
-		AND (AD_STATUS = '대기' OR AD_STATUS = '합의대기' OR AD_STATUS = '재무합의대기')
+		AND (AD_STATUS = '대기' OR AD_STATUS = '합의대기' OR AD_STATUS = '재무합의대기' OR AD_STATUS = '처리대기' OR AD_STATUS = '수신대기')
 		AND (AL_ROLL = '합의자' OR AL_ROLL = '결재자' OR AL_ROLL = '재무합의자' OR AL_ROLL = '수신자' OR AL_ROLL = '신청자')
 		]]>
 	</select>
@@ -450,13 +452,13 @@
 		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
 		WHERE AL_EMPNO = #{empNo}
 		AND AL_STATUS = '결재'
-		AND (AD_STATUS = '대기' OR AD_STATUS = '합의대기' OR AD_STATUS = '재무합의대기')
+		AND (AD_STATUS = '대기' OR AD_STATUS = '합의대기' OR AD_STATUS = '재무합의대기' OR AD_STATUS = '처리대기' OR AD_STATUS = '수신대기')
 		AND (AL_ROLL = '합의자' OR AL_ROLL = '결재자' OR AL_ROLL = '재무합의자' OR AL_ROLL = '수신자' OR AL_ROLL = '신청자')
 		]]>
 	</select>
 	
 	<update id="confirmDcm" parameterType="java.util.HashMap">
-		UPDATE APPROVAL_LIST SET AL_STATUS = '결재' WHERE AL_EMPNO = #{empNo} AND AD_NO = #{adNo}
+		UPDATE APPROVAL_LIST SET AL_STATUS = '결재', AL_DATE = SYSDATE WHERE AL_EMPNO = #{empNo} AND AD_NO = #{adNo}
 	</update>
 	
 	<select id="showFinDcm" parameterType="PageInfo" resultMap="appDocument">
@@ -538,7 +540,7 @@
 	</select>
 	
 	<update id="updateApproval" parameterType="java.util.HashMap">
-		UPDATE APPROVAL_LIST SET AL_STATUS = #{status} WHERE AL_EMPNO =  #{empNo} AND AD_NO = #{adNo}
+		UPDATE APPROVAL_LIST SET AL_STATUS = #{status}, AL_DATE = SYSDATE WHERE AL_EMPNO =  #{empNo} AND AD_NO = #{adNo} 
 	</update>
 	
 	<update id="updateAdLevel" parameterType="java.util.HashMap">
@@ -586,7 +588,11 @@
 	</select>
 	
 	<update id="updateAdStatus" parameterType="java.util.HashMap">
-		UPDATE APP_DOCUMENT SET AD_STATUS = #{status} WHERE AD_NO = #{adNo}
+		UPDATE APP_DOCUMENT SET AD_STATUS = #{status}
+		<if test="status == '완료'">
+			, AD_END_DATE = SYSDATE
+		</if>
+		WHERE AD_NO = #{adNo}
 	</update>
 	
 	<select id="countAgreeMember" parameterType="java.util.HashMap" resultType="_int">
@@ -606,6 +612,8 @@
 		AND AL.AL_ROLL = '재무합의자'
 	</select>
 	
+	
+	
 	<update id="updateAdStatusAndLevel" parameterType="java.util.HashMap">
 		UPDATE APP_DOCUMENT
 		SET AD_LEVEL = 1, AD_STATUS = #{status} WHERE AD_NO = #{adNo}
@@ -616,19 +624,158 @@
                     FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                     WHERE AL.AD_NO = #{adNo}
                     AND AD_STATUS != '반려'
-                    AND AL.AL_ROLL = '회람자') = (SELECT COUNT(*) 
+                    AND (AL.AL_ROLL = '회람자' OR AL.AL_ROLL = '수신자')) = (SELECT COUNT(*) 
                                                 FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                                                 WHERE AL.AD_NO = #{adNo}
                                                 AND AD_STATUS != '반려'
-                                                AND AL.AL_ROLL = '회람자'
+                                                AND (AL.AL_ROLL = '회람자' OR AL.AL_ROLL = '수신자'))
                                                 AND AL.AL_STATUS = '결재') THEN 'Y'
                                                 ELSE 'N'
                                                 END AS RESULT
 		FROM DUAL
 	</select>
 	
+	<select id="selectAgreeApprovalYN" resultType="java.lang.String" parameterType="java.util.HashMap">
+		SELECT CASE WHEN (SELECT COUNT(*) 
+                    FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
+                    WHERE AL.AD_NO = #{adNo}
+                    AND AD_STATUS != '반려'
+                    AND AL.AL_ROLL = '합의자') = (SELECT COUNT(*) 
+                                                FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
+                                                WHERE AL.AD_NO = #{adNo}
+                                                AND AD_STATUS != '반려'
+                                                AND AL.AL_ROLL = '합의자'
+                                                AND AL.AL_STATUS = '결재') THEN 'Y'
+                                                ELSE 'N'
+                                                END AS RESULT
+		FROM DUAL
+	</select>
 	
-</mapper>  
+	<select id="selectPayAgreeApprovalYN" resultType="java.lang.String" parameterType="java.util.HashMap">
+		SELECT CASE WHEN (SELECT COUNT(*) 
+                    FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
+                    WHERE AL.AD_NO = #{adNo}
+                    AND AD_STATUS != '반려'
+                    AND AL.AL_ROLL = '재무합의자') = (SELECT COUNT(*) 
+                                                FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
+                                                WHERE AL.AD_NO = #{adNo}
+                                                AND AD_STATUS != '반려'
+                                                AND AL.AL_ROLL = '재무합의자'
+                                                AND AL.AL_STATUS = '결재') THEN 'Y'
+                                                ELSE 'N'
+                                                END AS RESULT
+		FROM DUAL
+	</select>
+	
+	<select id="selectApplyApprovalYN" resultType="java.lang.String" parameterType="java.util.HashMap">
+		SELECT CASE WHEN (SELECT COUNT(*) 
+                    FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
+                    WHERE AL.AD_NO = #{adNo}
+                    AND AD_STATUS != '반려'
+                    AND AL.AL_ROLL = '신청자') = (SELECT COUNT(*) 
+                                                FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
+                                                WHERE AL.AD_NO = #{adNo}
+                                                AND AD_STATUS != '반려'
+                                                AND AL.AL_ROLL = '신청자'
+                                                AND AL.AL_STATUS = '결재') THEN 'Y'
+                                                ELSE 'N'
+                                                END AS RESULT
+		FROM DUAL
+	</select>
+	
+	<select id="selectProcessApprovalYN" resultType="java.lang.String" parameterType="java.util.HashMap">
+		SELECT CASE WHEN (SELECT COUNT(*) 
+                    FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
+                    WHERE AL.AD_NO = #{adNo}
+                    AND AD_STATUS != '반려'
+                    AND AL.AL_ROLL = '처리자') = (SELECT COUNT(*) 
+                                                FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
+                                                WHERE AL.AD_NO = #{adNo}
+                                                AND AD_STATUS != '반려'
+                                                AND AL.AL_ROLL = '처리자'
+                                                AND AL.AL_STATUS = '결재') THEN 'Y'
+                                                ELSE 'N'
+                                                END AS RESULT
+		FROM DUAL
+	</select>
+	
+	<!-- 완료문서 전체 -->
+	<select id="showAllFinishDcm" parameterType="java.lang.String" resultMap="appDocument2">
+		SELECT *
+		FROM APP_DOCUMENT AD
+		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
+		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
+		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
+        JOIN SECURITY S ON(S.SECURITY_CODE = AF.SECURITY_CODE)
+        WHERE (AD_STATUS = '완료' OR AD_STATUS = '반려')
+        OR ((AD_STATUS = '완료' OR AD_STATUS = '반려') AND AD_WRITER = #{empNo})
+        AND S.JOB_CODE >= #{jobCode}
+	</select>
+	
+	<select id="selecAllFinishDcm" parameterType="java.lang.String" resultType="_int">
+		SELECT COUNT(*)
+		FROM APP_DOCUMENT AD
+		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
+		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
+		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
+        JOIN SECURITY S ON(S.SECURITY_CODE = AF.SECURITY_CODE)
+        WHERE (AD_STATUS = '완료' OR AD_STATUS = '반려')
+        AND S.JOB_CODE >= #{jobCode}
+	</select>
+	
+	<select id="selectJobCode" parameterType="_int" resultType="java.lang.String">
+		SELECT JOB_CODE
+		FROM EMPLOYEE E
+		JOIN PROMOTION_HISTORY PH ON(E.EMPNO = PH.EMPNO)
+		WHERE E.EMPNO = #{empNo}
+	</select>
+	
+	<select id="selectMyWriteDcm" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM APP_DOCUMENT AD
+		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
+		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
+		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
+		WHERE AD_WRITER = #{empNo}
+		AND AD_STATUS != '완료' 
+		AND AD_STATUS != '반려'
+	</select>
+	
+	<select id="showMyWriteDcm" parameterType="PageInfo" resultMap="appDocument">
+		SELECT *
+		FROM APP_DOCUMENT AD
+		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
+		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
+		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
+		WHERE AD_WRITER = #{empNo}
+		AND AD_STATUS != '완료' 
+		AND AD_STATUS != '반려'
+	</select>
+	
+	<select id="selectAllPrograssDcm" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL_LIST AL
+		JOIN APP_DOCUMENT AD ON (AL.AD_NO = AD.AD_NO)
+		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
+		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
+		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
+		WHERE (AL_EMPNO = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려')
+        OR (AD_WRITER = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려')
+	</select>
+	
+	<select id="showAllPrograssDocument" parameterType="PageInfo" resultMap="appDocument2">
+		SELECT *
+		FROM APPROVAL_LIST AL
+		JOIN APP_DOCUMENT AD ON (AL.AD_NO = AD.AD_NO)
+		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
+		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
+		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
+		WHERE (AL_EMPNO = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려')
+        OR (AD_WRITER = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려')
+	</select>
+	
+	
+</mapper>
 
 
 

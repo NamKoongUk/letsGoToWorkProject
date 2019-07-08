@@ -17,7 +17,7 @@ public interface ApprovalService {
 
 	SignForm selectSignForm(SignForm sf);
 
-//	ArrayList<HashMap<String, Object>> showAllPrograssDocument(PageInfo pi);
+	ArrayList<HashMap<String, Object>> showAllPrograssDcm(PageInfo pi);
 //
 	ArrayList<HashMap<String, Object>> showWaitDcm(PageInfo pi);
 //
@@ -31,7 +31,7 @@ public interface ApprovalService {
 //
 //	ArrayList<HashMap<String, Object>> showWaitCirculationDcm(PageInfo pi);
 //
-//	ArrayList<HashMap<String, Object>> showAllFinishDcm(PageInfo pi);
+	ArrayList<HashMap<String, Object>> showAllFinishDcm(PageInfo pi, String jobCode);
 //
 //	ArrayList<HashMap<String, Object>> showWriteDcm(PageInfo pi);
 //
@@ -126,6 +126,24 @@ public interface ApprovalService {
 	int selectWaitRecptionDcm(int empNo);
 
 	int updateAgree(HashMap<String, Object> map);
+
+	int updatePayAgree(HashMap<String, Object> map);
+
+	int updateApply(HashMap<String, Object> map);
+
+	int updateProcess(HashMap<String, Object> map);
+
+	int selecAllFinishDcm(String jobCode);
+
+	String selectEmpJobCode(Employee e);
+
+	int selectMyWriteDcm(int empNo, String string);
+
+	ArrayList<HashMap<String, Object>> showMyWriteDcm(PageInfo pi);
+
+	int updateSendApproval(HashMap<String, Object> map);
+
+	int selectAllPrograssDcm(int empNo);
 
 	
 
