@@ -24,13 +24,21 @@ public class ApprovalServiceImpl implements ApprovalService{
 	private ApprovalDao ad;
 	@Autowired
 	private SqlSession session;
-//	
-//	//진행중인 전체문서 이동
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showAllPrograssDocument(PageInfo pi) {
-//		// TODO Auto-generated method stub
-//		return ad.showAllPrograssDocument(pi, session);
-//	}
+	
+	//진행중인 전체문서 이동
+	@Override
+	public ArrayList<HashMap<String, Object>> showAllPrograssDcm(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return ad.showAllPrograssDocument(pi, session);
+	}
+	@Override
+	public int selectAllPrograssDcm(int empNo) {
+		// TODO Auto-generated method stub
+		return ad.selectAllPrograssDcm(empNo, session);
+	}
+
+
+	
 	//결재대기문서 이동
 	@Override
 	public ArrayList<HashMap<String, Object>> showWaitDcm(PageInfo pi) {
@@ -68,13 +76,19 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		return ad.selectProgressDcm(map, session);
 	}
+	//내가 기안한 문서
+	@Override
+	public int selectMyWriteDcm(int empNo, String string) {
+		// TODO Auto-generated method stub
+		return ad.selectMyWriteDcm(empNo, session);
+	}
+	//내가 기안한 문서
+	@Override
+	public ArrayList<HashMap<String, Object>> showMyWriteDcm(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return ad.showMyWriteDcm(pi, session);
+	}
 
-//	//완료문서 이동
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showFinishDcm(PageInfo pi) {
-//		// TODO Auto-generated method stub
-//		return ad.showFinishDcm(pi, session);
-//	}
 	//수신대기 문서 이동
 	@Override
 	public ArrayList<HashMap<String, Object>> showWaitReceptionDcm(PageInfo pi) {
@@ -98,12 +112,18 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return ad.selectWaitCircleDcm(empNo, session);
 	}
 //	//-------------------------완료문서-----------------------------
-//	//완료문서 - 전체보기
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showAllFinishDcm(PageInfo pi) {
-//		// TODO Auto-generated method stub
-//		return ad.showAllFinishDcm(pi, session);
-//	}
+	//완료문서 - 전체보기
+	@Override
+	public ArrayList<HashMap<String, Object>> showAllFinishDcm(PageInfo pi, String jobCode) {
+		// TODO Auto-generated method stub
+		return ad.showAllFinishDcm(pi, session, jobCode);
+	}
+	@Override
+	public int selecAllFinishDcm(String jobCode) {
+		// TODO Auto-generated method stub
+		return ad.selecAllFinishDcm(jobCode, session);
+	}
+
 //	//완료문서-기안한문서
 //	@Override
 //	public ArrayList<HashMap<String, Object>> showWriteDcm(PageInfo pi) {
@@ -319,7 +339,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 	@Override
 	public int updateAgree(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		int result = ad.updateAgree(session, map);
+		int result = ad.updateApproval(session, map);
 		
 		if(result > 0 && ((String)map.get("status")).equals("결재")) {
 			String result2 = ad.selectAgreeApprovalYN(session, map);
@@ -338,6 +358,79 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return result;
 	}
 	
+	//재무합의
+	@Override
+	public int updatePayAgree(HashMap<String, Object> map) {
+		int result = ad.updateApproval(session, map);
+		
+		if(result > 0 && ((String)map.get("status")).equals("결재")) {
+			int result2 = ad.updateAdLevel(session, map);
+			String result3 = ad.selectPayAgreeApprovalYN(session, map);
+			if(result3.equals("Y")) {
+				int resul4 = ad.updateAdStatus(session, map, "완료");
+			}
+		}else {
+			int result5 = ad.updateAdStatus(session, map, "반려");
+		}
+		
+		return result;
+	}
+	//신청결재
+	@Override
+	public int updateApply(HashMap<String, Object> map) {
+		int result = ad.updateApproval(session, map);
+		
+		if(result > 0 && ((String)map.get("status")).equals("결재")) {
+			int result2 = ad.updateAdLevel(session, map);
+			String result3 = ad.selectApplyApprovalYN(session, map);
+			if(result3.equals("Y")) {
+				String result4 = ad.selectApprovalYN(session, map);
+				if(result4.equals("Y")) {
+					int result5 = ad.updateAdStatus(session, map, "완료");
+				}else {
+					int result6 = ad.updateAdStatusAndLevel(session, map, "처리대기");
+				}
+			}
+		}else {
+			int result5 = ad.updateAdStatus(session, map, "반려");
+		}
+		
+		return result;
+	}
+	//처리결재
+	@Override
+	public int updateProcess(HashMap<String, Object> map) {
+		int result = ad.updateApproval(session, map);
+		
+		if(result > 0 && ((String)map.get("status")).equals("결재")) {
+			int result2 = ad.updateAdLevel(session, map);
+			String result3 = ad.selectProcessApprovalYN(session, map);
+			if(result3.equals("Y")) {
+				int resul4 = ad.updateAdStatus(session, map, "완료");
+			}
+		}else {
+			int result5 = ad.updateAdStatus(session, map, "반려");
+		}
+		
+		return result;
+	}
+	//송신문서 결재
+	@Override
+	public int updateSendApproval(HashMap<String, Object> map) {
+		int result = ad.updateApproval(session, map);
+		
+		if(result > 0 && ((String)map.get("status")).equals("결재")) {
+			int result2 = ad.updateAdLevel(session, map);
+			String result3 = ad.selectApprovalYN(session, map);
+			if(result3.equals("Y")) {
+				int result6 = ad.updateAdStatusAndLevel(session, map, "수신대기");
+			}
+		}
+		
+		return result;
+	}
+
+	
 	//회람 or 수신 확인
 	@Override
 	public int confirmDcm(String adNo, int empNo) {
@@ -351,6 +444,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		if(result > 0) {
 			String result2 = ad.selectCircleEmp(session, map);
+//			String result3 = ad.selectSendEmp(session, map);
 			if(result2.equals("Y")) {
 				ad.updateAdStatus(session, map, "완료");
 			}
@@ -417,33 +511,41 @@ public class ApprovalServiceImpl implements ApprovalService{
 					count = 1;
 				break;
 			case 2 : result += ad.insertApprovalList(appDcm, session);
-					 result += ad.insertReferenceList(appDcm, session);
+					if(appDcm.get("reference") != null) {
+						result += ad.insertReferenceList(appDcm, session);						
+					}
 					 result += ad.insertSendList(appDcm, session);
 					 count = 3;
 				break;
 			case 3 : result += ad.insertApprovalList(appDcm, session);
 					result += ad.insertAgreeList(appDcm, session);
-					result += ad.insertReferenceList(appDcm, session);
+					if(appDcm.get("reference") != null) {
+						result += ad.insertReferenceList(appDcm, session);						
+					}
 					count = 3;
 				break;
 			case 4 : result += ad.insertApprovalList(appDcm, session);
 					result += ad.insertPayAgreeList(appDcm, session);
 					result += ad.insertAgreeList(appDcm, session);
-					result += ad.insertReferenceList(appDcm, session);
+					if(appDcm.get("reference") != null) {
+						result += ad.insertReferenceList(appDcm, session);						
+					}
 					count = 4;
 				break;
 			case 5 : result += ad.insertApplyList(appDcm, session);
 					result += ad.insertProcessList(appDcm, session);
-					result += ad.insertReferenceList(appDcm, session);
+					if(appDcm.get("reference") != null) {
+						result += ad.insertReferenceList(appDcm, session);						
+					}
 					count = 3;
 				break;
 			}
 
 		}
 		
-		if(count != result ) {
-			result = 0;
-		}
+		/*
+		 * if(count != result ) { result = 0; }
+		 */
 		
 		
 		return result;
@@ -509,9 +611,11 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return ad.autocompleteCircle(value, session);
 	}
-
-
-
+	@Override
+	public String selectEmpJobCode(Employee e) {
+		// TODO Auto-generated method stub
+		return ad.selectEmpJobCode(e, session);
+	}
 
 
 	

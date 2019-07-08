@@ -184,7 +184,7 @@
 						      			</div>
 						      			<div class="col-sm-10">
 						      				<label class="col-sm-12">결재</label>
-								      		<select class="form-control list" name="approvalList" size="10" style="width:100%; height:110px;" multiple>
+								      		<select class="form-control list" name="approvalList" size="10" style="width:100%; height:80px;" multiple>
 								      			
 								      		</select>					      			
 						      			</div>
@@ -201,7 +201,7 @@
 						      			</div>
 						      			<div class="col-sm-10">
 						      				<label class="col-sm-12">재무합의</label>
-								      		<select class="form-control list" name="payAgreeList" size="10" style="width:100%; height:110px;" multiple>
+								      		<select class="form-control list" name="payAgreeList" size="10" style="width:100%; height:80px;" multiple>
 								      			
 								      		</select>					      			
 						      			</div>
@@ -217,7 +217,7 @@
 						      			</div>
 						      			<div class="col-sm-10">	
 						      				<label class="col-sm-12">합의</label>
-								      		<select class="form-control list" name="agreeList" size="10" style="width:100%; height:110px;" multiple>
+								      		<select class="form-control list" name="agreeList" size="10" style="width:100%; height:80px;" multiple>
 								      			
 								      		</select>					      			
 						      			</div>
@@ -233,7 +233,7 @@
 						      			</div>
 						      			<div class="col-sm-10">
 						      				<label class="col-sm-12">참조</label>
-								      		<select class="form-control list" name="referenceList" size="10" style="width:100%; height:110px;" multiple>
+								      		<select class="form-control list" name="referenceList" size="10" style="width:100%; height:80px;" multiple>
 								      			
 								      		</select>					      			
 						      			</div>

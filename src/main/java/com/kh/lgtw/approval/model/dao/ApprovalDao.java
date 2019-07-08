@@ -19,7 +19,7 @@ public interface ApprovalDao {
 
 	SignForm selectSignForm(SqlSession session, SignForm sf);
 
-//	ArrayList<HashMap<String, Object>> showAllPrograssDocument(PageInfo pi, SqlSession session);
+	ArrayList<HashMap<String, Object>> showAllPrograssDocument(PageInfo pi, SqlSession session);
 //
 	ArrayList<HashMap<String, Object>> showWaitDcm(PageInfo pi, SqlSession session);
 //
@@ -31,7 +31,7 @@ public interface ApprovalDao {
 //
 	ArrayList<HashMap<String, Object>> showWaitReceptionDcm(PageInfo pi, SqlSession session);
 //
-//	ArrayList<HashMap<String, Object>> showAllFinishDcm(PageInfo pi, SqlSession session);
+	ArrayList<HashMap<String, Object>> showAllFinishDcm(PageInfo pi, SqlSession session, String jobCode);
 //
 //	ArrayList<HashMap<String, Object>> showWriteDcm(PageInfo pi, SqlSession session);
 //
@@ -162,8 +162,22 @@ public interface ApprovalDao {
 
 	String selectCircleEmp(SqlSession session, HashMap<String, Object> map);
 
-	int updateAgree(SqlSession session, HashMap<String, Object> map);
-
 	String selectAgreeApprovalYN(SqlSession session, HashMap<String, Object> map);
+
+	String selectPayAgreeApprovalYN(SqlSession session, HashMap<String, Object> map);
+
+	String selectApplyApprovalYN(SqlSession session, HashMap<String, Object> map);
+
+	String selectProcessApprovalYN(SqlSession session, HashMap<String, Object> map);
+
+	int selecAllFinishDcm(String jobCode, SqlSession session);
+
+	String selectEmpJobCode(Employee e, SqlSession session);
+
+	int selectMyWriteDcm(int empNo, SqlSession session);
+
+	ArrayList<HashMap<String, Object>> showMyWriteDcm(PageInfo pi, SqlSession session);
+
+	int selectAllPrograssDcm(int empNo, SqlSession session);
 
 }
