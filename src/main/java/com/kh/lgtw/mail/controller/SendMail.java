@@ -22,13 +22,13 @@ public class SendMail {
 			} catch(Exception e) {
 				throw new AmazonClientException("자격증명을 가져오지 못했음!\n자격증명 파일의 위치와 포맷은 (~/.aws/credentials) : " + e);
 			}
-			
+			 
 			AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.standard()
 							.withCredentials(credentialsProvider)
 							.withRegion("us-east-1")
 							.build();
 			
-			// 메일 전송
+			// 메일 전송 
 			client.sendEmail(sender.toSendRequest());
 
 			// 메일 전송한다는 로그 남기기 

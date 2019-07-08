@@ -58,7 +58,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
+	 		<artifactId>slf4j-log4j12</artifactId>
 			<version>${org.slf4j-version}</version>
 			<scope>runtime</scope>
 		</dependency>
@@ -217,6 +217,12 @@
 		</dependency>
 		
 		<!-- AWS 설치  -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-bom</artifactId>
+			<version>1.11.586</version>
+			<type>pom</type>
+		</dependency>
 	    <dependency>
 		    <groupId>com.amazonaws</groupId> 
 		    <artifactId>aws-java-sdk</artifactId>
@@ -237,12 +243,45 @@
 		    <artifactId>aws-java-sdk-ses</artifactId>
 		    <version>1.11.584</version>
 		</dependency>
+		
 		<!-- yml사용하는 거  -->
 		<dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>1.20</version>
         </dependency>
+        
+        <dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>javax.mail-api</artifactId>
+		    <version>1.5.6</version>
+		    <exclusions>
+		    	<!-- 첨부파일을 보내려면 MiME메시지를 만들어서 보내야 한다. -->
+		    	<!-- spring을 통해 메일은 전송하면 Java Mail API에 종속성이 존재하지만 메일을 
+		    		 전송하는 주체는 Amazon SES API이기 떄문에 AWS에서 SMTP설정을 하지 않아도 된다. -->
+		    	<exclusion>
+			    	<groupId>javax.activation</groupId>
+			    	<artifactId>activation</artifactId>
+		    	</exclusion>
+		    </exclusions>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-context</artifactId>
+		    <version>2.0.0.RELEASE</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-aws-context</artifactId>
+		    <version>2.0.0.RELEASE</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-aws-core</artifactId>
+		    <version>2.0.0.RELEASE</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<resources>
@@ -299,4 +338,16 @@
 			</plugin>
 		</plugins>
 	</build>
+	<repositories>
+		<repository>
+			<id>io.spring.repo.maven.release</id>
+        	<url>http://repo.spring.io/release/</url>
+        	<snapshots><enabled>false</enabled></snapshots>
+		</repository>
+		<repository>
+	        <id>io.spring.repo.maven.milestone</id>
+	        <url>http://repo.spring.io/milestone/</url>
+	        <snapshots><enabled>false</enabled></snapshots>
+    </repository>
+	</repositories>
 </project>
