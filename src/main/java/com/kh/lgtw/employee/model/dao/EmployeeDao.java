@@ -56,6 +56,8 @@ public interface EmployeeDao{
 
 	DeptHistory selectEmpDept(SqlSession sqlSession, Employee employee);
 
+	Attachment selectProfile(SqlSession sqlSession, Employee employee);
+
 
 
 

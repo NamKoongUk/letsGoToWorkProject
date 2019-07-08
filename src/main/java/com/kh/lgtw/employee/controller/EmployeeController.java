@@ -112,13 +112,27 @@ public class EmployeeController {
 		
 		Employee employee = (Employee)session.getAttribute("loginEmp");
 		
-		HashMap<String, Object> deptJob = empService.selectEmpDeptJob(employee);
 		
+		HashMap<String, Object> deptJob = empService.selectEmpDeptJob(employee);
 		HashMap<String, Object> hmap = empService.selectJopDeptAdmin();
 		
+		Attachment attach = new Attachment();
+		
+		attach = empService.selectProfile(employee);
+		
+		String[] addArr = employee.getAddress().split("\\|");
+		
+		for(int i=0; i<addArr.length; i++) {
+			System.out.println(addArr[i]);
+		}
+		
+		System.out.println(attach);
+		System.out.println("파일패스"+attach.getFilePath());
 		
 		model.addAttribute("hmap", hmap);
 		model.addAttribute("deptJob",deptJob);
+		model.addAttribute("attach",attach);
+		model.addAttribute("address",addArr);
 		
 		return "employee/myEmpPage";
 	}
@@ -367,7 +381,8 @@ public class EmployeeController {
 	
 	//사원 한명 추가 
 	@RequestMapping("insertOneEmpl.em")
-	public String insertEmployee(Employee employee, DeptVo dpVo, JobVo jobVo, String zipCode, String address1, String address2, Model model, HttpServletRequest request, @RequestParam(name="profile",required=false) MultipartFile profile){
+	public String insertEmployee(Employee employee, DeptVo dpVo, JobVo jobVo, String zipCode, String address1, String address2, Model model, HttpServletRequest request, 
+								@RequestParam(name="profile",required=false) MultipartFile profile){
 //		System.out.println("주소:" +address1+address2+zipCode);
 		
 		String address = address1 + "|" + address2 + "|" +zipCode;
@@ -375,7 +390,6 @@ public class EmployeeController {
 		employee.setEmpPwd(passwordEncoder.encode(employee.getEmpPwd()));
 		
 		String type = profile.getOriginalFilename();
-		
 		
 		System.out.println(profile);
 		System.out.println("없을때 이름"+profile.getOriginalFilename());
@@ -390,7 +404,7 @@ public class EmployeeController {
 				
 				String originFileName = profile.getOriginalFilename();
 				String ext = originFileName.substring(originFileName.lastIndexOf("."));
-				String changeName = CommonUtils.getRandomString();
+				String changeName = CommonUtils.getRandomString()+ext;
 				profile.transferTo(new File(filePath+"\\"+changeName+ext));
 				
 				Attachment attach = new Attachment();
@@ -505,8 +519,6 @@ public class EmployeeController {
 	//DB직원 엑셀 다운로드
 	@RequestMapping("empSample.em")
 	public void empSample(Model model, HttpServletRequest request, HttpServletResponse response) {
-		
-		
 			
 			Workbook wb = new HSSFWorkbook();
 			
@@ -614,13 +626,18 @@ public class EmployeeController {
 	}
 	
 	@RequestMapping("updateMyInfo.em")
-	public String updateMyInfo(Model model, HttpSession session, EmployeeResult employee) {
+	public String updateMyInfo(Model model, HttpSession session, EmployeeResult employee, Attachment attach, @RequestParam(name="profile",required=false) MultipartFile profile) {
 		
 		Employee loginEmp =(Employee)session.getAttribute("loginEmp");
 		
 		System.out.println("로그인 정보 " + loginEmp);
 		System.out.println("수정 정보 " + employee);
+		System.out.println(profile.getOriginalFilename());
+		System.out.println("프로필 "+ attach);
 		
+		if(attach != null) {
+			
+		}
 		
 		return"";
 	}

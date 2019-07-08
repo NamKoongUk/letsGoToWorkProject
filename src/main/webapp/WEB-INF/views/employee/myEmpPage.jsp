@@ -30,53 +30,65 @@
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp"/>
-	<c:set var="address" value="${loginEmp.address }"/>
-	<c:set var="address1" value="${fn:split(address,'|') }"/>
 	<c:set var = "deptList" value="${hmap.deptList }" />
 	<c:set var = "jobList" value="${hmap.jobList }" />
-	<%-- <c:set var ="dept" value="${deptJob.dpHistory }"/>
+	<c:set var ="dept" value="${deptJob.dpHistory }"/>
 	<c:set var ="job" value="${deptJob.jobHistory }"/>
-	 --%>
+	
+	 
 	<div class="row wrap">
 		<jsp:include page="../common/sideMenu/employee.jsp"/>
 		<section class="col-sm-10">
 			<h1 class="title">내 정보</h1>
 			<hr>
 			<div class="content">
-				<form action="updateMyInfo.em" method="post">
+				<form action="updateMyInfo.em" method="post" enctype="multipart/form-data">
 					<div id="proflieArea">
-						<img id="profileIcon" src="${contextPath }/resources/images/profile/users.png" width="150px;" height="200px;">
+						<img id="profileIcon" name="changeName" src="${contextPath }/resources/images/profile/${attach.changeName}.jpg" width="150px;" height="200px;">
 					</div>
 					<div id="empInfoTable">
 					<table>
 						<tr>
-							<td width="250px;">이름</td>
-							<td>${ loginEmp.empName }</td>
+							<td width="200px;">이름</td>
+							<td><c:out value="${ loginEmp.empName }"/></td>
 						</tr>
+						<tr>
+							<td>아이디</td>
+							<td><c:out value="${loginEmp.empId }"/></td>
+						</tr>
+						<tr>
+							<td>현재 비밀번호</td>
+							<td><input style="width:250px;" type="password" name="empPwd" placeholder="현재 비밀번호를 입력하세요"></td>
+						</tr>
+						<tr>
+							<td>변경할 비밀번호</td>
+							<td><input style="width:250px;" type="password" name="updatePwd" placeholder="변경할 비밀번호를 입력하세요"></td>
+						</tr>
+						
 						<tr>
 							<td>소속</td>
 							<td>
-								<%-- <select name = "deptCode">
+								<select name = "deptCode">
 					        		<c:forEach var="item" items="${deptList }">
-					        			<c:if test="${item.deptName eq dept.deptName }">
+					        			<c:if test="${item.deptCode eq dept.deptCode }">
 					        				<option selected value="${item.deptCode }"><c:out value="${item.deptName }"></c:out></option>
 					        			</c:if>
 					        				<option value="${item.deptCode }"><c:out value="${item.deptName }"></c:out></option>
 					        		</c:forEach>
-					        	</select> --%>
+					        	</select> 
 							</td>
 						</tr>
 						<tr>
 							<td>직급</td>
 							<td>
-								<%-- <select name = "jobCode">
+								<select name = "jobCode">
 					        		<c:forEach var="item" items="${jobList }">
-					        			<c:if test="${item.jobName eq job.jobName }">
+					        			<c:if test="${item.jobCode eq job.jobCode }">
 					        				<option selected value="${item.jobCode }"><c:out value="${item.jobName }"></c:out></option>
 					        			</c:if>
 					        				<option value="${item.jobCode }"><c:out value="${item.jobName }"></c:out></option>
 					        		</c:forEach>
-					        	</select> --%>
+					        	</select>
 							</td>
 						</tr>
 						<tr>
@@ -105,19 +117,19 @@
 						</tr>
 						<tr>
 							<td>자택주소</td>
-							<td><input type="text" id="sample6_postcode" placeholder="우편번호" name="zipCode"> <input type="button" onclick="setAddress();" value="우편번호"></td>
+							<td><input type="text" id="sample6_postcode" placeholder="우편번호" name="zipCode" value="${address[2] }"> <input type="button" onclick="setAddress();" value="우편번호"></td>
 						</tr>
 						<tr>
 							<td></td>
-							<td><input type="text" id="empAddress1" class="form-control" placeholder="주소" name="address1"><input type="text" id="empAddress2" class="form-control" placeholder="상세주소" name="address2"></td>
+							<td><input type="text" id="empAddress1" class="form-control" placeholder="주소" name="address1" value="${address[0] }"><input type="text" id="empAddress2" class="form-control" placeholder="상세주소" name="address2" value="${address[1] }"></td>
 							
 						</tr>
 						<tr>
 							<td>기타정보</td>
 							<td>
-								<textarea cols="30" rows="5" value="${loginEmp.otherInfo }">
+								<textarea cols="30" rows="5" name="otherInfo">
+									<c:out value="${loginEmp.otherInfo }"></c:out>
 								</textarea>
-							
 							</td>
 						</tr>
 						<tr>
@@ -133,6 +145,10 @@
 					<div id="saveArea">
 						<button type="submit" class="btn btn-primary">저장</button>
 					</div>
+					</div>
+					
+					<div id="fileArea">
+						<input id="file" type="file" name="profile" onchange="loadImg(this,1)">
 					</div>
 				</form>
 			</div>
@@ -189,11 +205,24 @@
 	            }
 	        }).open();
 	    }
+	 
+	 $(function(){
+			$("#fileArea").hide();
+				$("#proflieArea").click(function(){
+					$("#file").click();
+				});
+		});
+		
+		function loadImg(value, num){
+			var reader = new FileReader();
+			reader.onload=function(e){
+				$("#profileIcon").attr("src",e.target.result);
+				
+			}
+			reader.readAsDataURL(value.files[0]);	
+		}
 	
 	</script>
-	
-	
-	
 	
 </body>
 </html>

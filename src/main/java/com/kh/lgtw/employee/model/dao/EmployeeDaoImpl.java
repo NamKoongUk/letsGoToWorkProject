@@ -168,6 +168,11 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		return sqlSession.selectOne("Employee.selectEmpDept", employee);
 	}
 
+	@Override
+	public Attachment selectProfile(SqlSession sqlSession, Employee employee) {
+		return sqlSession.selectOne("Employee.selectProfile", employee);
+	}
+
 	
 
 

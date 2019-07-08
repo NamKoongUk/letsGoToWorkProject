@@ -467,6 +467,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return hmap;
 	}
 
+	@Override
+	public Attachment selectProfile(Employee employee) {
+		return empDao.selectProfile(sqlSession, employee);
+	}
+
 
 
 

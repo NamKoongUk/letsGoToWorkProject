@@ -76,6 +76,31 @@
 		<result column="JOB_LEVEL" property="jobLevel"/>
 	</resultMap>
 	
+	<resultMap id="deptHistory" type="com.kh.lgtw.employee.model.vo.DeptHistory">
+		<id column="DH_NO" property="dhNo"/>
+		<result column="EMPNO" property="empNo"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="DEPT_CODE" property="deptCode"/>
+	</resultMap>
+	
+	<resultMap id="jobHistory" type="com.kh.lgtw.employee.model.vo.PromotionHistory">
+		<id column="PH_NO" property="phNo"/>
+		<result column="EMPNO" property="empNo"/>
+		<result column="MODIFY_DATE" property="modify_Date"/>
+		<result column="JOB_CODE" property="jobCode"/>
+	</resultMap>
+	
+	<resultMap id="attachment" type="com.kh.lgtw.common.model.vo.Attachment">
+		<id column="ATTACHMENT_NO" property="attNo"/>
+		<result column="ORIGIN_NAME" property="originName"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="FILEPATH" property="filePath"/>
+		<result column="FILE_TYPE" property="fileType"/>
+		<result column="RH_REQUEST_NO" property="requestNo"/>
+		<result column="EMPNO" property="empNo"/>
+	</resultMap>
+	
+
 	<!-- 로그인시 사원 객체 조회 -->
 	<select id="loginCheck" resultMap="employeeResultSet" parameterType="Employee">
 		SELECT *
@@ -179,11 +204,19 @@
 		UPDATE PROMOTION_HISTORY SET JOB_CODE = (SELECT JOB_CODE FROM JOB WHERE JOB_NAME=#{jobName}) WHERE EMPNO=#{empNo}
 	</update>
 	
-	<select id="selectEmpJob" parameterType="Employee" resultType="PromotionHistory">
+	<select id="selectEmpJob" parameterType="Employee" resultMap="jobHistory">
 		SELECT * FROM PROMOTION_HISTORY WHERE EMPNO=#{empNo}
 	</select>
-	<select id="selectEmpDept" parameterType="Employee" resultType="DeptHistory">
+	
+	<select id="selectEmpDept" parameterType="Employee" resultMap="deptHistory">
 		SELECT * FROM DEPT_HISTORY WHERE EMPNO=#{empNo}
 	</select>
+	
+	<select id="selectProfile" parameterType="Employee" resultMap="attachment">
+		SELECT ATTACHMENT_NO, ORIGIN_NAME, CHANGE_NAME, FILEPATH
+		FROM ATTACHMENT
+		WHERE EMPNO=#{empNo}
+	</select>
+	
 	
 </mapper>
