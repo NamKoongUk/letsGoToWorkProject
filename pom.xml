@@ -30,6 +30,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- JavaMail API가 spring context support에 포함되어있다함 -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
@@ -263,6 +270,12 @@
 			    	<artifactId>activation</artifactId>
 		    	</exclusion>
 		    </exclusions>
+		</dependency>
+		
+		<dependency>
+		    <groupId>javax.activation</groupId>
+		    <artifactId>javax.activation-api</artifactId>
+		    <version>1.2.0</version>
 		</dependency>
 		
 		<dependency>

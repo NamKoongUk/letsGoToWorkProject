@@ -67,7 +67,7 @@
 							<th>보내는 사람</th>
 							<td colspan="2">
 								<select class="form-control" name="sendMail">
-									<option>사원명 or 공용메일명  + (이메일)</option>
+									<option>admin@lgtw.ga</option>
 									<option>lgtw@office.com</option>
 									<option>gora7@naver.com</option>
 								</select>

@@ -1,20 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans:beans
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0"?>
+<beans
+	xsi:schemaLocation="http://www.springframework.org/schema/cloud/aws/context http://www.springframework.org/schema/cloud/aws/context/spring-cloud-aws-context.xsd http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/aop http://www.springframework.org/schema/cloud/aws/mail http://www.springframework.org/schema/cloud/aws/mail/spring-cloud-aws-mail.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/cloud/aws/mail"
+	xmlns:aws-context="http://www.springframework.org/schema/cloud/aws/context"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aws-mail="http://www.springframework.org/schema/cloud/aws/mail"
 	xmlns:beans="http://www.springframework.org/schema/beans"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<!-- beans bean이면 bean으로 생성 =-> beans:benas면 beans로 생성 -->
-	<beans:bean id="bcryptPasswordEncoder"
-		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
- 
-	<!-- 인증 -->
-	<!-- <beans:bean id="amazonSimpleEmailServiceAsync"
-	 	class="com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceAsync">
-	 	<
-	</beans:bean> -->
-	 
-		<!-- <beans:property name="AWS_ACCESS_KEY_ID" value=""/>
-		<beans:property name="AWS_SECRET_KEY" value=""/> -->
-
-</beans:beans>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans">
+	<context:property-placeholder
+		location="classpath:application.properties" />
+	<!-- 인증 설정 -->
+	<aws-context:context-credentials>
+		<aws-context:simple-credentials
+			secret-key="${cloud.aws.credentials.secretKey}"
+			access-key="${cloud.aws.credentials.accessKey}" />
+	</aws-context:context-credentials>
+	
+	<!-- 지역 설정 -->
+	<aws-context:context-region region="us-east-1" />
+	<!-- 동적인 영역 구성 -->
+	<aws-context:context-region auto-detect="true" />
+	<!-- 스캔하는 영역 -->
+	<context:component-scan base-package="com.kh.lgtw.mail" />
+</beans>
