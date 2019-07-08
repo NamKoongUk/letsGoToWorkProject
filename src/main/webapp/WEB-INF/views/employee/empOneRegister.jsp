@@ -130,7 +130,6 @@
 									<td>
 										<textarea cols="30" rows="5" name="otherInfo">
 										</textarea>
-									
 									</td>
 								</tr>
 								<tr>
@@ -146,8 +145,6 @@
 					<input id="file" type="file" name="profile" onchange="loadImg(this,1)">
 				</div>
 				</form>
-				
-				
 			</div>
 		</section>
 	</div>

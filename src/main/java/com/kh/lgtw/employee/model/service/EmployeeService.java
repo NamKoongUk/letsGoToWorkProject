@@ -55,6 +55,8 @@ public interface EmployeeService {
 
 	HashMap<String, Object> selectEmpDeptJob(Employee employee);
 
+	Attachment selectProfile(Employee employee);
+
 
 
 
