@@ -111,7 +111,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	//Emp 엑셀 insert
 	@Override
-	public List<ExcelEmp> xlsxEmpInsert(MultipartHttpServletRequest request, MultipartFile excelFile) {
+	public List<ExcelEmp> xlsxEmpInsert(MultipartHttpServletRequest request, MultipartFile excelFile, Attachment attach) {
 		
 		System.out.println("엑셀 XLSX");
 		
@@ -177,7 +177,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 								
 								switch(cellIndex) {
 								case 0 : excelEmp.setEmpId(value); break;
-								case 1 : excelEmp.setEmpPwd(value); break;
+								case 1 : excelEmp.setEmpPwd(passwordEncoder.encode(value)); break;
 								case 2 : excelEmp.setEmpName(value); break;
 								case 3 : excelEmp.setEmpPhone(value); break;
 								case 4 : excelEmp.setStatus(value); break;
@@ -205,7 +205,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			
 		}
 		
-		daoList = empDao.excelEmpInsert(sqlSession, list);
+		daoList = empDao.excelEmpInsert(sqlSession, list, attach);
 		
 		return daoList;
 	}
@@ -222,13 +222,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public int insertEmpQuick(Employee employee, DeptVo dpVo, JobVo jobVo) {
+	public int insertEmpQuick(Employee employee, DeptVo dpVo, JobVo jobVo, Attachment attach) {
 		int result=0;
 		
 		int empNum = empDao.insertEmpQuick(sqlSession, employee);
 		
 		if(empNum>0) {
 			int deptHistory = empDao.insertDeptHistory(sqlSession, dpVo, jobVo);
+			int profile = empDao.insertEmpProfile(sqlSession, attach);
+			
 			result=1;
 		}
 		
@@ -470,6 +472,28 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Attachment selectProfile(Employee employee) {
 		return empDao.selectProfile(sqlSession, employee);
+	}
+
+	@Override
+	public int updatePwdCheck(EmployeeResult employee) {
+		int result =0;
+		String encPassword = empDao.selectUpCheckPwd(sqlSession, employee);
+		
+		System.out.println(employee.getEmpId());
+		
+		System.out.println("비밀번호 : " + encPassword);
+		System.out.println("암호 2 : " + employee.getEmpPwd());	
+		String pass =  passwordEncoder.encode(employee.getEmpPwd());
+		System.out.println(pass);
+		
+		if(passwordEncoder.matches(employee.getEmpPwd(), encPassword)) {
+			result=1;
+		}else {
+			result=0;
+		}
+		
+		
+		return result;
 	}
 
 

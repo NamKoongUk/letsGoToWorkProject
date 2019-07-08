@@ -218,5 +218,11 @@
 		WHERE EMPNO=#{empNo}
 	</select>
 	
+	<select id="selectUpCheckPwd" resultType="java.lang.String" parameterType="EmployeeResult">
+		SELECT EMP_PWD
+		FROM EMPLOYEE
+		WHERE EMP_ID = #{empId}
+	</select>
+	
 	
 </mapper>

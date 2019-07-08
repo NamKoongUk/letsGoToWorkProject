@@ -51,7 +51,7 @@
 				
 				<form  action="insertOneEmpl.em" method="post" enctype="multipart/form-data">
 					<div id="proflieArea">
-						<img id="profileIcon" src="${contextPath }/resources/images/profile/users.png" width="150px;" height="200px;">
+						<img id="profileIcon" src="${contextPath }/resources/images/profile/users.jpg" width="150px;" height="200px;">
 					</div>
 					<div id="cancelBtn">
 						<input type="button" class="img-button" id="deleteBtn" onclick="deleteImg();">

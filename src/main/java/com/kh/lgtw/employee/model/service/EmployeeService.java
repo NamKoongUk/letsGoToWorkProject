@@ -29,13 +29,13 @@ public interface EmployeeService {
 
 	List<ExcelEmp> xlsEmpInsert(MultipartHttpServletRequest request, MultipartFile excelFile);
 
-	List<ExcelEmp> xlsxEmpInsert(MultipartHttpServletRequest request, MultipartFile excelFile);
+	List<ExcelEmp> xlsxEmpInsert(MultipartHttpServletRequest request, MultipartFile excelFile, Attachment attach);
 
 	List<String> selectEmpEamilForName(String sName);
 	
 	ArrayList<DeptVo> selectDeptList();
 	
-    int insertEmpQuick(Employee employee, DeptVo dpVo, JobVo jobVo);
+    int insertEmpQuick(Employee employee, DeptVo dpVo, JobVo jobVo, Attachment attach);
 	
     ArrayList<EmployeeResult> selectEmpListAdmin(PageInfo pi);
 	
@@ -56,6 +56,8 @@ public interface EmployeeService {
 	HashMap<String, Object> selectEmpDeptJob(Employee employee);
 
 	Attachment selectProfile(Employee employee);
+
+	int updatePwdCheck(EmployeeResult employee);
 
 
 
