@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="shortcut icon" href="contextPath/resources/images/favicon.ico">
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 <title>LetsGoToWork</title>
 </head>
 <body>
@@ -16,33 +17,37 @@
 		
 		<section class="col-sm-10">
 			<h1 class="title">쪽지보내기</h1>	
-				
-			<div class="content">
-				<table style="width:100%">
-					<tr>
-						<td>
-							<label>제목</label>
-							<input type="text" style="width:100%; margin-bottom:10px;"/>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label>수신자</label>
-							<input id="sendInput" type="text" style="width:100%; margin-bottom:10px;"/>
-						</td>
-					</tr>
-					<tr>
-						<td><label>쪽지내용</label></td>
-					</tr>
-				</table>			
-				<textarea style="width:100%; height:300px;"></textarea>
-				
-				<div style="text-align:center">
-					<button>전송</button>
-					<button>임시저장</button>
-					<button>취소</button>
+			<form id="messengerSendForm" method="post">	
+				<div class="content">
+					<table style="width:100%">
+						<tr>
+							<td>
+								<label>제목</label>
+								<input name="messengerName" type="text" style="width:100%; margin-bottom:10px; border:1px solid #cdcdcd"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>수신자</label>
+								<div id="sendInput" style="width:100%; margin-bottom:10px; height:28px; border:1px solid #cdcdcd; padding:2px;">
+									<i class="fas fa-plus plusBtn" style="float:right; margin-top:3px;" onclick="showModal()"></i>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td><label>쪽지내용</label></td>
+						</tr>
+					</table>			
+					<textarea name="messengerContent" style="width:100%; height:300px;"></textarea>
+					<input type="hidden" class="sendType" name="sendType">
+					<div style="text-align:center">
+						<button type="button" onclick="sendMessenger('send')">전송</button>
+						<button type="button" onclick="sendMessenger('save')">임시저장</button>
+						<button type="button">취소</button>
+					</div>
 				</div>
-			</div>
+				<input type="hidden" name="sender" value="${sessionScope.loginEmp.empNo}">
+			</form>	
 		</section>
 	</div>
 	
@@ -101,13 +106,10 @@
 		      </div>
 		      
 		
-	<!-- 모달 영역 종단 -->
-	
-		<form class="sendMessenger" action="" method="post" style="display:none">
-			
-		</form>	  
+	<!-- 모달 영역 종단 -->	  
 	
 	<script>
+		
 	
 		//사원조회
 		function selectEmp(){
@@ -194,7 +196,7 @@
 						$("select[name='empList']").children().remove();
 						
 						for(var i = 0; i < data.empList.length; i++) {
-							if(${sessionScope.loginEmp.empNo} != data.empList[i].empNo){
+							if('${sessionScope.loginEmp.empNo}' != data.empList[i].empNo){
 								console.log(data.empList[i].empName);
 								var $option = $("<option id='" + data.empList[i].empNo + "' value='" + data.empList[i].empNo + "'>");
 								$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
@@ -281,22 +283,57 @@
 		
 		//수신자 추가
 		$(".addSendUsers").click(function(){
-			$(".sendInput").val("");
 
 			var circleList = $(".circleList").children();
-			
-			for(var i=0; i<circleList.length; i++){
-				
-			}
-			
-			$(".sendMessenger").append(circleList);
-			
-		});	
-	
+			var checkList = $("#sendInput").children("span");
 		
-		$("#sendInput").click(function(){
-				$(".modalBtn").click();
+		
+			for(var i=0; i<circleList.length; i++){      //들어가려는 사원
+				var count = 0; 
+				
+				for(var j=0; j<checkList.length; j++){   //확인할 사원
+					
+					if(checkList[j].id == circleList.eq(i).val()){
+						count++;
+					}
+				}
+				
+				if(count == 0){
+					var $span = $("<span>").text(circleList.children().eq(i).text()
+							.split("(")[0]).css({"opacity":"0.9","border-radius":"8px","margin-top":"4px"})
+							.attr('id',circleList.eq(i).val()).mouseenter(function(){
+								$(this).children().css("visibility","visible");
+							}).mouseleave(function(){
+								$(this).children().css("visibility","hidden");
+							});
+
+					var icon = $('<i class="fas fa-times-circle" style="visibility:hidden; cursor:pointer; color:gray;" onclick="deleteUSer(this)"></i>');
+					$span.append(icon);
+					$span.append($("<input type='hidden' name='sendEmp'>").val(circleList.eq(i).val()));
+					$("#sendInput").append($span);
+				}		
+			}
+
+			
 		});	
+		
+		function showModal(){
+			$(".modalBtn").click();
+		}
+		
+		function deleteUSer(icon){
+			$(icon).parent().remove();
+		};
+		
+		function sendMessenger(value){
+			var $form = $("#messengerSendForm"); 
+			$(".sendType").val(value);							
+			
+			$form.attr("action","${contextPath}/messenger/sendMessenger");
+			$form.submit();
+		}
+		
+		
 	
 	</script>
 </body>
