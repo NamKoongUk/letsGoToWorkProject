@@ -170,7 +170,7 @@ public interface ApprovalDao {
 
 	String selectProcessApprovalYN(SqlSession session, HashMap<String, Object> map);
 
-	int selecAllFinishDcm(String jobCode, SqlSession session);
+	int selecAllFinishDcm(int empNo, String jobCode, SqlSession session);
 
 	String selectEmpJobCode(Employee e, SqlSession session);
 
@@ -179,5 +179,19 @@ public interface ApprovalDao {
 	ArrayList<HashMap<String, Object>> showMyWriteDcm(PageInfo pi, SqlSession session);
 
 	int selectAllPrograssDcm(int empNo, SqlSession session);
+
+	String selectSendEmp(SqlSession session, HashMap<String, Object> map);
+
+	int selectFinApprovaldDcm(SqlSession session, String jobCode);
+
+	ArrayList<HashMap<String, Object>> showFinApprovaldDcm(PageInfo pi, String jobCode, SqlSession session);
+
+	int selectWriteDcm(SqlSession session, Employee e);
+
+	ArrayList<HashMap<String, Object>> showWriteDcm(SqlSession session, PageInfo pi);
+
+	int selectRefuseDcm(SqlSession session, String jobCode);
+
+	ArrayList<HashMap<String, Object>> showRefuseDcm(PageInfo pi, String jobCode, SqlSession session);
 
 }

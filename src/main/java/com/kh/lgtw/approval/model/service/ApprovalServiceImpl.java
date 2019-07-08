@@ -119,9 +119,9 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return ad.showAllFinishDcm(pi, session, jobCode);
 	}
 	@Override
-	public int selecAllFinishDcm(String jobCode) {
+	public int selecAllFinishDcm(String jobCode, int empNo) {
 		// TODO Auto-generated method stub
-		return ad.selecAllFinishDcm(jobCode, session);
+		return ad.selecAllFinishDcm(empNo, jobCode, session);
 	}
 
 //	//완료문서-기안한문서
@@ -444,10 +444,33 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		if(result > 0) {
 			String result2 = ad.selectCircleEmp(session, map);
-//			String result3 = ad.selectSendEmp(session, map);
+			String result3 = ad.selectSendEmp(session, map);
+			if(result2.equals("Y")) {
+				ad.updateAdStatus(session, map, "완료");
+			}else if(result3.equals("Y")) {
+				ad.updateAdStatus(session, map, "완료");
+			}
+				
+		}
+		
+		return ad.confirmDcm(session, map);
+	}
+	
+	@Override
+	public int confirmSendDcm(String adNo, int empNo) {
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("adNo", adNo);
+		map.put("empNo", empNo);
+		
+		int result = ad.confirmDcm(session, map);
+		
+		if(result > 0) {
+			String result2 = ad.selectSendEmp(session, map);
 			if(result2.equals("Y")) {
 				ad.updateAdStatus(session, map, "완료");
 			}
+				
 		}
 		
 		return ad.confirmDcm(session, map);
@@ -616,6 +639,69 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return ad.selectEmpJobCode(e, session);
 	}
+	//완료문서 (결재)
+	@Override
+	public int selectFinApprovaldDcm(String jobCode) {
+		// TODO Auto-generated method stub
+		return ad.selectFinApprovaldDcm(session, jobCode);
+	}
+	@Override
+	public ArrayList<HashMap<String, Object>> showFinApprovaldDcm(PageInfo pi, String jobCode) {
+		// TODO Auto-generated method stub
+		return ad.showFinApprovaldDcm(pi, jobCode, session);
+	}
+	
+	//기안한 완료문서
+	@Override
+	public int selectWriteDcm(Employee e) {
+		// TODO Auto-generated method stub
+		return ad.selectWriteDcm(session, e);
+	}
+	@Override
+	public ArrayList<HashMap<String, Object>> showWriteDcm(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return ad.showWriteDcm(session, pi);
+	}
+	@Override
+	public int selectRefuseDcm(String jobCode) {
+		// TODO Auto-generated method stub
+		return ad.selectRefuseDcm(session, jobCode);
+	}
+	@Override
+	public ArrayList<HashMap<String, Object>> showRefuseDcm(PageInfo pi, String jobCode) {
+		// TODO Auto-generated method stub
+		return ad.showRefuseDcm(pi, jobCode, session);
+	}
+	@Override
+	public HashMap<String, Object> selectDcmCount(int empNo) {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("empNo", empNo);
+		map.put("sort", "circle");
+		
+		int wait = ad.selectWaitDcm(empNo, session);
+		int all = ad.selectAllPrograssDcm(empNo, session);
+		int write = ad.selectMyWriteDcm(empNo, session);
+		int progress = ad.selectProgressDcm(map, session);
+		int intended = ad.selectIntendedDcm(empNo, session);
+		int circle = ad.selectCircleDcm(map, session);
+		map.put("sort", "reception");
+		int reception = ad.selectCircleDcm(map, session);
+		
+		map.put("wait", wait);
+		map.put("all", all);
+		map.put("write", write);
+		map.put("progress", progress);
+		map.put("intended", intended);
+		map.put("circle", circle);
+		map.put("reception", reception);
+		
+				
+		
+		return map;
+	}
+	
 
 
 	

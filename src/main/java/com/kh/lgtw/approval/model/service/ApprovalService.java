@@ -133,7 +133,7 @@ public interface ApprovalService {
 
 	int updateProcess(HashMap<String, Object> map);
 
-	int selecAllFinishDcm(String jobCode);
+	int selecAllFinishDcm(String jobCode, int i);
 
 	String selectEmpJobCode(Employee e);
 
@@ -144,6 +144,22 @@ public interface ApprovalService {
 	int updateSendApproval(HashMap<String, Object> map);
 
 	int selectAllPrograssDcm(int empNo);
+
+	int confirmSendDcm(String adNo, int empNo);
+
+	int selectWriteDcm(Employee e);
+
+	ArrayList<HashMap<String, Object>> showWriteDcm(PageInfo pi);
+
+	int selectFinApprovaldDcm(String jobCode);
+
+	ArrayList<HashMap<String, Object>> showFinApprovaldDcm(PageInfo pi, String jobCode);
+
+	int selectRefuseDcm(String jobCode);
+
+	ArrayList<HashMap<String, Object>> showRefuseDcm(PageInfo pi, String jobCode);
+
+	HashMap<String, Object> selectDcmCount(int empNo);
 
 	
 

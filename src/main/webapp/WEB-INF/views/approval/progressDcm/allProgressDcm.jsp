@@ -34,6 +34,7 @@
 				        <th>기안일</th>
 				        <th>구분</th>
 				  		<th>상태</th>
+				  		<th>역할</th>
 				      </tr>
 				    </thead>
 				    <tbody>
@@ -41,10 +42,11 @@
 				      	<tr>
 				      		<td><input type="hidden" value="${ ad.adNo }">${ ad.adNo }</td>
 				      		<td>${ ad.adTitle }</td>
-				      		<td>${ ad.adWriterName }</td>
+				      		<td>${ ad.empName }</td>
 				      		<td>${ ad.adStartDate }</td>
 				      		<td>${ ad.afName }</td>
 				      		<td>${ ad.adStatus }</td>
+				      		<td>${ ad.alRoll }</td>
 				      	</tr>
 				      </c:forEach>
 				    </tbody>
