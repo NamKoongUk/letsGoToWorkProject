@@ -64,9 +64,9 @@ public interface ApprovalDao {
 //
 //	int saveOfferDcm(SqlSession session, int[] afNo);
 //
-//	ArrayList<HashMap<String, Object>> showAllDcm(SqlSession session);
+	ArrayList<HashMap<String, Object>> showAllDcm(SqlSession session, PageInfo pi);
 //
-//	ArrayList<HashMap<String, Object>> showDeleteDcm(SqlSession session);
+	ArrayList<HashMap<String, Object>> showDeleteDcm(SqlSession session, PageInfo pi);
 //
 	HashMap<String, Object> showDetailDcm(SqlSession session, String adNo);
 //
@@ -193,5 +193,17 @@ public interface ApprovalDao {
 	int selectRefuseDcm(SqlSession session, String jobCode);
 
 	ArrayList<HashMap<String, Object>> showRefuseDcm(PageInfo pi, String jobCode, SqlSession session);
+
+	int countAllDcm(SqlSession session);
+
+	int deleteDcm(String[] adNoArr, SqlSession session);
+
+	int deleteAppList(String[] adNoArr, SqlSession session);
+
+	int countDeleteDcm(SqlSession session);
+
+	int permanentlyDeleteDcm(String[] adNoArr, SqlSession session);
+
+	int recoveryDcm(SqlSession session, String[] adNoArr);
 
 }

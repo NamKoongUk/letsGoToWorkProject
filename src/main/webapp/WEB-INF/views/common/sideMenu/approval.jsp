@@ -53,8 +53,8 @@
 							<li onclick="" class="list">결재관리자</li>
 							<li onclick="location.href='${contextPath}/showOption.ap'" class="list">기본설정</li>
 							<li onclick="location.href='${ contextPath }/showFormManagement.ap'" class="list">양식관리</li>
-							<li onclick="" class="list">전체문서</li>
-							<li onclick="" class="list">삭제문서</li>
+							<li onclick="location.href='${contextPath}/showAllDcm.ap'" class="list">전체문서</li>
+							<li onclick="location.href='${contextPath}/showDeleteDcm.ap'" class="list">삭제문서</li>
 						</ul>
 					</div>
 			<%-- </c:if> --%>
@@ -78,25 +78,32 @@
 			type:"get",
 			data:{empNo:empNo},
 			success:function(data){
+				
 				if(data.all != 0) {
 					var $span = $("<span class='badge pull-right badge-pill' style='width:30px; margin-left:-28px; margin-top:17px;'>").append(data.all);
 					$("#all").append($span);					
-				}else if(data.wait == 0){
+				}
+				if(data.wait != 0){
 					var $span2 = $("<span class='badge pull-right badge-pill' style='width:30px; margin-left:-28px; margin-top:17px;'>").append(data.wait);
 					$("#wait").append($span2);
-				}else if(data.write == 0){
+				}
+				if(data.write != 0){
 					var $span3 = $("<span class='badge pull-right badge-pill' style='width:30px; margin-left:-28px; margin-top:17px;'>").append(data.write);
 					$("#write").append($span3);
-				}else if(data.progress == 0){
+				}
+				if(data.progress != 0){
 					var $span4 = $("<span class='badge pull-right badge-pill' style='width:30px; margin-left:-28px; margin-top:17px;'>").append(data.progress);
 					$("#progress").append($span4);
-				}else if(data.intended == 0){
+				}
+				if(data.intended != 0){
 					var $span5 = $("<span class='badge pull-right badge-pill' style='width:30px; margin-left:-28px; margin-top:17px;'>").append(data.intended);
 					$("#intended").append($span5);
-				}else if(data.circle == 0){
+				}
+				if(data.circle != 0){
 					var $span6 = $("<span class='badge pull-right badge-pill' style='width:30px; margin-left:-28px; margin-top:17px;'>").append(data.circle);
 					$("#circle").append($span6);
-				}else if(data.reception == 0){
+				}
+				if(data.reception != 0){
 					var $span7 = $("<span class='badge pull-right badge-pill' style='width:30px; margin-left:-28px; margin-top:17px;'>").append(data.reception);
 					$("#reception").append($span7);
 				}
