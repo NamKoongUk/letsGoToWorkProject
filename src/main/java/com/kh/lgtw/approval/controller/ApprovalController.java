@@ -635,20 +635,90 @@ public class ApprovalController {
 
 	// 전체문서목록
 	@RequestMapping("showAllDcm.ap")
-	public String showAllDcm(Model model) {
+	public String showAllDcm(Model model, HttpServletRequest request) {
+		
+		int currentPage = 1;
+		if (request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
 
-		// ArrayList<HashMap<String, Object>> list = as.showAllDcm();
+		int listCount = as.countAllDcm();
 
-		return "";
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+
+		ArrayList<HashMap<String, Object>> list = as.showAllDcm(pi);
+		ArrayList<HashMap<String, Object>> formList = as.selectFormList();
+
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		model.addAttribute("formList", formList);
+
+		return "managerOption/allDcm";
+	}
+	//문서삭제
+	@RequestMapping(value = "deleteDcm.ap", produces = "application/text; charset=utf8")
+	public @ResponseBody String deleteDcm(String[] adNoArr) {
+		
+		int result = as.deleteDcm(adNoArr);
+		
+		String success = "";
+		
+		if(result > 0) {
+			success = "정상적으로 삭제되었습니다.";
+		}else {
+			success = "삭제에 실패했습니다.";
+		}
+		
+		return result + "";
 	}
 
 	// 삭제문서 전체
 	@RequestMapping("showDeleteDcm.ap")
-	public String showDeleteDcm(Model model) {
+	public String showDeleteDcm(Model model, HttpServletRequest request) {
 
-		// ArrayList<HashMap<String, Object>> list = as.showDeleteDcm();
+		int currentPage = 1;
+		if (request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
 
-		return "";
+		int listCount = as.countDeleteDcm();
+
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+
+		ArrayList<HashMap<String, Object>> list = as.showDeleteDcm(pi);
+		ArrayList<HashMap<String, Object>> formList = as.selectFormList();
+
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		model.addAttribute("formList", formList);
+
+		return "managerOption/deleteDcm";
+	}
+	
+	//문서삭제
+	@RequestMapping(value = "permanentlyDeleteDcm.ap", produces = "application/text; charset=utf8")
+	public @ResponseBody String permanentlyDeleteDcm(String[] adNoArr) {
+		
+		int result = as.permanentlyDeleteDcm(adNoArr);
+		
+		String success = "";
+		
+		if(result > 0) {
+			success = "정상적으로 삭제되었습니다.";
+		}else {
+			success = "삭제에 실패했습니다.";
+		}
+		
+		return result + "";
+	}
+	
+	//문서복구
+	@RequestMapping(value = "recoveryDcm.ap", produces = "application/text; charset=utf8")
+	public @ResponseBody String recoveryDcm(String[] adNoArr) {
+		
+		int result = as.recoveryDcm(adNoArr);
+		
+		return result + "";
 	}
 
 	// -----------------------------문서 상세보기 및 결재기능--------------------------------------
@@ -690,7 +760,7 @@ public class ApprovalController {
 		
 		int result = as.updateAgree(map);
 
-		return "성공";
+		return result + "";
 	}
 	
 	// 문서 합의결재

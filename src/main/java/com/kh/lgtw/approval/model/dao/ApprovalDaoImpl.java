@@ -306,18 +306,37 @@ public class ApprovalDaoImpl implements ApprovalDao{
 //		// TODO Auto-generated method stub
 //		return 0;
 //	}
-//	//전체문서목록
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showAllDcm(SqlSession session) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//	//삭제문서 전체
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showDeleteDcm(SqlSession session) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	//전체문서목록
+	@Override
+	public ArrayList<HashMap<String, Object>> showAllDcm(SqlSession session, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		
+		return (ArrayList)session.selectList("Approval.showAllDcm", pi, rowBounds);
+	}
+	@Override
+	public int countAllDcm(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.countAllDcm");
+	}
+
+
+	//삭제문서 전체
+	@Override
+	public ArrayList<HashMap<String, Object>> showDeleteDcm(SqlSession session, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		
+		return (ArrayList)session.selectList("Approval.showDeleteDcm", pi, rowBounds);
+	}
+	@Override
+	public int countDeleteDcm(SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.countDeleteDcm");
+	}
+	
 	//보안등급 불러오기
 	@Override
 	public ArrayList<Security> selectSecurity(SqlSession session) {
@@ -810,6 +829,59 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		
 		return (ArrayList)session.selectList("Approval.showWriteDcm", pi, rowBounds);
 	}
+
+	@Override
+	public int deleteDcm(String[] adNoArr, SqlSession session) {
+		
+		int result = 0;
+		
+		for(int i = 0; i < adNoArr.length; i++) {
+			String adNo = adNoArr[i];
+			result += session.update("Approval.deleteDcm", adNo);
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int deleteAppList(String[] adNoArr, SqlSession session) {
+		
+		int result = 0;
+		
+		for(int i = 0; i < adNoArr.length; i++) {
+			String adNo = adNoArr[i];
+			result += session.delete("Approval.deleteAppList", adNo);
+		}
+				
+		return result;
+	}
+
+	@Override
+	public int permanentlyDeleteDcm(String[] adNoArr, SqlSession session) {
+		int result = 0;
+		
+		for(int i = 0; i < adNoArr.length; i++) {
+			String adNo = adNoArr[i];
+			result += session.delete("Approval.permanentlyDeleteDcm", adNo);
+		}
+				
+		return result;
+	}
+
+	@Override
+	public int recoveryDcm(SqlSession session, String[] adNoArr) {
+		
+		int result = 0;
+		
+		for(int i = 0; i < adNoArr.length; i++) {
+			String adNo = adNoArr[i];
+			result += session.update("Approval.recoveryDcm", adNo);
+		}
+		
+		return result;
+	}
+
+
 
 
 

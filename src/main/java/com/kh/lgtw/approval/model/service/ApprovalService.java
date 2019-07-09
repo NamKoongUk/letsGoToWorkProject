@@ -63,9 +63,9 @@ public interface ApprovalService {
 //
 //	int saveOfferDcm(int[] afNo);
 //
-//	ArrayList<HashMap<String, Object>> showAllDcm();
+	ArrayList<HashMap<String, Object>> showAllDcm(PageInfo pi);
 //
-//	ArrayList<HashMap<String, Object>> showDeleteDcm();
+	ArrayList<HashMap<String, Object>> showDeleteDcm(PageInfo pi);
 //
 //	HashMap<String, Object> showDetailDcm(String adNo);
 //
@@ -160,6 +160,16 @@ public interface ApprovalService {
 	ArrayList<HashMap<String, Object>> showRefuseDcm(PageInfo pi, String jobCode);
 
 	HashMap<String, Object> selectDcmCount(int empNo);
+
+	int countAllDcm();
+
+	int deleteDcm(String[] adNoArr);
+
+	int countDeleteDcm();
+
+	int permanentlyDeleteDcm(String[] adNoArr);
+
+	int recoveryDcm(String[] adNoArr);
 
 	
 

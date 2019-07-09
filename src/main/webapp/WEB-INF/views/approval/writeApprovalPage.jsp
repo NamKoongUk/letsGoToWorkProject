@@ -19,6 +19,16 @@
 	span{
 		cursor:pointer;
 	}
+	.input-file { display: inline-block; } 
+	.input-file [type="file"] { 
+		position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0 none; 
+	} 
+	.input-file .file-label { 
+		display: inline-block; min-width: 53px; height: 27px; line-height: 24px; padding: 0 10px; border-radius: 2px; font-size: 13px; background-color: #333; color: #fff; text-align: center; } .input-file .file-name { width: 300px; background: #f5f5f5; height: 27px; line-height: 26px; text-indent: 5px; border: 1px solid #bbb; 
+	} 
+	/* 접근성 탭 포커스 스타일 */ 
+	.file-focus { outline: 1px dotted #d2310e; }
+
 
 </style>
 </head>
@@ -369,6 +379,11 @@
 				            <div class="col-lg-12">
 				                <textarea name="adContent" id="adContent"></textarea>
 				            </div>
+				        </div>
+				        <div class="input-file"> 
+				        	<input type="text" readonly="readonly" class="file-name" /> 
+				        	<label for="upload01" class="file-label">파일 업로드</label> 
+				        	<input type="file" name="" id="upload01" class="file-upload" /> 
 				        </div>
 				        <div class="form-group">
 				            <div class="col-lg-12" align="right">
@@ -973,10 +988,33 @@
 		$(a).parent().remove();
 	}
 			
+	(function($){ var $fileBox = null; $(function() { init(); }) 
 	
+	function init() { 
+		$fileBox = $('.input-file'); 
+		fileLoad(); 
+	} 
+	function fileLoad() { 
+		$.each($fileBox, 
+				function(idx){ 
+			var $this = $fileBox.eq(idx), 
+			$btnUpload = $this.find('[type="file"]'), 
+			$label = $this.find('.file-label');
+			$btnUpload.on('change', 
+					function() { 
+				var $target = $(this), 
+				fileName = $target.val(), 
+				$fileText = $target.siblings('.file-name'); 
+				$fileText.val(fileName); }) 
+				$btnUpload.on('focusin focusout', function(e) { 
+					e.type == 'focusin' ? $label.addClass('file-focus') : $label.removeClass('file-focus'); }) }) } })(jQuery);
+
 
 
     $(function(){
+
+    	
+
          
         CKEDITOR.replace( 'adContent', {//해당 이름으로 된 textarea에 에디터를 적용
             width:'100%',

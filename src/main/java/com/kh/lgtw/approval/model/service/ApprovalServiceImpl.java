@@ -249,18 +249,44 @@ public class ApprovalServiceImpl implements ApprovalService{
 //		// TODO Auto-generated method stub
 //		return ad.saveOfferDcm(session, afNo);
 //	}
-//	//전체문서목록
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showAllDcm() {
-//		// TODO Auto-generated method stub
-//		return ad.showAllDcm(session);
-//	}
-//	//삭제문서 전체
-//	@Override
-//	public ArrayList<HashMap<String, Object>> showDeleteDcm() {
-//		// TODO Auto-generated method stub
-//		return ad.showDeleteDcm(session);
-//	}
+	//전체문서목록
+	@Override
+	public ArrayList<HashMap<String, Object>> showAllDcm(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return ad.showAllDcm(session, pi);
+	}
+	@Override
+	public int countAllDcm() {
+		// TODO Auto-generated method stub
+		return ad.countAllDcm(session);
+	}
+	
+	//삭제문서 전체
+	@Override
+	public ArrayList<HashMap<String, Object>> showDeleteDcm(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return ad.showDeleteDcm(session, pi);
+	}
+	//완전삭제
+	@Override
+	public int permanentlyDeleteDcm(String[] adNoArr) {
+		
+		int result = ad.deleteAppList(adNoArr, session);
+		int result2 = 0;
+		
+		if(result > 0) {
+			result2 = ad.permanentlyDeleteDcm(adNoArr, session);
+		}
+		
+		return result2;
+	}
+	
+	@Override
+	public int countDeleteDcm() {
+		// TODO Auto-generated method stub
+		return ad.countDeleteDcm(session);
+	}
+
 	//옵션 보안등급 조회
 	@Override
 	public ArrayList<Security> selectSecurity() {
@@ -701,8 +727,18 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		return map;
 	}
+	@Override
+	public int deleteDcm(String[] adNoArr) {
+		// TODO Auto-generated method stub	
+		return ad.deleteDcm(adNoArr, session);
+	}
+	//문서복구
+	@Override
+	public int recoveryDcm(String[] adNoArr) {
+		
+		return ad.recoveryDcm(session, adNoArr);
+	}
 	
-
 
 	
 	

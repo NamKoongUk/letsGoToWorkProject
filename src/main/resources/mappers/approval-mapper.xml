@@ -798,7 +798,7 @@
 	</select>
 	
 	<select id="selectAllPrograssDcm" parameterType="_int" resultType="_int">
-		SELECT COUNT(*)
+		SELECT COUNT(DISTINCT AD.AD_NO)
 		FROM APPROVAL_LIST AL
 		JOIN APP_DOCUMENT AD ON (AL.AD_NO = AD.AD_NO)
 		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
@@ -822,7 +822,7 @@
 	
 	<!-- 결재 완료 문서 -->
 	<select id="selectFinApprovalDcm" parameterType="java.lang.String" resultType="_int">
-		SELECT COUNT(*)
+		SELECT COUNT(DISTINCT AD.AD_NO)
 		FROM APP_DOCUMENT AD
 		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
 		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
@@ -870,7 +870,7 @@
 	
 	<!-- 기안한 완료문서 -->
 	<select id="selectWriteDcm" parameterType="_int" resultType="_int">
-		SELECT COUNT(*)
+		SELECT COUNT(DISTINCT AD.AD_NO)
 		FROM APPROVAL_LIST AL
 		JOIN APP_DOCUMENT AD ON (AL.AD_NO = AD.AD_NO)
 		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
@@ -891,6 +891,60 @@
 		OR (AD_WRITER = #{empNo} AND AD_STATUS = '반려')
 		ORDER BY AD_END_DATE
 	</select>
+	
+	<!-- 전체문서 조회 -->
+	<select id="countAllDcm" resultType="_int">
+		SELECT COUNT(*)
+		FROM APP_DOCUMENT
+		WHERE AD_STATUS != '삭제'
+	</select>
+	
+	<select id="showAllDcm" resultMap="appDocument2" parameterType="PageInfo">
+		SELECT AD.*, AF.*, SF.*, E.EMP_NAME AS AD_DCM_WRITER
+		from APP_DOCUMENT AD 
+		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
+		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
+		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
+		WHERE AD.AD_STATUS != '삭제'
+		ORDER BY AD_START_DATE DESC
+	</select>
+	
+	<!-- 삭제문서조회 -->
+	<select id="countDeleteDcm" resultType="_int">
+		SELECT COUNT(*)
+		FROM APP_DOCUMENT
+		WHERE AD_STATUS = '삭제'
+	</select>
+	
+	<select id="showDeleteDcm" resultMap="appDocument2" parameterType="PageInfo">
+		SELECT AD.*, AF.*, SF.*, E.EMP_NAME AS AD_DCM_WRITER
+		from APP_DOCUMENT AD 
+		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
+		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
+		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
+		WHERE AD.AD_STATUS = '삭제'
+		ORDER BY AD_START_DATE DESC
+	</select>
+	
+	<update id="deleteDcm" parameterType="java.lang.String">
+		UPDATE APP_DOCUMENT SET AD_STATUS = '삭제' WHERE AD_NO = #{adNo} AND (AD_STATUS = '완료' OR AD_STATUS = '반려')
+	</update>
+	
+	<delete id="deleteAppList" parameterType="java.lang.String">
+		DELETE FROM APPROVAL_LIST WHERE AD_NO = #{adNo}
+	</delete>
+	
+	<delete id="permanentlyDeleteDcm" parameterType="java.lang.String">
+		DELETE FROM APP_DOCUMENT WHERE AD_NO = #{adNo}
+	</delete> 
+	
+	<update id="recoveryDcm" parameterType="java.lang.String">
+		UPDATE APP_DOCUMENT SET AD_STATUS = (SELECT CASE WHEN (SELECT COUNT(*) FROM APPROVAL_LIST
+							                    WHERE AD_NO = #{adNo} AND AL_STATUS = '반려') > 0 THEN '반려'
+							                    ELSE '완료'
+							                    END
+							                    FROM DUAL)	WHERE AD_NO = #{adNo}
+	</update>
 	
 </mapper>
 
