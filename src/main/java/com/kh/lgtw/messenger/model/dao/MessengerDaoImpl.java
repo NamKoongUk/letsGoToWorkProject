@@ -53,17 +53,23 @@ public class MessengerDaoImpl implements MessengerDao {
 	public int selectMessengerCount(Map<String, Object> params, SqlSession sqlSession) {
 		return sqlSession.selectOne("Messenger.selectMessengerCount",params);
 	}
+	
+	@Override
+	public int reSendMessneger(Map<String, Object> params, SqlSession sqlSession) {
+		return sqlSession.insert("Messenger.reSendMessneger",params);
+	}
 
 	@Override
 	public String deleteMessenger(String msgNo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	//조회시 메세지 읽음상태 변경
 	@Override
-	public String selectStorageMessenger(String msgGno) {
-		// TODO Auto-generated method stub
-		return null;
+	public int updateReadStatus(Map<String, Object> params, SqlSession sqlSession) {
+		return sqlSession.update("Messenger.updateReadStatus",params);
+		
 	}
 
 

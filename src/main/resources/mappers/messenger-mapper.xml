@@ -145,5 +145,16 @@
 			AND M.RECIPIENT = #{empNo}
 		</if>
 	</select>
+	
+	<insert id="reSendMessneger" parameterType="java.util.Map">
+		INSERT INTO MESSENSER
+		VALUES (SEQ_MSG_NO.NEXTVAL, #{msgTitle}, #{msgContent}, SYSDATE, #{sender}, #{receiper}, 'N','Y',SEQ_MSG_GROUP.NEXTVAL)
+	</insert>
+	
+	<update id="updateReadStatus">
+		UPDATE MESSENSER
+		SET READ_STATUS = 'Y'
+		WHERE MSG_NO = #{msgNo}
+	</update>
 		
 </mapper>

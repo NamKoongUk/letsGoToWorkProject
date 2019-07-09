@@ -80,7 +80,7 @@
 						<!-- 가져가서 여기 width로 설정하셔요 -->
 						<thead>
 							<tr>
-								<th width="5%"><input type="checkbox"/></th>
+								<th width="5%"><input type="checkbox" class="totalCheck"/></th>
 								<th width="10%">읽음여부</th>
 								<th width="18%" class="sendType">작성자</th>
 								<th width="12%">쪽지종류</th>
@@ -89,19 +89,12 @@
 							</tr>
 						</thead>
 						<tbody id="messengerArea">
-							<tr>
-								<td><input type="checkbox"/></td>
-								<td><img src="${ contextPath }/resources/images/mail/readMailN.PNG" width="70px"></td>
-								<td>김채연 사원</td>
-								<td>보낸메일</td>
-								<td>안녕하세요 임시자료에욧</td>
-								<td>2019-01-01</td>
-							</tr>
 						</tbody>
 					</table>
 					<br>
 					<div class="bottomBtn" align="right"> 
-						<button>삭제</button>
+						<button class="reSendBtn">답장</button>
+						<button class="removeBtn">삭제</button>
 					</div>
 					<div class="paging">
 						<ul class="pagination">
@@ -140,9 +133,8 @@
 					</table>			
 					<textarea class="messengerContent" name="messengerContent" style="width:100%; height:300px; resize:none"></textarea>
 					<div style="text-align:center">
-						<button type="button" class="submitBtn">전송</button>
-						<button type="button" class="cancleBtn">삭제</button>
-						<button type="button" onclick="changeView('2')">취소</button>
+						<button type="button" class="submitBtn">삭제</button>
+						<button type="button" onclick="pageBack()">취소</button>
 					</div>
 				</div>
 		</section>
@@ -150,6 +142,56 @@
 	
 	
 	<jsp:include page="../common/footer.jsp" />
+	
+	<button type="button" class="btn btn-info btn-lg reSendModal" data-toggle="modal" data-target="#myModal" style="display:none">Open Modal</button>
+
+	  <!-- Modal -->
+	  <div class="modal fade" id="myModal" role="dialog">
+	    <div class="modal-dialog">
+	    
+	      <!-- Modal content-->
+	      <div class="modal-content">
+	        <div class="modal-header">
+	        
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">답장</h4>
+	        </div>
+	        <div class="modal-body">
+	        	<table style="width:100%">
+	        		<tr>
+	        			<td>
+	        				<label>수신자</label>
+	        			</td>
+	        		</tr>
+	        		<tr>
+	        			<td>
+	        				<div class="sendEmp" style="height:30px; border:1px solid lightgray">
+	        					수신자
+	        				</div>
+	        			</td>
+	        		</tr>
+	        		<tr>
+	        			<td>
+	        				<label>쪽지내용</label>
+	        			</td>
+	        		</tr>
+	        		<tr>
+	        			<td>
+	        				<textarea class="sendContent" style="width:100%; height:200px; resize:none"></textarea>
+	        			</td>
+	        		</tr>
+	        	</table>
+	        </div>
+	          <div class="modal-footer">
+	          <button type="button" class="btn btn-default sendBtn" data-dismiss="modal">전송</button>
+	          <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+	       	  </div>
+	          
+	        </div>
+	        
+	      </div>
+	    </div>
+	  
 	
 	<script>
 	
@@ -179,10 +221,10 @@
 		}else if(status == 'sto'){
 			$(".title").text('임시 저장함').attr("id","sto");
 		}else if(status == 'del'){
-			$(".title").text('임시 저장함').attr("id","del");
+			$(".title").text('휴지통').attr("id","del");
 		}
 		
-		if(content == ""){
+		if(content == "" || content == undefined){
 			content = "empty";
 		}
 
@@ -253,7 +295,15 @@
 			var src ='${contextPath}/resources/images/mail/';
 			
 	
-			$msgTr = $("<tr>").attr({"id":messengerInfo[i].msgNo,"onclick":"detailMessenger(this)"});
+			$msgTr = $("<tr>").attr("id",messengerInfo[i].msgNo);
+			
+			
+			if($(".title").attr("id") == 'res' || $(".title").attr("id") == 'del'){
+				$msgTr.attr("class",messengerInfo[i].sender);
+			}else{
+				$msgTr.attr("class",messengerInfo[i].recipient);
+			}
+			
 
 			
 			
@@ -265,12 +315,17 @@
 			var $sendDateTd = $("<td>").text(createDate(messengerInfo[i].sendDate));
 			
 			$msgTr.append($checkTd);
-			$msgTr.append($readImg);
+			$msgTr.append($readTd);
 			$msgTr.append($nameTd);
 			$msgTr.append($typeTd);
 			$msgTr.append($titleTd);
 			$msgTr.append($sendDateTd);
 			$msgTable.append($msgTr);
+			
+			var ee = $msgTr.children().not(':first');
+
+			$msgTr.children().not(':first').attr("onclick","detailMessenger(" + messengerInfo[i].msgNo + ")");
+			//$msgTr.children().not(':first').attr("onclick",'detailMessenger()');
 		}
 	}
 	
@@ -348,7 +403,7 @@
 	//월 리턴
 	function getMonth(month){
  		 
-		 if(month < 9){
+		 if(month <= 9){
 			   month = ('0' + (month+1));
 			   
 		   }else{
@@ -361,7 +416,7 @@
 	//일 리턴
 	function getDate(date){
 		 
-		if(date < 9){
+		if(date <= 9){
 			   date = ('0' + (date));
 			   
 		   }else{
@@ -382,7 +437,7 @@
 	
 	
 	function detailMessenger(msgNo){
-		var msgNo = msgNo.id;
+		var msgNo = msgNo;
 		var messageType = $(".title").prop("id");
 		
 		$.ajax({
@@ -400,18 +455,22 @@
 	}	
 
 	function resMessenger(){
+		$(".reSendBtn").text("답장");
 		viewMessage(1,'res',startDate,endDate);
 		changeView('2');
 	}
 	function reqMessenger(){
+		$(".reSendBtn").text("삭제");
 		viewMessage(1,'req',startDate,endDate);	
 		changeView('2');
 	}
 	function stoMessenger(){
+		$(".reSendBtn").text("전송");
 		viewMessage(1,'sto',startDate,endDate);
 		changeView('2');
 	}
 	function delMessenger(){
+		$(".reSendBtn").text("영구삭제");
 		viewMessage(1,'del',startDate,endDate);
 		changeView('2');
 	}
@@ -431,7 +490,6 @@
 		$("#sendInput").empty();
 		
 		if(messageType == 'res'){
-			$(".submitBtn").text("답장").attr("onclick","reSendMsg()");
 			$(".sendType").text("발신자");
 		}else if(messageType == 'req'){
 			$(".submitBtn").text("삭제").attr("onclick","");
@@ -449,43 +507,112 @@
 		
 		changeView('1');
 	}
+
 	
-	
-	var resCount = 0;
-	
-	
-	function reSendMsg(){
-		if(resCount == 0){
-			$(".messengerName").val("").attr("readonly",false);
-			$(".messengerContent").val("").attr("readonly",false);
-			resCount++;
-			console.log(resCount);
-		}else{
-			
-			if($(".messengerName").val() == ""){
-				alert("제목을 입력하세요");
-			}else if($(".messengerContent").val() == ""){
-				alert("내용을 입력하세요");
+	//답장 모달
+	$(".reSendBtn").click(function(){
+		var checked = $("input[type='checkbox']:checked").not(".totalCheck");
+		
+		$(".sendEmp").empty();
+		if(checked.length == 1){
+			if($(this).text() == '답장'){
+				$(".reSendModal").click();
+				$(".sendEmp").text(checked.parent().siblings("td:first").next().text());
+				$(".sendEmp").append($("<input type='hidden'>").attr("class","reMsgNo").val(checked.parent().parent().prop("id")));
+				$(".sendEmp").append($("<input type='hidden'>").attr("class","reMsgName").val(checked.parent().siblings("td:last").prev().text()));
 			}
-			
-			var msgTitle = $(".messengerName").val();
-			var msgContent = $(".messengerContent").val();
+		}else{
+			if($(this).text() == '답장'){
+				alert("한 메세지만 선택하세요");
+			}
+		}
+		 
+		
+	});
+
+	//답장 전송
+	function reSendMsg(){
+			var msgTitle = "[RE]:" + '${sessionScope.loginEmp.empName}' + '님의 ' + $(".reMsgName").val() + ' 글의 답장';
+			var msgContent = $(".sendContent").val();
 			var sender = ${sessionScope.loginEmp.empNo};
-			var receiper = $("#sendInput").children().prop("id");
+			var receiper = $("#"+$(".reMsgNo").val()).prop("class");
+			var info = {
+					'msgTitle':msgTitle,
+					'msgContent':msgContent,
+					'sender':sender,
+					'receiper':receiper
+					};
 			
 			$.ajax({
 				url:"messenger/reSendMessenger",
 				type:"post",
-				data:{msgTitle:msgTitle,msgContent:msgContent,sender:sender,receiper:receiper},
+				contentType: 'application/json',
+				data:JSON.stringify(info),
 				success:function(data){
 					console.log(data);
 				}
 			});
 				
 		}
+	
+	$(".sendBtn").click(function(){
+		reSendMsg();
+	});
+	
+	function pageBack(){
 		
-
+		if($(".title").attr("id") == 'res'){
+			resMessenger();
+		}else if($(".title").attr("id") == 'req'){
+			reqMessenger();
+		}else if($(".title").attr("id") == 'sto'){
+			stoMessenger();
+		}else{
+			delMessenger();
+		}
 	}
+	
+	$(".totalCheck").click(function(){
+		if($(this).prop("checked")){
+			$("input[type='checkbox']").not(".totalCheck").prop("checked",true);
+		}else{
+			$("input[type='checkbox']").not(".totalCheck").prop("checked",false);
+		}
+	});
+	
+	$(".removeBtn").click(function(){
+		console.log();
+		var msgNos = $("input[type='checkbox']:checked").not(".totalCheck").parent().parent();
+		var msgNoList = new Array();
+		
+		for(var i=0; i<msgNos.length; i++){
+			msgNoList.push(msgNos[i].id);
+		}
+		console.log(msgNoList);
+		
+		var JSONObject = {
+						msgNoList:msgNoList,
+						messageType:$(".title").attr("id")
+						}
+		
+		$.ajax({
+			url:"messenger/deleteMessenger",
+			type:"put",
+			contentType: 'application/json; charset=utf-8',
+		    data: JSON.stringify(JSONObject),
+		    dataType: 'json',
+		    success:function(data){
+		    	console.log(data);
+		    }
+			
+		});
+		
+	});
+			
+	
+	
+
+		
 		
 		
 	</script>

@@ -48,8 +48,8 @@
 		<typeAlias type="com.kh.lgtw.mail.model.vo.Absence" alias="Absence"/>
 		
 		<!-- Messenger VO -->
-		<typeAlias type="com.kh.lgtw.messenger.model.vo.Messenger" alias="Messenger"/>
-		<typeAlias type="com.kh.lgtw.messenger.model.vo.SearchCondition" alias="SearchCondition"/>
+		<!-- <typeAlias type="com.kh.lgtw.messenger.model.vo.Messenger" alias="Messenger"/>
+		<typeAlias type="com.kh.lgtw.messenger.model.vo.SearchCondition" alias="SearchCondition"/> -->
 		
 		<!-- Scheduler VO-->
 		<typeAlias type="com.kh.lgtw.scheduler.model.vo.Schedule" alias="Schedule"/>

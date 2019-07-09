@@ -20,9 +20,13 @@ public interface MessengerDao {
 	//MessengerDetail 조회
 	HashMap<String, Object> selectDetailMessneger(Map<String, Object> params, SqlSession sqlSession);
 	
+	//reSendMessneger
+	int reSendMessneger(Map<String, Object> params, SqlSession sqlSession);
+	
 	String deleteMessenger(String msgNo);
-
-	String selectStorageMessenger(String msgGno);
+	
+	//조회시 메세지 읽음상태 변경
+	int updateReadStatus(Map<String, Object> params, SqlSession sqlSession);
 
 	
 }

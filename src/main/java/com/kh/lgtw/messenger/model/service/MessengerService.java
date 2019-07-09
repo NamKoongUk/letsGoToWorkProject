@@ -17,9 +17,13 @@ public interface MessengerService {
 	//MessengerDetail 조회
 	HashMap<String, Object> selectDetailMessneger(Map<String, Object> params);
 	
+	//reSendMessenger
+	int reSendMessneger(Map<String, Object> params);
+	
 	String deleteMessenger(String msgNo);
 
-	String selectStorageMessenger(String msgGno);
+
+	
 
 
 }
