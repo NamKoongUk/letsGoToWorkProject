@@ -53,7 +53,7 @@
 			<h3 class="title" align="center">메일작성</h3>
 			<div class="content">
 				<!--  enctype="multipart/form-data" -->
-				<form id="mailForm" action="${ contextPath }/mail/send" method="post">
+				<form id="mailForm" action="${ contextPath }/mail/send" method="post" enctype="multipart/form-data">
 					<table id="mailTable" align="center">
 						<tr>
 							<th width="15%">받는사람</th>
