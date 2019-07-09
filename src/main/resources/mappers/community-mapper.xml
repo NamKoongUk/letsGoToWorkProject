@@ -63,6 +63,7 @@
 	 <result column="CREATRE_DATE" property="ccreateDate"/>
 	 <result column="MODIFY_DATE" property="cmodifyDate"/>
 	 <result  column="STAUTS" property="stauts"/>
+	 <result column="EMP_NAME" property="empname"/>
 		
 	
 	</resultMap>
@@ -196,9 +197,20 @@
 	
 	<select id="commentlist" resultMap="CommunityCommentResultSet" parameterType="_int"> 
 		
+		SELECT CC.* , E.EMP_NAME
+        FROM C_COMMENT CC  
+        JOIN CONTENT C ON(C.CONTENT_NO = CC.CONTENT_NO)
+        JOIN EMPLOYEE E ON(CC.CM_WRITER = E.EMPNO)
+        WHERE CC.CONTENT_NO=#{contentNO}
+        
+	
+	</select> 
 	
 	
-	</select>
+	<insert id="insertComment" parameterType="CommunityComment"> 
+		INSERT INTO C_COMMENT
+		VALUES(SEQ_COMMENT_NO.nextval ,#{psno} ,#{cwriter} ,#{ccontent},SYSDATE,SYSDATE,'N')
+	</insert>
 
 	
 

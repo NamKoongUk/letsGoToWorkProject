@@ -81,18 +81,29 @@
 					 			<th>댓글 내용</th>
 					 			<th></th>
 					 			<!-- <th></th>  -->	
-					 		</tr>  
+					 		</tr> 
+					 		<c:if test="${!empty sessionScope.loginEmp  }">
+					 		<tr> 
+					 			<td>${sessionScope.loginEmp.empName}</td>
+					 			<td><input type="text" id="ccontent"></td>
+					 			<td><button type="button" class="btn btn-info btn-lg" id="addReply">생성</button></td>
 					 		
+					 		</tr>
+					 		</c:if>
+					 	
+					 		  
 					 		
+					 		<c:forEach var="cc" items="${commentlist }">
 					 		<tr>  
-					 			<td width=10%>강형석</td>
-					 			<td>확인 했습니다.</td>
+					 			<td width=10%>${cc.empname}</td>
+					 			<td>${cc.ccontent}</td>
 					 			<td><button type="button" class="btn btn-info btn-lg">확인</button>
 					 				<button type="button" class="btn btn-info btn-lg">취소</button>
 					 		   </td>
 					 			
 					 		 
 					 	  </tr>
+					 		</c:forEach>
 					 </thead>	
 				</table>
 			  </div>
@@ -139,7 +150,41 @@
 			});
 			
 			
-		
+			$(function(){
+			  $("#addReply").click(function(){
+				  var writer = ${sessionScope.loginEmp.empNo}; 
+				  var contentno = $("#contentNOHidden").val(); 
+			  	 /*  console.log(contentno); */
+			  	 /*  console.log(writer); */ 
+			  	  var ccontent  = $("#ccontent").val();
+			  	  
+			  	 /* console.log(ccontent); */ 
+			  	 
+			  	 $.ajax({
+			  		 url:"insertComment.co" ,  
+			  	 	 data:{writer:writer,contentno:contentno ,ccontent:ccontent},
+			  	 	 type:"post",
+			  	 	 success:function(date){
+			  	 		 if(date == "ok"){
+			  	 			 alert("댓글 작성이 완료 되었습니다.");
+			  	 			 location.href='communityPostDetails.co?contentNO='+contentno;
+			  	 		 }else{
+			  	 			 console.log("FAIL");
+			  	 		 }
+			  	 	 }
+			  	 
+			  	 })
+			  	 
+			  	 
+			  	 
+			  })	
+				
+				
+			})
+			
+			
+			
+			
 		</script>
 
 

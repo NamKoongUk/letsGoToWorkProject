@@ -49,6 +49,8 @@ public interface CommunityService
     //댓글 목록 리스트 	
 	ArrayList<CommunityComment> commentlist(int contentNO);
 
+	int InsertComment(CommunityComment cc);
+
 
 	
 

@@ -1,6 +1,7 @@
 package com.kh.lgtw.community.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.lgtw.community.model.service.CommunityService;
@@ -334,7 +336,63 @@ public class CommunityController {
 		 int result = cs.temporayInsert(cp);
 		
 		return "redirect:temporaryList.co";
+	} 
+	
+	/*
+	 * //게시판 댓글 생성
+	 * 
+	 * @RequestMapping(value="/community/InsertComment.co")
+	 * 
+	 * @ResponseBody public String
+	 * ajax_addComment(@ModelAttribute("CommunityComment")CommunityComment ccm
+	 * ,HttpServletRequest request) {
+	 * 
+	 * 
+	 * 
+	 * return "success"; }
+	 */ 
+	
+	@RequestMapping("insertComment.co")
+	@ResponseBody
+	public String InsertComment (HttpServletRequest request ,CommunityComment cc) {
+		
+		int writer = Integer.parseInt(request.getParameter("writer")); 
+		int contentno = Integer.parseInt(request.getParameter("contentno")); 
+		String ccontent = request.getParameter("ccontent"); 
+		
+		
+		
+		System.out.println("writer 값 :" +writer); 
+		System.out.println("contentno 값:"+contentno );
+		System.out.println("ccontent 값:" +ccontent);
+		
+		
+		cc.setPsno(contentno);
+		cc.setCcontent(ccontent);
+		cc.setCwriter(writer);
+		
+		System.out.println(cc); 
+		
+		
+		
+		 int result = cs.InsertComment(cc); 
+		 ArrayList<CommunityPost> list = cs.CommunityPostDetails(contentno);
+		 ArrayList<CommunityComment>commentlist = cs.commentlist(contentno); 
+		
+		 if(result > 0) {
+			 System.out.println("댓글 작성 성공 : " + result);
+			 
+			 HashMap<String, Object> hmap = new HashMap<String, Object>();
+			 
+			 
+			
+		 }
+		 
+		 
+		
+		return "ok";
 	}
+	
 	
 	
 	
