@@ -38,7 +38,15 @@ public class MessengerServiceImpl implements MessengerService {
 	//MessengerDatail 조회
 	@Override
 	public HashMap<String, Object> selectDetailMessneger(Map<String, Object> params) {
+		if(params.get("messageType").equals("res")){
+			int result = md.updateReadStatus(params,sqlSession);
+		}
 		return md.selectDetailMessneger(params, sqlSession);
+	}
+	//reSendMessenger
+	@Override
+	public int reSendMessneger(Map<String, Object> params) {
+		return md.reSendMessneger(params, sqlSession);
 	}
 	
 	@Override
@@ -47,11 +55,7 @@ public class MessengerServiceImpl implements MessengerService {
 		return md.deleteMessenger(msgNo);
 	}
 
-	@Override
-	public String selectStorageMessenger(String msgGno) {
-		// TODO Auto-generated method stub
-		return md.selectStorageMessenger(msgGno);
-	}
+
 
 	
 

@@ -1,6 +1,7 @@
 package com.kh.lgtw.messenger.controller;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,13 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.common.Pagination;
 import com.kh.lgtw.messenger.model.service.MessengerService;
-import com.kh.lgtw.messenger.model.vo.Messenger;
 
 @Controller
 @RequestMapping("messenger")
@@ -82,23 +83,25 @@ public class MessengerController {
 		return new ResponseEntity<HashMap<String,Object>>(hmap, HttpStatus.OK);
 	}
 	
+	
+	//쪽지 답장
+	@PostMapping(value="/reSendMessenger", produces="application/text; charset=utf8") 
+	public @ResponseBody ResponseEntity<String> reSendMessenger(@RequestBody Map<String,Object> params) {
+		System.out.println(params);
+		
+		int result = ms.reSendMessneger(params);
+		
+		System.out.println();
+		
+		return new ResponseEntity<String>("success",HttpStatus.OK);
+	}
+	
 	//쪽지 삭제(휴지통)(페이지전환)
-	@PutMapping("/deleteMessenger")
-	public String deleteMessenger(@RequestBody String msgNo, Model model) {
-		ms.deleteMessenger(msgNo);
+	@RequestMapping(value="/deleteMessenger", method=RequestMethod.PUT, produces="application/text; charset=utf8")
+	public String deleteMessenger(@RequestBody Map<String, Object> params) {
+			//ms.deleteMessenger(params);
 		return "";
 	}
 	
-	//임지저장 쪽지 조회(ajax)
-	@GetMapping(value="/selectStorageMessenger/{msgGno}", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public @ResponseBody Messenger selectStorageMessenger(@PathVariable("msgGno") String msgGno , Model model) {
-		ms.selectStorageMessenger(msgGno);
-		return null;
-	}
-	//쪽지 답장
-	@PostMapping(value="/reSendMessenger")
-	public void reSendMessenger(@RequestBody Map<String,Object> params) {
-		System.out.println(params);
-	}
 
 }
