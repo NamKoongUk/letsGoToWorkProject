@@ -1,12 +1,18 @@
 <?xml version="1.0"?>
 <beans
-	xsi:schemaLocation="http://www.springframework.org/schema/cloud/aws/context http://www.springframework.org/schema/cloud/aws/context/spring-cloud-aws-context.xsd http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/aop http://www.springframework.org/schema/cloud/aws/mail http://www.springframework.org/schema/cloud/aws/mail/spring-cloud-aws-mail.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/cloud/aws/mail"
 	xmlns:aws-context="http://www.springframework.org/schema/cloud/aws/context"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aws-mail="http://www.springframework.org/schema/cloud/aws/mail"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://www.springframework.org/schema/beans">
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/cloud/aws/context http://www.springframework.org/schema/cloud/aws/context/spring-cloud-aws-context.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/cloud/aws/mail
+		http://www.springframework.org/schema/cloud/aws/mail http://www.springframework.org/schema/cloud/aws/mail/spring-cloud-aws-mail.xsd">
 	<context:property-placeholder
 		location="classpath:application.properties" />
 	<!-- 인증 설정 -->
@@ -20,6 +26,15 @@
 	<aws-context:context-region region="us-east-1" />
 	<!-- 동적인 영역 구성 -->
 	<aws-context:context-region auto-detect="true" />
+	<!-- 메일설정 -->
+	<aws-mail:mail-sender id="testSender" region="us-east-1"/>
+	
+	<!-- 파일 업로드 설정 -->
+	<aws-context:context-resource-loader task-executor="executor"/>
+	<task:executor id="executor" pool-size="10" queue-capacity="0" rejection-policy="CALLER_RUNS"/>
+	
+	
+	<!-- Reource handling -> 파일 업로드 & 다운로드  - S3 -->
 	<!-- 스캔하는 영역 -->
 	<context:component-scan base-package="com.kh.lgtw.mail" />
 </beans>

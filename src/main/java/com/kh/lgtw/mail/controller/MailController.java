@@ -1,23 +1,21 @@
 package com.kh.lgtw.mail.controller;
 
-import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletRequest;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,26 +24,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.MultipartRequest;
-import org.springframework.web.servlet.mvc.method.annotation.UriComponentsBuilderMethodArgumentResolver;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.common.Pagination;
-import com.kh.lgtw.employee.controller.EmployeeController;
 import com.kh.lgtw.employee.model.service.EmployeeService;
 import com.kh.lgtw.employee.model.vo.Employee;
 import com.kh.lgtw.mail.cloudSpringAws.JavaMailSender;
-import com.kh.lgtw.mail.cloudSpringAws.MailSendingService;
 import com.kh.lgtw.mail.model.service.MailService;
 import com.kh.lgtw.mail.model.vo.Absence;
-import com.kh.lgtw.mail.model.vo.ListCondition;
 import com.kh.lgtw.mail.model.vo.Mail;
 import com.kh.lgtw.mail.model.vo.Sender;
 
@@ -114,8 +101,6 @@ public class MailController {
 		}
 	}
 	
-	
-	
 	// 메일상태처리
 	@RequestMapping(value="mail/updateStatus",  produces="application/json; charset=utf8")
 	@ResponseBody
@@ -136,8 +121,11 @@ public class MailController {
 	}	
 	
 	// 메일보내기
-	@RequestMapping(value="/mail/send", method=RequestMethod.POST)
-	public String sendMail(Mail mail, Model model/*, MultipartHttpServletRequest request*//* @RequestParam("files") MultipartFile files*/) {
+	@RequestMapping(value="/mail/send", method=RequestMethod.POST, headers="Content-Type=multipart/form-data")
+	public String sendMail(Mail mail, Model model/*, MultipartHttpServletRequest request*/ , 
+					@RequestParam(name="mailAttachment", required=false) MultipartFile mailAttachment) {
+		
+		System.out.println("mailAttachment : " + mailAttachment);
 		mail.setmSize(12345);
 		System.out.println("mail : " + mail);
 		
@@ -158,24 +146,46 @@ public class MailController {
 //		sendMail.send(sender);
 //		System.out.println("snedMail.send를 이용한 메일 발송 완료");
 		System.out.println("JavaMailSender를 이용한 메일 발송 시작");
-		
-		// JavaMailSender로 전송요청
-		
-		simpleMailMessage = new SimpleMailMessage();
-		simpleMailMessage.setFrom(sender.getFrom());
-		simpleMailMessage.setTo(sender.getTo().get(0));
-		simpleMailMessage.setSubject(sender.getSubject());
-		simpleMailMessage.setText(sender.getContent());
-		System.out.println("simpleMailMessage : " + simpleMailMessage);
-		System.out.println("mailSender 너는 왜 널이니.. " + mailSender);
-		mailSender.send(simpleMailMessage);
-		
+		// 메일 전송 메소드 호출 
+		sendMailMessage(sender);
 		System.out.println("JavaMailSender를 이용한 메일 발송 완료!");
 		
 		// 전송이 완료되었을 때 데이터 베이스에 정보 저장 
 		int result = ms.sendMail(mail);
 		
 		return "redirect:/mail";
+	}
+	
+	// 메일 보내기의 메소드 
+	public void sendMailMessage(Sender sender) {   // 매개변수로 첨부파일 받기   // 테스트 해보고 다르면 메소드 두개 만들기 
+		// 첨부파일 메일 전송 
+		// MessageSenderImpl에 존재하는 send메소드 호출
+		System.out.println("mailsender.send시작");
+		mailSender.send(new MimeMessagePreparator() {
+			
+			@Override
+			public void prepare(MimeMessage mimeMessage) throws Exception {
+				System.out.println("prepare 시작");
+				MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
+				helper.addTo(sender.getTo().get(0));
+				helper.setFrom(sender.getFrom());
+				// helper.addAttachment(attachmentFilename, file); // 첨부파일 추가하기 // 파일 추가해서 검토하기
+				helper.setSubject(sender.getSubject());
+				helper.setText(sender.getContent(), false);   // false뭔지 확인하기 
+			}
+		});
+		
+		// 일반 메일 전 
+//		simpleMailMessage = new SimpleMailMessage();	
+//		
+//		simpleMailMessage.setFrom(sender.getFrom());
+//		simpleMailMessage.setTo(sender.getTo().get(0));
+//		simpleMailMessage.setSubject(sender.getSubject());
+//		simpleMailMessage.setText(sender.getContent());
+//		
+//		System.out.println("simpleMailMessage : " + simpleMailMessage);
+//		System.out.println("mailSender 너는 왜 널이니.. " + mailSender);
+//		mailSender.send(simpleMailMessage);
 	}
 	
 	// 예약메일 보내기
