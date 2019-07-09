@@ -75,7 +75,7 @@
 						</tr>
 						<tr>
 							<td>변경할 비밀번호 확인</td>
-							<td><input style="width:250px;" type="password" name="updatePwd2" placeholder="비밀번호를 한번 더 입력하세요"></td>
+							<td><input style="width:250px;" type="password" name="updatePwd2" placeholder="비밀번호를 한 번 더 입력하세요"></td>
 						</tr>
 						
 						<tr>
