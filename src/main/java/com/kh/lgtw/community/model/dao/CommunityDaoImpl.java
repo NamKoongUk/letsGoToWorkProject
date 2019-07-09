@@ -119,7 +119,14 @@ public class CommunityDaoImpl implements CommunityDao {
 	@Override
 	public ArrayList<CommunityComment> commentlist(SqlSessionTemplate sqlSession, int contentNO) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("Community.commentlist", contentNO );
+		return (ArrayList)sqlSession.selectList("Community.commentlist", contentNO );
+	}
+
+	//댓글 생성 메소드 
+	@Override
+	public int InsertComment(SqlSessionTemplate sqlSession, CommunityComment cc) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("Community.insertComment", cc);
 	}
 
 	

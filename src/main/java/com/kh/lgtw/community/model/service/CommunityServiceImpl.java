@@ -151,6 +151,14 @@ public class CommunityServiceImpl  implements CommunityService{
 	}
 
 
+    //댓글 생성 메소드 
+	@Override
+	public int InsertComment(CommunityComment cc) {
+		// TODO Auto-generated method stub
+		return cd.InsertComment(sqlSession,cc);
+	}
+
+
 
 
 

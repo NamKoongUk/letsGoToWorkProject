@@ -48,6 +48,9 @@ public interface CommunityDao {
 	//댓글 목록 조회
 	ArrayList<CommunityComment> commentlist(SqlSessionTemplate sqlSession, int contentNO);
 
+	//댓글 생성
+	int InsertComment(SqlSessionTemplate sqlSession, CommunityComment cc);
+
 	
 
 	

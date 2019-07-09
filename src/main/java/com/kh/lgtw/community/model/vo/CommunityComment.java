@@ -6,11 +6,12 @@ public class CommunityComment implements java.io.Serializable
 {
 	private int psno; //게시글 번호
 	private int cno;//댓글 번호
-	private String cwriter;//댓글작성자
+	private int cwriter;//댓글작성자
 	private String ccontent;//댓글내용
 	private Date ccreateDate;//댁글작성일자
 	private Date cmodifyDate;//댓글수정일자
 	private String stauts; // 댓글상태
+	private String empname;// 댓글 작성자 이름
 	
 	
 
@@ -18,8 +19,8 @@ public class CommunityComment implements java.io.Serializable
 
 
 
-	public CommunityComment(int psno, int cno, String cwriter, String ccontent, Date ccreateDate, Date cmodifyDate,
-			String stauts) {
+	public CommunityComment(int psno, int cno, int cwriter, String ccontent, Date ccreateDate, Date cmodifyDate,
+			String stauts, String empname) {
 		super();
 		this.psno = psno;
 		this.cno = cno;
@@ -28,6 +29,7 @@ public class CommunityComment implements java.io.Serializable
 		this.ccreateDate = ccreateDate;
 		this.cmodifyDate = cmodifyDate;
 		this.stauts = stauts;
+		this.empname = empname;
 	}
 
 
@@ -56,13 +58,13 @@ public class CommunityComment implements java.io.Serializable
 
 
 
-	public String getCwriter() {
+	public int getCwriter() {
 		return cwriter;
 	}
 
 
 
-	public void setCwriter(String cwriter) {
+	public void setCwriter(int cwriter) {
 		this.cwriter = cwriter;
 	}
 
@@ -116,14 +118,28 @@ public class CommunityComment implements java.io.Serializable
 
 
 
+	public String getEmpname() {
+		return empname;
+	}
+
+
+
+	public void setEmpname(String empname) {
+		this.empname = empname;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "CommunityComment [psno=" + psno + ", cno=" + cno + ", cwriter=" + cwriter + ", ccontent=" + ccontent
-				+ ", ccreateDate=" + ccreateDate + ", cmodifyDate=" + cmodifyDate + ", stauts=" + stauts + "]";
+				+ ", ccreateDate=" + ccreateDate + ", cmodifyDate=" + cmodifyDate + ", stauts=" + stauts + ", empname="
+				+ empname + "]";
 	}
-	 
+
 	
-	
+
+		
 	
 	
 	
