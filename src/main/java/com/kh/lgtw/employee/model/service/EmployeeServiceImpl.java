@@ -496,6 +496,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return result;
 	}
 
+	@Override
+	public int updateEmpOne(EmployeeResult employee, Attachment attach) {
+		int result = 0;
+		int updateEmp = empDao.updateEmpOne(sqlSession,employee);
+		
+		if(updateEmp>0) {
+			 empDao.updateEmpOneDept(sqlSession,employee);
+			 empDao.updateEmpOneJob(sqlSession,employee);
+			 empDao.updateEmpAttach(sqlSession, attach);
+			
+			result = 1;
+		}
+		
+		
+		return result;
+	}
+
 
 
 

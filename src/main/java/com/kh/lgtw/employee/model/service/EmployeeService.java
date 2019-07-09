@@ -59,6 +59,8 @@ public interface EmployeeService {
 
 	int updatePwdCheck(EmployeeResult employee);
 
+	int updateEmpOne(EmployeeResult employee, Attachment attach);
+
 
 
 

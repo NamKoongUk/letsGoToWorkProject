@@ -60,6 +60,16 @@ public interface EmployeeDao{
 
 	String selectUpCheckPwd(SqlSession sqlSession, EmployeeResult employee);
 
+	int updateEmpOne(SqlSession sqlSession, EmployeeResult employee);
+
+	int updateEmpOneDept(SqlSession sqlSession, EmployeeResult employee);
+
+	int updateEmpOneJob(SqlSession sqlSession, EmployeeResult employee);
+
+	void updateEmpAttach(SqlSession sqlSession, Attachment attach);
+
+
+
 
 
 

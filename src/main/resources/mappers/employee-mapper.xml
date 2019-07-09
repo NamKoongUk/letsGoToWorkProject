@@ -224,5 +224,23 @@
 		WHERE EMP_ID = #{empId}
 	</select>
 	
+	<update id="updateEmpOne" parameterType="EmployeeResult">
+		UPDATE EMPLOYEE SET 
+		<if test="empPwd != null">
+			EMP_PWD = #{empPwd},		
+		</if>
+		OFFICE_TEL=#{officeTel}, EMP_PHONE=#{empPhone}, STATUS=#{status} WHERE EMPNO=#{empNo}
+	</update>
+	<update id="updateEmpOneDept" parameterType="EmployeeResult">
+		UPDATE DEPT_HISTORY SET DEPT_CODE = #{deptCode} WHERE EMPNO=#{empNo}
+	</update>
+	<update id="updateEmpOneJob" parameterType="EmployeeResult">
+		UPDATE PROMOTION_HISTORY SET JOB_CODE = #{jobCode} WHERE EMPNO=#{empNo}
+	</update>
+	
+	<update id="updateEmpAttach" parameterType="Attachment">
+		UPDATE ATTACHMENT SET ORIGIN_NAME = #{originName}, CHANGE_NAME=#{changeName} WHERE EMPNO=#{empNo}
+	</update>
+	
 	
 </mapper>

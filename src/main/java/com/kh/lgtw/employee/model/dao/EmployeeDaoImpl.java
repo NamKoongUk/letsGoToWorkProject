@@ -178,6 +178,28 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		return sqlSession.selectOne("Employee.selectUpCheckPwd",employee);
 	}
 
+	@Override
+	public int updateEmpOne(SqlSession sqlSession, EmployeeResult employee) {
+		return sqlSession.update("Employee.updateEmpOne", employee);
+	}
+
+	@Override
+	public int updateEmpOneDept(SqlSession sqlSession, EmployeeResult employee) {
+		return sqlSession.update("Employee.updateEmpOneDept", employee);
+	}
+
+	@Override
+	public int updateEmpOneJob(SqlSession sqlSession, EmployeeResult employee) {
+		return sqlSession.update("Employee.updateEmpOneJob", employee);
+	}
+
+	@Override
+	public void updateEmpAttach(SqlSession sqlSession, Attachment attach) {
+		sqlSession.update("Employee.updateEmpAttach", attach);
+	}
+
+	
+
 	
 
 

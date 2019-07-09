@@ -120,6 +120,7 @@ public class EmployeeController {
 		Attachment attach = new Attachment();
 		
 		attach = empService.selectProfile(employee);
+		System.out.println("주소"+employee.getAddress());
 		
 		if(employee.getAddress() != null) {
 			String[] addArr = employee.getAddress().split("\\|");
@@ -130,11 +131,6 @@ public class EmployeeController {
 			
 			model.addAttribute("address",addArr);
 		}
-		
-		
-		/*
-		 * System.out.println(attach); System.out.println("파일패스"+attach.getFilePath());
-		 */
 		
 		model.addAttribute("hmap", hmap);
 		model.addAttribute("deptJob",deptJob);
@@ -541,6 +537,7 @@ public class EmployeeController {
 		
 		ModelAndView view = new ModelAndView();
 		
+		
 		view.setViewName("redirect:showEmpClctvRegister.em");
 		
 		return view;
@@ -577,7 +574,6 @@ public class EmployeeController {
 			sheet1.setColumnWidth(3, 5000);
 			sheet1.setColumnWidth(4, 5000);
 			sheet1.setColumnWidth(5, 5000);
-			
 			
 			Row row = null;
 			Cell cell = null;
@@ -681,19 +677,27 @@ public class EmployeeController {
 		String address = address1 + "|" + address2 + "|" +zipCode;
 		employee.setAddress(address);
 		
-		System.out.println(employee.getEmpPwd());
+		System.out.println("employee확인 "+employee);
+		
+		//System.out.println(employee.getEmpPwd());
 		
 		if(employee.getEmpPwd().equals("")) {
 			model.addAttribute("msg","현재 비밀번호를 입력해주세요.");
 			model.addAttribute("url","showMyPage.em");
 			return "employee/checkPwd";
+			
 		}
-		
 		
 		int pwdCheck = empService.updatePwdCheck(employee);
 		
 		if(pwdCheck>0) {
 			if(updatePwd1.equals(updatePwd2)) {
+				
+				if(profile.getOriginalFilename().equals("")) {
+					model.addAttribute("msg","프로필 사진을 등록하세요.");
+					model.addAttribute("url","showMyPage.em");
+					return "employee/checkPwd";
+				}
 				
 				try {
 					String root =request.getSession().getServletContext().getRealPath("resources");
@@ -712,13 +716,22 @@ public class EmployeeController {
 					attach.setOriginName(originFileName);
 					attach.setChangeName(changeName);
 					attach.setFilePath(filePath);
+					attach.setEmpNo(employee.getEmpNo());
 					
 					System.out.println("오리진"+attach.getOriginName());
 					System.out.println("change"+attach.getChangeName());
 					System.out.println("filepath"+attach.getFilePath());
 					
 					employee.setEmpPwd(passwordEncoder.encode(updatePwd1));
-					System.out.println(employee.getEmpPwd());
+					
+					//System.out.println(employee.getEmpPwd());
+					
+					int updateEmp = empService.updateEmpOne(employee, attach);
+					
+					if(updateEmp>0) {
+						
+						return "redirect:showMyPage.em";
+					}
 					
 					
 				} catch (IllegalStateException e) {
