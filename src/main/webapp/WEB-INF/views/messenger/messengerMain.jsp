@@ -13,7 +13,13 @@
 <script src="${ contextPath }/resources/js/datepicker/i18n/datepicker.en.js"></script>
 <title>LetsGoToWork</title>
 <style>
-	
+
+body {
+
+    padding-right: 0px !important;
+
+}
+
 </style>
 </head>
 <body>
@@ -92,7 +98,8 @@
 						</tbody>
 					</table>
 					<br>
-					<div class="bottomBtn" align="right"> 
+					<div class="bottomBtn" align="right">
+						<button class="UpdateBtn">일괄수정</button>
 						<button class="reSendBtn">답장</button>
 						<button class="removeBtn">삭제</button>
 					</div>
@@ -184,7 +191,7 @@
 	        </div>
 	          <div class="modal-footer">
 	          <button type="button" class="btn btn-default sendBtn" data-dismiss="modal">전송</button>
-	          <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+	          <button type="button" class="btn btn-default modalCancleBtn" data-dismiss="modal">취소</button>
 	       	  </div>
 	          
 	        </div>
@@ -455,22 +462,32 @@
 	}	
 
 	function resMessenger(){
+		$(".reSendBtn").css("display","inline");
 		$(".reSendBtn").text("답장");
+		$(".UpdateBtn").css("display","none");
+		$(".removeBtn").text("삭제");
 		viewMessage(1,'res',startDate,endDate);
 		changeView('2');
 	}
 	function reqMessenger(){
-		$(".reSendBtn").text("삭제");
+		$(".reSendBtn").css("display","none");
+		$(".removeBtn").text("삭제");
+		$(".UpdateBtn").css("display","none");
 		viewMessage(1,'req',startDate,endDate);	
 		changeView('2');
 	}
 	function stoMessenger(){
+		$(".reSendBtn").css("display","inline");
 		$(".reSendBtn").text("전송");
+		$(".removeBtn").text("삭제");
+		$(".UpdateBtn").css("display","inline");
 		viewMessage(1,'sto',startDate,endDate);
 		changeView('2');
 	}
 	function delMessenger(){
-		$(".reSendBtn").text("영구삭제");
+		$(".removeBtn").text("영구삭제");
+		$(".reSendBtn").css("display","none");
+		$(".UpdateBtn").css("display","none");
 		viewMessage(1,'del',startDate,endDate);
 		changeView('2');
 	}
@@ -496,13 +513,22 @@
 		}else if(messageType == 'del'){
 			$(".submitBtn").text("삭제").attr("onclick","");
 		}else if(messageType == 'sto'){
-			$(".submitBtn").text("전송").attr("onclick","");
+			$(".submitBtn").text("수정").attr("onclick","");
 		}
 		
-		$(".messengerName").val(messageDetail.msgTitle).attr("readonly","readonly");
-		$("#sendInput").append($("<span>").text(messageDetail.empName+" ("+messageDetail.deptName+") "+"- " + messageDetail.jobName)
-						.attr("id",messageDetail.sender));
-		$(".messengerContent").val(messageDetail.msgContent).attr("readonly","readonly");
+		if(messageType == 'sto'){
+			$(".messengerName").val(messageDetail.msgTitle).attr("readonly",false);
+			$("#sendInput").append($("<span>").text(messageDetail.empName+" ("+messageDetail.deptName+") "+"- " + messageDetail.jobName)
+							.attr("id",messageDetail.sender));
+			$(".messengerContent").val(messageDetail.msgContent).attr("readonly",false);
+		}else{
+			$(".messengerName").val(messageDetail.msgTitle).attr("readonly","readonly");
+			$("#sendInput").append($("<span>").text(messageDetail.empName+" ("+messageDetail.deptName+") "+"- " + messageDetail.jobName)
+							.attr("id",messageDetail.sender));
+			$(".messengerContent").val(messageDetail.msgContent).attr("readonly","readonly");
+		}
+		
+		
 		
 		
 		changeView('1');
@@ -512,20 +538,28 @@
 	//답장 모달
 	$(".reSendBtn").click(function(){
 		var checked = $("input[type='checkbox']:checked").not(".totalCheck");
-		
 		$(".sendEmp").empty();
-		if(checked.length == 1){
-			if($(this).text() == '답장'){
+		
+		if($(this).text() == '답장'){
+			if(checked.length == 1){
 				$(".reSendModal").click();
 				$(".sendEmp").text(checked.parent().siblings("td:first").next().text());
 				$(".sendEmp").append($("<input type='hidden'>").attr("class","reMsgNo").val(checked.parent().parent().prop("id")));
 				$(".sendEmp").append($("<input type='hidden'>").attr("class","reMsgName").val(checked.parent().siblings("td:last").prev().text()));
-			}
-		}else{
-			if($(this).text() == '답장'){
+			}else{
 				alert("한 메세지만 선택하세요");
 			}
+			
+		}else if($(this).text() == '전송'){
+			
+			if(checked.length > 1){
+				
+			}else{
+				confirm("일괄 전송 하시겠습니까?");
+			}
+			
 		}
+		
 		 
 		
 	});
@@ -549,7 +583,9 @@
 				contentType: 'application/json',
 				data:JSON.stringify(info),
 				success:function(data){
-					console.log(data);
+					if(data == 'success'){
+						reqMessenger();
+					}
 				}
 			});
 				
@@ -581,14 +617,13 @@
 	});
 	
 	$(".removeBtn").click(function(){
-		console.log();
+		
 		var msgNos = $("input[type='checkbox']:checked").not(".totalCheck").parent().parent();
 		var msgNoList = new Array();
 		
 		for(var i=0; i<msgNos.length; i++){
 			msgNoList.push(msgNos[i].id);
 		}
-		console.log(msgNoList);
 		
 		var JSONObject = {
 						msgNoList:msgNoList,
@@ -603,17 +638,38 @@
 		    dataType: 'json',
 		    success:function(data){
 		    	console.log(data);
+		    	
+		    	if(data == msgNoList.length){
+		    		pageBack();
+		    	}
 		    }
 			
 		});
 		
 	});
+	
+	$(".submitBtn").click(function(){
+		if($(this).text() == '수정'){
+			updateMessenger();
+		}
+	});
+	
+	function updateMessenger(){
+		
+		var updateMsgInfo = {
+								
+							}
+		
+		$.ajax({
+			url:"messenger/updateMessenger",
+			type:"put",
+			contentType: 'application/json; charset=utf-8',
+			data:JSON.stringify(updateMsgInfo),
+			dataType: 'json',
+		});
+	}
 			
 	
-	
-
-		
-		
 		
 	</script>
 </body>
