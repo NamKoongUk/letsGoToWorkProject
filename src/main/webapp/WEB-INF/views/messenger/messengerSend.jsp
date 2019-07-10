@@ -29,7 +29,7 @@
 						<tr>
 							<td>
 								<label>수신자</label>
-								<div id="sendInput" style="width:100%; margin-bottom:10px; height:28px; border:1px solid #cdcdcd; padding:2px;">
+								<div id="sendInput" style="width:100%; margin-bottom:10px; height:auto; overflow:auto; border:1px solid #cdcdcd; padding:2px;">
 									<i class="fas fa-plus plusBtn" style="float:right; margin-top:3px;" onclick="showModal()"></i>
 								</div>
 							</td>

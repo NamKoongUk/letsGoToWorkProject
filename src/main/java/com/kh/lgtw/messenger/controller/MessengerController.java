@@ -53,7 +53,7 @@ public class MessengerController {
 		
 		ms.sendMessenger(params);
 		
-		return "";
+		return "redirect:/messenger";
 	}
 	//쪽지 조회(ajax)
 	@GetMapping(value="/selectMessenger/{currentPage}/{status}/{startDate}/{endDate}/{empNo}/{content}/{searchCondition}")
@@ -119,10 +119,21 @@ public class MessengerController {
 	
 	@RequestMapping(value="/updateMessenger", method=RequestMethod.PUT, produces="application/json; charset=utf8")
 	public ResponseEntity<Integer> updateMessenger(@RequestBody Map<String, Object> params) {
+		System.out.println(params);
 		
 		int result = ms.updateMessenger(params);
 		
-		return  new ResponseEntity<Integer>(result,HttpStatus.OK);
+		return  new ResponseEntity<Integer>(1,HttpStatus.OK);
+	}
+	
+	@GetMapping("/getStoDetail/{msgNo}")
+	public ResponseEntity<ArrayList<HashMap<String,Object>>> getStoDetail(@PathVariable Map<String, Object> params) {
+		System.out.println(params);
+		
+		
+		ArrayList<HashMap<String,Object>> list = (ArrayList<HashMap<String,Object>>) ms.getStoDetail(params);
+		
+		return new ResponseEntity<ArrayList<HashMap<String,Object>>>(list, HttpStatus.OK);
 	}
 	
 

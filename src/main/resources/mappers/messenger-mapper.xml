@@ -157,7 +157,7 @@
 		WHERE MSG_NO = #{msgNo}
 	</update>
 	
-	<update id="deleteMessenger">
+	<update id="deleteMessenger" parameterType="java.util.Map">
 		UPDATE MESSENSER
 		<if test="messageType=='res'">
 			SET STATUS = 'N'
@@ -167,5 +167,22 @@
 		</if>
 		WHERE MSG_NO = #{msgNoList}
 	</update>
+	
+	<update id="updateMessenger" parameterType="java.util.Map">
+		UPDATE MESSENSER
+		SET MSGTITLE = #{messengerName}, MSGCONTENT = #{messengerContent}
+		WHERE MSG_NO = #{msgNoArr}
+	</update>
+	
+	<select id="getStoDetail" resultMap="messengerResultMap" parameterType="java.util.Map">
+		SELECT M.MSG_NO,M.MSGTITLE,M.MSGCONTENT,M.SEND_DATE,M.SENDER,M.RECIPIENT,M.READ_STATUS,M.STATUS,M.MSG_GROUP,E.EMP_NAME,D.DEPT_NAME,J.JOB_NAME
+		FROM MESSENSER M
+		JOIN EMPLOYEE E ON (M.RECIPIENT = E.EMPNO)
+		JOIN DEPT_HISTORY DH ON(E.EMPNO = DH.EMPNO)
+		JOIN DEPT D ON (D.DEPT_CODE = DH.DEPT_CODE)
+		JOIN PROMOTION_HISTORY PH ON(PH.EMPNO = E.EMPNO)
+		JOIN JOB J ON(J.JOB_CODE = PH.JOB_CODE)
+		WHERE M.MSG_GROUP = (SELECT MSG_GROUP FROM MESSENSER WHERE MSG_NO = #{msgNo})
+	</select>
 		
 </mapper>
