@@ -50,7 +50,7 @@
 				<button style="margin-top:8px;" onclick="myFunction('option')" class="accordionBtn">관리자설정</button>
 					<div id="option" class="w3-container w3-hide w3-animate-opacity contentSelectArea">
 						<ul>
-							<li onclick="" class="list">결재관리자</li>
+							<li onclick="location.href='${contextPath}/showApprovalManager.ap'" class="list">결재관리자</li>
 							<li onclick="location.href='${contextPath}/showOption.ap'" class="list">기본설정</li>
 							<li onclick="location.href='${ contextPath }/showFormManagement.ap'" class="list">양식관리</li>
 							<li onclick="location.href='${contextPath}/showAllDcm.ap'" class="list">전체문서</li>

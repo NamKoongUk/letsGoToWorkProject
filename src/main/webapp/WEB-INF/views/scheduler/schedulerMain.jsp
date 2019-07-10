@@ -227,7 +227,9 @@
   	color:white;
   	
   }
-  
+  body {
+  	padding-right:0 !important;
+  }
   
 </style>
 </head>

@@ -177,12 +177,20 @@ public class ApprovalServiceImpl implements ApprovalService{
 //		// TODO Auto-generated method stub
 //		return ad.showAppManager(session);
 //	}
-//	//관리자 추가
-//	@Override
-//	public int insertApprovalMng(int eid) {
-//		// TODO Auto-generated method stub
-//		return ad.insertApprovalMng(session, eid);
-//	}
+	//관리자 추가
+	@Override
+	public int insertApprovalMng(ArrayList<Object> empList) {
+		// TODO Auto-generated method stub
+		return ad.insertApprovalMng(session, empList);
+	}
+	//관리자삭제
+	@Override
+	public int deleteManager(ArrayList<Object> empList) {
+		// TODO Auto-generated method stub
+		return ad.deleteManager(session, empList);
+	}
+	
+	
 	//양식관리
 	@Override
 	public ArrayList<AppForm> showFormManagement(PageInfo pi) {
@@ -738,7 +746,12 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		return ad.recoveryDcm(session, adNoArr);
 	}
-	
+	@Override
+	public ArrayList<Employee> showApprovalManager() {
+		// TODO Auto-generated method stub
+		return ad.showApprovalManager(session);
+	}
+
 
 	
 	

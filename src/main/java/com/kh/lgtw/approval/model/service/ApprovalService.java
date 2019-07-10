@@ -45,7 +45,7 @@ public interface ApprovalService {
 //
 //	ArrayList<Employee> showAppManager();
 //
-//	int insertApprovalMng(int eid);
+	int insertApprovalMng(ArrayList<Object> empList);
 //
 	ArrayList<AppForm> showFormManagement(PageInfo pi);
 //
@@ -170,6 +170,10 @@ public interface ApprovalService {
 	int permanentlyDeleteDcm(String[] adNoArr);
 
 	int recoveryDcm(String[] adNoArr);
+
+	ArrayList<Employee> showApprovalManager();
+
+	int deleteManager(ArrayList<Object> empList);
 
 	
 
