@@ -144,6 +144,13 @@ public class CommunityDaoImpl implements CommunityDao {
 		return sqlSession.update("Community.deleteReply", cc);
 	}
 
+	@Override
+	public CommunityPost TemporaryDetails(SqlSessionTemplate sqlSession, int contentNO) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Community.TemporaryDetails", contentNO);
+		
+	}
+
 	
 	
 

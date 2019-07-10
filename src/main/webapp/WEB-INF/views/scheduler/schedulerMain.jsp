@@ -410,7 +410,7 @@
 			      <div class="modal-content">
 			        <div class="modal-header">
 			          <button type="button" class="close" data-dismiss="modal">&times;</button>
-			          <h4 class="modal-title" align="center" id="dtscTitle"><b>일정 상세보기</b></h4>
+			          <h4 class="modal-title" align="center" id="dtscTitle"><b>`보기</b></h4>
 			          <h4 class="modal-title" align="center" id="udscTitle" style="display:none"><b>일정 수정</b></h4>
 			        </div>
 			        

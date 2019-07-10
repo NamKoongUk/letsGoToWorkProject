@@ -57,6 +57,9 @@ public interface CommunityDao {
 	//댓글 삭제
 	int DeleteReply(SqlSessionTemplate sqlSession, CommunityComment cc);
 
+	//임시저장 상세 
+	CommunityPost TemporaryDetails(SqlSessionTemplate sqlSession, int contentNO);
+
 	
 
 	

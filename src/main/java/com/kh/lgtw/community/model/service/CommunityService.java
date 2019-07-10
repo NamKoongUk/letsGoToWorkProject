@@ -58,6 +58,8 @@ public interface CommunityService
 	//댓글 삭제
 	int DeleteReply(CommunityComment cc);
 
+	CommunityPost TemporaryDetails(int contentNO);
+
 
 	
 
