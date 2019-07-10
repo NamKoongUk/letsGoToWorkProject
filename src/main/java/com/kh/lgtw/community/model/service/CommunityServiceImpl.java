@@ -175,6 +175,14 @@ public class CommunityServiceImpl  implements CommunityService{
 	}
 
 
+	//임시 저장 상세 
+	@Override
+	public CommunityPost TemporaryDetails(int contentNO) {
+		// TODO Auto-generated method stub
+		return cd.TemporaryDetails(sqlSession,contentNO);
+	}
+
+
 
 
 

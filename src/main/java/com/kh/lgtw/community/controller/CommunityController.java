@@ -446,7 +446,16 @@ public class CommunityController {
 		return "ok";
 	}
 	
+	//임시저장 상세 페이지
+	@RequestMapping("communityPostTemporaryDetails.co") 
 	
+	public String  TemporaryDetails (Model model, int contentNO) {
+		
+		CommunityPost cp = cs.TemporaryDetails(contentNO);
+		model.addAttribute("cp", cp);
+		
+		return "community/communityPostTemporary";
+	}
 	
 	
 	

@@ -88,7 +88,7 @@
 	
 <!--게시글 상세 조회 쿼리문 --> 
 	<select id="selectPostDetails" resultMap="communityPostResultSet" parameterType="_int">
-		SELECT C.CONTENT_NO ,C.BTITLE , C.BCONTENT  , B.BNO
+		SELECT C.CONTENT_NO ,C.BTITLE , C.BCONTENT  , B.BNO ,C.STATUS
 		FROM BOARD B
 		JOIN CONTENT C ON (B.BNO = C.BNO)
 		WHERE C.CONTENT_NO= #{contentNO}
@@ -229,7 +229,17 @@
 	 WHERE COMMENT_NO = #{cno}
 	 AND CONTENT_NO= #{psno}
 	
-	</update>
+	</update> 
+	
+	<select id="TemporaryDetails" resultMap="communityPostResultSet" parameterType="_int"> 
+	
+		SELECT C.CONTENT_NO ,C.BTITLE , C.BCONTENT  , B.BNO
+		FROM BOARD B
+		JOIN CONTENT C ON (B.BNO = C.BNO)
+		WHERE C.CONTENT_NO= #{contentNO}
+		AND C.STATUS = 'T' 
+	
+	</select>
 
 	
 
