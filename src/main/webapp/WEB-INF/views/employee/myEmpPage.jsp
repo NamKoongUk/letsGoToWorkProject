@@ -27,9 +27,16 @@
 		margin-left:10%;
 	}
 </style>
+	<jsp:include page="../common/tools.jsp"/>
+ 	<link rel="shortcut icon" href="${ contextPath }/resources/images/favicon.ico">
+	<link rel="stylesheet" href="${ contextPath }/resources/css/messenger/layout.css">	
+	<link href="${ contextPath }/resources/css/datepicker/datepicker.min.css" rel="stylesheet" type="text/css">
+	<script src="${ contextPath }/resources/js/datepicker/datepicker.min.js"></script>
+	<script src="${ contextPath }/resources/js/datepicker/i18n/datepicker.en.js"></script>
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp"/>
+	
 	<c:set var = "deptList" value="${hmap.deptList }" />
 	<c:set var = "jobList" value="${hmap.jobList }" />
 	<c:set var ="dept" value="${deptJob.dpHistory }"/>
@@ -45,15 +52,10 @@
 			<div class="content">
 				<form action="updateMyInfo.em" method="post" enctype="multipart/form-data">
 					<div id="proflieArea">
-						<c:if test="${!attach.originName eq 'users.jpg' }">
-							<img id="profileIcon" name="changeName" src="${contextPath }/resources/images/profile/${attach.changeName}.jpg" width="150px;" height="200px;">
-						</c:if>
 						<c:if test="${attach.originName eq 'users.jpg' }">
 							<img id="profileIcon" name="changeName" src="${contextPath }/resources/images/profile/users.jpg" width="150px;" height="200px;">
 						</c:if>
-						<c:if test="${empty attach.originName }">
-							<img id="profileIcon" name="changeName" src="${contextPath }/resources/images/profile/users.jpg" width="150px;" height="200px;">
-						</c:if>
+							<img id="profileIcon" name="changeName" src="${contextPath }/resources/images/profile/${attach.changeName}.jpg" width="150px;" height="200px;">
 					</div>
 					<div id="empInfoTable">
 					<table>
@@ -86,7 +88,9 @@
 					        			<c:if test="${item.deptCode eq dept.deptCode }">
 					        				<option selected value="${item.deptCode }"><c:out value="${item.deptName }"></c:out></option>
 					        			</c:if>
+					        			<c:if test="${item.deptCode != dept.deptCode }">
 					        				<option value="${item.deptCode }"><c:out value="${item.deptName }"></c:out></option>
+					        			</c:if>
 					        		</c:forEach>
 					        	</select> 
 							</td>
@@ -99,7 +103,9 @@
 					        			<c:if test="${item.jobCode eq job.jobCode }">
 					        				<option selected value="${item.jobCode }"><c:out value="${item.jobName }"></c:out></option>
 					        			</c:if>
+					        			<c:if test="${item.jobCode != job.jobCode }">
 					        				<option value="${item.jobCode }"><c:out value="${item.jobName }"></c:out></option>
+					        			</c:if>
 					        		</c:forEach>
 					        	</select>
 							</td>
@@ -122,11 +128,11 @@
 						</tr>
 						<tr>
 							<td>입사일</td>
-							<td><c:out value = "${loginEmp.enrollDate }"/></td>
+							<td><input type='text' name="enrollDate" value="${loginEmp.enrollDate }" class='datepicker-here firstDate pick form-control' data-language='en' data-date-format ='yyyy-mm-dd'/></td>
 						</tr>
 						<tr>
 							<td>생년월일</td>
-							<td><c:out value = "${loginEmp.empBirth }"/></td>
+							<td><input type='text' name="empBirth" value="${loginEmp.empBirth }" class='datepicker-here firstDate pick form-control' data-language='en' data-date-format ='yyyy-mm-dd'/></td>
 						</tr>
 						<tr>
 							<td>자택주소</td>
@@ -234,6 +240,11 @@
 			}
 			reader.readAsDataURL(value.files[0]);	
 		}
+		
+		/* $("#enroll").datepicker({
+			dateFormat:"yy-mm-dd"
+		}); */
+		
 	
 	</script>
 	

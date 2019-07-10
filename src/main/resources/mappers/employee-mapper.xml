@@ -229,7 +229,7 @@
 		<if test="empPwd != null">
 			EMP_PWD = #{empPwd},		
 		</if>
-		OFFICE_TEL=#{officeTel}, EMP_PHONE=#{empPhone}, STATUS=#{status} WHERE EMPNO=#{empNo}
+		OFFICE_TEL=#{officeTel}, EMP_PHONE=#{empPhone},EMAIL=#{email}, ADDRESS=#{address}, OTHER_INFO=#{otherInfo}, STATUS=#{status} WHERE EMPNO=#{empNo}
 	</update>
 	<update id="updateEmpOneDept" parameterType="EmployeeResult">
 		UPDATE DEPT_HISTORY SET DEPT_CODE = #{deptCode} WHERE EMPNO=#{empNo}
