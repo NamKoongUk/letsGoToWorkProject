@@ -1,6 +1,10 @@
 package com.kh.lgtw.mail.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +39,8 @@ import com.kh.lgtw.mail.model.service.MailService;
 import com.kh.lgtw.mail.model.vo.Absence;
 import com.kh.lgtw.mail.model.vo.Mail;
 import com.kh.lgtw.mail.model.vo.Sender;
+
+import static com.kh.lgtw.common.CommonUtils.*;
 
 @Controller
 //@RestController
@@ -122,17 +128,15 @@ public class MailController {
 	
 	// 메일보내기
 	@RequestMapping(value="/mail/send", method=RequestMethod.POST, headers="Content-Type=multipart/form-data")
-	public String sendMail(Mail mail, Model model/*, MultipartHttpServletRequest request*/ , 
+	public String sendMail(Mail mail, Model model, HttpServletRequest request,
 					@RequestParam(name="mailAttachment", required=false) MultipartFile mailAttachment) {
+		System.out.println("controller에서 받은 mail : " + mail);
+		System.out.println("controller에서 받은 mailAttachment : " + (mailAttachment.getOriginalFilename()).equals(""));
 		
-		System.out.println("mailAttachment : " + mailAttachment);
-		mail.setmSize(12345);
-		System.out.println("mail : " + mail);
-		
+		// 전송 메시지 정보를 sender 객체에 담는다.  -> 내가 정의한 VO와 다른 형태이므로 하나씩 옮겨준다.
+		// sender클래스는 하나의 메일을 여러명에게 전송하는 형태로 구성되어 있다.
 		Sender sender = new Sender();
-		
 		List<String> toList = new ArrayList<>();
-		
 		toList.add(mail.getReciveMail());
 		sender.setTo(toList);
 		sender.setFrom(mail.getSendMail());
@@ -140,23 +144,60 @@ public class MailController {
 		sender.setContent(mail.getmContent());
 		System.out.println("sender : "+ sender);
 		
-		// 전송요청
-//		System.out.println("snedMail.send를 이용한 메일 발송 시작");
-//		SendMail sendMail = new SendMail();
-//		sendMail.send(sender);
-//		System.out.println("snedMail.send를 이용한 메일 발송 완료");
-		System.out.println("JavaMailSender를 이용한 메일 발송 시작");
+		// SimpleMailMessage라고해서 mail API에서 제공하는 메시지 포멧에 데이터를 넣어준다.
+		simpleMailMessage = new SimpleMailMessage();	
+		simpleMailMessage.setFrom(sender.getFrom());
+		simpleMailMessage.setTo(sender.getTo().get(0));
+		simpleMailMessage.setSubject(sender.getSubject());
+		simpleMailMessage.setText(sender.getContent());
+		
+		System.out.println("simpleMailMessage : " + simpleMailMessage);
+		System.out.println("mailSender " + mailSender);
+
+		// 전송요청 
+		if(!(mailAttachment.getOriginalFilename()).equals("")) { // 첨부파일이 존재하면
+			System.out.println("mailAttachment : " + mailAttachment);
+			mail.setmSize((int) mailAttachment.getSize());  // mail의 파일 사이즈 지정해주기 원래는 long형
+			
+			// 첨부파일 저장 처리
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			
+			// 파일 저장 위치 
+			String filePath = root + "\\uploadFiles\\mail\\sendFiles";
+			System.out.println("filePath : " + filePath);
+			
+			String originFileName = mailAttachment.getOriginalFilename();
+			String ext = originFileName.substring(originFileName.lastIndexOf("."));
+			
+			// System.currentTimeMillis()는 서버 시간 -> getServerTime
+			String changeName = mail.getSendMail() + "_" + getServerTime();
+			
+			System.out.println("첨부파일 있는 메일 전송 시작!");
+			File attachment;
+			try {
+				attachment = new File(filePath + "\\" + changeName + ext);
+				mailAttachment.transferTo(attachment);
+				mailSender.send(simpleMailMessage, attachment);
+			} catch (IllegalStateException | IOException e) {
+				new File(filePath + "\\" + changeName + ext).delete(); 
+				model.addAttribute("msg", "파일 첨부 실패!");
+				return "common/errorPage";				
+			}
+		}else { // 첨부파일이 존재하지 않으면
+			System.out.println("첨부파일 없는 메일 전송시작!");
+			mailSender.send(simpleMailMessage);
+		}
 		// 메일 전송 메소드 호출 
-		sendMailMessage(sender);
+		// sendMailMessage(sender); // 아래에 있는 메소드로 테스트 하는 방식  // 에러남
 		System.out.println("JavaMailSender를 이용한 메일 발송 완료!");
 		
 		// 전송이 완료되었을 때 데이터 베이스에 정보 저장 
-		int result = ms.sendMail(mail);
+		ms.sendMail(mail);
 		
 		return "redirect:/mail";
 	}
 	
-	// 메일 보내기의 메소드 
+	// 메일 보내기의 메소드  // aws가 아닌 일반적으로 mailAPI에서 첨부파일을 전송하는 방식
 	public void sendMailMessage(Sender sender) {   // 매개변수로 첨부파일 받기   // 테스트 해보고 다르면 메소드 두개 만들기 
 		// 첨부파일 메일 전송 
 		// MessageSenderImpl에 존재하는 send메소드 호출
@@ -174,18 +215,6 @@ public class MailController {
 				helper.setText(sender.getContent(), false);   // false뭔지 확인하기 
 			}
 		});
-		
-		// 일반 메일 전 
-//		simpleMailMessage = new SimpleMailMessage();	
-//		
-//		simpleMailMessage.setFrom(sender.getFrom());
-//		simpleMailMessage.setTo(sender.getTo().get(0));
-//		simpleMailMessage.setSubject(sender.getSubject());
-//		simpleMailMessage.setText(sender.getContent());
-//		
-//		System.out.println("simpleMailMessage : " + simpleMailMessage);
-//		System.out.println("mailSender 너는 왜 널이니.. " + mailSender);
-//		mailSender.send(simpleMailMessage);
 	}
 	
 	// 예약메일 보내기
@@ -274,7 +303,6 @@ public class MailController {
 
 		return "mail/settings";
 	}
-		 
 		 
 	// 부재중 추가
 	@RequestMapping("mail/put/absence")

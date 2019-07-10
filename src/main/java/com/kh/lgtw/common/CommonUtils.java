@@ -1,10 +1,13 @@
 package com.kh.lgtw.common;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.web.multipart.MultipartFile;
 
 public class CommonUtils {
 	// sqlQuery문 확인하는 메소드 
@@ -19,9 +22,22 @@ public class CommonUtils {
 	}
 	
 	public static String getRandomString() {
-		
 		return UUID.randomUUID().toString().replaceAll("-", "");
-		
 	}
 	
+	// multipartFile을 File객체로 변환해주는 메소드 
+	public static File multipartToFile(MultipartFile multiFile) throws IllegalStateException, IOException {
+		System.out.println("multipartToFile 메소드 실행");
+		System.out.println("바꾸려는 파일 : " + multiFile.getOriginalFilename());
+		File convFile = new File(multiFile.getOriginalFilename());
+		multiFile.transferTo(convFile);
+		System.out.println("conFile : " + convFile.getName());
+		System.out.println("conFile : " + convFile.getPath());
+		return convFile;
+	}
+	
+	// 서버 시간 가져오기 
+	public static long getServerTime() {
+		return System.currentTimeMillis();
+	}
 }
