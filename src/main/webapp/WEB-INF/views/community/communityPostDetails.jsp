@@ -82,7 +82,9 @@
 					 			<th></th>
 					 			<!-- <th></th>  -->	
 					 		</tr> 
-					 		<c:if test="${!empty sessionScope.loginEmp  }">
+					 		<c:forEach var="cc" items="${commentlist }">
+					 		<c:if test="${!empty sessionScope.loginEmp.empNo}">
+					 		<tr><td>댓글 생성</td></tr>
 					 		<tr> 
 					 			<td>${sessionScope.loginEmp.empName}</td>
 					 			<td><input type="text" id="ccontent"></td>
@@ -90,19 +92,36 @@
 					 		
 					 		</tr>
 					 		</c:if>
+					 		</c:forEach>
 					 	
-					 		  
+					 		
 					 		
 					 		<c:forEach var="cc" items="${commentlist }">
 					 		<tr>  
+					 		<c:if test="${empty sessionScope.loginEmp || sessionScope.loginEmp.empNo ne cc.cwriter}"> 
 					 			<td width=10%>${cc.empname}</td>
 					 			<td>${cc.ccontent}</td>
-					 			<td><button type="button" class="btn btn-info btn-lg">확인</button>
-					 				<button type="button" class="btn btn-info btn-lg">취소</button>
+					 		
+					 		</c:if>
+					 			
+					 		  
+					 			<c:if test="${sessionScope.loginEmp.empNo eq cc.cwriter }"> 
+					 			<tr><td>댓글 수정</td></tr>
+					 			<tr>
+					 			<td>${sessionScope.loginEmp.empName}</td> 
+					 			<td><input type="text" value="${cc.ccontent}"></td> 
+					 			
+					 			<td>
+					 				<input type="hidden" value="${cc.cno}">
+					 				<button type="button" class="btn btn-info btn-lg" name="updateReply">수정</button>
+					 				<button type="button" class="btn btn-info btn-lg" name="deleteReply">삭제</button>
 					 		   </td>
+					 		   </tr>
+					 			</c:if>
 					 			
 					 		 
-					 	  </tr>
+					 		 </tr>	
+					 	     
 					 		</c:forEach>
 					 </thead>	
 				</table>
@@ -180,7 +199,57 @@
 			  })	
 				
 				
-			})
+			}) ;
+			$("button[name='updateReply']").click(function(){
+				var cno = $(this).parent().children().eq(0).val();
+			    var ccontent = $(this).parents().prev().children().val();
+			    var contentno = $("#contentNOHidden").val();
+			    
+				/* console.log(cno); */
+				console.log(ccontent);
+				
+			   	$.ajax({
+			   		url:"updateComment.co", 
+			   		data:{cno:cno,ccontent:ccontent ,contentno:contentno} , 
+			   		type:"post",
+			   		success:function(date){
+			   			if(date="ok"){
+			   				alert("댓글 수정 완료 되었습니다"); 
+			   				location.href='communityPostDetails.co?contentNO='+contentno; 
+			   			}
+			   			
+			   		}
+			   			
+			   	})
+				
+			});
+			
+			$("button[name='deleteReply']").click(function(){
+				var cno = $(this).parent().children().eq(0).val(); 
+				var contentno = $("#contentNOHidden").val();
+				
+				
+				/* console.log(cno); */
+				/*  console.log(contentno); */ 
+				
+				$.ajax({
+					url:"deleteReply.co",
+					data:{cno:cno,contentno:contentno} ,
+					type:"post",
+					success:function(data){
+						if(data="ok"){
+							alert("댓글 삭제 완료 되었습니다"); 
+			   				location.href='communityPostDetails.co?contentNO='+contentno; 
+						}
+					}
+					
+					
+				})
+				
+				
+			}); 
+			
+		
 			
 			
 			

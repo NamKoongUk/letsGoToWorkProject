@@ -159,6 +159,22 @@ public class CommunityServiceImpl  implements CommunityService{
 	}
 
 
+	//댓글 수정 메소드
+	@Override
+	public int UpdateComment(CommunityComment cc) {
+		// TODO Auto-generated method stub
+		return cd.UpdateComment(sqlSession,cc);
+	}
+
+
+	//댓글 삭제 메소드
+	@Override
+	public int DeleteReply(CommunityComment cc) {
+		// TODO Auto-generated method stub
+		return cd.DeleteReply(sqlSession,cc);
+	}
+
+
 
 
 
