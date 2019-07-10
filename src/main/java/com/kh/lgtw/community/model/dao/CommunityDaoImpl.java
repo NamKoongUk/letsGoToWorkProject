@@ -129,6 +129,21 @@ public class CommunityDaoImpl implements CommunityDao {
 		return sqlSession.insert("Community.insertComment", cc);
 	}
 
+	//댓글 수정 메소드 
+	@Override
+	public int UpdateComment(SqlSessionTemplate sqlSession, CommunityComment cc) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("Community.updateComment", cc);
+		
+	}
+    
+	//댓글 삭제 메소드
+	@Override
+	public int DeleteReply(SqlSessionTemplate sqlSession, CommunityComment cc) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("Community.deleteReply", cc);
+	}
+
 	
 	
 

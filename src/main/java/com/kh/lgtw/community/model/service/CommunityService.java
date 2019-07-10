@@ -49,7 +49,14 @@ public interface CommunityService
     //댓글 목록 리스트 	
 	ArrayList<CommunityComment> commentlist(int contentNO);
 
+	 //댓글 생성
 	int InsertComment(CommunityComment cc);
+
+	//댓글 수정 
+	int UpdateComment(CommunityComment cc);
+
+	//댓글 삭제
+	int DeleteReply(CommunityComment cc);
 
 
 	

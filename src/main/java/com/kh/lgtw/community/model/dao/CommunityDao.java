@@ -51,6 +51,12 @@ public interface CommunityDao {
 	//댓글 생성
 	int InsertComment(SqlSessionTemplate sqlSession, CommunityComment cc);
 
+	//댓글 수정
+	int UpdateComment(SqlSessionTemplate sqlSession, CommunityComment cc);
+
+	//댓글 삭제
+	int DeleteReply(SqlSessionTemplate sqlSession, CommunityComment cc);
+
 	
 
 	

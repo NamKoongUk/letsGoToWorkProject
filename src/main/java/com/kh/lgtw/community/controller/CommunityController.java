@@ -376,19 +376,72 @@ public class CommunityController {
 		
 		
 		 int result = cs.InsertComment(cc); 
-		 ArrayList<CommunityPost> list = cs.CommunityPostDetails(contentno);
-		 ArrayList<CommunityComment>commentlist = cs.commentlist(contentno); 
+		/*
+		 * ArrayList<CommunityPost> list = cs.CommunityPostDetails(contentno);
+		 * ArrayList<CommunityComment>commentlist = cs.commentlist(contentno);
+		 */
 		
 		 if(result > 0) {
 			 System.out.println("댓글 작성 성공 : " + result);
 			 
-			 HashMap<String, Object> hmap = new HashMap<String, Object>();
+			/* HashMap<String, Object> hmap = new HashMap<String, Object>(); */
 			 
 			 
 			
 		 }
 		 
 		 
+		
+		return "ok";
+		
+		
+		
+		
+	}
+	
+	@RequestMapping("updateComment.co")
+	@ResponseBody
+	public String  UpdateComment(HttpServletRequest request ,CommunityComment cc) {
+		
+		int cno = Integer.parseInt(request.getParameter("cno"));
+		String ccontent =request.getParameter("ccontent");
+		int contentno =  Integer.parseInt(request.getParameter("contentno"));
+		
+		
+		System.out.println("cno :" + cno);
+		System.out.println("ccontent :" +ccontent); 
+		System.out.println("contentno:" +contentno);
+		
+		
+		cc.setCno(cno);
+		cc.setCcontent(ccontent);
+		cc.setPsno(contentno);
+		
+		System.out.println("cc 값 확인 :" +cc);
+		
+		
+		int result = cs.UpdateComment(cc);
+		
+		
+		
+		return "ok";
+	} 
+	
+	
+	@RequestMapping("deleteReply.co")
+	@ResponseBody
+	
+	public String DeleteReply (HttpServletRequest request ,CommunityComment cc) 
+	{
+		int cno = Integer.parseInt(request.getParameter("cno"));
+		int contentno =  Integer.parseInt(request.getParameter("contentno")); 
+		
+		cc.setCno(cno);
+		cc.setPsno(contentno);
+		
+		int result = cs.DeleteReply(cc);
+		
+		
 		
 		return "ok";
 	}
