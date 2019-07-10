@@ -120,7 +120,6 @@ public class EmployeeController {
 		Attachment attach = new Attachment();
 		
 		attach = empService.selectProfile(employee);
-		System.out.println("주소"+employee.getAddress());
 		
 		if(employee.getAddress() != null) {
 			String[] addArr = employee.getAddress().split("\\|");
@@ -130,6 +129,8 @@ public class EmployeeController {
 			}
 			
 			model.addAttribute("address",addArr);
+		}else {
+			employee.setAddress("");
 		}
 		
 		model.addAttribute("hmap", hmap);
@@ -669,26 +670,29 @@ public class EmployeeController {
 	}
 	
 	@RequestMapping("updateMyInfo.em")
-	public String updateMyInfo(Model model, HttpSession session, EmployeeResult employee, DeptVo dpVo, JobVo jobVo, String zipCode, String address1, String address2,HttpServletRequest request,
+	public String updateMyInfo(Model model, HttpSession session, EmployeeResult employee, String zipCode, String address1, String address2,HttpServletRequest request,
 							String updatePwd1, String updatePwd2, @RequestParam(name="profile",required=false) MultipartFile profile, HttpServletResponse response) {
 		
 		Employee loginEmp =(Employee)session.getAttribute("loginEmp");
 		
-		String address = address1 + "|" + address2 + "|" +zipCode;
-		employee.setAddress(address);
+		System.out.println("입사일 : " + employee.getEnrollDate());
+		System.out.println("생일 : " + employee.getEmpBirth());
 		
+		if(address1 != null) {
+			String address = address1 + "|" + address2 + "|" +zipCode;
+			employee.setAddress(address);
+		}
 		System.out.println("employee확인 "+employee);
-		
-		//System.out.println(employee.getEmpPwd());
 		
 		if(employee.getEmpPwd().equals("")) {
 			model.addAttribute("msg","현재 비밀번호를 입력해주세요.");
 			model.addAttribute("url","showMyPage.em");
 			return "employee/checkPwd";
-			
 		}
 		
+		
 		int pwdCheck = empService.updatePwdCheck(employee);
+		
 		
 		if(pwdCheck>0) {
 			if(updatePwd1.equals(updatePwd2)) {
@@ -718,21 +722,21 @@ public class EmployeeController {
 					attach.setFilePath(filePath);
 					attach.setEmpNo(employee.getEmpNo());
 					
-					System.out.println("오리진"+attach.getOriginName());
-					System.out.println("change"+attach.getChangeName());
-					System.out.println("filepath"+attach.getFilePath());
 					
-					employee.setEmpPwd(passwordEncoder.encode(updatePwd1));
-					
+					if(updatePwd1 != null && updatePwd2 != null) {
+						employee.setEmpPwd(passwordEncoder.encode(updatePwd1));
+					}
 					//System.out.println(employee.getEmpPwd());
 					
 					int updateEmp = empService.updateEmpOne(employee, attach);
 					
 					if(updateEmp>0) {
 						
-						return "redirect:showMyPage.em";
+						model.addAttribute("msg","회원정보가 수정되었습니다. 다시 로그인 하세요");
+						model.addAttribute("url","logout.em");
+						
+						return "employee/checkPwd";
 					}
-					
 					
 				} catch (IllegalStateException e) {
 					// TODO Auto-generated catch block
