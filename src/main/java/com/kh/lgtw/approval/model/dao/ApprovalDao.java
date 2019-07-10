@@ -210,4 +210,8 @@ public interface ApprovalDao {
 
 	int deleteManager(SqlSession session, ArrayList<Object> empList);
 
+	int writeReply(HashMap<String, Object> map, SqlSession session);
+
+	ArrayList<HashMap<String, Object>> selectAdReply(SqlSession session, String adNo);
+
 }

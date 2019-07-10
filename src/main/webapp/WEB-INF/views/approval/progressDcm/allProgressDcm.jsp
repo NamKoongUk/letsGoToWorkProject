@@ -46,7 +46,12 @@
 				      		<td>${ ad.adStartDate }</td>
 				      		<td>${ ad.afName }</td>
 				      		<td>${ ad.adStatus }</td>
-				      		<td>${ ad.alRoll }</td>
+				      		<c:if test="${ ad.alRoll == null }">
+				      			<td>기안자</td>
+				      		</c:if>
+				      		<c:if test="${ ad.alRoll != null }">
+					      		<td>${ ad.alRoll }</td>				      		
+				      		</c:if>
 				      	</tr>
 				      </c:forEach>
 				    </tbody>

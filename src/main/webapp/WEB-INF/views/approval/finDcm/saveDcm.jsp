@@ -14,7 +14,7 @@
 		<jsp:include page="../../common/sideMenu/approval.jsp"/>
 		<!-- 완료된 문서 - 임시저장문서 -->
 		<section class="col-sm-10">
-			<h3 class="title">전체문서</h3>
+			<h3 class="title">임시저장문서</h3>
 			<hr>
 			<div class="content">
 				<select class="form-control" style="width:150px; display:inline-block;">

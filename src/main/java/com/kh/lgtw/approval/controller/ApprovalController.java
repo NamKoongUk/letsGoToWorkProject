@@ -876,6 +876,24 @@ public class ApprovalController {
 
 		return "";
 	}
+	
+	//댓글작성
+	@RequestMapping(value="/approval/writeReply", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String writeReply(@RequestBody HashMap<String, Object> map, HttpSession session) {
+		
+		map.put("empNo", ((Employee)session.getAttribute("loginEmp")).getEmpNo());		
+		
+		int result = as.writeReply(map);;
+		
+		if(result > 0) {
+			return "성공";			
+		}else {
+			return "실패";
+		}
+		
+	}
+	
 
 	// --------------------------------작성하기-------------------------------------
 	// 작성하기 폼 이동

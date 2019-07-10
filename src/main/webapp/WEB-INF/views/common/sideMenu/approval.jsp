@@ -46,7 +46,7 @@
 						<li onclick="location.href='${ contextPath }/showSaveDcm.ap'" class="list">임시저장문서</li>
 					</ul>
 				</div>
-			<%-- <c:if test="${ sessionScope.loginEmp != null && sessionScope.loginEmp.empId.equals('admin')}"> --%>
+			<c:if test="${ sessionScope.loginEmp != null && sessionScope.loginEmp.empId.equals('admin')}">
 				<button style="margin-top:8px;" onclick="myFunction('option')" class="accordionBtn">관리자설정</button>
 					<div id="option" class="w3-container w3-hide w3-animate-opacity contentSelectArea">
 						<ul>
@@ -57,7 +57,19 @@
 							<li onclick="location.href='${contextPath}/showDeleteDcm.ap'" class="list">삭제문서</li>
 						</ul>
 					</div>
-			<%-- </c:if> --%>
+			</c:if>
+			<c:if test="${ sessionScope.loginEmp != null && sessionScope.loginEmp.managerType.equals('결재관리자')}">
+				<button style="margin-top:8px;" onclick="myFunction('option')" class="accordionBtn">관리자설정</button>
+					<div id="option" class="w3-container w3-hide w3-animate-opacity contentSelectArea">
+						<ul>
+							<li onclick="location.href='${contextPath}/showApprovalManager.ap'" class="list">결재관리자</li>
+							<li onclick="location.href='${contextPath}/showOption.ap'" class="list">기본설정</li>
+							<li onclick="location.href='${ contextPath }/showFormManagement.ap'" class="list">양식관리</li>
+							<li onclick="location.href='${contextPath}/showAllDcm.ap'" class="list">전체문서</li>
+							<li onclick="location.href='${contextPath}/showDeleteDcm.ap'" class="list">삭제문서</li>
+						</ul>
+					</div>
+			</c:if>
 		</li>
 	</ul>
 </div>

@@ -911,6 +911,18 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		return (ArrayList)session.selectList("Approval.selectApprovalManager");
 	}
 
+	@Override
+	public int writeReply(HashMap<String, Object> map, SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.insert("Approval.insertReply", map);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectAdReply(SqlSession session, String adNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)session.selectList("Approval.selectAdReply", adNo);
+	}
+
 
 
 
