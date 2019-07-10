@@ -61,6 +61,10 @@ public interface EmployeeService {
 
 	int updateEmpOne(EmployeeResult employee, Attachment attach);
 
+	HashMap<String, Object> selectLevelCaptain();
+
+	ArrayList<DeptVo> selectOrgDept();
+
 
 
 

@@ -6,7 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>LetsGoToWork</title>
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+</head>
 <style>
 	#proflieArea{
 		float:left;
@@ -22,17 +23,17 @@
 		height:50px;
 	}
 	
-	.form-control{
-		width:10%;
-	}
 	
 	table{
 		font-weight:bold;
 	}
-	
-	
 </style>
-
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<link href="${ contextPath }/resources/css/datepicker/datepicker.min.css" rel="stylesheet" type="text/css">
+	<script src="${ contextPath }/resources/js/datepicker/datepicker.min.js"></script>
+	<script src="${ contextPath }/resources/js/datepicker/i18n/datepicker.en.js"></script>
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp"/>
@@ -93,7 +94,7 @@
 								</tr>
 								<tr>
 									<td>사내전화</td>
-									<td><input type="text" class="form-control" name="officeTel"></td>
+									<td><input type="text" class="form-control infoClass" name="officeTel"></td>
 								</tr>
 								<tr>
 									<td>휴대전화</td>
@@ -105,7 +106,7 @@
 								</tr>
 								<tr>
 									<td>입사일</td>
-									<td><input type="text" class="form-control" name="enrollDate"></td>
+									<td><input type="text" name="enrollDate" class="datepicker-here firstDate pick form-control" data-language="en" data-date-format ="yyyy-mm-dd"/></td>
 								</tr>
 								<tr>
 									<td>성별</td>
@@ -114,7 +115,7 @@
 								</tr>
 								<tr>
 									<td>생년월일</td>
-									<td><input type="text" class="form-control" name="empBirth"></td>
+									<td><input type='text'name="empBirth" class='datepicker-here firstDate pick form-control' data-language='en' data-date-format ='yyyy-mm-dd'/></td>
 								</tr>
 								<tr>
 									<td>자택주소</td>
@@ -225,6 +226,7 @@
 	            }
 	        }).open();
 	    }
+	 
 </script>
 
 

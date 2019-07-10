@@ -5,15 +5,17 @@ public class DeptVo {
 	private String deptName;
 	private String topDept;
 	private int managerEmpNo;
+	private int level;
 
 	public DeptVo() {}
 
-	public DeptVo(String deptCode, String deptName, String topDept, int managerEmpNo) {
+	public DeptVo(String deptCode, String deptName, String topDept, int managerEmpNo, int level) {
 		super();
 		this.deptCode = deptCode;
 		this.deptName = deptName;
 		this.topDept = topDept;
 		this.managerEmpNo = managerEmpNo;
+		this.level = level;
 	}
 
 	public String getDeptCode() {
@@ -48,11 +50,21 @@ public class DeptVo {
 		this.managerEmpNo = managerEmpNo;
 	}
 
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
 	@Override
 	public String toString() {
 		return "DeptVo [deptCode=" + deptCode + ", deptName=" + deptName + ", topDept=" + topDept + ", managerEmpNo="
-				+ managerEmpNo + "]";
+				+ managerEmpNo + ", level=" + level + "]";
 	}
+
+	
 
 	
 	

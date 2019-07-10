@@ -198,6 +198,16 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		sqlSession.update("Employee.updateEmpAttach", attach);
 	}
 
+	@Override
+	public ArrayList<EmployeeResult> selectEmpResult(SqlSession sqlSession) {
+		return (ArrayList)sqlSession.selectList("Employee.dbEmpList");
+	}
+
+	@Override
+	public ArrayList<DeptVo> selectOrgDept(SqlSession sqlSession) {
+		return (ArrayList)sqlSession.selectList("Employee.orgDept");
+	}
+
 	
 
 	

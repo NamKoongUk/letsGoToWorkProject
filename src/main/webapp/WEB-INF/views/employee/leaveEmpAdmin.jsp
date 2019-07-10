@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>LetsGoToWork</title>
 <style>
-	#searchArea{
+		#searchArea{
 		height:35px;
 		width: 250px;
 		border:1px solid #1b5ac2;
@@ -36,18 +36,15 @@
 		color:skyblue;
 	}
 </style>
+
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp"/>
 	<div class="row wrap">
 		<jsp:include page="../common/sideMenu/employee.jsp"/>
-		<c:set var = "deptList" value="${hmap.deptList }" />
-		<c:set var = "jobList" value="${hmap.jobList }" />
+		
 		<section class="col-sm-10">
-			<h1 class="title">사용자 관리</h1>
-			<button type="button" class="btn btn-primary" onclick="location.href='showEmpOneRegister.em'">사용자 추가</button>
-			<button type="button" class="btn btn-primary" onclick="location.href='showEmpClctvRegister.em'">사용자 일괄 추가</button>
-			<button type="button" class="btn btn-primary" onclick="location.href='showUpdateEmpClctv.em'">사용자 일괄 수정</button>
+			<h1 class="title">휴직자 관리</h1>
 			<hr>
 			<div class="content">
 				<div id="searchArea">
@@ -129,7 +126,9 @@
 					</div>
 			 	 </form>
 			 	 	<br>
-			 	 	 <div id="pagingArea" align="center">
+			 	 	
+			 	 	<!-- 페이징 -->
+			 	 <%-- 	 <div id="pagingArea" align="center">
 						<c:if test="${pi.currentPage<=1 }">
 							[이전] 
 						</c:if>
@@ -161,23 +160,14 @@
 							</c:url>
 							<a href="${blistEnd }">[다음]</a>
 						</c:if>
-					</div>
-			 	 
+					</div> --%>
+				
+				
+				
 			</div>
-	<script>
-		$("#th_checkAll").click(function(){
-			if($("#th_checkAll").is(':checked')){
-				$(".chk").prop("checked",true);
-			}else{
-				$(".chk").prop("checked",false);
-			}
-		});
-		
-	</script>
 		</section>
 	</div>
+	
 	<jsp:include page="../common/footer.jsp" />
-	
-	
 </body>
 </html>
