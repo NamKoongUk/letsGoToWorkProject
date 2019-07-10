@@ -33,7 +33,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.kh.lgtw.approval.model.vo.SignForm;
 import com.kh.lgtw.employee.model.vo.Employee;
-import com.kh.lgtw.messenger.model.vo.Messenger;
 import com.kh.lgtw.scheduler.model.service.SchedulerService;
 import com.kh.lgtw.scheduler.model.vo.Schedule;
 import com.kh.lgtw.scheduler.model.vo.Scheduler;

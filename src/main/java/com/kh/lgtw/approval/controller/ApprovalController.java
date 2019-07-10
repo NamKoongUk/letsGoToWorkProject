@@ -450,14 +450,43 @@ public class ApprovalController {
 
 		return "";
 	}
+	
+	//관리자설정 페이지 이동
+	@RequestMapping("showApprovalManager.ap")
+	public String showApprovalManager(Model model) {
+
+		ArrayList<Employee> list = as.showApprovalManager();
+		
+		model.addAttribute("list", list);
+		
+		return "managerOption/approvalManager";
+	}
 
 	// 관리자 추가
-	@RequestMapping("insertApprovalMng.ap")
-	public String insertApprovalMng(int eid) {
-
+	@RequestMapping(value = "/approval/insertApprovalMng", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String insertApprovalMng(@RequestBody Map<String, Object> map) {
 		// int result = as.insertApprovalMng(eid);
+		System.out.println(map.get("empArr").getClass());
 
-		return "";
+		ArrayList<Object> empList = (ArrayList)map.get("empArr");
+		
+		int result = as.insertApprovalMng(empList);
+		
+		return result + "";
+	}
+	
+	@RequestMapping(value = "/approval/deleteManager", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String deleteManager(@RequestBody Map<String, Object> map) {
+		// int result = as.insertApprovalMng(eid);
+		System.out.println(map.get("empArr").getClass());
+
+		ArrayList<Object> empList = (ArrayList)map.get("empArr");
+		
+		int result = as.deleteManager(empList);
+		
+		return result + "";
 	}
 
 	// 기본설정 화면보기

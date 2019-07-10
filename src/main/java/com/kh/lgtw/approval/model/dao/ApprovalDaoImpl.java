@@ -224,12 +224,36 @@ public class ApprovalDaoImpl implements ApprovalDao{
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
-//	//관리자 추가
-//	@Override
-//	public int insertApprovalMng(SqlSession session, int eid) {
-//		// TODO Auto-generated method stub
-//		return 0;
-//	}
+	//관리자 추가
+	@Override
+	public int insertApprovalMng(SqlSession session, ArrayList<Object> empList) {
+		
+		int result = 0;
+		
+		for(int i = 0; i < empList.size(); i++) {
+			
+			int empNo = Integer.parseInt((String)empList.get(i));
+			
+			result += session.update("Approval.insertApprovalMng", empNo);
+		}
+		
+		return result;
+	}
+	//관리자 삭제
+	@Override
+	public int deleteManager(SqlSession session, ArrayList<Object> empList) {
+		int result = 0;
+		
+		for(int i = 0; i < empList.size(); i++) {
+			
+			int empNo = Integer.parseInt((String)empList.get(i));
+			
+			result += session.update("Approval.deleteManager", empNo);
+		}
+		
+		return result;
+	}
+	
 //	//양식관리
 	@Override
 	public ArrayList<AppForm> showFormManagement(SqlSession session, PageInfo pi) {
@@ -880,6 +904,14 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		
 		return result;
 	}
+
+	@Override
+	public ArrayList<Employee> showApprovalManager(SqlSession session) {
+		// TODO Auto-generated method stub
+		return (ArrayList)session.selectList("Approval.selectApprovalManager");
+	}
+
+
 
 
 

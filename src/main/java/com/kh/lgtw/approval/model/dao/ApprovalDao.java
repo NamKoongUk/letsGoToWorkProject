@@ -45,7 +45,7 @@ public interface ApprovalDao {
 //
 //	ArrayList<Employee> showAppManager(SqlSession session);ㅁ
 //
-//	int insertApprovalMng(SqlSession session, int eid);
+	int insertApprovalMng(SqlSession session, ArrayList<Object> empList);
 //
 	ArrayList<AppForm> showFormManagement(SqlSession session, PageInfo pi);
 //
@@ -205,5 +205,9 @@ public interface ApprovalDao {
 	int permanentlyDeleteDcm(String[] adNoArr, SqlSession session);
 
 	int recoveryDcm(SqlSession session, String[] adNoArr);
+
+	ArrayList<Employee> showApprovalManager(SqlSession session);
+
+	int deleteManager(SqlSession session, ArrayList<Object> empList);
 
 }
