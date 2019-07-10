@@ -20,7 +20,11 @@ public interface MessengerService {
 	//reSendMessenger
 	int reSendMessneger(Map<String, Object> params);
 	
-	String deleteMessenger(String msgNo);
+	//delete Messenger
+	int deleteMessenger(Map<String, Object> params);
+
+	//update Messenger
+	int updateMessenger(Map<String, Object> params);
 
 
 	

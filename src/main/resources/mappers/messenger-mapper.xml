@@ -156,5 +156,16 @@
 		SET READ_STATUS = 'Y'
 		WHERE MSG_NO = #{msgNo}
 	</update>
+	
+	<update id="deleteMessenger">
+		UPDATE MESSENSER
+		<if test="messageType=='res'">
+			SET STATUS = 'N'
+		</if>
+		<if test="messageType=='req' || messageType=='sto' || messageType=='del'">
+			SET STATUS = 'D'
+		</if>
+		WHERE MSG_NO = #{msgNoList}
+	</update>
 		
 </mapper>

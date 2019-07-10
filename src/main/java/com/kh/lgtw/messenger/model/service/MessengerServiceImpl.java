@@ -49,10 +49,16 @@ public class MessengerServiceImpl implements MessengerService {
 		return md.reSendMessneger(params, sqlSession);
 	}
 	
+	//메세지 삭제
 	@Override
-	public String deleteMessenger(String msgNo) {
-		// TODO Auto-generated method stub
-		return md.deleteMessenger(msgNo);
+	public int deleteMessenger(Map<String, Object> params) {
+		return md.deleteMessenger(params, sqlSession);
+	}
+	
+	//임시저장 메세지 수정
+	@Override
+	public int updateMessenger(Map<String, Object> params) {
+		return md.updateMessenger(params, sqlSession);
 	}
 
 

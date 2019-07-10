@@ -97,10 +97,32 @@ public class MessengerController {
 	}
 	
 	//쪽지 삭제(휴지통)(페이지전환)
-	@RequestMapping(value="/deleteMessenger", method=RequestMethod.PUT, produces="application/text; charset=utf8")
-	public String deleteMessenger(@RequestBody Map<String, Object> params) {
-			//ms.deleteMessenger(params);
-		return "";
+	@RequestMapping(value="/deleteMessenger", method=RequestMethod.PUT, produces="application/json; charset=utf8")
+	public ResponseEntity<Integer> deleteMessenger(@RequestBody Map<String, Object> params) {
+		System.out.println(params);
+//		System.out.println(params.get("msgNoList").getClass());
+//		String str = params.get("msgNoList").toString();
+//		String setMsg = str.substring(1, str.length()-1);
+//		
+//		String[] strArr = setMsg.split(", ");
+//		
+//		ArrayList<Integer> list = new ArrayList<Integer>();
+//		for(int i=0; i<strArr.length; i++) {
+//			list.add(Integer.parseInt(strArr[i]));
+//		}
+//		params.put("msgNoList", list);
+		
+		int result = ms.deleteMessenger(params);
+
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/updateMessenger", method=RequestMethod.PUT, produces="application/json; charset=utf8")
+	public ResponseEntity<Integer> updateMessenger(@RequestBody Map<String, Object> params) {
+		
+		int result = ms.updateMessenger(params);
+		
+		return  new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 	
 

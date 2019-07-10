@@ -59,17 +59,34 @@ public class MessengerDaoImpl implements MessengerDao {
 		return sqlSession.insert("Messenger.reSendMessneger",params);
 	}
 
-	@Override
-	public String deleteMessenger(String msgNo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	//조회시 메세지 읽음상태 변경
 	@Override
 	public int updateReadStatus(Map<String, Object> params, SqlSession sqlSession) {
 		return sqlSession.update("Messenger.updateReadStatus",params);
 		
+	}
+	
+	//메세지 삭제
+	@Override
+	public int deleteMessenger(Map<String, Object> params, SqlSession sqlSession) {
+		int result = 0;
+		ArrayList<Object> list = (ArrayList<Object>) params.get("msgNoList");
+		
+		for(int i=0; i<list.size(); i++) {
+			
+			params.put("msgNoList",Integer.parseInt((String) list.get(i)));
+			
+			result += sqlSession.update("Messenger.deleteMessenger",params);
+		}
+		
+		return result;
+	}
+	
+	//임시저장 메세지 수정
+	@Override
+	public int updateMessenger(Map<String, Object> params, SqlSession sqlSession) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

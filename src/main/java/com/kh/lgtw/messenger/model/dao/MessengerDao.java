@@ -23,10 +23,14 @@ public interface MessengerDao {
 	//reSendMessneger
 	int reSendMessneger(Map<String, Object> params, SqlSession sqlSession);
 	
-	String deleteMessenger(String msgNo);
+	//메세지 삭제
+	int deleteMessenger(Map<String, Object> params, SqlSession sqlSession);
 	
 	//조회시 메세지 읽음상태 변경
 	int updateReadStatus(Map<String, Object> params, SqlSession sqlSession);
+
+	//임시저장 메세지 수정
+	int updateMessenger(Map<String, Object> params, SqlSession sqlSession);
 
 	
 }
