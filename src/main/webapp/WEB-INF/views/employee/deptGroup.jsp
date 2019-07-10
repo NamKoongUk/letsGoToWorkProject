@@ -36,11 +36,14 @@
         	deptList[i]=[{v:result[i].deptCode,f:result[i].deptName},{v:result[i].topDept}];
     	}
         
-        console.log(deptList[0]);
+        console.log(deptList[1]);
         
+        $.each(deptList, function(i, item){
+    		data.addRows([deptList[i]])
+    	})
         
         // For each orgchart box, provide the name, manager, and tooltip to show.
-        data.addRows([
+/*         data.addRows([
         	[{v:result[0].deptCode,f:result[0].deptName},{v:result[0].topDept}],
         	[{v:result[1].deptCode,f:result[1].deptName},{v:result[1].topDept}],
         	[{v:result[2].deptCode,f:result[2].deptName},{v:result[2].topDept}],
@@ -49,7 +52,13 @@
         	[{v:result[5].deptCode,f:result[5].deptName},{v:result[5].topDept}],
         	[{v:result[6].deptCode,f:result[6].deptName},{v:result[6].topDept}],
         	
-        ]);
+        	
+        ]); */
+        
+        var option = {
+        		width: 900,
+        		height:300,
+        };
         	/* [{v:'D', f:'출근<div style="color:red; font-style:italic">President</div>'},
            '', 'The President'],
           [{v:'Jim', f:'개발부<div style="color:red; font-style:italic">Vice President</div>'},
@@ -61,13 +70,13 @@
         // Create the chart.
         var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
         // Draw the chart, setting the allowHtml option to true for the tooltips.
-        chart.draw(data, {allowHtml:true});
+        chart.draw(data, {allowHtml:true,size:'large'});
       }
    </script>
 <style>
 	#chart_div div{
-		width:30%;
-		height:30%;
+		width:100%;
+		height:100%;
 	}
 </style>
 </head>

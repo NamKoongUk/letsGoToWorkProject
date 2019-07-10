@@ -64,14 +64,6 @@ public class JavaMailSender extends JavaMailSenderImpl{
 			// 메일 전송  
 			client.sendEmail(toSendRequest(simpleMailMessage)); // 이거 쓰려면 toSendRequest를 풀어야 한다.
 			
-			// toSendRequest와 같은 코드임 
-//			SendEmailRequest request = new SendEmailRequest()
-//						.withDestination(new Destination()
-//									.withToAddresses(simpleMailMessage.getTo()))
-//									.withMessage(new Message()
-//											.withSubject(createContent(simpleMailMessage.getSubject()))
-//											.withBody(new Body().withHtml(createContent(simpleMailMessage.getText()))));
-			
 			// 메일 전송한다는 로그 남기기 
 		}catch(Exception exception) {
 			System.out.println("이메일 전송에 있어서 에러 발생!");

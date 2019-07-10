@@ -5,7 +5,7 @@
 <html>
 <head>
 <style>
-	.grid-container {
+	/* .grid-container {
 	  display: grid;
 	  grid-template-columns: 300px 1fr;
 	  grid-template-rows: 1fr;
@@ -16,7 +16,7 @@
 		grid-area: deptList; 
 		}
 	
-	.empProfile { grid-area: empProfile; }
+	.empProfile { grid-area: empProfile; } */
 	
 	#deptTable td{
 		font-size:150%;
@@ -48,25 +48,12 @@
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp"/>
-	
 	<div class="row wrap">
 		<jsp:include page="../common/sideMenu/employee.jsp"/>
 		<section class="col-sm-10">
 			<h1 class="title">직원목록</h1>
 			<hr>
 			<div class="content">
-				<div class="grid-container">
-					  <div class="deptList">
-					  	<table id="deptTable">
-					  		<tr>
-					  			<td>출근합시다(회사명)</td>
-					  		</tr>
-					  		<tr>
-					  			<td>영업팀</td>
-					  		</tr>
-					  	</table>
-					  
-					  </div>
 					  <div class="empProfile">
 					  	<div class="profileArea">
 					  		<img src="${contextPath }/resources/images/profile/chae.jpg">
@@ -172,12 +159,18 @@
 					  		</div>	
 					  	</div>
 					  </div>
-				</div>
 						
 				
 			</div>
 		</section>
 	</div>
+	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="/SRC2/simpletree/jquery.treemenu.js"></script>
+	<script>
+	$(function(){
+	        $(".tree").treemenu({delay:300}).openActive();
+	    });
+	</script>
 	
 	<jsp:include page="../common/footer.jsp" />
 </body>

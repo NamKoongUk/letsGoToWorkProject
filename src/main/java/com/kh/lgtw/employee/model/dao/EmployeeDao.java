@@ -68,6 +68,10 @@ public interface EmployeeDao{
 
 	void updateEmpAttach(SqlSession sqlSession, Attachment attach);
 
+	ArrayList<EmployeeResult> selectEmpResult(SqlSession sqlSession);
+
+	ArrayList<DeptVo> selectOrgDept(SqlSession sqlSession);
+
 
 
 

@@ -64,7 +64,7 @@
 			<div id="Demo5" class="w3-container w3-hide w3-animate-opacity contentSelectArea">
 				<ul>
 					<li class="list" onclick="location.href='${contextPath}/showAttendTotal.em'">근태관리</li>
-					<li class="list" onclick="location.href='#'">휴직자 관리</li>
+					<li class="list" onclick="location.href='${contextPath}/showLeaveEmpAdmin.em'">휴직자 관리</li>
 					<li class="list" onclick="location.href='#'">근태 예외 설정</li>
 					<li class="list" onclick="location.href='#'">직원 근태 관리</li>
 				</ul>

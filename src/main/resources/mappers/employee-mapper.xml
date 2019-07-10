@@ -35,6 +35,7 @@
 		<result column="DEPT_NAME" property="deptName"/>
 		<result column="TOP_DEPT" property="topDept"/>
 		<result column="MANAGER_EMPNO" property="managerEmpNo"/>
+		<result column="LEVEL" property="level"/>
 	</resultMap>
 	
 	
@@ -154,6 +155,8 @@
 		LEFT JOIN DEPT_HISTORY DH ON (E.EMPNO=DH.EMPNO)
 		LEFT JOIN DEPT D ON (DH.DEPT_CODE=D.DEPT_CODE)
 		WHERE E.STATUS='Y' AND E.EMP_ID != 'admin'
+        ORDER BY EMPNO DESC
+		
 	</select>
 	
 	<select id="selectJobAdmin" resultMap="jobList">
@@ -241,6 +244,14 @@
 	<update id="updateEmpAttach" parameterType="Attachment">
 		UPDATE ATTACHMENT SET ORIGIN_NAME = #{originName}, CHANGE_NAME=#{changeName} WHERE EMPNO=#{empNo}
 	</update>
+	
+	<select id="orgDept" resultMap="deptResult">
+		SELECT DEPT_CODE, LEVEL lv, DEPT_NAME, TOP_DEPT
+		FROM DEPT
+		START WITH TOP_DEPT IS NULL
+		CONNECT BY PRIOR DEPT_CODE=TOP_DEPT
+		ORDER SIBLINGS BY DEPT_CODE
+	</select>
 	
 	
 </mapper>

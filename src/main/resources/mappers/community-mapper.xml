@@ -87,16 +87,16 @@
    </select>
    
 <!--게시글 상세 조회 쿼리문 --> 
-   <select id="selectPostDetails" resultMap="communityPostResultSet" parameterType="_int">
-      SELECT C.CONTENT_NO ,C.BTITLE , C.BCONTENT  , B.BNO ,C.STATUS
-      FROM BOARD B
-      JOIN CONTENT C ON (B.BNO = C.BNO)
-      WHERE C.CONTENT_NO= #{contentNO}
-   </select>
-   
-<!-- 임시 저장 글 리스트 조회 쿼리문     -->
-      <select id="SelectTemporaryList" resultMap="communityPostResultSet">
-       SELECT  ROWNUM AS ORD,C.CONTENT_NO ,C.BTITLE , E.EMP_NAME, C.CREATE_DATE 
+	<select id="selectPostDetails" resultMap="communityPostResultSet" parameterType="_int">
+		SELECT C.CONTENT_NO ,C.BTITLE , C.BCONTENT  , B.BNO ,C.STATUS
+		FROM BOARD B
+		JOIN CONTENT C ON (B.BNO = C.BNO)
+		WHERE C.CONTENT_NO= #{contentNO}
+	</select>
+	
+<!-- 임시 저장 글 리스트 조회 쿼리문 	 -->
+		<select id="SelectTemporaryList" resultMap="communityPostResultSet">
+	    SELECT  ROWNUM AS ORD,C.CONTENT_NO ,C.BTITLE , E.EMP_NAME, C.CREATE_DATE 
         FROM BOARD B
         JOIN CONTENT C ON (B.BNO = C.BNO)
         JOIN EMPLOYEE E ON (C.BWRITER = E.EMPNO)
@@ -203,44 +203,40 @@
         JOIN CONTENT C ON(C.CONTENT_NO = CC.CONTENT_NO)
         JOIN EMPLOYEE E ON(CC.CM_WRITER = E.EMPNO)
         WHERE CC.CONTENT_NO=#{contentNO}
-        AND STAUTS = 'N'
-        
-   
-   </select> 
-   
-   
-   <insert id="insertComment" parameterType="CommunityComment"> 
-      INSERT INTO C_COMMENT
-      VALUES(SEQ_COMMENT_NO.nextval ,#{psno} ,#{cwriter} ,#{ccontent},SYSDATE,SYSDATE,'N')
-   </insert> 
-   
-   <update id="updateComment"  parameterType="CommunityComment"> 
-    UPDATE C_COMMENT 
-    SET CM_CONTENT = #{ccontent} ,MODIFY_DATE=SYSDATE 
-    WHERE COMMENT_NO = #{cno}
-    AND CONTENT_NO= #{psno}
-      
-   
-   </update> 
-   
-   <update id="deleteReply" parameterType="CommunityComment">
-    UPDATE C_COMMENT 
-    SET STAUTS='D'
-    WHERE COMMENT_NO = #{cno}
-    AND CONTENT_NO= #{psno}
-   
-   </update> 
-   
-   <select id="TemporaryDetails" resultMap="communityPostResultSet" parameterType="_int"> 
-   
-      SELECT C.CONTENT_NO ,C.BTITLE , C.BCONTENT  , B.BNO
-      FROM BOARD B
-      JOIN CONTENT C ON (B.BNO = C.BNO)
-      WHERE C.CONTENT_NO= #{contentNO}
-      AND C.STATUS = 'T' 
-   
-   </select>
-
-   
+        AND STAUTS = 'N'        	
+	</select> 
+	
+	
+	<insert id="insertComment" parameterType="CommunityComment"> 
+		INSERT INTO C_COMMENT
+		VALUES(SEQ_COMMENT_NO.nextval ,#{psno} ,#{cwriter} ,#{ccontent},SYSDATE,SYSDATE,'N')
+	</insert> 
+	
+	<update id="updateComment"  parameterType="CommunityComment"> 
+	 UPDATE C_COMMENT 
+	 SET CM_CONTENT = #{ccontent} ,MODIFY_DATE=SYSDATE 
+	 WHERE COMMENT_NO = #{cno}
+	 AND CONTENT_NO= #{psno}
+		
+	
+	</update> 
+	
+	<update id="deleteReply" parameterType="CommunityComment">
+	 UPDATE C_COMMENT 
+	 SET STAUTS='D'
+	 WHERE COMMENT_NO = #{cno}
+	 AND CONTENT_NO= #{psno}
+	
+	</update> 
+	
+	<select id="TemporaryDetails" resultMap="communityPostResultSet" parameterType="_int"> 
+	
+		SELECT C.CONTENT_NO ,C.BTITLE , C.BCONTENT  , B.BNO
+		FROM BOARD B
+		JOIN CONTENT C ON (B.BNO = C.BNO)
+		WHERE C.CONTENT_NO= #{contentNO}
+		AND C.STATUS = 'T' 
+	
+	</select>
 
 </mapper>
