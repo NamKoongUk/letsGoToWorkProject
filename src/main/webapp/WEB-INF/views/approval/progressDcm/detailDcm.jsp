@@ -112,6 +112,10 @@
                                     		
                                     			<td><font color="green">결재</font></td>
                                     		</c:if>
+                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus != '결재'}">
+                                    		
+                                    			<td><font color="red">결재대기</font></td>
+                                    		</c:if>
                                     		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '반려'}">
                                     			<td><font color="red">반려</font></td>
                                     		</c:if>
@@ -237,6 +241,10 @@
                                     		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '결재'}">
                                     		
                                     			<td><font color="green">결재</font></td>
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus != '결재'}">
+                                    		
+                                    			<td><font color="red">결재대기</font></td>
                                     		</c:if>
                                     		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '반려'}">
                                     			<td><font color="red">반려</font></td>
@@ -384,6 +392,10 @@
                                     		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '결재'}">
                                     		
                                     			<td><font color="green">결재완료</font></td>
+                                    		</c:if>
+                                    		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus != '결재'}">
+                                    		
+                                    			<td><font color="red">결재대기</font></td>
                                     		</c:if>
                                     		<c:if test="${ requestScope.appList.approval[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.approval[i.index].alLevel && requestScope.appList.approval[i.index].alStatus == '반려'}">
                                     			<td><font color="red">반려</font></td>
@@ -649,6 +661,10 @@
                                     		
                                     			<td><font color="green">결재완료</font></td>
                                     		</c:if>
+                                    		<c:if test="${ requestScope.appList.process[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel != requestScope.appList.process[i.index].alLevel && requestScope.appList.process[i.index].alStatus != '결재'}">
+                                    		
+                                    			<td><font color="red">결재대기</font></td>
+                                    		</c:if>
                                     		<c:if test="${ requestScope.appList.process[i.index].alEmpNo == sessionScope.loginEmp.empNo && requestScope.map.adLevel == requestScope.appList.process[i.index].alLevel && requestScope.appList.process[i.index].alStatus == '반려'}">
                                     			<td><font color="red">반려</font></td>
                                     		</c:if>
@@ -710,11 +726,33 @@
 					
 					<div id="area">
 						<label>제목 : ${ requestScope.map.adTitle }</label>
-					    <p>${ requestScope.map.adContent }</p>
-		 		
+					    <div>${ requestScope.map.adContent }</div>
+		 				<br><br>
 					</div>
+					
+			</div>
+			<div id="commentArea" style="border:1px solid lightgray">
+			    <div class="form-group" style="padding:20px;">
+			      <label for="comment" style="display:block;">댓글작성 : </label>
+			      <textarea class="form-control" rows="3" id="replyContent" style="resize:none;"></textarea>
+			      <button class="btn pull-right" style="display:inline-block; margin-top:10px;" onclick="writeReply();">작성하기</button>
+			    </div>
+			    <c:forEach var="reply" items="${ requestScope.appList.reply }">
+			    	<div class="media" style="padding:30px; width:100%;">
+					    <div class="media-body">
+					      <label class="media-heading"><c:out value="${ reply.empName }"/></label>  &nbsp;  <span style="color:gray"><c:out value="${ reply.arDate }"/></span>
+					      <c:if test="${ reply.empNo == sessionScope.loginEmp.empNo }">
+					      	<a href="#" class="pull-right">댓글삭제</a><a href="#" class="pull-right" style="margin-right:10px;">댓글수정</a> 
+					      </c:if>
+					      <p><c:out value="${ reply.arContent }"/></p>
+					    </div>
+					     <hr>
+			    	</div>
+			    </c:forEach>
+			    
 			</div>
 		</section>
+		
 	</div>
 	
 	<!-- Modal -->
@@ -863,6 +901,35 @@
 	</div>
 	
 	<script>	
+		function writeReply(){
+			var content = $("#replyContent").val();
+			var adNo = '${ requestScope.map.adNo }';
+			
+			var object = {
+					content:content,
+					adNo:adNo
+			}
+			
+			$.ajax({
+				url:"${contextPath}/approval/writeReply",
+				data: JSON.stringify(object),
+				contentType: 'application/json; charset=utf-8',
+				type:"post",
+				success:function(data){
+					
+					if(data == '성공') {
+						alert("정상적으로 작성되었습니다.");
+					}else {
+						alert("작성이 실패했습니다.");
+					}
+					location.reload();
+					
+				}
+			});
+			
+		}
+	
+	
 		function updateSendApproval(){
 			var empNo = "${sessionScope.loginEmp.empNo}";
 			var adNo = "${requestScope.map.adNo}";

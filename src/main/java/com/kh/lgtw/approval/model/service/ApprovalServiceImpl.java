@@ -324,6 +324,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		ArrayList<HashMap<String, Object>> payAgree = ad.selectApprovalList(session, adNo, "재무합의");
 		ArrayList<HashMap<String, Object>> send = ad.selectApprovalList(session, adNo, "수신");
 		ArrayList<HashMap<String, Object>> circle = ad.selectApprovalList(session, adNo, "회람");
+		ArrayList<HashMap<String, Object>> reply = ad.selectAdReply(session, adNo);
 		
 		appList.put("approval", approval);
 		appList.put("agree", agree);
@@ -334,6 +335,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		appList.put("payAgree", payAgree);
 		appList.put("send", send);
 		appList.put("circle", circle);
+		appList.put("reply", reply);
 		
 		
 		return appList;
@@ -719,7 +721,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 		int write = ad.selectMyWriteDcm(empNo, session);
 		int progress = ad.selectProgressDcm(map, session);
 		int intended = ad.selectIntendedDcm(empNo, session);
-		int circle = ad.selectCircleDcm(map, session);
+		int circle = ad.selectWaitCircleDcm(empNo, session);
 		map.put("sort", "reception");
 		int reception = ad.selectCircleDcm(map, session);
 		
@@ -750,6 +752,12 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public ArrayList<Employee> showApprovalManager() {
 		// TODO Auto-generated method stub
 		return ad.showApprovalManager(session);
+	}
+	//댓글작성
+	@Override
+	public int writeReply(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return ad.writeReply(map, session);
 	}
 
 

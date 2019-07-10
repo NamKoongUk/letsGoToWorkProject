@@ -175,6 +175,8 @@ public interface ApprovalService {
 
 	int deleteManager(ArrayList<Object> empList);
 
+	int writeReply(HashMap<String, Object> map);
+
 	
 
 }

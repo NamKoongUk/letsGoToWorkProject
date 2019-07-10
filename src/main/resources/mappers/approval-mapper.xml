@@ -146,6 +146,16 @@
 		<collection property="appList" javaType="java.util.ArrayList" resultMap="appList"/>
 	</resultMap>
 	
+	<resultMap type="java.util.HashMap" id="adReply">
+		<id property="arNo" column="AR_NO"/>
+		<result property="arContent" column="AR_CONTENT"/>
+		<result property="arDate" column="AR_DATE"/>
+		<result property="arStatus" column="AR_STATUS"/>
+		<result property="adNo" column="AD_NO"/>
+		<result property="empNo" column="EMPNO"/>
+		<result property="empName" column="EMP_NAME"/>
+	</resultMap>
+	
 	<select id="selectSignForm" resultMap="signFormResultSet" parameterType="SignForm">
 		SELECT *
 		FROM SIGN_FORM
@@ -362,6 +372,7 @@
 		<if test="type == '재무합의'">
 			AND AL_ROLL = '재무합의자'
 		</if>
+		ORDER BY AL_ROLL, AL_LEVEL
 	</select>
 	
 	<select id="selectWaitDcm" parameterType="_int" resultType="_int">
@@ -523,8 +534,8 @@
 		AND AD_STATUS != '완료'
 		AND AD_STATUS != '반려'
 		<if test="sfCode == 'circle'">
-		AND AL_STATUS = '대기'
-		AND AD_STATUS = '대기'
+		AND AL_STATUS = '회람대기'
+		AND AD_STATUS = '회람대기'
 		AND SF.SIGN_CODE = 'circle'
 		</if>
 		<if test="sfCode == 'reception'">
@@ -543,9 +554,9 @@
 		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
 		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
 		WHERE AL_EMPNO = #{empNo}
-		AND AL_STATUS = '대기'
+		AND AL_STATUS = '회람대기'
 		AND AD_STATUS != '반려'
-		AND AD_STATUS = '대기'
+		AND AD_STATUS = '회람대기'
 		AND SF.SIGN_CODE = 'circle'
 	</select>
 	
@@ -964,6 +975,18 @@
 	<update id="deleteManager" parameterType="_int">
 		UPDATE EMPLOYEE SET MANAGER_TYPE = NULL WHERE EMPNO = #{empNo}
 	</update>
+	
+	<insert id="insertReply" parameterType="java.util.HashMap">
+		INSERT INTO AD_REPLY VALUES(SEQ_AR_NO.NEXTVAL, #{content}, SYSDATE, 'Y', #{adNo}, #{empNo})
+	</insert>
+	
+	<select id="selectAdReply" parameterType="java.lang.String" resultMap="adReply">
+		SELECT * 
+		FROM AD_REPLY AR
+		JOIN EMPLOYEE E ON(AR.EMPNO = E.EMPNO)
+		WHERE AD_NO = #{adNo}
+		ORDER BY AR_DATE DESC
+	</select>
 	
 </mapper>
 

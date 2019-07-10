@@ -4,88 +4,88 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Community">
-	<!-- <resultMap id="내가쓸 이름" type="vo풀네임">
-		<id column="" property="PK"/>
-		<result column="" property="필드 명"/>
-	</resultMap>
-	
-	쿼리문 작성
-	<select id="구분이름" parameterType="매개변수 타입"> </select> -->
-	
-	<!--게시판  컬럼 리스트 	 -->
-	<resultMap id="communityResultSet" type="com.kh.lgtw.community.model.vo.Community">
-		<id column="BNO" property="bno"/>
-		<result column="BOARD_NAME" property="boardName"/>
-		<result column="CREATE_USER" property="createUser"/>
-		<result column="CREATE_DATE" property="createDate"/>
-		<result column="BOARD_AUTHORITY" property="boardAuthority"/>
-		<result column="STAUS" property="status"/>
-		<result column="BOARD_TYPE" property="boardType"/>
-		<result column="EMP_NAME" property="createUserName"/>
-	</resultMap> 
-	
-<!-- 게시판 관리용 ResultSet	 -->
-	<resultMap id="communityResultSet2" type="com.kh.lgtw.community.model.vo.Community">
-		<id column="BNO" property="bno"/>
-		<result column="BOARD_NAME" property="boardName"/>
-		<result column="CREATE_USER" property="createUser"/>
-		<result column="CREATE_DATE" property="createDate"/>
-		<result column="BOARD_AUTHORITY" property="boardAuthority"/>
-		<result column="STAUS" property="status"/>
-		<result column="BOARD_TYPE" property="boardType"/>
-		<result column="EMP_NAME" property="createUserName"/>
-		<result column="ORD" property="ord"/>
-		<result column="POSTCOUNT" property="postcount"/>
-	</resultMap> 
-	
-	<!--게시글 컬럼 리스트 	 -->
-	<resultMap id="communityPostResultSet" type="com.kh.lgtw.community.model.vo.CommunityPost">
-		<id column="CONTENT_NO" property="contentNO"/>
-		<result column="BNO" property="bno"/>
-		<result column="BWRITER"  property="bwriter"/>
-		<result column="BTITLE" property="btitle"/>
-		<result column="BCONTENT" property="bcontent"/>
-		<result column="CREATE_DATE" property="createDate"/>
-		<result column="MODIFY_DATE" property="modifyDate"/>
-		<result column="BCOUNT" property="bcount"/>
-		<result column="STATUS" property="status"/>
-		<result column="ORD" property="ord"/>
-		<result column="EMP_NAME" property="createUserName"/>
-		<result column="BOARD_NAME" property="bname"/>
-	</resultMap> 
-	
-<!-- 댓글 컬럼리스트 	 -->
-	<resultMap id="CommunityCommentResultSet" type="com.kh.lgtw.community.model.vo.CommunityComment"> 
-	 <id column="COMMENT_NO" property="cno"/>
-	 <result column="CONTENT_NO" property="psno" />
-	 <result column="CM_WRITER" property="cwriter"/>
-	 <result column="CM_CONTENT" property="ccontent"/>
-	 <result column="CREATRE_DATE" property="ccreateDate"/>
-	 <result column="MODIFY_DATE" property="cmodifyDate"/>
-	 <result  column="STAUTS" property="stauts"/>
-	 <result column="EMP_NAME" property="empname"/>
-		
-	
-	</resultMap>
-	
-<!--게시판 조회 쿼리문 	 -->	
-	<select id="selectCommunityList" resultMap="communityResultSet2">
-		SELECT ROWNUM AS ORD , B.* , E.EMP_NAME
-    	FROM BOARD B
-    	JOIN EMPLOYEE E ON (B.CREATE_USER = E.EMPNO)
-    	WHERE B.STATUS = 'N'
-	</select> 
-	
-<!--게시글 리스트 조회 쿼리문	 -->
-	<select id="selectPostList" resultMap="communityPostResultSet" parameterType="_int">
-	  SELECT ROWNUM AS ORD , C.* , E.EMP_NAME
-    	FROM BOARD B
+   <!-- <resultMap id="내가쓸 이름" type="vo풀네임">
+      <id column="" property="PK"/>
+      <result column="" property="필드 명"/>
+   </resultMap>
+   
+   쿼리문 작성
+   <select id="구분이름" parameterType="매개변수 타입"> </select> -->
+   
+   <!--게시판  컬럼 리스트     -->
+   <resultMap id="communityResultSet" type="com.kh.lgtw.community.model.vo.Community">
+      <id column="BNO" property="bno"/>
+      <result column="BOARD_NAME" property="boardName"/>
+      <result column="CREATE_USER" property="createUser"/>
+      <result column="CREATE_DATE" property="createDate"/>
+      <result column="BOARD_AUTHORITY" property="boardAuthority"/>
+      <result column="STAUS" property="status"/>
+      <result column="BOARD_TYPE" property="boardType"/>
+      <result column="EMP_NAME" property="createUserName"/>
+   </resultMap> 
+   
+<!-- 게시판 관리용 ResultSet    -->
+   <resultMap id="communityResultSet2" type="com.kh.lgtw.community.model.vo.Community">
+      <id column="BNO" property="bno"/>
+      <result column="BOARD_NAME" property="boardName"/>
+      <result column="CREATE_USER" property="createUser"/>
+      <result column="CREATE_DATE" property="createDate"/>
+      <result column="BOARD_AUTHORITY" property="boardAuthority"/>
+      <result column="STAUS" property="status"/>
+      <result column="BOARD_TYPE" property="boardType"/>
+      <result column="EMP_NAME" property="createUserName"/>
+      <result column="ORD" property="ord"/>
+      <result column="POSTCOUNT" property="postcount"/>
+   </resultMap> 
+   
+   <!--게시글 컬럼 리스트     -->
+   <resultMap id="communityPostResultSet" type="com.kh.lgtw.community.model.vo.CommunityPost">
+      <id column="CONTENT_NO" property="contentNO"/>
+      <result column="BNO" property="bno"/>
+      <result column="BWRITER"  property="bwriter"/>
+      <result column="BTITLE" property="btitle"/>
+      <result column="BCONTENT" property="bcontent"/>
+      <result column="CREATE_DATE" property="createDate"/>
+      <result column="MODIFY_DATE" property="modifyDate"/>
+      <result column="BCOUNT" property="bcount"/>
+      <result column="STATUS" property="status"/>
+      <result column="ORD" property="ord"/>
+      <result column="EMP_NAME" property="createUserName"/>
+      <result column="BOARD_NAME" property="bname"/>
+   </resultMap> 
+   
+<!-- 댓글 컬럼리스트     -->
+   <resultMap id="CommunityCommentResultSet" type="com.kh.lgtw.community.model.vo.CommunityComment"> 
+    <id column="COMMENT_NO" property="cno"/>
+    <result column="CONTENT_NO" property="psno" />
+    <result column="CM_WRITER" property="cwriter"/>
+    <result column="CM_CONTENT" property="ccontent"/>
+    <result column="CREATRE_DATE" property="ccreateDate"/>
+    <result column="MODIFY_DATE" property="cmodifyDate"/>
+    <result  column="STAUTS" property="stauts"/>
+    <result column="EMP_NAME" property="empname"/>
+      
+   
+   </resultMap>
+   
+<!--게시판 조회 쿼리문     -->   
+   <select id="selectCommunityList" resultMap="communityResultSet2">
+      SELECT ROWNUM AS ORD , B.* , E.EMP_NAME
+       FROM BOARD B
+       JOIN EMPLOYEE E ON (B.CREATE_USER = E.EMPNO)
+       WHERE B.STATUS = 'N'
+   </select> 
+   
+<!--게시글 리스트 조회 쿼리문    -->
+   <select id="selectPostList" resultMap="communityPostResultSet" parameterType="_int">
+     SELECT ROWNUM AS ORD , C.* , E.EMP_NAME
+       FROM BOARD B
         JOIN CONTENT C ON (B.BNO = C.BNO)
-    	JOIN EMPLOYEE E ON (B.CREATE_USER = E.EMPNO)
-    	WHERE B.BNO = #{bno}
+       JOIN EMPLOYEE E ON (B.CREATE_USER = E.EMPNO)
+       WHERE B.BNO = #{bno}
         AND C.STATUS = 'N'
-	</select>
-	
+   </select>
+   
 <!--게시글 상세 조회 쿼리문 --> 
 	<select id="selectPostDetails" resultMap="communityPostResultSet" parameterType="_int">
 		SELECT C.CONTENT_NO ,C.BTITLE , C.BCONTENT  , B.BNO ,C.STATUS
@@ -101,111 +101,109 @@
         JOIN CONTENT C ON (B.BNO = C.BNO)
         JOIN EMPLOYEE E ON (C.BWRITER = E.EMPNO)
         WHERE C.STATUS= 'T'
-	
+   
 
-		</select> 
-		
+      </select> 
+      
 <!-- 게시판 생성 쿼리 문 -->
-  	   <insert id="InsertCommunity" parameterType="Community"> 
-		          INSERT INTO BOARD 
-				  VALUES(SEQ_BNO.NEXTVAL,#{boardName},#{createUser},SYSDATE,#{boardAuthority},'N',#{boardType})  	   
-  	   </insert>	
-  	   
- <!-- 게시판 관리 쿼리 문 			 -->	   
-  	   <select id="SelectManagebulletinList" resultMap="communityResultSet2" >   
-  	   		 
+        <insert id="InsertCommunity" parameterType="Community"> 
+                INSERT INTO BOARD 
+              VALUES(SEQ_BNO.NEXTVAL,#{boardName},#{createUser},SYSDATE,#{boardAuthority},'N',#{boardType})        
+        </insert>   
+        
+ <!-- 게시판 관리 쿼리 문           -->      
+        <select id="SelectManagebulletinList" resultMap="communityResultSet2" >   
+               
             SELECT ( 
-				  SELECT COUNT(C.CONTENT_NO)
+              SELECT COUNT(C.CONTENT_NO)
                   FROM BOARD B2
                   JOIN CONTENT C  ON (B2.BNO = C.BNO)  
                   WHERE B2.BNO = B.BNO 
                   AND C.STATUS='N') AS POSTCOUNT, 
                   B.BNO,B.BOARD_NAME ,B.CREATE_USER ,B.CREATE_DATE,B.STATUS,B.BOARD_TYPE,E.EMP_NAME 
             FROM BOARD B
-			JOIN EMPLOYEE E ON (B.CREATE_USER=E.EMPNO)
+         JOIN EMPLOYEE E ON (B.CREATE_USER=E.EMPNO)
             WHERE B.STATUS= 'N'
-			
-  	   </select>
-  	   
-  	  <!--게시글 생성   -->
-  	   <insert id="CommunityPostInsert" parameterType="CommunityPost"> 
-	     INSERT INTO CONTENT 
-    	 VALUES(SEQ_CONTENT_NO.NEXTVAL,#{bno},#{bwriter},#{btitle},#{bcontent},SYSDATE,SYSDATE,0,'N')
-  	   
-  	   </insert>
-  	   
-  	 <!--게시판 수정 폼    -->
-  	   <select id="communityUpdateForm" resultMap="communityResultSet" parameterType="_int"> 
-  	   	SELECT  B.* ,E.EMP_NAME
-		FROM  BOARD B 
-		JOIN  EMPLOYEE E ON (B.CREATE_USER=E.EMPNO) 
-		WHERE B.BNO =#{bno}
-  	   		
-  	   
-  	 
-  	   </select>  
-  	   
-  	   
-  	  <update id="communityUpdate" parameterType="Community">
-  	  	UPDATE BOARD 
-		SET BOARD_NAME = #{boardName} ,CREATE_DATE=SYSDATE,
-						BOARD_AUTHORITY = #{boardAuthority},
-						STATUS = 'N', BOARD_TYPE = #{boardType}
-		WHERE BNO = #{bno}
-  	  </update>
- <!--게시글 수정 폼  -->	
+         
+        </select>
+        
+       <!--게시글 생성   -->
+        <insert id="CommunityPostInsert" parameterType="CommunityPost"> 
+        INSERT INTO CONTENT 
+        VALUES(SEQ_CONTENT_NO.NEXTVAL,#{bno},#{bwriter},#{btitle},#{bcontent},SYSDATE,SYSDATE,0,'N')
+        
+        </insert>
+        
+      <!--게시판 수정 폼    -->
+        <select id="communityUpdateForm" resultMap="communityResultSet" parameterType="_int"> 
+           SELECT  B.* ,E.EMP_NAME
+      FROM  BOARD B 
+      JOIN  EMPLOYEE E ON (B.CREATE_USER=E.EMPNO) 
+      WHERE B.BNO =#{bno}
+              
+        
+      
+        </select>  
+        
+        
+       <update id="communityUpdate" parameterType="Community">
+          UPDATE BOARD 
+      SET BOARD_NAME = #{boardName} ,CREATE_DATE=SYSDATE,
+                  BOARD_AUTHORITY = #{boardAuthority},
+                  STATUS = 'N', BOARD_TYPE = #{boardType}
+      WHERE BNO = #{bno}
+       </update>
+ <!--게시글 수정 폼  -->   
     <select id="communityPostUpdateForm" resultMap="communityPostResultSet" parameterType="_int">
-		SELECT B.BNO,B.BOARD_NAME , C.*
-		FROM  BOARD B  
+      SELECT B.BNO,B.BOARD_NAME , C.*
+      FROM  BOARD B  
         JOIN CONTENT C ON(B.BNO = C.BNO)
         WHERE C.CONTENT_NO = #{contentNO}
-	
-	</select>
-	
-<!-- 게시글 수정	      -->
-	<update id="communityPostUpdate" parameterType="CommunityPost"  > 
-		UPDATE CONTENT 
-		SET BTITLE=#{btitle} , BCONTENT=#{bcontent} , MODIFY_DATE=SYSDATE ,STATUS='N'
-		WHERE CONTENT_NO = #{contentNO}  
-	
-	
-	</update> 
-<!-- 게시글 삭제	 -->
-	<update id="communityPostDelete"  parameterType="_int">  
-		UPDATE CONTENT 
-		SET MODIFY_DATE=SYSDATE ,STATUS='D'
-		WHERE CONTENT_NO = #{contentNO}  
-	
-	
-	</update> 
-	
-<!--게시판 삭제 	 -->
-	<update id="communityDelete" parameterType="_int"> 
-	  		 
+   
+   </select>
+   
+<!-- 게시글 수정         -->
+   <update id="communityPostUpdate" parameterType="CommunityPost"  > 
+      UPDATE CONTENT 
+      SET BTITLE=#{btitle} , BCONTENT=#{bcontent} , MODIFY_DATE=SYSDATE ,STATUS='N'
+      WHERE CONTENT_NO = #{contentNO}  
+   
+   
+   </update> 
+<!-- 게시글 삭제    -->
+   <update id="communityPostDelete"  parameterType="_int">  
+      UPDATE CONTENT 
+      SET MODIFY_DATE=SYSDATE ,STATUS='D'
+      WHERE CONTENT_NO = #{contentNO}  
+   
+   
+   </update> 
+   
+<!--게시판 삭제     -->
+   <update id="communityDelete" parameterType="_int"> 
+            
             UPDATE BOARD 
             SET STATUS = 'D'
             WHERE BNO = #{bno}
-	
-	</update>
-	
-<!--게시글 임시 저장 insert 	 -->
-	<insert id="temporayInsert" parameterType="CommunityPost">
-		INSERT INTO CONTENT 
-    	 VALUES(SEQ_CONTENT_NO.NEXTVAL,#{bno},#{bwriter},#{btitle},#{bcontent},SYSDATE,SYSDATE,0,'T')
-	
-	</insert> 
-	
-<!--댓글 리스트 조회 	 -->
-	<select id="commentlist" resultMap="CommunityCommentResultSet" parameterType="_int"> 
-		
-		SELECT CC.* , E.EMP_NAME
+   
+   </update>
+   
+<!--게시글 임시 저장 insert     -->
+   <insert id="temporayInsert" parameterType="CommunityPost">
+      INSERT INTO CONTENT 
+        VALUES(SEQ_CONTENT_NO.NEXTVAL,#{bno},#{bwriter},#{btitle},#{bcontent},SYSDATE,SYSDATE,0,'T')
+   
+   </insert> 
+   
+<!--댓글 리스트 조회     -->
+   <select id="commentlist" resultMap="CommunityCommentResultSet" parameterType="_int"> 
+      
+      SELECT CC.* , E.EMP_NAME
         FROM C_COMMENT CC  
         JOIN CONTENT C ON(C.CONTENT_NO = CC.CONTENT_NO)
         JOIN EMPLOYEE E ON(CC.CM_WRITER = E.EMPNO)
         WHERE CC.CONTENT_NO=#{contentNO}
-        AND STAUTS = 'N'
-        
-	
+        AND STAUTS = 'N'        	
 	</select> 
 	
 	
@@ -240,7 +238,5 @@
 		AND C.STATUS = 'T' 
 	
 	</select>
-
-	
 
 </mapper>
