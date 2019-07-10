@@ -105,6 +105,14 @@ public class EmployeeController {
 	//직원목록페이지
 	@RequestMapping("showEmployeeList.em")
 	public String showEmployeeList() {
+		
+		ArrayList<DeptVo> list = empService.selectOrgDept();
+		
+		for(int i=0; i<list.size(); i++) {
+			System.out.println("조직도 dept"+list);
+		}
+		
+		
 		return "employee/employeeList";
 	}
 	//내 정보 페이지
@@ -276,7 +284,12 @@ public class EmployeeController {
 	
 	//직급,팀장 추가
 	@RequestMapping("showlevelCaptain.em")
-	public String showlevelCaptain() {
+	public String showlevelCaptain(Model model) {
+		
+		HashMap<String, Object> hmap = empService.selectLevelCaptain();
+		
+		model.addAttribute("hmap", hmap);
+		
 		return "employee/levelCaptainAdmin";
 	
 	//인사관리자
@@ -307,29 +320,7 @@ public class EmployeeController {
 	 * 
 	 * return ""; }
 	 */
-	//사원 조회
-	@RequestMapping("selectEmpl.em")
-	public String selectEmployee(Model model) {
-		//ArrayList<Employee> empList = emplService.selectEmlList();
-		
-		return "";
-	}
-	//사원 상세 조회
-	@RequestMapping("selectOneEmpl.em")
-	public String selectOneEmployee(Employee employee, Model model) {
-		//Employee emp = emplService.selectOneEmp(employee);
-		return "";
-	}
-	//사원 정보 수정
-	@RequestMapping("updateEmpl.em")
-	public String updateOneEmployee(HttpServletRequest request, Employee employee, Model model) {
-		//Employee loginUser =(Employee)request.getSession().getAttribute("loginUser");
-		
-		//int result = emplService.updateOneEmp(loginUser,employee);
-		
-		
-		return "";
-	}
+	
 	//사원 검색
 	@RequestMapping("searchEmpl.em")
 	public String searchEmployee(Employee employee, Model model) {
@@ -565,7 +556,7 @@ public class EmployeeController {
 	@RequestMapping("empSample.em")
 	public void empSample(Model model, HttpServletRequest request, HttpServletResponse response) {
 			
-			Workbook wb = new HSSFWorkbook();
+			Workbook wb = new XSSFWorkbook();
 			
 			Sheet sheet1 = wb.createSheet("sampleEmp");
 			
@@ -626,7 +617,7 @@ public class EmployeeController {
 			response.setHeader("Content-Type","text/html; charset=utf-8");
 			response.setContentType("ms-vnd/excel");
 			System.out.println("1확인");
-			response.setHeader("Content-Disposition","attachment;filename=Empsample.xls");
+			response.setHeader("Content-Disposition","attachment;filename=Empsample.xlsx");
 			System.out.println("2확인");
 			
 			try {
@@ -773,6 +764,12 @@ public class EmployeeController {
 		return "redirect:showMyPage.em";
 	}
 	
+	@RequestMapping("showLeaveEmpAdmin.em")
+	public String showLeaveEmpAdmin() {
+		
+		
+		return "employee/leaveEmpAdmin";
+	}
 }
 
 

@@ -25,6 +25,11 @@
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp"/>
+	
+	<c:set var="deptList" value="${hmap.deptList }"/>
+	<c:set var="jobList" value="${hmap.jobList }"/>
+	<c:set var="empList" value="${hmap.empList }"/>
+	
 	<div class="row wrap">
 		<jsp:include page="../common/sideMenu/employee.jsp"/>
 		
@@ -35,41 +40,12 @@
 				<p>직급관리</p>
 				<form>
 					<table class="table">
-						<tr>
-							<td class="info">1등급</td>
-							<td width="30%;">대표이사</td>
-							<td><input type="text"><input type="button" class="img-button"></td>
-						</tr>
-						<tr>
-							<td class="info">2등급</td>
-							<td>이사</td>
-							<td><input type="text"><input type="button" class="img-button"></td>
-						</tr>
-						<tr>
-							<td class="info">3등급</td>
-							<td>부장</td>
-							<td><input type="text"><input type="button" class="img-button"></td>
-						</tr>
-						<tr>
-							<td class="info">4등급</td>
-							<td>차장</td>
-							<td><input type="text"><input type="button" class="img-button"></td>
-						</tr>
-						<tr>
-							<td class="info">5등급</td>
-							<td>과장</td>
-							<td><input type="text"><input type="button" class="img-button"></td>
-						</tr>
-						<tr>
-							<td class="info">6등급</td>
-							<td>대리</td>
-							<td><input type="text"><input type="button" class="img-button"></td>
-						</tr>
-						<tr>
-							<td class="info">7등급</td>
-							<td>사원</td>
-							<td><input type="text"><input type="button" class="img-button"></td>
-						</tr>
+						<c:forEach var="job" items="${jobList }" varStatus="status">
+							<tr>
+								<td class="info" width="30%;">${status.count }등급</td>
+								<td width="30%;">${job.jobName }</td>
+							</tr>
+						</c:forEach>
 					</table>
 					<div id="saveArea">
 						<button type="button" class="btn btn-primary" onclick="location.href=''">저장</button>

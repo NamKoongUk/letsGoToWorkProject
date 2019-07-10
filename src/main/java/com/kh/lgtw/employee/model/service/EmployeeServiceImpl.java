@@ -513,6 +513,29 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return result;
 	}
 
+	@Override
+	public HashMap<String, Object> selectLevelCaptain() {
+		
+		HashMap<String, Object> hmap = new HashMap<String, Object>();
+		
+		ArrayList<JobVo> jobList = empDao.selectJobAdmin(sqlSession);
+		ArrayList<DeptVo> deptList = empDao.selectDeptList(sqlSession); 
+		ArrayList<EmployeeResult> empResult = empDao.selectEmpResult(sqlSession);
+		
+		
+		hmap.put("jobList", jobList);
+		hmap.put("deptList", deptList);
+		hmap.put("empList", empResult);
+		
+		
+		return hmap;
+	}
+
+	@Override
+	public ArrayList<DeptVo> selectOrgDept() {
+		return empDao.selectOrgDept(sqlSession);
+	}
+
 
 
 
