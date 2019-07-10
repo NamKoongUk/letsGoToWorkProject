@@ -32,5 +32,7 @@ public interface MessengerDao {
 	//임시저장 메세지 수정
 	int updateMessenger(Map<String, Object> params, SqlSession sqlSession);
 
+	ArrayList<HashMap<String, Object>> getStoDetail(Map<String, Object> params, SqlSession sqlSession);
+
 	
 }

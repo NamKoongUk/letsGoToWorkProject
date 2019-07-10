@@ -60,6 +60,12 @@ public class MessengerServiceImpl implements MessengerService {
 	public int updateMessenger(Map<String, Object> params) {
 		return md.updateMessenger(params, sqlSession);
 	}
+	
+	//임시저장 조회
+	@Override
+	public ArrayList<HashMap<String, Object>> getStoDetail(Map<String, Object> params) {
+		return md.getStoDetail(params, sqlSession);
+	}
 
 
 

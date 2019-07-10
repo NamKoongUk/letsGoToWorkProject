@@ -130,7 +130,7 @@ body {
 						<tr>
 							<td>
 								<label class="sendType">수신자</label>
-								<div id="sendInput" style="width:100%; margin-bottom:10px; height:28px; border:1px solid #cdcdcd; padding:2px;">
+								<div id="sendInput" style="width:100%; margin-bottom:10px; height:auto; overflow:auto; border:1px solid #cdcdcd; padding:2px;">
 								</div>
 							</td>
 						</tr>
@@ -519,12 +519,12 @@ body {
 		if(messageType == 'sto'){
 			$(".messengerName").val(messageDetail.msgTitle).attr("readonly",false);
 			$("#sendInput").append($("<span>").text(messageDetail.empName+" ("+messageDetail.deptName+") "+"- " + messageDetail.jobName)
-							.attr("id",messageDetail.sender));
+							.attr("id",messageDetail.sender).attr("class",messageDetail.msgNo));
 			$(".messengerContent").val(messageDetail.msgContent).attr("readonly",false);
 		}else{
 			$(".messengerName").val(messageDetail.msgTitle).attr("readonly","readonly");
 			$("#sendInput").append($("<span>").text(messageDetail.empName+" ("+messageDetail.deptName+") "+"- " + messageDetail.jobName)
-							.attr("id",messageDetail.sender));
+							.attr("id",messageDetail.sender).attr("class",messageDetail.msgNo));
 			$(".messengerContent").val(messageDetail.msgContent).attr("readonly","readonly");
 		}
 		
@@ -599,13 +599,10 @@ body {
 		
 		if($(".title").attr("id") == 'res'){
 			resMessenger();
-		}else if($(".title").attr("id") == 'req'){
-			reqMessenger();
-		}else if($(".title").attr("id") == 'sto'){
-			stoMessenger();
 		}else{
-			delMessenger();
+			changeView('2');
 		}
+
 	}
 	
 	$(".totalCheck").click(function(){
@@ -656,19 +653,68 @@ body {
 	
 	function updateMessenger(){
 		
+		console.log($("#sendInput").children("span"));
+		
+		var msgNo = $("#sendInput").children("span");
+		var msgNoArr = new Array();
+		
+		for(var i=0; i<msgNo.length; i++){
+			msgNoArr.push(msgNo.eq(i).prop("class"));
+		}
+		
+		
+		
 		var updateMsgInfo = {
-								
+							
+							messengerName:$(".messengerName").val(),
+							messengerContent:$(".messengerContent").val(),
+							msgNoArr:msgNoArr
 							}
 		
-		$.ajax({
+		 $.ajax({
 			url:"messenger/updateMessenger",
 			type:"put",
 			contentType: 'application/json; charset=utf-8',
 			data:JSON.stringify(updateMsgInfo),
 			dataType: 'json',
-		});
+			success:function(data){
+				stoMessenger();
+			}
+		}); 
 	}
+	
+	$(".UpdateBtn").click(function(){
+		var checked = $("input[type='checkbox']:checked").not(".totalCheck");
+		$(".sendEmp").empty();
+		
+		if(checked.length == 1){
+			var msgNo = checked.parent().parent().prop("id");
 			
+			$.ajax({
+				url:"messenger/getStoDetail/" + msgNo,
+				type:"get",
+				success:function(data){
+					console.log(data);
+					StoDetail(data);
+					
+				},
+				error:function(data){
+					
+				}
+				
+			})
+		}else{
+			alert("일괄 수정은 한 항목만 선택할 수 있습니다.");
+		}
+	});
+		
+	function StoDetail(stoMessenger){
+		console.log(stoMessenger);
+		$(".messengerName").val("");
+		$(".messengerContent").val("");
+		detailView();
+		
+	}
 	
 		
 	</script>

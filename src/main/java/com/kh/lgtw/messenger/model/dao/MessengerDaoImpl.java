@@ -85,8 +85,24 @@ public class MessengerDaoImpl implements MessengerDao {
 	//임시저장 메세지 수정
 	@Override
 	public int updateMessenger(Map<String, Object> params, SqlSession sqlSession) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		int result = 0;
+		ArrayList<Object> list = (ArrayList<Object>) params.get("msgNoArr");
+		
+		for(int i=0; i<list.size(); i++) {
+			
+			params.put("msgNoArr",Integer.parseInt((String) list.get(i)));
+			
+			result += sqlSession.update("Messenger.updateMessenger",params);
+		}
+		
+		return result;
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> getStoDetail(Map<String, Object> params, SqlSession sqlSession) {
+		ArrayList list = (ArrayList) sqlSession.selectList("Messenger.getStoDetail",params);
+		return list;
 	}
 
 
