@@ -85,7 +85,7 @@
 					<ul class="nav nav-tabs">
 						<li class="active"><a data-toggle="tab" href="#absence">부재중 설정</a></li>
 						<li><a data-toggle="tab" href="#sign">서명 설정</a></li>
-						<li><a data-toggle="tab" href="#officeMail">공용메일 설정</a></li>
+						<li><a data-toggle="tab" href="#"></a></li>
 					</ul>
 				</div>
 
@@ -191,8 +191,6 @@
 			endDate = Date.parse(new Date(endDate));
 			
 			var date = Date.now();
-			
-			
 			
 			console.log(startDate);
 			console.log(date)
