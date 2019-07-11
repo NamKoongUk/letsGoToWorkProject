@@ -61,7 +61,7 @@ public interface CommunityDao {
 	CommunityPost TemporaryDetails(SqlSessionTemplate sqlSession, int contentNO);
 
 	
-
+	
 	
 	
 	//게시판 생성

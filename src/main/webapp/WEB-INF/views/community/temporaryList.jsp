@@ -16,6 +16,9 @@
   	
   		.table{font-size:150%; }
   
+  		
+  		
+  		
   		#searcArea{font-size:150%;}
   	
   	</style>

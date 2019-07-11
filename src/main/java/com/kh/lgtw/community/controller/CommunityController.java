@@ -34,6 +34,8 @@ public class CommunityController {
 	  
 	 @Autowired SqlSession sqlSession;
 	 
+	 
+	 
 
 	// 게시판  main 조회 메소드
 	@RequestMapping("community.co")

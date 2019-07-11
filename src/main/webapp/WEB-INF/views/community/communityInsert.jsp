@@ -11,6 +11,8 @@
 <style>
 	.boardArea {font-size:150%;}
 
+
+
 </style>
 
 </head>
