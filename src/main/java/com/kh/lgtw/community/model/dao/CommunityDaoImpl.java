@@ -151,7 +151,12 @@ public class CommunityDaoImpl implements CommunityDao {
 		
 	}
 
-	
+	@Override
+	public int commentListcount(int contentno, SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Community.commentListcount" , contentno);
+	}
+
 	
 	
 

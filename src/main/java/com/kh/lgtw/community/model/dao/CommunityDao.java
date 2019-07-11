@@ -60,6 +60,10 @@ public interface CommunityDao {
 	//임시저장 상세 
 	CommunityPost TemporaryDetails(SqlSessionTemplate sqlSession, int contentNO);
 
+	int commentListcount(int contentno, SqlSessionTemplate sqlSession);
+
+	
+
 	
 	
 	

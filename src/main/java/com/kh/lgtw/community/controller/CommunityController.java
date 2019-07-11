@@ -3,6 +3,7 @@ package com.kh.lgtw.community.controller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,16 +11,23 @@ import javax.servlet.http.HttpSession;
 import org.apache.ibatis.session.SqlSession;
 import org.omg.CORBA.Object;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.common.CommonUtils;
+import com.kh.lgtw.common.Pagination;
 import com.kh.lgtw.community.model.service.CommunityService;
 import com.kh.lgtw.community.model.vo.Community;
 import com.kh.lgtw.community.model.vo.CommunityAttachment;
@@ -151,7 +159,9 @@ public class CommunityController {
 		 ca.setFileType(ext); 
 		 ca.setPsno(cp.getContentNO()); 
 		 
-		 System.out.println("ca값 :" +ca);
+		 System.out.println("ca값 :" +ca); 
+		 
+		 HashMap<String ,Object> file = new HashMap<String,Object>();
 		 
 		 
 		 
@@ -159,6 +169,8 @@ public class CommunityController {
 		 
 		 
 		 
+		 
+	
 		 
 		 try {
 			 files.transferTo(new File(filePath + "\\" + changeName + ext));
@@ -494,7 +506,59 @@ public class CommunityController {
 	}
 	
 	
+	/*
+	 * @GetMapping(value="/selectComment/{currentPage}") public @ResponseBody
+	 * ResponseEntity<HashMap<String,Object>>selectComment(@PathVariable Map<String
+	 * ,Object> params , HttpServletRequest request){
+	 * 
+	 * System.out.println(params);
+	 * 
+	 * int currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	 * 
+	 * System.out.println(currentPage);
+	 * 
+	 * int listCount = cs.selectCommentCount(params); PageInfo pi = new PageInfo();
+	 * pi =
+	 * Pagination.getPageInfo(Integer.parseInt(params.get("currentPage").toString())
+	 * , listCount);
+	 * 
+	 * ArrayList<HashMap<String,Object>> list = cs.selectComment(params);
+	 * 
+	 * HashMap<String,Object> hmap = new HashMap<String ,Object> ();
+	 * 
+	 * hmap.put("pi", (Object) pi); hmap.put("list", (Object) list);
+	 * 
+	 * return new ResponseEntity<HashMap<String,Object>>(hmap,HttpStatus.OK);
+	 * 
+	 * }
+	 */	
 	
+	
+	 @RequestMapping("commentList.co")  
+	 public  ModelAndView  commentList(@RequestParam Integer contentno , @RequestParam Integer curPage) 
+	 {
+		int listcount = cs.commentListcount(contentno);
+	   
+		System.out.println("listcount 값 :" +listcount);
+	   System.out.println("contentno 값:"+contentno); 
+	   System.out.println("curPage 값:"+curPage);
+	  
+	   PageInfo pi = Pagination.getPageInfo(curPage, listcount);
+		 
+	   
+	   System.out.println("pi:"+ pi);
+	   
+	   ArrayList<CommunityComment> list = cs.selectcommentList(contentno);
+	   HashMap<String,Object> hmap = new HashMap<String,Object>();
+	   
+		/*
+		 * hmap.put("pi",pi); hmap.put()"list" )
+		 */
+	  
+	   
+		 
+		 return null; 
+	 }
 	
 
 }

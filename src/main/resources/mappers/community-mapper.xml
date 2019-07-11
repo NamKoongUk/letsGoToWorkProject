@@ -240,5 +240,15 @@
 		AND C.STATUS = 'T' 
 	
 	</select>
+	
+	<select id="commentListcount" parameterType="_int" resultType="_int">
+	
+		SELECT COUNT(CC.COMMENT_NO) 
+		FROM CONTENT C 
+		JOIN C_COMMENT CC  ON (C.CONTENT_NO = CC.CONTENT_NO )
+		WHERE CC.CONTENT_NO = #{psno}
+	
+	</select>
+	
 
 </mapper>

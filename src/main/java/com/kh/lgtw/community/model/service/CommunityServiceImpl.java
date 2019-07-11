@@ -1,8 +1,11 @@
 package com.kh.lgtw.community.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.omg.CORBA.Object;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -179,6 +182,46 @@ public class CommunityServiceImpl  implements CommunityService{
 	public CommunityPost TemporaryDetails(int contentNO) {
 		// TODO Auto-generated method stub
 		return cd.TemporaryDetails(sqlSession,contentNO);
+	}
+
+
+
+	@Override
+	public int selectCommentCount(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectCommentList(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectComment(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public int commentListcount(int contentno) {
+		// TODO Auto-generated method stub
+		return cd.commentListcount(contentno ,sqlSession);
+	}
+
+
+
+	@Override
+	public ArrayList<CommunityComment> selectcommentList(Integer contentno) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

@@ -1,6 +1,10 @@
 package com.kh.lgtw.community.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.omg.CORBA.Object;
 
 import com.kh.lgtw.community.model.vo.Community;
 import com.kh.lgtw.community.model.vo.CommunityAttachment;
@@ -59,6 +63,18 @@ public interface CommunityService
 	int DeleteReply(CommunityComment cc);
 
 	CommunityPost TemporaryDetails(int contentNO);
+
+	
+
+	int selectCommentCount(Map<String, Object> params);
+
+	ArrayList<HashMap<String, Object>> selectCommentList(Map<String, Object> params);
+
+	ArrayList<HashMap<String, Object>> selectComment(Map<String, Object> params);
+
+	int commentListcount(int contentno);
+
+	ArrayList<CommunityComment> selectcommentList(Integer contentno);
 
 
 	
