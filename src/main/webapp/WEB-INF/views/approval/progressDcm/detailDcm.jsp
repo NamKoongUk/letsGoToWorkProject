@@ -15,9 +15,7 @@
 		vertical-align:middle !important;
 		font-size:7;
 	}
-	#commentArea{
-		padding-bottom:100px;
-	}
+	
 </style>
 </head>
 <body>
@@ -30,7 +28,7 @@
 			<h2 class="title" align="center">${ requestScope.map.afName }</h2>
 			
 			<div class="content">
-					<table class="table table-hover table-bordered">
+					<table class="table table-bordered">
 						<tr>
 				        <td class="head">기안부서</td>
 				        <td>
@@ -724,8 +722,20 @@
                                 </tr>
                         </table>
                       </c:if>
+					  <c:if test="${ requestScope.map.attachmentNo != null }">
+					 	<table class="table table-bordered">
+					 		<tr>
+					 			<td class="head" style="width:100px;">첨부파일</td>
+					 			<td>
+						 			<label style="margin-right:10px;"><c:out value="${ requestScope.map.originName }"/></label>
+						 			<button class="btn" onclick="location.href='${contextPath}/downloadFile.ap?adNo=${ requestScope.map.adNo }'">다운로드</button>
+					 			</td>
+					 		</tr>
+					 	</table>					  
+					  </c:if>	
 						
 					</div>
+					
 					
 					<div id="area">
 						<label>제목 : ${ requestScope.map.adTitle }</label>
@@ -734,11 +744,11 @@
 					</div>
 					
 			</div>
-			<div id="commentArea" style="border:1px solid lightgray">
+			<div id="commentArea" style="border:1px solid lightgray" class="row">
 			    <div class="form-group" style="padding:20px;">
 			      <label for="comment" style="display:block;">댓글작성 : </label>
 			      <textarea class="form-control" rows="3" id="replyContent" style="resize:none;"></textarea>
-			      <button class="btn pull-right" style="display:inline-block; margin-top:10px;" onclick="writeReply();">작성하기</button>
+			      <button class="btn pull-right" style="display:block; margin-top:10px; margin-bottom:10px;" onclick="writeReply();">작성하기</button>
 			    </div>
 			    <c:forEach var="reply" items="${ requestScope.appList.reply }">
 			    	<div class="media" style="padding:30px; width:100%;">
@@ -909,6 +919,27 @@
 			var arNo = $(this).parents().children().eq(0).val();
 			
 			console.log(arNo);
+						
+			var object = {
+						arNo:arNo
+			}
+
+			$.ajax({
+				url:"${contextPath}/approval/deleteReply",
+				data: JSON.stringify(object),
+				contentType: 'application/json; charset=utf-8',
+				type:"post",
+				success:function(data){
+					
+					if(data == '성공') {
+						alert("정상적으로 삭제되었습니다.");
+					}else {
+						alert("삭제에 실패했습니다.");
+					}
+					location.reload();
+					
+				}
+			});
 			
 		});
 		
@@ -941,7 +972,31 @@
 			
 			$(".update").click(function(){
 				var arNo = $(this).parent().parent().children().eq(0).val();
-				console.log(arNo);
+				var text = $(this).parent().children().eq(0).val();
+				
+				console.log(text);
+				
+				var object = {
+						text:text,
+						arNo:arNo
+				}
+
+				$.ajax({
+					url:"${contextPath}/approval/updateReply",
+					data: JSON.stringify(object),
+					contentType: 'application/json; charset=utf-8',
+					type:"post",
+					success:function(data){
+						
+						if(data == '성공') {
+							alert("정상적으로 수정되었습니다.");
+						}else {
+							alert("수정이 실패했습니다.");
+						}
+						location.reload();
+						
+					}
+				});
 			});
 		});
 		

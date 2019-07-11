@@ -143,6 +143,11 @@
 		<result property="adStatus" column="AD_STATUS"/>
 		<result property="signCode" column="SIGN_CODE"/>
 		<result property="empName" column="EMP_NAME"/>
+		<result property="attachmentNo" column="ATTACHMENT_NO"/>
+		<result property="originName" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="filePath" column="FILEPATH"/>
+		<result property="fileType" column="FILE_TYPE"/>
 		<result property="signContent" column="SIGN_CONTENT" javaType="java.lang.String"/>
 		<collection property="appList" javaType="java.util.ArrayList" resultMap="appList"/>
 	</resultMap>
@@ -155,6 +160,15 @@
 		<result property="adNo" column="AD_NO"/>
 		<result property="empNo" column="EMPNO"/>
 		<result property="empName" column="EMP_NAME"/>
+	</resultMap>
+	
+	<resultMap type="com.kh.lgtw.common.model.vo.Attachment" id="attachment">
+		<id property="attNo" column="ATTACHMENT_NO"/>
+		<result property="originName" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="filePath" column="FILEPATH"/>
+		<result property="fileType" column="FILE_TYPE"/>
+		<result property="adNo" column="AD_NO"/>
 	</resultMap>
 	
 	<select id="selectSignForm" resultMap="signFormResultSet" parameterType="SignForm">
@@ -320,7 +334,7 @@
 	</insert> 
 	
 	<select id="detailDcm" parameterType="java.lang.String" resultMap="appDocument2">
-		SELECT AD.*, AF.*, SF.*, E.EMP_NAME AS AD_DCM_WRITER, D.DEPT_NAME, E2.EMP_NAME AS APPROVALER, J.JOB_NAME ,AL.*
+		SELECT AD.*, AF.*, SF.*, E.EMP_NAME AS AD_DCM_WRITER, D.DEPT_NAME, E2.EMP_NAME AS APPROVALER, J.JOB_NAME ,AL.*, A.*
 		FROM APP_DOCUMENT AD
 		JOIN APPROVAL_LIST AL ON (AL.AD_NO = AD.AD_NO)
 		JOIN EMPLOYEE E2 ON (AL.AL_EMPNO = E2.EMPNO)
@@ -332,6 +346,7 @@
 		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
 		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
 		JOIN SECURITY S ON(S.SECURITY_CODE = AF.SECURITY_CODE)
+        LEFT JOIN ATTACHMENT A ON(AD.AD_NO = A.AD_NO)
 		WHERE AD.AD_NO = #{adNo}
 		ORDER BY AL_ROLL, AL_LEVEL
 	</select>
@@ -821,6 +836,31 @@
         OR (AD_WRITER = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려')
 	</select>
 	
+	<select id="selectAllPrograssDcmAndCategory" resultType="_int" parameterType="java.util.HashMap">
+		SELECT COUNT(DISTINCT AD.AD_NO)
+		FROM APPROVAL_LIST AL
+		JOIN APP_DOCUMENT AD ON (AL.AD_NO = AD.AD_NO)
+		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
+		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
+		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
+		JOIN DEPT_HISTORY DH ON(dh.empno = E.EMPNO)
+        JOIN DEPT D ON(D.DEPT_CODE = DH.DEPT_CODE)
+		WHERE ((AL_EMPNO = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려')
+        OR (AD_WRITER = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려'))
+        <if test="afNo != null and !afNo.equals('all')">
+	        AND AF.AF_NO = #{afNo}
+        </if>
+        <if test="type == 'emp' and type != null">
+        	AND E.EMP_NAME LIKE '%'||#{text}||'%'
+        </if>
+        <if test="type == 'title' and type != null">
+        	AND AD.AD_TITLE LIKE '%'||#{text}||'%'
+        </if>
+        <if test="type == 'dept' and type != null">
+        	AND D.DEPT_NAME LIKE '%'||#{text}||'%'
+        </if>
+	</select>
+	
 	<select id="showAllPrograssDocument" parameterType="PageInfo" resultMap="appDocument2">
 		SELECT *
 		FROM APPROVAL_LIST AL
@@ -828,9 +868,23 @@
 		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
 		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
 		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
-		WHERE (AL_EMPNO = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려')
-        OR (AD_WRITER = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려')
-        ORDER BY AD_START_DATE
+		WHERE ((AL_EMPNO = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려')
+        OR (AD_WRITER = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려'))
+        <if test="filterInfo != null and !filterInfo.equals('all')">
+        	AND AF.AF_NO = #{filterInfo}
+        </if>
+        <if test="sortInfo != null">
+	        <if test="sortInfo.equals('emp')">
+	        	AND E.EMP_NAME LIKE '%'||#{sort}||'%'
+	        </if>
+	        <if test="sortInfo.equals('title')">
+	        	AND AD.AD_TITLE LIKE '%'||#{sort}||'%'
+	        </if>
+	        <if test="sortInfo.equals('dept')">
+	        	AND D.DEPT_NAME LIKE '%'||#{sort}||'%'
+	        </if>        
+        </if>
+        ORDER BY AD_START_DATE DESC
 	</select>
 	
 	<!-- 결재 완료 문서 -->
@@ -988,6 +1042,27 @@
 		WHERE AD_NO = #{adNo}
 		AND AR_STATUS = 'Y'
 		ORDER BY AR_DATE DESC
+	</select>
+	
+	<update id="updateReply" parameterType="java.util.HashMap">
+		UPDATE AD_REPLY SET AR_CONTENT = #{text} WHERE AR_NO = #{arNo}
+	</update>
+	
+	<update id="deleteReply" parameterType="java.util.HashMap">
+		UPDATE AD_REPLY SET AR_STATUS = 'N' WHERE AR_NO = #{arNo}
+	</update>
+	
+	<insert id="uploadFile" parameterType="java.util.HashMap">
+		<selectKey resultType="string" keyProperty="appDcmId" order="BEFORE">
+			SELECT SEQ_AD_NO.CURRVAL FROM DUAL
+		</selectKey>
+		INSERT INTO ATTACHMENT VALUES(SEQ_ATTACHMENT_NO.NEXTVAL, #{originName}, #{changeName}, #{filePath}, null, 'approval', null, null, #{appDcmId}, null)
+	</insert>
+	
+	<select id="downloadFile" parameterType="_int" resultMap="attachment">
+		SELECT *
+		FROM ATTACHMENT
+		WHERE AD_NO = #{adNo}
 	</select>
 	
 </mapper>

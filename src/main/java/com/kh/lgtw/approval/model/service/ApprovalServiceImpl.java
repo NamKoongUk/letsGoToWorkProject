@@ -16,6 +16,7 @@ import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.approval.model.vo.Security;
 import com.kh.lgtw.approval.model.vo.SignForm;
 import com.kh.lgtw.approval.model.vo.SignLine;
+import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.employee.model.vo.Employee;
 
 @Service
@@ -36,7 +37,13 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return ad.selectAllPrograssDcm(empNo, session);
 	}
-
+	@Override
+	public int selectAllPrograssDcm(int empNo, HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		map.put("empNo", empNo);
+		
+		return ad.selectAllPrograssDcm(map, session);
+	}
 
 	
 	//결재대기문서 이동
@@ -610,6 +617,64 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return result;
 	}
 	
+	@Override
+	public int writeApprovalAndFile(Map<String, Object> appDcm, HashMap<String, Object> file) {
+		int result = 0;
+		int count = 0;
+		int result1 = ad.writeApproval((AppDocument)appDcm.get("ad"), session);
+
+		if(result1 > 0) {
+			
+			switch((int)appDcm.get("type")) {
+			case 1 : result += ad.insertCircleList(appDcm, session);
+					count = 1;
+				break;
+			case 2 : result += ad.insertApprovalList(appDcm, session);
+					count += 1;
+					if(appDcm.get("reference") != null) {
+						result += ad.insertReferenceList(appDcm, session);
+						count += 1;
+					}
+					 result += ad.insertSendList(appDcm, session);
+					 count += 1;
+				break;
+			case 3 : result += ad.insertApprovalList(appDcm, session);
+					result += ad.insertAgreeList(appDcm, session);
+					count += 2;
+					if(appDcm.get("reference") != null) {
+						result += ad.insertReferenceList(appDcm, session);	
+						count += 1;
+					}
+				break;
+			case 4 : result += ad.insertApprovalList(appDcm, session);
+					result += ad.insertPayAgreeList(appDcm, session);
+					result += ad.insertAgreeList(appDcm, session);
+					count += 3;
+					if(appDcm.get("reference") != null) {
+						result += ad.insertReferenceList(appDcm, session);	
+						count += 1;
+					}
+				break;
+			case 5 : result += ad.insertApplyList(appDcm, session);
+					result += ad.insertProcessList(appDcm, session);
+					count += 2;
+					if(appDcm.get("reference") != null) {
+						result += ad.insertReferenceList(appDcm, session);						
+						count += 1;
+					}
+				break;
+			}
+			
+			if(count == result) {
+				System.out.println("작동?");
+				int result3 = ad.uploadFile(file, session);
+			}else {
+				return result;
+			}		
+		}
+		return result1;
+	}
+	
 //	//문서양식 불러오기
 //	@Override
 //	public AppForm selectDcmForm(int afNo) {
@@ -758,6 +823,21 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public int writeReply(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		return ad.writeReply(map, session);
+	}
+	@Override
+	public int updateReply(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return ad.updateReply(map, session);
+	}
+	@Override
+	public int deleteReply(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return ad.deleteReply(map, session);
+	}
+	@Override
+	public Attachment downloadFile(int adNo) {
+		// TODO Auto-generated method stub
+		return ad.downloadFile(adNo, session);
 	}
 
 

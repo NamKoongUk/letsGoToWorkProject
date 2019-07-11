@@ -42,7 +42,7 @@
 		<section class="col-sm-10">
 			<h3 class="title">문서 작성</h3>
 			<hr>
-			<form class="form-horizontal" role="form" id="editorForm" method="post" action="${contextPath}/writeApproval.ap">
+			<form class="form-horizontal" role="form" id="editorForm" method="post" action="${contextPath}/writeApproval.ap" encType="multipart/form-data">
 			<table class="table table-bordered">
 			    <tbody>
 			      <tr>
@@ -380,13 +380,10 @@
 				                <textarea name="adContent" id="adContent"></textarea>
 				            </div>
 				        </div>
-				        <div class="input-file"> 
-				        	<input type="text" readonly="readonly" class="file-name" /> 
-				        	<label for="upload01" class="file-label">파일 업로드</label> 
-				        	<input type="file" name="" id="upload01" class="file-upload" /> 
-				        </div>
+				        <input type="file" name="contract">
 				        <div class="form-group">
 				            <div class="col-lg-12" align="right">
+				        
 				            	<button type="button" class="btn btn-md" id="save">임시저장</button>
 				            	<button type="button" class="btn btn-md btn-default">취소</button>
 				                <button type="submit" class="btn btn-md btn-primary">기안하기</button>
@@ -983,7 +980,7 @@
 		$(a).parent().remove();
 	}
 			
-	(function($){ var $fileBox = null; $(function() { init(); }) 
+	/* (function($){ var $fileBox = null; $(function() { init(); }) 
 	
 	function init() { 
 		$fileBox = $('.input-file'); 
@@ -1002,7 +999,7 @@
 				$fileText = $target.siblings('.file-name'); 
 				$fileText.val(fileName); }) 
 				$btnUpload.on('focusin focusout', function(e) { 
-					e.type == 'focusin' ? $label.addClass('file-focus') : $label.removeClass('file-focus'); }) }) } })(jQuery);
+					e.type == 'focusin' ? $label.addClass('file-focus') : $label.removeClass('file-focus'); }) }) } })(jQuery); */
 
 
 

@@ -15,6 +15,7 @@ import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.approval.model.vo.Security;
 import com.kh.lgtw.approval.model.vo.SignForm;
 import com.kh.lgtw.approval.model.vo.SignLine;
+import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.employee.model.vo.Employee;
 
 @Repository
@@ -35,6 +36,12 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		
 		return (ArrayList)session.selectList("Approval.showAllPrograssDocument", pi, rowBounds);
 	}
+	@Override
+	public int selectAllPrograssDcm(HashMap<String, Object> map, SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.selectAllPrograssDcmAndCategory", map);
+	}
+	
 	@Override
 	public int selectAllPrograssDcm(int empNo, SqlSession session) {
 		// TODO Auto-generated method stub
@@ -922,6 +929,32 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		// TODO Auto-generated method stub
 		return (ArrayList)session.selectList("Approval.selectAdReply", adNo);
 	}
+
+	@Override
+	public int updateReply(HashMap<String, Object> map, SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.update("Approval.updateReply", map);
+	}
+
+	@Override
+	public int deleteReply(HashMap<String, Object> map, SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.update("Approval.deleteReply", map);
+	}
+
+	@Override
+	public int uploadFile(HashMap<String, Object> file, SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.insert("Approval.uploadFile", file);
+	}
+
+	@Override
+	public Attachment downloadFile(int adNo, SqlSession session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("Approval.downloadFile", adNo);
+	}
+
+
 
 
 
