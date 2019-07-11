@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -66,6 +67,16 @@ public interface EmployeeService {
 	ArrayList<DeptVo> selectOrgDept();
 
 	ArrayList<Attachment> selectAttachList();
+
+	ArrayList<EmployeeResult> searchEmpUser(PageInfo pi, EmployeeResult employee);
+
+	int getSearchEmpCount(EmployeeResult employee);
+
+	ArrayList<EmployeeResult> allEmpList();
+
+	int insertPrsnlManager(ArrayList<Object> empList);
+
+
 
 
 

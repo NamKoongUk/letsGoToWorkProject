@@ -32,12 +32,13 @@
 	
 	<div class="row wrap">
 		<jsp:include page="../common/sideMenu/employee.jsp"/>
+		<c:set var="deptList" value="${hmap.deptList }"/>
 		
 		<section class="col-sm-10">
-			<h1 class="title">직급/부서장 관리</h1>
+			<h1 class="title">부서장 관리</h1>
 			<hr>
 			<div class="content">
-				<p>직급관리</p>
+				<%-- <p>직급관리</p>
 				<form>
 					<table class="table">
 						<c:forEach var="job" items="${jobList }" varStatus="status">
@@ -51,34 +52,38 @@
 						<button type="button" class="btn btn-primary" onclick="location.href=''">저장</button>
 					</div>
 				</form>
-				<hr>
+				<hr> --%>
 				<p>부서장 관리</p>
 				<form>
 					<table class="table">
 						<tr>
 							<th>부서</th>
-							<td>부서장</td>
-							<td>직급</td>
-							<td>상태</td>
+							<th>부서장</th>
+							<th>직급</th>
+							<th>상태</th>
 						</tr>
-						<tr>
-							<td>출근합시다</td>
-							<td>김채연</td>
-							<td>대표이사</td>
-							<td>정상<a class="aBtn">(변경)</a></td>
-						</tr>
-						<tr>
-							<td>개발1팀</td>
-							<td>남궁욱</td>
-							<td>과장</td>
-							<td>정상<a class="aBtn">(변경)</a></td>
-						</tr>
-						<tr>
-							<td>개발2팀</td>
-							<td><input type="text" placeholder="공석(부서장을 입력하세요)"></td>
-							<td></td>
-							<td><button type="button" class="btn btn-primary" onclick="location.href=''">저장</button></td>
-						</tr>
+						
+						<c:forEach var="dept" items="${deptList }">
+							<tr>
+								<td><c:out value="${dept.deptName }"></c:out></td>
+								<td>
+									<c:if test="${dept.managerEmpNo ne 0 }">
+										<c:forEach var="emp" items="${empList }">
+											<c:if test="${dept.managerEmpNo eq emp.empNo }">
+												<c:out value="${emp.empName }"></c:out>
+											</c:if>
+										</c:forEach>
+									</c:if>
+									<c:if test="${dept.managerEmpNo eq 0 }">
+										공석   
+									</c:if>
+								</td>
+								<td>2</td>
+								<td>정상</td>
+							</tr>
+								
+								
+						</c:forEach>
 					</table>
 				
 				</form>
