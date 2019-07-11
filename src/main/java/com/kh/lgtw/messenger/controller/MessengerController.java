@@ -150,7 +150,7 @@ public class MessengerController {
 	public ResponseEntity<Map<String, Object>> resDelMessenger(@RequestBody Map<String, Object> params) {
 		System.out.println(params);
 		
-		//int result = ms.delMessenger(params);
+		int result = ms.delMessenger(params);
 		
 		return new ResponseEntity<Map<String, Object>>(params,HttpStatus.OK);
 	}

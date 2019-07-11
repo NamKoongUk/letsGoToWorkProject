@@ -31,6 +31,8 @@ public interface MessengerService {
 	//stoSend
 	int stoSendMessenger(Map<String, Object> params);
 
+	int delMessenger(Map<String, Object> params);
+
 
 	
 
