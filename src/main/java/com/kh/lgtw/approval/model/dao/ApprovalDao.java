@@ -13,6 +13,7 @@ import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.approval.model.vo.Security;
 import com.kh.lgtw.approval.model.vo.SignForm;
 import com.kh.lgtw.approval.model.vo.SignLine;
+import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.employee.model.vo.Employee;
 
 public interface ApprovalDao {
@@ -213,5 +214,15 @@ public interface ApprovalDao {
 	int writeReply(HashMap<String, Object> map, SqlSession session);
 
 	ArrayList<HashMap<String, Object>> selectAdReply(SqlSession session, String adNo);
+
+	int updateReply(HashMap<String, Object> map, SqlSession session);
+
+	int deleteReply(HashMap<String, Object> map, SqlSession session);
+
+	int uploadFile(HashMap<String, Object> file, SqlSession session);
+
+	Attachment downloadFile(int adNo, SqlSession session);
+
+	int selectAllPrograssDcm(HashMap<String, Object> map, SqlSession session);
 
 }

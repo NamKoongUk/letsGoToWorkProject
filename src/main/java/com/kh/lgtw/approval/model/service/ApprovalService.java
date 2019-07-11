@@ -11,6 +11,7 @@ import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.approval.model.vo.Security;
 import com.kh.lgtw.approval.model.vo.SignForm;
 import com.kh.lgtw.approval.model.vo.SignLine;
+import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.employee.model.vo.Employee;
 
 public interface ApprovalService {
@@ -176,6 +177,16 @@ public interface ApprovalService {
 	int deleteManager(ArrayList<Object> empList);
 
 	int writeReply(HashMap<String, Object> map);
+
+	int updateReply(HashMap<String, Object> map);
+
+	int deleteReply(HashMap<String, Object> map);
+
+	int writeApprovalAndFile(Map<String, Object> appDcm, HashMap<String, Object> file);
+
+	Attachment downloadFile(int adNo);
+
+	int selectAllPrograssDcm(int empNo, HashMap<String, Object> map);
 
 	
 

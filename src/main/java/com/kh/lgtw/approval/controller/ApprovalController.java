@@ -1,10 +1,15 @@
 package com.kh.lgtw.approval.controller;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.lgtw.approval.model.service.ApprovalService;
 import com.kh.lgtw.approval.model.vo.AppDocument;
@@ -27,7 +33,9 @@ import com.kh.lgtw.approval.model.vo.AppForm;
 import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.approval.model.vo.Security;
 import com.kh.lgtw.approval.model.vo.SignForm;
+import com.kh.lgtw.common.CommonUtils;
 import com.kh.lgtw.common.Pagination;
+import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.employee.model.vo.Employee;
 
 @Controller
@@ -40,27 +48,53 @@ public class ApprovalController {
 	@RequestMapping("showAllPrograssDcm.ap")
 	public String showAllPrograssDocument(HttpServletRequest request, Model model) {
 
+		
 		Employee e = (Employee)request.getSession().getAttribute("loginEmp");
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		
 		int currentPage = 1;
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		}
+		System.out.println("currentPage : " + currentPage);
 		
-		int listCount = as.selectAllPrograssDcm(e.getEmpNo());
+		String text = "";
+		String type = "";
 		
+		if(request.getParameter("text") != null) {
+			text = request.getParameter("text");
+			type = request.getParameter("type");
+		}
+		map.put("text", text);
+		map.put("type", type);
+		
+		int listCount = 0;
+		
+		String category = "all";
+		if(request.getParameter("category") != null && !request.getParameter("category").equals("all")) {
+			category = request.getParameter("category");
+		}
+		map.put("afNo", category);
+		listCount = as.selectAllPrograssDcm(e.getEmpNo(), map);
+		
+		System.out.println("조건들 : " + map);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 	
 		pi.setEmpNo(e.getEmpNo());
-		pi.setSfCode("all");
+		pi.setFilterInfo(category);
+		pi.setSort(text);
+		pi.setSortInfo(type);
+		
 
 		ArrayList<HashMap<String, Object>> list = as.showAllPrograssDcm(pi);
 		ArrayList<HashMap<String, Object>> formList = as.selectFormList();
-//		System.out.println(list);
+		System.out.println(list);
+		System.out.println(pi);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("formList", formList);
 		model.addAttribute("pi", pi);
+		model.addAttribute("map", map);
 
 		return "progressDcm/allProgressDcm";
 	}
@@ -232,8 +266,8 @@ public class ApprovalController {
 
 		ArrayList<HashMap<String, Object>> list = as.showWaitCirculationDcm(pi);
 		ArrayList<HashMap<String, Object>> formList = as.selectFormList();
-		System.out.println(list);
-		
+		System.out.println("리스트" + list);
+		System.out.println("pi" + pi);
 		model.addAttribute("list", list);
 		model.addAttribute("formList", formList);
 		model.addAttribute("pi", pi);
@@ -757,7 +791,7 @@ public class ApprovalController {
 
 		HashMap<String, Object> map = as.showDetailDcm(adNo);
 		HashMap<String, ArrayList<HashMap<String, Object>>> appList = as.selectAppList(adNo);
-		System.out.println("map : " + map);		
+		System.out.println("map : " + map);	
 		model.addAttribute("map", map);
 		model.addAttribute("appList", appList);
 		
@@ -893,6 +927,34 @@ public class ApprovalController {
 		}
 		
 	}
+	//댓글수정
+	@RequestMapping(value="/approval/updateReply", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String updateReply(@RequestBody HashMap<String, Object> map, HttpSession session) {
+		System.out.println("updateReply : " + map);
+		int result = as.updateReply(map);;
+		
+		if(result > 0) {
+			return "성공";			
+		}else {
+			return "실패";
+		}
+		
+	}
+	//댓글삭제
+	@RequestMapping(value="/approval/deleteReply", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String deleteReply(@RequestBody HashMap<String, Object> map, HttpSession session) {
+		
+		int result = as.deleteReply(map);;
+		
+		if(result > 0) {
+			return "성공";			
+		}else {
+			return "실패";
+		}
+		
+	}
 	
 
 	// --------------------------------작성하기-------------------------------------
@@ -944,7 +1006,8 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping(value = "writeApproval.ap")
-	public String writeApproval(AppDocument ad, HttpServletRequest request) {
+	public String writeApproval(AppDocument ad, HttpServletRequest request, 
+			@RequestParam(name="contract", required=false) MultipartFile contract) {
 		System.out.println(ad);
 		String[] circle = request.getParameterValues("circleEmp");
 		String[] approval = request.getParameterValues("approvalEmp");
@@ -956,8 +1019,7 @@ public class ApprovalController {
 		String[] agree = request.getParameterValues("agreeEmp");
 		
 		String signCode = request.getParameter("signCode");
-		
-		System.out.println(process);
+
 		Map<String, Object> appDcm = new HashMap<String, Object>();
 		appDcm.put("ad", ad);
 		
@@ -1006,11 +1068,47 @@ public class ApprovalController {
 			break;
 
 		}
-
 		
-		int result = as.writeApproval(appDcm);
 		
-		return "redirect:index.jsp";			
+		if(contract.getOriginalFilename().length() > 0) {
+			System.out.println(contract);
+			
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			String filePath = root + "\\uploadFiles";
+			
+			String originFileName = contract.getOriginalFilename();
+			String ext = originFileName.substring(originFileName.lastIndexOf("."));
+			String changeName = CommonUtils.getRandomString() + ext;
+			HashMap<String, Object> file = new HashMap<String, Object>();
+			file.put("originName", originFileName);
+			file.put("filePath", filePath);
+			file.put("changeName", changeName);			
+			int result = as.writeApprovalAndFile(appDcm, file);
+			
+			if(result > 0) {
+				try {
+					contract.transferTo(new File(filePath + "\\" + changeName));
+					return "redirect:showWaitDcm.ap";
+				} catch (IllegalStateException | IOException e) {
+					new File(filePath + "\\" + changeName).delete();
+					return "redirect:showWaitDcm.ap";
+				}
+			}else {
+				return "redirect:showWaitDcm.ap";	
+			}
+			
+		}else {
+			int result = as.writeApproval(appDcm);
+			
+			if(result > 0) {
+				return "redirect:showWaitDcm.ap";		
+			}else {
+				return "redirect:showWaitDcm.ap";		
+			}
+		}
+		
+		
+		
 		
 		
 	}
@@ -1098,6 +1196,51 @@ public class ApprovalController {
 		
 		return map;
 	}
+	
+
+	   
+   //계약서 다운로드용
+   @RequestMapping("downloadFile.ap")
+   public void downloadFile(@RequestParam int adNo, HttpServletRequest request, HttpServletResponse response) {
+      System.out.println("으어어어");
+      Attachment file = as.downloadFile(adNo);
+      
+      System.out.println(file);
+      //폴더에서 파일을 읽어들일 스트림 생성
+      BufferedInputStream buf = null;
+      
+      //클라이언트로 내보낼 출력스트림 생성
+      ServletOutputStream downOut = null;
+      try {
+         downOut = response.getOutputStream();
+         
+         File downFile = new File(file.getFilePath() + "/" + file.getChangeName());
+         
+         response.setContentType("text/plain; charset=UTF-8");
+         
+         //한글 파일명에 대한 인코딩 처리
+         //강제적으로 다운로드 처리
+         response.setHeader("Content-Disposition", "contract; filename=\"" + 
+                  new String(file.getOriginName().getBytes("UTF-8"), "ISO-8859-1") + "\""); 
+         
+         response.setContentLength((int)downFile.length());
+         
+         FileInputStream fin = new FileInputStream(downFile);
+         
+         buf = new BufferedInputStream(fin);
+         
+         int readBytes = 0;
+         
+         while((readBytes = buf.read()) != -1) {
+            downOut.write(readBytes);
+         }
+         
+         downOut.close();
+         buf.close();
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+   }
 
 }
 
