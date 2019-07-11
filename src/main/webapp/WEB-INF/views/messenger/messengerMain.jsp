@@ -675,19 +675,20 @@ body {
 			
 			
 			 var MessengerInfo = {
-					 			  msgNoArr:msgNoArr
+					 			  msgNoArr:msgNo.eq(0).attr("class"),
+					 			  messageType:$(".title").attr("id")
 								 }
 			 
-			$.ajax({
-				url:"messenger/resDelMessenger",
-				type:"put",
-				contentType:'application/json; charset=utf-8',
-				date:JSON.stringify(MessengerInfo),
-				dataType: 'json',
-				success:function(data){
-					console.log(data);
-				}
-			});
+			 $.ajax({
+					url:"messenger/resDelMessenger",
+					type:"put",
+					contentType: 'application/json; charset=utf-8',
+					data:JSON.stringify(MessengerInfo),
+					dataType: 'json',
+					success:function(data){
+						pageBack();
+					}
+				});
 		}
 	});
 	

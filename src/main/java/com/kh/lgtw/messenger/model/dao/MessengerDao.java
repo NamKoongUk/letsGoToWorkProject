@@ -37,5 +37,7 @@ public interface MessengerDao {
 	//stoSend
 	int stoSendMessenger(Map<String, Object> params, SqlSession sqlSession);
 
+	int delMessenger(Map<String, Object> params, SqlSession sqlSession);
+
 	
 }

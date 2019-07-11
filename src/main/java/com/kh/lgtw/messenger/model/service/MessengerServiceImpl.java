@@ -72,6 +72,11 @@ public class MessengerServiceImpl implements MessengerService {
 		return md.stoSendMessenger(params, sqlSession);
 	}
 
+	@Override
+	public int delMessenger(Map<String, Object> params) {
+		return md.delMessenger(params, sqlSession);
+	}
+
 
 
 	

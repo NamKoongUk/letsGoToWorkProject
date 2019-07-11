@@ -20,6 +20,7 @@
 		<result property="recipient" column="RECIPIENT"/>
 		<result property="readStatus" column="READ_STATUS"/>
 		<result property="status" column="STATUS"/>
+		<result property="rStatus" column="R_STATUS"/>
 		<result property="msgGroup" column="MSG_GROUP"/>
 		<result property="empName" column="EMP_NAME"/>
 		<result property="deptName" column="DEPT_NAME"/>
@@ -33,10 +34,10 @@
 			</selectKey>
 			INSERT INTO MESSENSER
 			<if test="sendType=='save'">
-				VALUES (SEQ_MSG_NO.NEXTVAL, #{messengerName}, #{messengerContent}, SYSDATE, #{sender}, #{sendEmp}, 'N','S',#{groupId})
+				VALUES (SEQ_MSG_NO.NEXTVAL, #{messengerName}, #{messengerContent}, SYSDATE, #{sender}, #{sendEmp}, 'N','S','N',#{groupId})
 			</if>
 			<if test="sendType=='send'">
-				VALUES (SEQ_MSG_NO.NEXTVAL, #{messengerName}, #{messengerContent}, SYSDATE, #{sender}, #{sendEmp}, 'N','Y',#{groupId})
+				VALUES (SEQ_MSG_NO.NEXTVAL, #{messengerName}, #{messengerContent}, SYSDATE, #{sender}, #{sendEmp}, 'N','Y','Y',#{groupId})
 			</if>
 	</insert>
 	
@@ -73,9 +74,21 @@
 		WHERE 1=1
 		<if test="status =='res' || status=='del'">
 		AND M.RECIPIENT = #{empNo}
-		</if>
+			<if test="status =='res' || status =='req'">
+			AND M.R_STATUS = 'Y'
+			</if>
+		</if>	
 		<if test="status =='req' || status=='sto'">
-		AND M.SENDER = #{empNo}
+			AND M.SENDER = #{empNo}
+			<if test="status =='res' || status =='req'">
+			AND M.STATUS = 'Y'
+			</if>
+			<if test="status=='sto'">
+			AND M.STATUS = 'S'
+			</if>
+			<if test="status=='del'">
+			AND M.STATUS = 'N'
+		</if>
 		</if>
 		<if test="searchCondition =='name'">
 		AND M.MSGTITLE LIKE  '%' || #{content} || '%'
@@ -85,16 +98,7 @@
 		</if>
 		<if test="searchCondition =='content'">
 		AND M.MSGCONTENT LIKE  '%' || #{content} || '%'
-		</if>
-		<if test="status =='res' || status =='req'">
-		AND M.STATUS = 'Y'
-		</if>
-		<if test="status=='sto'">
-		AND M.STATUS = 'S'
-		</if>
-		<if test="status=='del'">
-		AND M.STATUS = 'N'
-		</if>
+		</if>		
 		AND M.SEND_DATE BETWEEN TO_DATE(#{startDate}) AND TO_DATE(#{endDate}) + 1
 		ORDER BY SEND_DATE DESC, READ_STATUS DESC
 	</select>
@@ -120,10 +124,22 @@
 		JOIN JOB J ON(J.JOB_CODE = PH.JOB_CODE)
 		WHERE 1=1
 		<if test="status =='res' || status=='del'">
-		AND M.RECIPIENT = #{empNo}
+			AND M.RECIPIENT = #{empNo}
+			<if test="status =='res' || status =='req'">
+			AND M.R_STATUS = 'Y'
+			</if>
+		</if>	
+		<if test="status =='req' || status=='sto'">
+			AND M.SENDER = #{empNo}
+			<if test="status =='res' || status =='req'">
+			AND M.STATUS = 'Y'
+			</if>
+			<if test="status=='sto'">
+			AND M.STATUS = 'S'
+			</if>
+			<if test="status=='del'">
+			AND M.STATUS = 'N'
 		</if>
-		<if test="status =='req' || status=='sto'">	
-		AND M.SENDER = #{empNo}
 		</if>
 		<if test="searchCondition =='name'">
 		AND M.MSGTITLE LIKE  '%' || #{content} || '%'
@@ -133,16 +149,7 @@
 		</if>
 		<if test="searchCondition =='content'">
 		AND M.MSGCONTENT LIKE  '%' || #{content} || '%'
-		</if>
-		<if test="status =='res' || status =='req'">
-		AND M.STATUS = 'Y'
-		</if>
-		<if test="status=='sto'">
-		AND M.STATUS = 'S'
-		</if>
-		<if test="status=='del'">
-		AND M.STATUS = 'N'
-		</if>
+		</if>		
 		AND M.SEND_DATE BETWEEN TO_DATE(#{startDate}) AND TO_DATE(#{endDate}) + 1
 	</select>	
 	
@@ -180,7 +187,7 @@
 	<update id="deleteMessenger" parameterType="java.util.Map">
 		UPDATE MESSENSER
 		<if test="messageType=='res'">
-			SET STATUS = 'N'
+			SET R_STATUS = 'N'
 		</if>
 		<if test="messageType=='req' || messageType=='sto' || messageType=='del'">
 			SET STATUS = 'D'
@@ -214,7 +221,18 @@
 	
 	<update id="stoSendMessenger">
 		UPDATE MESSENSER
-		SET MSGTITLE = #{messengerName}, MSGCONTENT = #{messengerContent}, STATUS = 'Y'
+		SET MSGTITLE = #{messengerName}, MSGCONTENT = #{messengerContent}, STATUS = 'Y', R_STATUS='Y'
+		WHERE MSG_NO = #{msgNoArr}
+	</update>
+	
+	<update id="delMessenger">
+		UPDATE MESSENSER
+		<if test="messageType == 'res'">
+		SET R_STATUS = 'D'
+		</if>
+		<if test="messageType == 'req' || messageType == 'del'">
+		SET STATUS = 'D'
+		</if>
 		WHERE MSG_NO = #{msgNoArr}
 	</update>
 		

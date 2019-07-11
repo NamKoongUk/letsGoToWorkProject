@@ -121,6 +121,11 @@ public class MessengerDaoImpl implements MessengerDao {
 		return result;
 	}
 
+	@Override
+	public int delMessenger(Map<String, Object> params, SqlSession sqlSession) {
+		return sqlSession.update("Messenger.delMessenger", params);
+	}
+
 
 
 

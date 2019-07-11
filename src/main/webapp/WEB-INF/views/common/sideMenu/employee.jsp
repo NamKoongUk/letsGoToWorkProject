@@ -33,7 +33,7 @@
 			</button>
 			<div id="Demo2" class="w3-container w3-hide w3-animate-opacity contentSelectArea">
 				<ul>
-					<li class="list" onclick="location.href='#'">휴가 신청</li>
+					<li class="list" onclick="location.href='${contextPath}/showHolidayApply.me'">휴가 신청</li>
 					<li class="list" onclick="location.href='${contextPath}/showHolidayList.em'">휴가 현황</li>
 					<li class="list" onclick="location.href='${contextPath}/showAttendStatus.em'">근태 현황</li>
 				</ul>
