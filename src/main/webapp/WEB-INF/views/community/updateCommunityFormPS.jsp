@@ -26,6 +26,8 @@
 							
 						
 						<label>&nbsp;게시판 종류 : ${cp.bname } </label>
+							
+							
 							<input type="hidden" name="contentNO" value="${cp.contentNO }">	
 								
 								<%-- <select name="bno">

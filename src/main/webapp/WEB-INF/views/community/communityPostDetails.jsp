@@ -70,7 +70,10 @@
                      
                      
                      
-                           
+                     
+                     
+                     
+                                                
                      
                     </div>
                
@@ -93,7 +96,7 @@
                
                       
                          <td>${sessionScope.loginEmp.empName}</td>
-                         <td><input type="text" id="ccontent"></td>
+                         <td><!-- <input type="text" id="ccontent"> --><textarea id="ccontent" style="width:100%; height:auto; "></textarea></td>
                          <td><button type="button" class="btn btn-info btn-lg" id="addReply">생성</button></td>
                       
                       </c:if>
@@ -115,14 +118,12 @@
          
                          <td  id="updateReply" style="display:none"><input type="text" value="${cc.ccontent}"> </td>
                         
-                        
                           
                          <c:if test="${sessionScope.loginEmp.empNo eq cc.cwriter}">
                          <td><input type="hidden" value="${cc.cno}">
-                           <button type="button" class="btn btn-info btn-lg"  onclick="updateBtn()">수정</button> 
-                            <button type="button" class="btn btn-info btn-lg" name="deleteReply">삭제</button> 
-                            <button type="button" class="btn btn-info btn-lg" style="display:none" onclick="">완료</button> 
-                            <button type="button" class="btn btn-info btn-lg" style="display:none" onclick="">취소</button> 
+                            <button type="button" class="btn btn-info btn-lg" onclick="updateBtn(this)" id="updateBtn">수정</button>
+                            <button type="button" class="btn btn-info btn-lg" name="deleteReply" onclick="sendAndDelete(this)">삭제</button> 
+                            <!-- <button type="button" class="btn btn-info btn-lg" style="display:none" onclick="">취소</button> --> 
                             
                          </td>
                          </c:if>
@@ -192,9 +193,10 @@
          
          $("button[name='deleteBtn']").click(function(){
             var contentno = $("#contentNOHidden").val();
+            var bno = $("#bnohidden").val();
             console.log(contentno);
             
-            location.href ="communityPostDelete.co?contentno="+contentno;
+            location.href ="communityPostDelete.co?contentno="+contentno+"&bno="+bno;
          });
          
          
@@ -253,37 +255,85 @@
             
          });
          
-         $("button[name='deleteReply']").click(function(){
-            var cno = $(this).parent().children().eq(0).val(); 
-            var contentno = $("#contentNOHidden").val();
+           
             
             
-            /* console.log(cno); */
-            /*  console.log(contentno); */ 
-            
-            $.ajax({
-               url:"deleteReply.co",
-               data:{cno:cno,contentno:contentno} ,
-               type:"post",
-               success:function(data){
-                  if(data="ok"){
-                     alert("댓글 삭제 완료 되었습니다"); 
-                        location.href='communityPostDetails.co?contentNO='+contentno; 
-                  }
-               }
-               
-               
-            })
-            
-            
-         }); 
          
-         function updateBtn(){
-        	$(this).parents().hide(); 
-        	$("#updateReply").show();
-         
-         
+         function updateBtn(updateBtn){
+        	console.log();
+        	var inputArea = $(updateBtn).parent().siblings("#replyList");
+        	
+        	 if($(updateBtn).text() == '수정'){ 
+        		 inputArea.text(""); 
+        		 inputArea.append($("<textarea>").css({"width":"100%","height":"auto","resize":"none"}).val(inputArea.next().children().val()));
+        		 $(updateBtn).text("취소");
+        		 $(updateBtn).next().text("전송");
+        	} else{
+        		inputArea.empty();
+        		inputArea.text(inputArea.next().children().val());
+        		$(updateBtn).text("수정");
+        		$(updateBtn).next().text("삭제");
+        	}
+        	 
          };
+         
+         function sendAndDelete(sendAndDelete){
+        	 
+        	 if($(sendAndDelete).text() == '전송'){
+        	  var cno =$(sendAndDelete).parent().children("input").val(); 
+        	  var writer = $(sendAndDelete).parents("tr").children("td").eq(0).children("input").val();
+        	  var ccontent = $(sendAndDelete).parent().siblings("#replyList").children().val();
+        	  var contentno = $("#contentNOHidden").val();
+        	  /* console.log(writer); */
+        	  	/* console.log(contentno); */ 
+        	  
+        	  	 $.ajax({
+                    url:"updateComment.co", 
+                    data:{cno:cno,ccontent:ccontent,contentno:contentno} , 
+                    type:"post",
+                    success:function(date){
+                       if(date="ok"){
+                          alert("댓글 수정 완료 되었습니다"); 
+                			 location.href='communityPostDetails.co?contentNO='+contentno;  
+                       }
+                       
+                    }
+                       
+                 });
+               
+           
+           
+  			 	
+ 
+        	  
+        		 
+        	 }else{
+        		 delReply();
+        	 }
+        	 
+         }
+      	function delReply(){
+      		 var cno = $("button[name='deleteReply']").parent().children().eq(0).val(); 
+             var contentno = $("#contentNOHidden").val();
+             
+             
+             /* console.log(cno); */
+             /*  console.log(contentno); */ 
+             
+             $.ajax({
+                url:"deleteReply.co",
+                data:{cno:cno,contentno:contentno} ,
+                type:"post",
+                success:function(data){
+                   if(data="ok"){
+                      alert("댓글 삭제 완료 되었습니다"); 
+                         location.href='communityPostDetails.co?contentNO='+contentno; 
+                   }
+                }
+                
+                
+             })
+      	}
          
       
          

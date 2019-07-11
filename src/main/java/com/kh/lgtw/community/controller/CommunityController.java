@@ -1,5 +1,6 @@
 package com.kh.lgtw.community.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
+import org.omg.CORBA.Object;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,9 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.lgtw.common.CommonUtils;
 import com.kh.lgtw.community.model.service.CommunityService;
 import com.kh.lgtw.community.model.vo.Community;
+import com.kh.lgtw.community.model.vo.CommunityAttachment;
 import com.kh.lgtw.community.model.vo.CommunityComment;
 import com.kh.lgtw.community.model.vo.CommunityPost;
 import com.kh.lgtw.employee.model.vo.Employee;
@@ -28,6 +33,8 @@ public class CommunityController {
 	 @Autowired private CommunityService cs;
 	  
 	 @Autowired SqlSession sqlSession;
+	 
+	 
 	 
 
 	// 게시판  main 조회 메소드
@@ -109,8 +116,8 @@ public class CommunityController {
 	}
 	
 	// 개시글 생성용 매소드
-	@RequestMapping("communityPostInsert.co")
-	public String CommunityPostInsert(Community com,CommunityPost cp ,HttpSession session){
+	@RequestMapping(value="communityPostInsert.co")
+	public String CommunityPostInsert(Model model,Community com,CommunityPost cp,HttpServletRequest request ,HttpSession session ,@RequestParam(name="files" ,required = false) MultipartFile files ,CommunityAttachment ca){
 		
 		 Employee loginUser =(Employee)session.getAttribute("loginEmp"); 
 		
@@ -122,10 +129,45 @@ public class CommunityController {
 		 cp.setBno(com.getBno()); 
 		 cp.setBwriter(loginUser.getEmpNo());
 		 
+		 
+		 String root = request.getSession().getServletContext().getRealPath("resources");
+		 String filePath = root +"\\uploadFiles";
+		 
+		 System.out.println(filePath);
+		 
+		 
 		 int result = cs.CommunityPostInsert(cp); 
 		 
-		
-		return "redirect:communityList.co";
+		 String originFileName = files.getOriginalFilename();
+		 System.out.println("originFileName값:" +originFileName);
+		 String ext = originFileName.substring(originFileName.lastIndexOf("."));
+		 System.out.println("ext값:" +ext);
+		 String changeName = CommonUtils.getRandomString();
+		 System.out.println("changeName:" +changeName); 
+		 
+		 ca.setOriginName(originFileName);
+		 ca.setChangName(changeName);
+		 ca.setFilePath(filePath); 
+		 ca.setFileType(ext); 
+		 ca.setPsno(cp.getContentNO()); 
+		 
+		 System.out.println("ca값 :" +ca);
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 try {
+			 files.transferTo(new File(filePath + "\\" + changeName + ext));
+			 return "redirect:communityList.co";
+		 }catch(Exception e) {
+			 new File(filePath + "\\" + changeName + ext).delete();
+			 return "redirect:communityList.co";
+		 }
+		 
 	}
 	// 게시글 조회용 매소드
 	@RequestMapping("communityPostList.co")
@@ -188,10 +230,10 @@ public class CommunityController {
 		System.out.println("controller Result : " + result);
 		
 		if(result >0) {
-			return "redirect:index.jsp";
+			return "redirect:managebulletinList.co";
 		}else {
 			System.out.println("잘못된 접근 입니다");
-			return "redirect:index.jsp";
+			return "redirect:managebulletinList.co";
 		}
 		
 		
@@ -204,7 +246,7 @@ public class CommunityController {
 	public String communityUpdateCencel(HttpServletRequest request) {
 		
 	
-		return "redirect:index.jsp";
+		return "redirect:managebulletinList.co";
 	} 
 	
 	//게시글 수정폼
@@ -237,12 +279,12 @@ public class CommunityController {
 		 
 		
 		  if(result >0) 
-		  { 
-		   return "redirect:index.jsp"; 
+		  {
+		   return "redirect:/communityPostDetails.co?contentNO="+cp.getContentNO(); 
 			  }
 		  else {
 		  System.out.println("잘못된 접근 입니다"); 
-		  return "redirect:index.jsp"; 
+		  return "redirect:/communityPostDetails.co?contentNO="+cp.getContentNO();  
 		  }
 		 
 		 
@@ -258,6 +300,8 @@ public class CommunityController {
 	{
 		int contentno = Integer.parseInt(request.getParameter("contentno")); 
 		System.out.println("contentno 게시글 삭제 값 :" +contentno); 
+		int bno       = Integer.parseInt(request.getParameter("bno")); 
+		System.out.println("bno값 출력 :"+bno );
 		
 		int result = cs.communityPostDelete(contentno); 
 		
@@ -266,11 +310,11 @@ public class CommunityController {
 
 		  if(result >0) 
 		  { 
-		   return "redirect:index.jsp"; 
+		   return "redirect:/communityPostList.co?bno="+bno; 
 			  }
 		  else {
 		  System.out.println("잘못된 접근 입니다"); 
-		  return "redirect:index.jsp"; 
+		  return "redirect:/communityPostList.co?bno="+bno; 
 		  }
 		
 		
@@ -289,16 +333,16 @@ public class CommunityController {
 		System.out.println("게시판 삭제 :bno 값" +bno);
 		
 		int result = cs.communityDelete(bno);
-		System.out.println("게시글 삭제 유무:" +result);
+		
 		
 
 		  if(result >0) 
 		  { 
-		   return "redirect:index.jsp"; 
+		   return "redirect:managebulletinList.co"; 
 			  }
 		  else {
 		  System.out.println("잘못된 접근 입니다"); 
-		  return "redirect:index.jsp"; 
+		  return "redirect:managebulletinList.co"; 
 		  }
 		
 		

@@ -25,6 +25,8 @@
    </resultMap> 
    
 <!-- 게시판 관리용 ResultSet    -->
+  
+  
    <resultMap id="communityResultSet2" type="com.kh.lgtw.community.model.vo.Community">
       <id column="BNO" property="bno"/>
       <result column="BOARD_NAME" property="boardName"/>

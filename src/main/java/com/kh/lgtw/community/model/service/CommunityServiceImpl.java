@@ -18,12 +18,11 @@ public class CommunityServiceImpl  implements CommunityService{
 	
 	  @Autowired SqlSessionTemplate sqlSession;
 	 
-	
+
 	
 	  @Autowired private CommunityDao cd;
 	 
-	
-	
+
 	  
 	  //게시판 조회용 리스트 메소드
 	  

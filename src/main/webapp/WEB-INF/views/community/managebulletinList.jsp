@@ -27,6 +27,9 @@
 		<jsp:include page="../common/sideMenu/community.jsp"/>
 		
 		<section class="col-sm-10">
+			
+			
+			
 			<h1 class="title">게시판  관리</h1> 
 			<hr>
 			
