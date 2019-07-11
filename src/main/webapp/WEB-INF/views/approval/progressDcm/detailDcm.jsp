@@ -15,6 +15,9 @@
 		vertical-align:middle !important;
 		font-size:7;
 	}
+	#commentArea{
+		padding-bottom:100px;
+	}
 </style>
 </head>
 <body>
@@ -740,19 +743,20 @@
 			    <c:forEach var="reply" items="${ requestScope.appList.reply }">
 			    	<div class="media" style="padding:30px; width:100%;">
 					    <div class="media-body">
+					      <input type="hidden" value="${ reply.arNo }">
 					      <label class="media-heading"><c:out value="${ reply.empName }"/></label>  &nbsp;  <span style="color:gray"><c:out value="${ reply.arDate }"/></span>
 					      <c:if test="${ reply.empNo == sessionScope.loginEmp.empNo }">
-					      	<a href="#" class="pull-right">댓글삭제</a><a href="#" class="pull-right" style="margin-right:10px;">댓글수정</a> 
+					      	<a href="#" class="pull-right deleteReply">댓글삭제</a><a href="#" class="pull-right updateReply" style="margin-right:10px;">댓글수정</a> 
 					      </c:if>
 					      <p><c:out value="${ reply.arContent }"/></p>
 					    </div>
 					     <hr>
 			    	</div>
 			    </c:forEach>
-			    
 			</div>
-		</section>
+			    <br><br><br><br><br><br><br>
 		
+		</section>
 	</div>
 	
 	<!-- Modal -->
@@ -900,7 +904,50 @@
 	  </div>
 	</div>
 	
-	<script>	
+	<script>
+		$(".deleteReply").click(function(){
+			var arNo = $(this).parents().children().eq(0).val();
+			
+			console.log(arNo);
+			
+		});
+		
+		$(".updateReply").click(function(){
+			
+			var $div = $("<div class='instant'>")
+			var $textArea = $('<textarea class="form-control updateText" rows="3" style="resize:none;">');
+			var $btn = $('<button class="btn pull-right update" style="display:inline-block; margin-top:10px;">수정하기</button>');
+			var $cancleBtn = $('<button class="btn pull-right cancle" style="margin-right:10px; display:inline-block; margin-top:10px;" onclick="update();">취소</button>');
+			
+			var content = $(this).parent().find("p").text();
+			$(this).parent().find("p").remove();
+			$textArea.append(content);
+			
+			$div.append($textArea);
+			$div.append($btn);
+			$div.append($cancleBtn);
+			
+			$(this).parent().append($div);
+			
+			var offset = $(".updateText").offset();
+			$('html, body').animate({scrollTop : offset.top}, 1);
+			
+			$(".updateText").focus();
+			
+			$(".cancle").click(function(){
+				alert("취소되었습니다.");
+				location.reload();
+			});
+			
+			$(".update").click(function(){
+				var arNo = $(this).parent().parent().children().eq(0).val();
+				console.log(arNo);
+			});
+		});
+		
+		
+		
+	
 		function writeReply(){
 			var content = $("#replyContent").val();
 			var adNo = '${ requestScope.map.adNo }';
