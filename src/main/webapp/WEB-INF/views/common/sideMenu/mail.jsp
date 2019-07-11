@@ -4,13 +4,13 @@
 
 <div class="col-sm-2 sidenav visible-sm visible-md visible-lg">
 	<ul>
-		<li class="mailSelect">
+		<!-- <li class="mailSelect">
 			<select class="form-control">
 				<option value="email" selected="selected">letsGoToWork@office.com</option>
 				<option value="email2">letsGoToWork2@office.com</option>		
 				<option value="email3">letsGoToWork3@office.com</option>					
 			</select>
-		</li>
+		</li> --><Br>
 		<li><button onclick="location.href='${ contextPath }/mail/writeForm'" style="height : 100%;">메일작성하기</button></li><hr>
 				<!-- ${ contextPah }/mail.ma?pageType=all -->
 		<li><a href="${ contextPath }/allList.ma?pageType=all">전체보관함</a></li><hr>

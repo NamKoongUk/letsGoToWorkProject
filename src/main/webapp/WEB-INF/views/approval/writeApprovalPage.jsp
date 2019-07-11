@@ -807,11 +807,7 @@
 		}else {
 			$("#" + img.id).attr("src", "${contextPath}/resources/images/approval/plus.gif");
 			$("#" + img.id).parent().children("ul").remove();
-	
 		} 
-	
-		
-		
 	}
 	
 	
@@ -836,7 +832,6 @@
 							$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
 							
 							$("select[name='empList']").append($option);
-							
 						}
 					}
 				}

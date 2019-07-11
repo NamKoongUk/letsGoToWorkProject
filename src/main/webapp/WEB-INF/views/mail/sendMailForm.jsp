@@ -9,7 +9,7 @@
 <script type="text/javascript" src="${ contextPath }/resources/ckeditor/ckeditor.js"></script>
 <style>
 	#mailTable{
-		width: 80%;
+		width: 93%;
 		border-collapse : collapse;
 		border-top: 2px solid black;
 		border-bottom: 2px solid black;
@@ -40,6 +40,14 @@
 		margin-top : 30px;
 		margin-bottom : 50px;
 	}
+	.title{
+		font-weight : bold;
+	}
+	#addressModal .modal-title{
+		padding: 5px 15px 3px;
+		font-family: 'Do Hyeon', sans-serif;
+		font-size : 1.5em;
+	}
 </style>
 <title>LetsGoToWork</title>
 </head>
@@ -52,7 +60,6 @@
 		<section class="col-sm-10"><br><br>
 			<h3 class="title" align="center">메일작성</h3>
 			<div class="content">
-				<!--  enctype="multipart/form-data" -->
 				<form id="mailForm" action="${ contextPath }/mail/send" method="post" enctype="multipart/form-data">
 					<table id="mailTable" align="center">
 						<tr>
@@ -61,16 +68,15 @@
 								<input type="email" name="reciveMail" class="form-control"/>
 								<!-- <span class="plusEmail"> + </span> -->
 							</td>
-							<td width="100px" style="padding: 0; text-align:right"><button class="btn btn-md">주소록</button></td>
+							<td width="50px" style="padding: 0; text-align:right">
+								<button class="btn btn-md" data-toggle="modal" style="margin-right :15px;"
+									data-target="#addressModal" onclick="return selectEmp();">주소록</button>
+							</td>
 						</tr>
 						<tr>
 							<th>보내는 사람</th>
 							<td colspan="2">
-								<select class="form-control" name="sendMail">
-									<option>admin@lgtw.ga</option>
-									<option>lgtw@office.com</option>
-									<option>gora7@naver.com</option>
-								</select>
+								<input type="email" class="form-control" name="sendMail" value="${ loginEmp.email }<%--  ( ${ loginEmp.empName } ) --%>"/>
 							</td>
 						</tr>
 						<tr>
@@ -90,8 +96,6 @@
 							<td colspan="2">
 								<div><input type="file" name="mailAttachment" class="form-control"/> 
 										<span class="fileSize"></span></div>
-								<!-- <div><input type="file" name="mailAttachment" class="form-control"/> <span class="fileSize"></span></div>
-								<div><input type="file" name="mailAttachment" class="form-control"/> <span class="fileSize"></span></div> -->
 							</td>
 						</tr>
 					</table>
@@ -105,6 +109,58 @@
 			</div>
 		</section>
 	</div>
+	
+	<!-- 주소록 모달  -->
+	<div id="addressModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content" style="width: 800px;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">받는 사람 </h4>
+				</div>
+				<div class="modal-body" style="height: 500px; width: 96%; margin-left: 2%">
+					<!-- 부서명 나오는 곳  -->
+					<div id="deptList" class="treeview col-sm-3"
+						style="overflow: auto; height: 450px; border: 1px solid black;">
+						<span id="all" onclick="underEmp(this, event);">전체보기</span>
+					</div>
+					<div class="col-sm-4 form-group">
+						<select class="form-control" name="empList" size="10"
+							style="overflow: auto; width: 100%; height: 450px;" multiple>
+						</select>
+					</div>
+					<div class="col-sm-5">
+						<div class="row">
+							<div>
+								<div class="col-sm-2" style="padding-top: 80px;">
+									<button class="btn inout" name="setInputCircle" type="button">
+										<b>></b>
+									</button><br><br>
+									<button class="btn inout" name="setOutputCircle" type="button"><b><</b>
+									</button>
+								</div>
+								<div class="col-sm-10">
+									<label class="col-sm-12">보내는 사람</label> <select
+										class="form-control list circleList" name="setEmpList"
+										size="10" style="width: 100%; height: 190px;" id="setEmpList"
+										multiple>
+									</select> <br>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+				<button type="button" onclick="insertInSignForm();"
+					class="btn btn-primary" data-dismiss="modal">확인</button>
+			</div>
+		</div>
+	</div>
+	</div>
+
 	<script>
 		// 받는 사람 이메일을 추가하는 작업
 		$("span.plusEmail").click(function(){
@@ -118,8 +174,8 @@
 			var size = $($(this)[0].files)[0].size;
 			console.log("현재 파일의 사이즈는 " + size);
 			// size = 1000000000000000000000000000000000;
-			if(size > 1024 * 1024 * 20){
-				alert("이미지 파일의 용량이 너무 큽니다. \n20MB이하의 파일만 첨부해주세요.");
+			if(size > 1024 * 1024 * 10){
+				alert("이미지 파일의 용량이 너무 큽니다. \n10MB이하의 파일만 첨부해주세요.");
 				$(this).val("");
 				return;
 			}else if(size > 1024 * 1024){
@@ -143,7 +199,7 @@
 		$(function(){
 	        CKEDITOR.replace( 'ckeditor', { //해당 이름으로 된 textarea에 에디터를 적용
 	            width:'100%',
-	            height:'400px',
+	            height:'300px',
 	            filebrowserImageUploadUrl: '${ contextPath }/reources/images', //여기 경로로 파일을 전달하여 업로드 시킨다.
 	            defaultLanguage:'kor'
 	        });
@@ -160,6 +216,170 @@
 	            }
 	        });
 	    });
+		
+		function selectEmp(){
+			$(".signArea").children("input[type='hidden']").remove();
+			$(".lab").remove();
+			
+		    /* $(".signForm").find("select").children().remove(); */
+			$("#deptList").children().remove();
+			$.ajax({
+				url:"${contextPath}/approval/selectEmp",
+				type:"get",
+				success:function(data){
+					console.log("성공");
+					var $ul = $("<ul style='padding-left:3px;'>");
+					
+					for(var i = 0; i < data.deptList.length; i++) {
+						if(data.deptList[i].topDept == null){
+							var $li = $("<li style='list-style:none' class='dept'> <span onclick='underEmp(this, event);' id='" + data.deptList[i].deptCode + "'>" + data.deptList[i].deptName + "</span></li>");
+							if(data.deptList[i].stat == 'Y') {
+								var $img = $("<img id='" + data.deptList[i].deptCode + "' onclick='underDept(this);' style='width:14px; height:14px;' src='${contextPath}/resources/images/approval/plus.gif'>");					
+								$li.prepend($img);
+							}
+							$ul.append($li);
+						} 
+					}
+					$("#deptList").append($ul);
+				}
+			});
+			return false;
+		}
+		
+		$(".inout").click(function(){
+	 		var selectEmp = $("select[name='empList']").val();
+	 		console.log($("select[name='empList']").val());
+	 		console.log($(this).text());
+	 		
+	 		var cnt = 0;
+	 		if($(this).text() == '>') {
+	 			$(this).parent().parent().parent().parent().find("select").find("option").each(function(){
+	 				console.log($(this).val());
+	 				for(var i = 0; i < selectEmp.length; i++) {
+	 					if($(this).val() == selectEmp[i]) {
+	 						cnt++;
+	 					}
+	 				}
+	 			});
+	 		}
+	 		
+	 		if(cnt <= 0) {
+	 			if($(this).attr("name") == "setInputCircle"){
+	 				var setEmpList = $(this).parent().parent().find("select[name='setEmpList']");
+	 				console.log($(this).parent().parent().find("select[name='setEmpList']"));
+	 				
+	 				for(var i = 0; i < selectEmp.length; i++) {
+	 					
+	 					var emp = $("#" + selectEmp[i]).clone();
+	 					
+	 					console.log("들어는 오냐??");
+	 					setEmpList.append(emp);
+	 				}
+	 				
+	 			}else if($(this).attr("name") == "setOutputCircle"){
+	 				var deleteEmp = $("select[name='setEmpList']").val();
+	 				for(var i = 0; i < deleteEmp.length; i++) {
+	 					$("select[name='setEmpList']").find("option#" + deleteEmp[i]).remove();
+	 				}
+	 			}else if($(this).attr("name") == "readInputCircle"){
+	 				var readEmpList = $(this).parent().parent().find("select[name='readEmpList']");
+	 				console.log($(this).parent().parent().find("select[name='readEmpList']"));
+	 				
+	 				for(var i = 0; i < selectEmp.length; i++) {
+	 					
+	 					var emp = $("#" + selectEmp[i]).clone();
+	 					
+	 					console.log("들어는 오냐??");
+	 					readEmpList.append(emp);
+	 				}
+	 			}else if($(this).attr("name") == "readOutputCircle"){
+	 				var deleteEmp = $(this).parent().parent().find("select[name='readEmpList']").val();
+	 				for(var i = 0; i < deleteEmp.length; i++) {
+	 					$("select[name='readEmpList']").find("option#" + deleteEmp[i]).remove();
+	 				}
+	 			}
+	 		}else {
+	 			alert("중복된 사용자는 추가할 수 없습니다.");
+	 		}
+	 	});
+		
+		function underDept(img){
+			console.log(img.id);
+			var deptCode = img.id;
+			
+			if($("#" + img.id).parent().children().length <= 2) {
+				$("#" + img.id).attr("src", "${contextPath}/resources/images/approval/minus.gif");
+				$.ajax({
+					url:"${contextPath}/approval/selectUnderDept",
+					data:{deptCode:deptCode},
+					type:"get",
+					success:function(data){		
+						console.log(data);
+						
+						var $ul = $("<ul>");
+						
+						for(var i = 0; i < data.deptList.length; i++) {
+							var $li = $("<li style='list-style:none' class='dept'><span onclick='underEmp(this, event);' id='" + data.deptList[i].deptCode + "'>" + data.deptList[i].deptName + "</span></li>");
+							if(data.deptList[i].stat == 'Y') {
+								var $img = $("<img id='" + data.deptList[i].deptCode + "' onclick='underDept(this);' style='width:12px; height:12px;' src='${contextPath}/resources/images/approval/plus.gif'>");					
+								$li.prepend($img);
+							}
+							$ul.append($li);
+						}
+						console.log($("#" + img.id).parent());
+						$("#" + img.id).parent().append($ul);
+					}
+				});
+				
+			}else {
+				$("#" + img.id).attr("src", "${contextPath}/resources/images/approval/plus.gif");
+				$("#" + img.id).parent().children("ul").remove();
+			} 
+		}
+		
+		function underEmp(span, event){
+			console.log(span.id);
+			var deptCode = span.id;
+			if(deptCode != 'D') {
+				$.ajax({
+					url:"${contextPath}/approval/selectUnderDept",
+					data:{deptCode:deptCode},
+					type:"get",
+					success:function(data){		
+						console.log(data);
+						$("select[name='empList']").children().remove();
+						for(var i = 0; i < data.empList.length; i++) {
+							if(${sessionScope.loginEmp.empNo} != data.empList[i].empNo){
+								console.log(data.empList[i].empName);
+								var $option = $("<option id='" + data.empList[i].empNo + "' value='" + data.empList[i].empNo + "'>");
+								$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].email + " )" + "</label>"));
+								
+								$("select[name='empList']").append($option);
+							}
+						}
+					}
+				});
+			}else {
+				$.ajax({
+					url:"${contextPath}/approval/selectEmp",
+					type:"get",
+					success:function(data){
+						console.log("성공");
+						
+						for(var i = 0; i < data.empList.length; i++) {
+							if(${sessionScope.loginEmp.empNo} != data.empList[i].empNo){
+								console.log(data.empList[i].empName);
+								var $option = $("<option id='" + data.empList[i].empNo + "' value='" + data.empList[i].empNo + "'>");
+								$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
+								
+								$("select[name='empList']").append($option);
+							}
+						} 
+					}
+				});
+			}
+		}
+
 	</script>
 
 	<jsp:include page="../common/footer.jsp" />
