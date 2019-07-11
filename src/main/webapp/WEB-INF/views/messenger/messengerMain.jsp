@@ -11,6 +11,7 @@
 <link href="${ contextPath }/resources/css/datepicker/datepicker.min.css" rel="stylesheet" type="text/css">
 <script src="${ contextPath }/resources/js/datepicker/datepicker.min.js"></script>
 <script src="${ contextPath }/resources/js/datepicker/i18n/datepicker.en.js"></script>
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 <title>LetsGoToWork</title>
 <style>
 
@@ -99,7 +100,6 @@ body {
 					</table>
 					<br>
 					<div class="bottomBtn" align="right">
-						<button class="UpdateBtn">일괄수정</button>
 						<button class="reSendBtn">답장</button>
 						<button class="removeBtn">삭제</button>
 					</div>
@@ -141,7 +141,8 @@ body {
 					<textarea class="messengerContent" name="messengerContent" style="width:100%; height:300px; resize:none"></textarea>
 					<div style="text-align:center">
 						<button type="button" class="submitBtn">삭제</button>
-						<button type="button" onclick="pageBack()">취소</button>
+						<button type="button" class="stoSendBtn">전송</button>
+						<button type="button" onclick="changeView('2')">취소</button>
 					</div>
 				</div>
 		</section>
@@ -316,7 +317,12 @@ body {
 			
 			var $readImg = $("<img>").attr("src",messengerInfo[i].readStatus=='N'?src + 'readMailN.PNG':src + 'readMailY.PNG').css("width","70px");
 			var $readTd = $("<td>").append($readImg);
-			var $nameTd = $("<td>").text(messengerInfo[i].empName+" ("+messengerInfo[i].deptName+") "+"- " + messengerInfo[i].jobName);
+			var $nameTd;
+			if($(".title").attr("id") == 'sto'){
+				$nameTd = $("<td>").text(messengerInfo[i].empName+" ("+messengerInfo[i].deptName+") "+"- " + messengerInfo[i].jobName + " 외 " + messengerInfo[i].gNum + "명");
+			}else{
+				$nameTd = $("<td>").text(messengerInfo[i].empName+" ("+messengerInfo[i].deptName+") "+"- " + messengerInfo[i].jobName);				
+			}
 			var $typeTd = $("<td>").text(msgType=='req'?'보낸쪽지':msgType=='res'?'받은쪽지':msgType=='sto'?'임시저장':'휴지통');
 			var $titleTd = $("<td>").text(messengerInfo[i].msgTitle);
 			var $sendDateTd = $("<td>").text(createDate(messengerInfo[i].sendDate));
@@ -330,8 +336,13 @@ body {
 			$msgTable.append($msgTr);
 			
 			var ee = $msgTr.children().not(':first');
-
-			$msgTr.children().not(':first').attr("onclick","detailMessenger(" + messengerInfo[i].msgNo + ")");
+			
+			if($(".title").attr("id") == 'res' || $(".title").attr("id") == 'del' || $(".title").attr("id") == 'req'){
+				$msgTr.children().not(':first').attr("onclick","detailMessenger(" + messengerInfo[i].msgNo + ")");
+			}else{
+				$msgTr.children().not(':first').attr("onclick","getStoMsg(" + messengerInfo[i].msgNo + ")");
+			}
+			
 			//$msgTr.children().not(':first').attr("onclick",'detailMessenger()');
 		}
 	}
@@ -478,9 +489,10 @@ body {
 	}
 	function stoMessenger(){
 		$(".reSendBtn").css("display","inline");
-		$(".reSendBtn").text("전송");
+		$(".reSendBtn").css("display","none");
 		$(".removeBtn").text("삭제");
 		$(".UpdateBtn").css("display","inline");
+		$(".stoSendBtn").css("display","inline");
 		viewMessage(1,'sto',startDate,endDate);
 		changeView('2');
 	}
@@ -508,28 +520,29 @@ body {
 		
 		if(messageType == 'res'){
 			$(".sendType").text("발신자");
+			$(".stoSendBtn").css("display","none");
 		}else if(messageType == 'req'){
 			$(".submitBtn").text("삭제").attr("onclick","");
+			$(".stoSendBtn").css("display","none");
 		}else if(messageType == 'del'){
 			$(".submitBtn").text("삭제").attr("onclick","");
+			$(".stoSendBtn").css("display","none");
 		}else if(messageType == 'sto'){
 			$(".submitBtn").text("수정").attr("onclick","");
+			$(".stoSendBtn").css("display","inline");
 		}
 		
-		if(messageType == 'sto'){
-			$(".messengerName").val(messageDetail.msgTitle).attr("readonly",false);
-			$("#sendInput").append($("<span>").text(messageDetail.empName+" ("+messageDetail.deptName+") "+"- " + messageDetail.jobName)
-							.attr("id",messageDetail.sender).attr("class",messageDetail.msgNo));
-			$(".messengerContent").val(messageDetail.msgContent).attr("readonly",false);
-		}else{
+		
 			$(".messengerName").val(messageDetail.msgTitle).attr("readonly","readonly");
 			$("#sendInput").append($("<span>").text(messageDetail.empName+" ("+messageDetail.deptName+") "+"- " + messageDetail.jobName)
 							.attr("id",messageDetail.sender).attr("class",messageDetail.msgNo));
 			$(".messengerContent").val(messageDetail.msgContent).attr("readonly","readonly");
+		
+		
+		
+		if($(".title").prop("id") == 'res'){
+			resMessenger();
 		}
-		
-		
-		
 		
 		changeView('1');
 	}
@@ -599,8 +612,12 @@ body {
 		
 		if($(".title").attr("id") == 'res'){
 			resMessenger();
-		}else{
-			changeView('2');
+		}else if($(".title").attr("id") == 'req'){
+			reqMessenger();
+		}else if($(".title").attr("id") == 'sto'){
+			stoMessenger();
+		}else if($(".title").attr("id") == 'del'){
+			
 		}
 
 	}
@@ -635,10 +652,8 @@ body {
 		    dataType: 'json',
 		    success:function(data){
 		    	console.log(data);
-		    	
-		    	if(data == msgNoList.length){
 		    		pageBack();
-		    	}
+		    	
 		    }
 			
 		});
@@ -648,6 +663,31 @@ body {
 	$(".submitBtn").click(function(){
 		if($(this).text() == '수정'){
 			updateMessenger();
+		}else if($(this).text() == '삭제'){
+			var msgNo = $("#sendInput").children("span");
+			console.log(msgNo);
+			
+			var msgNoArr = new Array();
+			
+			for(var i=0; i< msgNo.length; i++){
+				msgNoArr.push(msgNo.eq(i).attr("class"));
+			}
+			
+			
+			 var MessengerInfo = {
+					 			  msgNoArr:msgNoArr
+								 }
+			 
+			$.ajax({
+				url:"messenger/resDelMessenger",
+				type:"put",
+				contentType:'application/json; charset=utf-8',
+				date:JSON.stringify(MessengerInfo),
+				dataType: 'json',
+				success:function(data){
+					console.log(data);
+				}
+			});
 		}
 	});
 	
@@ -683,12 +723,9 @@ body {
 		}); 
 	}
 	
-	$(".UpdateBtn").click(function(){
-		var checked = $("input[type='checkbox']:checked").not(".totalCheck");
+	function getStoMsg(msgNo){
+		//var checked = $("input[type='checkbox']:checked").not(".totalCheck");
 		$(".sendEmp").empty();
-		
-		if(checked.length == 1){
-			var msgNo = checked.parent().parent().prop("id");
 			
 			$.ajax({
 				url:"messenger/getStoDetail/" + msgNo,
@@ -702,19 +739,66 @@ body {
 					
 				}
 				
-			})
-		}else{
-			alert("일괄 수정은 한 항목만 선택할 수 있습니다.");
-		}
-	});
-		
+			});
+
+	}
+	
 	function StoDetail(stoMessenger){
 		console.log(stoMessenger);
-		$(".messengerName").val("");
-		$(".messengerContent").val("");
-		detailView();
 		
+		$("#sendInput").empty();
+		$(".submitBtn").text("수정");
+		for(var i=0; i<stoMessenger.length; i++){
+			
+			$(".messengerName").val(stoMessenger[i].msgTitle).attr("readonly",false);
+			$(".messengerContent").val(stoMessenger[i].msgContent).attr("readonly",false);
+			
+			var $span = $("<span>").mouseenter(function(){
+				$(this).children().css("visibility","visible");
+			}).mouseleave(function(){
+				$(this).children().css("visibility","hidden");
+			});
+			
+			var icon = $('<i class="fas fa-times-circle" style="visibility:hidden; cursor:pointer; color:gray;" onclick="deleteUSer(this)"></i>');
+			$("#sendInput").append($span.text(stoMessenger[i].empName+" ("+stoMessenger[i].deptName+") "+"- " + stoMessenger[i].jobName)
+					.attr("id",stoMessenger[i].sender).attr("class",stoMessenger[i].msgNo).append(icon));
+		}
+		changeView('1');
 	}
+	
+	function deleteUSer(icon){
+		$(icon).parent().remove();
+	};
+	
+	$(".stoSendBtn").click(function(){
+		
+		var msgNo = $("#sendInput").children("span");
+		var msgNoArr = new Array();
+		
+		for(var i=0; i<msgNo.length; i++){
+			msgNoArr.push(msgNo.eq(i).prop("class"));
+		}
+		
+		var stoSendInfo = {
+				
+				messengerName:$(".messengerName").val(),
+				messengerContent:$(".messengerContent").val(),
+				msgNoArr:msgNoArr
+				}
+		
+		$.ajax({
+			url:"messenger/stoSendMessenger",
+			type:"put",
+			contentType: 'application/json; charset=utf-8',
+			data:JSON.stringify(stoSendInfo),
+			dataType: 'json',
+			success:function(data){
+				pageBack();
+			}
+		});
+		
+	});
+
 	
 		
 	</script>

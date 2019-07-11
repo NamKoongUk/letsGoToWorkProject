@@ -27,6 +27,9 @@ public interface MessengerService {
 	int updateMessenger(Map<String, Object> params);
 
 	ArrayList<HashMap<String, Object>> getStoDetail(Map<String, Object> params);
+	
+	//stoSend
+	int stoSendMessenger(Map<String, Object> params);
 
 
 	
