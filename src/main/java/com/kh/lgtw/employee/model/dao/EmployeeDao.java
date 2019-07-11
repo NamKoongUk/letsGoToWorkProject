@@ -72,6 +72,8 @@ public interface EmployeeDao{
 
 	ArrayList<DeptVo> selectOrgDept(SqlSession sqlSession);
 
+	ArrayList<Attachment> selectAttachList(SqlSession sqlSession);
+
 
 
 

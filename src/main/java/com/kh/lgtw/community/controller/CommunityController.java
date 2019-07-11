@@ -81,10 +81,6 @@ public class CommunityController {
 		
 		int result =cs.InsertCommunity(com);
 		
-		
-		
-		
-		
 		return "redirect:communityList.co";	
 	}
 	
@@ -128,10 +124,6 @@ public class CommunityController {
 		 
 		 int result = cs.CommunityPostInsert(cp); 
 		 
-		 
-		 
-		 
-		
 		
 		return "redirect:communityList.co";
 	}

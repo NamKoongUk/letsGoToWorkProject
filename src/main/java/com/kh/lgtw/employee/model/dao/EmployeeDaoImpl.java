@@ -208,6 +208,11 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		return (ArrayList)sqlSession.selectList("Employee.orgDept");
 	}
 
+	@Override
+	public ArrayList<Attachment> selectAttachList(SqlSession sqlSession) {
+		return (ArrayList)sqlSession.selectList("Employee.attachList");
+	}
+
 	
 
 	
