@@ -55,7 +55,27 @@
 			<hr>
 			<div class="content">
 					  <div class="empProfile">
+					  <c:forEach var="emp" items="${empList }">
 					  	<div class="profileArea">
+					  		<c:forEach var="attach" items="${attachList }">
+								<c:if test="${emp.empNo eq attach.empNo }">
+									<c:if test="${attach.originName eq 'users.jpg' }">
+							  			<img src="${contextPath }/resources/images/profile/users.jpg">
+									</c:if>
+										<img src="${contextPath }/resources/images/profile/${attach.changeName }.jpg">
+								</c:if>					  	
+					  		</c:forEach>
+					  		<div class="proTableArea">
+						  		<table class="profileTable">
+						  			<tr>
+						  				<td><c:out value="${emp.empName }"></c:out></td>
+						  			</tr>
+						  		</table>
+					  		</div>
+					  	</div>
+					  </c:forEach>
+					  
+					  <%-- 	<div class="profileArea">
 					  		<img src="${contextPath }/resources/images/profile/chae.jpg">
 					  		<div class="proTableArea">
 					  			<table class="profileTable">
@@ -157,7 +177,7 @@
 					  				</tr>
 					  			</table>
 					  		</div>	
-					  	</div>
+					  	</div> --%>
 					  </div>
 						
 				

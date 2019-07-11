@@ -253,5 +253,11 @@
 		ORDER SIBLINGS BY DEPT_CODE
 	</select>
 	
+	<select id="attachList" resultMap="attachment">
+		SELECT ATTACHMENT_NO, ORIGIN_NAME, CHANGE_NAME, EMPNO
+		FROM ATTACHMENT
+		WHERE FILE_TYPE='ProfileImage'
+	</select>
+	
 	
 </mapper>

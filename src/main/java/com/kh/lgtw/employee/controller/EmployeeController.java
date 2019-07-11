@@ -104,13 +104,24 @@ public class EmployeeController {
 	}
 	//직원목록페이지
 	@RequestMapping("showEmployeeList.em")
-	public String showEmployeeList() {
+	public String showEmployeeList(Model model, HttpServletRequest request) {
 		
-		ArrayList<DeptVo> list = empService.selectOrgDept();
+		int currentPage = 1;
 		
-		for(int i=0; i<list.size(); i++) {
-			System.out.println("조직도 dept"+list);
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		}
+		int listCount = empService.getEmpListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		ArrayList<EmployeeResult> list = empService.selectEmpListAdmin(pi);
+		ArrayList<Attachment> attach = empService.selectAttachList();
+		
+		
+		model.addAttribute("empList",list);
+		model.addAttribute("attachList", attach);
+		model.addAttribute("pi",pi);
 		
 		
 		return "employee/employeeList";
@@ -466,12 +477,6 @@ public class EmployeeController {
 		
 	}
 	
-	//직무추가
-	@RequestMapping("insertDuty.em")
-	public String insertDuty(Model model) {
-		//int result = emplService.insertDuty();
-		return "";
-	}
 	
 	//휴직자 추가
 	@RequestMapping("updateLeave.em")
