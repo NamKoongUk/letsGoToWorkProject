@@ -2,6 +2,7 @@ package com.kh.lgtw.employee.model.dao;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -73,6 +74,15 @@ public interface EmployeeDao{
 	ArrayList<DeptVo> selectOrgDept(SqlSession sqlSession);
 
 	ArrayList<Attachment> selectAttachList(SqlSession sqlSession);
+
+	ArrayList<EmployeeResult> searchEmpUser(SqlSession sqlSession, PageInfo pi, EmployeeResult employee);
+
+	int getSearchEmpCount(SqlSession sqlSession, EmployeeResult employee);
+
+	ArrayList<EmployeeResult> allEmpList(SqlSession sqlSession);
+
+	int insertPrsnlManager(SqlSession sqlSession, ArrayList<Object> empList);
+
 
 
 

@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -67,22 +68,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return loginEmp;
 	}
 	
-//	@Override
-//	public Member loginMember(Member m) throws LoginException {
-//		Member loginUser = null;
-//		
-//		String encPassword = md.selectEncPassword(sqlSession, m);
-//		
-//		
-//		if(!passwordEncoder.matches(m.getUserPwd(), encPassword)) {
-//			throw new LoginException("로그인실패!");
-//		}else {
-//			loginUser = md.selectMember(sqlSession, m);
-//		}
-//		
-//		return loginUser;
-//	}
-
 	@Override
 	public int insertEmpOne(Employee employee, Attachment attach, DeptVo dpVo, JobVo jobVo) {
 		
@@ -540,6 +525,29 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public ArrayList<Attachment> selectAttachList() {
 		return empDao.selectAttachList(sqlSession);
 	}
+
+	@Override
+	public ArrayList<EmployeeResult> searchEmpUser(PageInfo pi, EmployeeResult employee) {
+		return empDao.searchEmpUser(sqlSession, pi, employee);
+	}
+
+	@Override
+	public int getSearchEmpCount(EmployeeResult employee) {
+		return empDao.getSearchEmpCount(sqlSession,employee);
+	}
+
+	@Override
+	public ArrayList<EmployeeResult> allEmpList() {
+		
+		return empDao.allEmpList(sqlSession);
+	}
+
+	@Override
+	public int insertPrsnlManager(ArrayList<Object> empList) {
+		return empDao.insertPrsnlManager(sqlSession, empList);
+	}
+
+	
 
 
 

@@ -213,9 +213,36 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		return (ArrayList)sqlSession.selectList("Employee.attachList");
 	}
 
-	
+	@Override
+	public ArrayList<EmployeeResult> searchEmpUser(SqlSession sqlSession, PageInfo pi, EmployeeResult employee) {
+		return (ArrayList)sqlSession.selectList("Employee.searchEmpUser",employee);
+	}
 
-	
+	@Override
+	public int getSearchEmpCount(SqlSession sqlSession, EmployeeResult employee) {
+		return sqlSession.selectOne("Employee.getSearchEmpCount", employee);
+	}
+
+	@Override
+	public ArrayList<EmployeeResult> allEmpList(SqlSession sqlSession) {
+		return (ArrayList)sqlSession.selectList("Employee.allEmpList");
+	}
+
+	@Override
+	public int insertPrsnlManager(SqlSession sqlSession, ArrayList<Object> empList) {
+		
+		int result= 0;
+		
+		for(int i = 0; i<empList.size(); i++) {
+			
+			int empNo = Integer.parseInt((String)empList.get(i));
+			
+			result += sqlSession.update("Employee.insertPrsnlManager",empNo);
+			
+		}
+		
+		return result;
+	}
 
 
 
