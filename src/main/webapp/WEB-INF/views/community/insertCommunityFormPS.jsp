@@ -22,7 +22,7 @@
 			<h1 class="title">글작성</h1> 
 		
 			<div class="content">
-					<form method="post" action=""  id="insertPost" >
+					<form method="post" action=""  id="insertPost" encType="multipart/form-data">
 							
 						
 						<label>&nbsp;게시판 종류 :</label>
@@ -54,7 +54,7 @@
 								  
 								  <tr>
 										<th width="10%;">첨부파일:</th>
-								  		<td><input type="file" name="uploadfile"></td>
+								  		<td><input type="file" name="files"></td>
 	  
 								  </tr>
 								   		
