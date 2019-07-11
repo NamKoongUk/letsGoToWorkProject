@@ -113,7 +113,7 @@
                          <td width=10%><input type="hidden" value="${cc.cwriter }">${cc.empname}</td>
                                
            
-                         <td  id="replyList" >${cc.ccontent}</td>
+                         <td  id="replyList" > </td>
                          
          
                          <td  id="updateReply" style="display:none"><input type="text" value="${cc.ccontent}"> </td>
@@ -177,12 +177,23 @@
               
            
             
-         </div>
-      </section>
+        	 </div>
+     		 <div class="paging">
+						<ul class="pagination">
+							<li><a href="#"><</a></li>
+							<li><a href="#">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+							<li><a href="#">></a></li>
+						</ul>
+			</div>
+      	</section>
    </div>
    
    <jsp:include page="../common/footer.jsp"/>
-   <script> 
+   <!-- <script> 
          $("button[name='updateBtn']").click(function(){
             var contentno = $("#contentNOHidden").val();
             
@@ -341,7 +352,47 @@
          
          
       </script>
-
+ -->
+ 
+ 
+ <script>
+ 
+ 	$(document).ready(function(){
+ 		listReply("1");
+ 	})
+ 	 
+ 	function listReply(num){
+ 		var contentno =$("#contentNOHidden").val(); 
+ 		
+ 		/* console.log (num);  */
+ 		console.log(contentno); 
+ 		
+ 		$.ajax({
+ 			type:"get",
+ 			url:"commentList.co",
+ 			data:{curPage:num,contentno:contentno},		
+ 			success:function(result){ 
+ 			console.log(result);
+ 			
+ 			/* for(var i in result){
+ 				output += "<td>"+result[i];
+ 				output += "</td>";
+ 			} 
+ 				 */
+ 				
+ 			}
+ 		
+ 		});
+ 	}
+ 	
+ 	
+ 
+ 
+ 
+ 
+ </script>
+ 
+ 
 
 </body>
 </html>
