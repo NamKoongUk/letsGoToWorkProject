@@ -77,20 +77,6 @@
 		<aop:advisor id="transactionAdvice" pointcut-ref="serviceMethod"
 					 advice-ref="txAdvice"/>
 	</aop:config> -->
-	
-	
-	<!-- 메일 설정 -->
-	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<!-- 호스트 설정 -->
-		<!-- ex) <property name="host" value="mail.csonth.gov.uk"/> -->
-		<property name="host" value="lgtw.ga"/> <!-- 호스트 설정 -->
-	</bean>
-	
-	<!-- <bean id="simpleMailMessage" class="org.springframework.mail.SimpleMailMessage">
-		 <property name="from" value="yeonpro@lgtw.ga"/>
-		 <property name="subject" value="subjectTest"/>
-	</bean>
- -->	
 </beans>
 
 

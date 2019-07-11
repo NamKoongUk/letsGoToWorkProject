@@ -73,9 +73,10 @@ public class JavaMailSender extends JavaMailSenderImpl{
 			throw new AmazonClientException(exception.getMessage(), exception);
 		}
 	}
+
 	
-	// 0710 수정하고 다시 작성한 코드 
 	// 참고 자료 : https://stackoverflow.com/questions/7963439/example-of-sending-an-email-with-attachment-via-amazon-in-java
+	// 첨부파일 존재하는 메일 전송하기 
 	public void send(SimpleMailMessage simpleMailMessage, File attachment){
 		System.out.println("JavaMailSender에서 send메소드 실행됨!!");
 		
@@ -122,9 +123,6 @@ public class JavaMailSender extends JavaMailSenderImpl{
 							.withRegion("us-east-1")
 					 		.build();
 			 
-			// 메일 전송  
-			// client.sendEmail(toSendRequest(simpleMailMessage)); // 이거 쓰려면 toSendRequest를 풀어야 한다.
-			
 			// 콘솔창에 context내용 출력
 			System.out.println("\n\n context출력 시작 :");
 			PrintStream out = System.out;
@@ -134,11 +132,16 @@ public class JavaMailSender extends JavaMailSenderImpl{
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 			mimeMessage.writeTo(outputStream);
 			RawMessage rawMessage = new RawMessage(ByteBuffer.wrap(outputStream.toByteArray()));
+			System.out.println("raw Message형태 : " + rawMessage);
 			
 			SendRawEmailRequest rawEmailRequest = new SendRawEmailRequest(rawMessage);
 			
 			client.sendRawEmail(rawEmailRequest);
 			System.out.println("첨부파일 메일 전송완료!");
+			
+			// S3스토리지에 보낸 메일 저장 
+			new AwsS3().fileUpload(attachment.getPath());
+			System.out.println("보낸 메일 S3스토리지에 저장 완료 ");
 			
 		// 메일 전송한다는 로그 남기기 
 		}catch(Exception exception) {

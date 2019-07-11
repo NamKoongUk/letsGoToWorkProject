@@ -78,6 +78,7 @@
 					<input type="text" name="sName" class="form-control serarhValue"/>&nbsp;
 					<input type="submit" value="검색하기" class="form-control searchBtn"/>
 				</form>
+				<button onclick="location.href='${ contextPath }/mail/s3'">s3테스트</button>
 				<div class="tableArea" align="center">
 					<table class="listTable">
 						<tr>

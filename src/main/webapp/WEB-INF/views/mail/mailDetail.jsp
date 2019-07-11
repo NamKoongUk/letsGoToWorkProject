@@ -86,7 +86,9 @@
 						</tr>
 						<tr>
 							<th>내용</th>
-							<td colspan="3" id="contentArea"></td>
+							<td colspan="3" id="contentArea">
+								${ mail.mContent }
+							</td>
 						</tr>
 					</table>
 				</div>
