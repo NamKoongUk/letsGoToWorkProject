@@ -34,7 +34,7 @@ import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.common.Pagination;
 import com.kh.lgtw.employee.model.service.EmployeeService;
 import com.kh.lgtw.employee.model.vo.Employee;
-import com.kh.lgtw.mail.cloudSpringAws.JavaMailSender;
+import com.kh.lgtw.mail.aws.JavaMailSender;
 import com.kh.lgtw.mail.model.service.MailService;
 import com.kh.lgtw.mail.model.vo.Absence;
 import com.kh.lgtw.mail.model.vo.Mail;
@@ -142,7 +142,6 @@ public class MailController {
 		sender.setFrom(mail.getSendMail());
 		sender.setSubject(mail.getmTitle());
 		sender.setContent(mail.getmContent());
-		System.out.println("sender : "+ sender);
 		
 		// SimpleMailMessage라고해서 mail API에서 제공하는 메시지 포멧에 데이터를 넣어준다.
 		simpleMailMessage = new SimpleMailMessage();	
@@ -164,7 +163,6 @@ public class MailController {
 			
 			// 파일 저장 위치 
 			String filePath = root + "\\uploadFiles\\mail\\sendFiles";
-			System.out.println("filePath : " + filePath);
 			
 			String originFileName = mailAttachment.getOriginalFilename();
 			String ext = originFileName.substring(originFileName.lastIndexOf("."));
@@ -172,16 +170,17 @@ public class MailController {
 			// System.currentTimeMillis()는 서버 시간 -> getServerTime
 			String changeName = mail.getSendMail() + "_" + getServerTime();
 			
+			
 			System.out.println("첨부파일 있는 메일 전송 시작!");
 			File attachment;
 			try {
+				mailAttachment.transferTo(new File(filePath + "\\" + changeName + ext));
 				attachment = new File(filePath + "\\" + changeName + ext);
-				mailAttachment.transferTo(attachment);
 				mailSender.send(simpleMailMessage, attachment);
 			} catch (IllegalStateException | IOException e) {
-				new File(filePath + "\\" + changeName + ext).delete(); 
+				// new File(filePath + "\\" + changeName + ext).delete(); 
 				model.addAttribute("msg", "파일 첨부 실패!");
-				return "common/errorPage";				
+				return "common/errorPage";		
 			}
 		}else { // 첨부파일이 존재하지 않으면
 			System.out.println("첨부파일 없는 메일 전송시작!");
@@ -341,5 +340,4 @@ public class MailController {
 	public String selectSignList() {
 		return "";
 	}
-	
 }

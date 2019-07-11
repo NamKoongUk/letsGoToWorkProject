@@ -536,6 +536,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return empDao.selectOrgDept(sqlSession);
 	}
 
+	@Override
+	public ArrayList<Attachment> selectAttachList() {
+		return empDao.selectAttachList(sqlSession);
+	}
+
 
 
 

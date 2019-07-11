@@ -24,6 +24,7 @@
 		<result property="empName" column="EMP_NAME"/>
 		<result property="deptName" column="DEPT_NAME"/>
 		<result property="jobName" column="JOB_NAME"/>
+		<result property="gNum" column="GNUM"/>
 	</resultMap>
 		
 	<insert id="sendMessenger" parameterType="java.util.Map">
@@ -44,8 +45,21 @@
 	</select>
 	
 	<select id="selctMessengerList" resultMap="messengerResultMap" parameterType="java.util.Map">
-		SELECT M.MSG_NO,M.MSGTITLE,M.MSGCONTENT,M.SEND_DATE,M.SENDER,M.RECIPIENT,M.READ_STATUS,M.STATUS,M.MSG_GROUP,E.EMP_NAME,D.DEPT_NAME,J.JOB_NAME
+		SELECT 
+		<if test="status =='sto'">
+		MG.MSG_NO,MG.MSG_GROUP,(SELECT COUNT(*) FROM MESSENSER M1 WHERE MG.MSG_GROUP = M1.MSG_GROUP AND M1.STATUS= 'S' GROUP BY MSG_GROUP) GNUM
+		</if>
+		<if test="status =='res' || status=='del' || status == 'req'">
+		M.MSG_NO
+		</if>
+		,M.MSGTITLE,M.MSGCONTENT,M.SEND_DATE,M.SENDER,M.RECIPIENT,M.READ_STATUS,M.STATUS,M.MSG_GROUP,E.EMP_NAME,D.DEPT_NAME,J.JOB_NAME
+		<if test="status =='sto'">
+		FROM (SELECT MIN(MSG_NO) MSG_NO, MSG_GROUP FROM MESSENSER WHERE STATUS = 'S' GROUP BY MSG_GROUP) MG
+		JOIN MESSENSER M ON (MG.MSG_NO = M.MSG_NO)
+		</if>
+		<if test="status =='res' || status=='del' || status == 'req'">
 		FROM MESSENSER M 
+		</if>
 		<if test="status =='res' || status=='del' ">
 		JOIN EMPLOYEE E ON (M.SENDER = E.EMPNO)
 		</if>
@@ -82,12 +96,18 @@
 		AND M.STATUS = 'N'
 		</if>
 		AND M.SEND_DATE BETWEEN TO_DATE(#{startDate}) AND TO_DATE(#{endDate}) + 1
-		ORDER BY SEND_DATE DESC
+		ORDER BY SEND_DATE DESC, READ_STATUS DESC
 	</select>
 	
 	<select id="selectMessengerCount" parameterType="java.util.Map" resultType="_int">
 		SELECT COUNT(*)
+		<if test="status =='sto'">
+		FROM (SELECT MIN(MSG_NO) MSG_NO, MSG_GROUP FROM MESSENSER WHERE STATUS = 'S' GROUP BY MSG_GROUP) MG
+		JOIN MESSENSER M ON (MG.MSG_NO = M.MSG_NO)
+		</if>
+		<if test="status =='res' || status=='del' || status == 'req'">
 		FROM MESSENSER M 
+		</if>
 		<if test="status =='res' || status=='del'">
 		JOIN EMPLOYEE E ON (M.SENDER = E.EMPNO)
 		</if>
@@ -165,7 +185,13 @@
 		<if test="messageType=='req' || messageType=='sto' || messageType=='del'">
 			SET STATUS = 'D'
 		</if>
-		WHERE MSG_NO = #{msgNoList}
+		<if test="messageType=='req' || messageType=='res' || messageType=='del'">
+			WHERE MSG_NO = #{msgNoList}
+		</if>
+		<if test="messageType=='sto'">
+			WHERE MSG_GROUP = (SELECT MSG_GROUP FROM MESSENSER WHERE MSG_NO = #{msgNoList})
+		</if>
+		
 	</update>
 	
 	<update id="updateMessenger" parameterType="java.util.Map">
@@ -183,6 +209,13 @@
 		JOIN PROMOTION_HISTORY PH ON(PH.EMPNO = E.EMPNO)
 		JOIN JOB J ON(J.JOB_CODE = PH.JOB_CODE)
 		WHERE M.MSG_GROUP = (SELECT MSG_GROUP FROM MESSENSER WHERE MSG_NO = #{msgNo})
+		AND M.STATUS = 'S'
 	</select>
+	
+	<update id="stoSendMessenger">
+		UPDATE MESSENSER
+		SET MSGTITLE = #{messengerName}, MSGCONTENT = #{messengerContent}, STATUS = 'Y'
+		WHERE MSG_NO = #{msgNoArr}
+	</update>
 		
 </mapper>

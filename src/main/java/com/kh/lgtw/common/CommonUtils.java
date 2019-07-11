@@ -1,6 +1,8 @@
 package com.kh.lgtw.common;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
@@ -40,4 +42,15 @@ public class CommonUtils {
 	public static long getServerTime() {
 		return System.currentTimeMillis();
 	}
+	
+	// 파일을 바이너리 형태로 변경하기 
+	public static byte[] convertFileToByte(File file) throws IOException {
+		byte[] byteFile = new byte[(int) file.length()];
+		
+		FileInputStream fis = new FileInputStream(file);
+		fis.read(byteFile); // byteFile에 file을 읽어서 작성한다.
+		fis.close();
+		return byteFile;
+	}
 }
+

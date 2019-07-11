@@ -65,6 +65,8 @@ public interface EmployeeService {
 
 	ArrayList<DeptVo> selectOrgDept();
 
+	ArrayList<Attachment> selectAttachList();
+
 
 
 

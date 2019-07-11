@@ -88,10 +88,6 @@ public class CommunityController {
 		
 		int result =cs.InsertCommunity(com);
 		
-		
-		
-		
-		
 		return "redirect:communityList.co";	
 	}
 	
@@ -172,16 +168,6 @@ public class CommunityController {
 			 return "redirect:communityList.co";
 		 }
 		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		
-		
 	}
 	// 게시글 조회용 매소드
 	@RequestMapping("communityPostList.co")
