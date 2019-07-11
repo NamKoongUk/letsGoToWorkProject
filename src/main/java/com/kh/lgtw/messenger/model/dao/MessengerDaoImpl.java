@@ -105,6 +105,22 @@ public class MessengerDaoImpl implements MessengerDao {
 		return list;
 	}
 
+	@Override
+	public int stoSendMessenger(Map<String, Object> params, SqlSession sqlSession) {
+		
+		int result = 0;
+		ArrayList<Object> list = (ArrayList<Object>) params.get("msgNoArr");
+		
+		for(int i=0; i<list.size(); i++) {
+			
+			params.put("msgNoArr",Integer.parseInt((String) list.get(i)));
+			
+			result += sqlSession.update("Messenger.stoSendMessenger",params);
+		}
+		
+		return result;
+	}
+
 
 
 

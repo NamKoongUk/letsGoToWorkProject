@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -136,5 +137,22 @@ public class MessengerController {
 		return new ResponseEntity<ArrayList<HashMap<String,Object>>>(list, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/stoSendMessenger", method=RequestMethod.PUT, produces="application/json; charset=utf8")
+	public ResponseEntity<Integer> stoSendMessenger(@RequestBody Map<String, Object> params) {
+		System.out.println(params);
+		
+		int result = ms.stoSendMessenger(params);
+		
+		return  new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/resDelMessenger", method=RequestMethod.PUT, produces="application/json; charset=utf8")
+	public ResponseEntity<Map<String, Object>> resDelMessenger(@RequestBody Map<String, Object> params) {
+		System.out.println(params);
+		
+		//int result = ms.delMessenger(params);
+		
+		return new ResponseEntity<Map<String, Object>>(params,HttpStatus.OK);
+	}
 
 }

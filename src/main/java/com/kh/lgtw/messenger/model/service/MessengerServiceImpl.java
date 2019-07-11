@@ -67,6 +67,11 @@ public class MessengerServiceImpl implements MessengerService {
 		return md.getStoDetail(params, sqlSession);
 	}
 
+	@Override
+	public int stoSendMessenger(Map<String, Object> params) {
+		return md.stoSendMessenger(params, sqlSession);
+	}
+
 
 
 	

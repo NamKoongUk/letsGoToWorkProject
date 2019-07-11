@@ -33,6 +33,9 @@ public interface MessengerDao {
 	int updateMessenger(Map<String, Object> params, SqlSession sqlSession);
 
 	ArrayList<HashMap<String, Object>> getStoDetail(Map<String, Object> params, SqlSession sqlSession);
+	
+	//stoSend
+	int stoSendMessenger(Map<String, Object> params, SqlSession sqlSession);
 
 	
 }
