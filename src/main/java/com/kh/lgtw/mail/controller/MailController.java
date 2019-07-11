@@ -1,10 +1,10 @@
 package com.kh.lgtw.mail.controller;
 
+import static com.kh.lgtw.common.CommonUtils.getServerTime;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,17 +30,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.s3.model.Bucket;
 import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.common.Pagination;
 import com.kh.lgtw.employee.model.service.EmployeeService;
 import com.kh.lgtw.employee.model.vo.Employee;
+import com.kh.lgtw.mail.aws.AwsS3;
 import com.kh.lgtw.mail.aws.JavaMailSender;
 import com.kh.lgtw.mail.model.service.MailService;
 import com.kh.lgtw.mail.model.vo.Absence;
 import com.kh.lgtw.mail.model.vo.Mail;
 import com.kh.lgtw.mail.model.vo.Sender;
-
-import static com.kh.lgtw.common.CommonUtils.*;
 
 @Controller
 //@RestController
@@ -48,6 +48,7 @@ public class MailController {
 	@Autowired private MailService ms;
 	@Autowired private EmployeeService es;
 	@Autowired private JavaMailSender mailSender; 
+	@Autowired private AwsS3 s3;
 
 	private HttpStatus httpStatus;
 	private SimpleMailMessage simpleMailMessage;
@@ -339,5 +340,16 @@ public class MailController {
 	@RequestMapping("sign.ma")
 	public String selectSignList() {
 		return "";
+	}
+	
+	// s3테스트
+	@RequestMapping("mail/s3")
+	public String runS3Method() {
+		Bucket mailBucket = s3.getBucket("lgtw-mail");
+		
+		// 버킷 내용 호출 
+		s3.getObjects("lgtw-mail");
+		
+		return "redirect:/mail";
 	}
 }
