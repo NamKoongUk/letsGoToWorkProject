@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.omg.CORBA.Object;
 
+import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.community.model.vo.Community;
 import com.kh.lgtw.community.model.vo.CommunityAttachment;
 import com.kh.lgtw.community.model.vo.CommunityComment;
@@ -64,24 +65,14 @@ public interface CommunityService
 
 	CommunityPost TemporaryDetails(int contentNO);
 
-	
-
-	int selectCommentCount(Map<String, Object> params);
-
-	ArrayList<HashMap<String, Object>> selectCommentList(Map<String, Object> params);
-
-	ArrayList<HashMap<String, Object>> selectComment(Map<String, Object> params);
 
 	int commentListcount(int contentno);
 
-	ArrayList<CommunityComment> selectcommentList(Integer contentno);
-
+	ArrayList<HashMap<String, java.lang.Object>> selectcommentList(PageInfo pi, Integer contentno);
 
 	
 
-
-
-
+	
 	
 
 	

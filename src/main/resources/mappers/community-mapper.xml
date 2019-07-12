@@ -247,7 +247,20 @@
 		FROM CONTENT C 
 		JOIN C_COMMENT CC  ON (C.CONTENT_NO = CC.CONTENT_NO )
 		WHERE CC.CONTENT_NO = #{psno}
+		AND CC.STAUTS='N'
 	
+	</select> 
+	
+	<select id="selectCommentList" resultMap="CommunityCommentResultSet" parameterType="_int">
+	        SELECT CC.*,E.EMP_NAME
+            FROM CONTENT C 
+            JOIN C_COMMENT CC  ON (C.CONTENT_NO = CC.CONTENT_NO )
+            JOIN EMPLOYEE E  ON (E.EMPNO = CC.CM_WRITER)
+            WHERE CC.CONTENT_NO =  #{psno}
+            AND CC.STAUTS='N'
+	      
+	      
+		
 	</select>
 	
 

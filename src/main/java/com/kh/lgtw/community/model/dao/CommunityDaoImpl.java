@@ -3,11 +3,15 @@ package com.kh.lgtw.community.model.dao;
 
 import static com.kh.lgtw.common.SqlQuery.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.omg.CORBA.Object;
 import org.springframework.stereotype.Repository;
 
+import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.common.SqlQuery;
 import com.kh.lgtw.community.model.vo.Community;
 import com.kh.lgtw.community.model.vo.CommunityAttachment;
@@ -157,6 +161,19 @@ public class CommunityDaoImpl implements CommunityDao {
 		return sqlSession.selectOne("Community.commentListcount" , contentno);
 	}
 
+	@Override
+	public ArrayList<HashMap<String, java.lang.Object>> selectcommentList(PageInfo pi, Integer contentno,
+			SqlSessionTemplate sqlSession) {
+		int offset = (pi.getCurrentPage()-1) * pi.getLimit();
+	    RowBounds rowBounds = new RowBounds(offset,pi.getLimit());
+	    
+		
+		return (ArrayList)sqlSession.selectList("Community.selectCommentList",contentno, rowBounds);
+	}
+
+	
+
+	
 	
 	
 

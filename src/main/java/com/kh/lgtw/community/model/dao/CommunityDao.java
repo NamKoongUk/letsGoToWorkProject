@@ -1,9 +1,12 @@
 package com.kh.lgtw.community.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.omg.CORBA.Object;
 
+import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.community.model.vo.Community;
 import com.kh.lgtw.community.model.vo.CommunityAttachment;
 import com.kh.lgtw.community.model.vo.CommunityComment;
@@ -61,6 +64,13 @@ public interface CommunityDao {
 	CommunityPost TemporaryDetails(SqlSessionTemplate sqlSession, int contentNO);
 
 	int commentListcount(int contentno, SqlSessionTemplate sqlSession);
+
+	ArrayList<HashMap<String, java.lang.Object>> selectcommentList(PageInfo pi, Integer contentno,
+			SqlSessionTemplate sqlSession);
+
+
+
+	
 
 	
 
