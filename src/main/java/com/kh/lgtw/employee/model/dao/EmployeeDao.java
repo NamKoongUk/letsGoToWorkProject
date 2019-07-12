@@ -83,6 +83,14 @@ public interface EmployeeDao{
 
 	int insertPrsnlManager(SqlSession sqlSession, ArrayList<Object> empList);
 
+	ArrayList<EmployeeResult> selectPrnlEmp(SqlSession sqlSession);
+
+	int deletePrsnlManager(SqlSession sqlSession, ArrayList<Object> empList);
+
+	ArrayList<EmployeeResult> selectEmpList(SqlSession sqlSession, PageInfo pi);
+
+	int checkEmpWork(SqlSession sqlSession, int empNo);
+
 
 
 

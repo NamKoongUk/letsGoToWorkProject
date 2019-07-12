@@ -48,7 +48,8 @@ public class MailController {
 	@Autowired private MailService ms;
 	@Autowired private EmployeeService es;
 	@Autowired private JavaMailSender mailSender; 
-	@Autowired private AwsS3 s3;
+	//@Autowired 
+	private AwsS3 s3;
 
 	private HttpStatus httpStatus;
 	private SimpleMailMessage simpleMailMessage;

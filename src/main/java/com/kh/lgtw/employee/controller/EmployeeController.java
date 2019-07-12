@@ -5,9 +5,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
@@ -103,7 +107,7 @@ public class EmployeeController {
 			
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 			
-			ArrayList<EmployeeResult> list = empService.selectEmpListAdmin(pi);
+			ArrayList<EmployeeResult> list = empService.selectEmpList(pi);
 			ArrayList<Attachment> attach = empService.selectAttachList();
 			HashMap<String, Object> hmap = empService.selectJopDeptAdmin();
 			
@@ -249,7 +253,12 @@ public class EmployeeController {
 		//인사관리자
 		}
 		@RequestMapping("showPrsnlManager.em")
-		public String showPrsnlManager() {
+		public String showPrsnlManager(Model model) {
+			
+			ArrayList<EmployeeResult> empPrnl = empService.selectPrnlEmp();
+			
+			model.addAttribute("empPrnl", empPrnl);
+			
 			return "employee/prsnlManagerAdmin";
 		}
 		
@@ -524,7 +533,65 @@ public class EmployeeController {
 			return result+"";
 		}
 		
-	
+		@RequestMapping(value="/employee/deletePrsnlManager", produces="application/text; charset=utf8")
+		@ResponseBody
+		public String deletePrsnlManager(@RequestBody Map<String, Object> map) {
+			
+			System.out.println(map.get("empArr"));
+			
+			ArrayList<Object> empList = (ArrayList)map.get("empArr");
+			
+			int result = empService.deletePrsnlManager(empList);
+			
+			System.out.println("삭제인원"+result);
+			
+			return result+"";
+		}
+		
+		@RequestMapping(value="/employee/goToWork",produces="application/text; charset=utf8")
+		@ResponseBody
+		public String goToWork(@RequestBody Map<String, Object> map) throws ParseException {
+			System.out.println("넘어가니~"+map.get("workArr"));
+			ArrayList<Object> info = (ArrayList)map.get("workArr");
+			String status = null;
+			
+			int empNo = Integer.parseInt(info.get(0).toString());
+			String workTime = info.get(1).toString();
+			long nowTime = Long.parseLong(info.get(2).toString());
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss",Locale.KOREA);
+			
+			Date d1 = sdf.parse("09:00:00");
+			Date d2 = sdf.parse("18:00:00");
+			
+			System.out.println("출근시간"+d1);
+			System.out.println("퇴근시간"+d2);
+			
+			System.out.println(nowTime);
+			
+			
+			
+		/* int[] lateCheck= */
+			
+			
+			System.out.println(empNo+5);
+			System.out.println("우어크 타임:"+workTime);
+			
+			//int checkWork = empService.checkEmpWork(empNo);
+			
+//			if(checkWork==0) {
+//				//int work = empService.insertEmpWork(empNo,workTime);
+//			}else {
+//				status="출근은 아까 찍었습니다";
+//			}
+			
+			
+			
+			return status;
+		}
+		
+		
+		
 	// ------------------------조직도--------------------------
 	
 	//조직도
@@ -759,6 +826,12 @@ public class EmployeeController {
 				sheet1.setColumnWidth(3, 5000);
 				sheet1.setColumnWidth(4, 5000);
 				sheet1.setColumnWidth(5, 5000);
+				sheet1.setColumnWidth(6, 5000);
+				sheet1.setColumnWidth(7, 5000);
+				sheet1.setColumnWidth(8, 5000);
+				sheet1.setColumnWidth(9, 5000);
+				sheet1.setColumnWidth(10, 5000);
+				sheet1.setColumnWidth(11, 5000);
 				
 				Row row = null;
 				Cell cell = null;
@@ -772,13 +845,26 @@ public class EmployeeController {
 				cell = row.createCell(2);
 				cell.setCellValue("이름");
 				cell = row.createCell(3);
-				cell.setCellValue("전화번호");
+				cell.setCellValue("이메일");
 				cell = row.createCell(4);
-				cell.setCellValue("상태");
+				cell.setCellValue("전화번호");
 				cell = row.createCell(5);
 				cell.setCellValue("입사일");
+				cell = row.createCell(6);
+				cell.setCellValue("생년월일(ex:1991-03-02)");
+				cell = row.createCell(7);
+				cell.setCellValue("성별(남자:F/여자:M)");
+				cell = row.createCell(8);
+				cell.setCellValue("기타정보");
+				cell = row.createCell(9);
+				cell.setCellValue("부서");
+				cell = row.createCell(10);
+				cell.setCellValue("직급");
+				cell = row.createCell(11);
+				cell.setCellValue("상태(Y:근무중/H:휴직)");
 				
 				row = sheet1.createRow(1);
+				
 				cell = row.createCell(0);
 				cell.setCellValue("kh0101");
 				cell = row.createCell(1);
@@ -786,11 +872,23 @@ public class EmployeeController {
 				cell = row.createCell(2);
 				cell.setCellValue("홍길동");
 				cell = row.createCell(3);
-				cell.setCellValue("010-1234-1234");
+				cell.setCellValue("hong@lgtw.ga");
 				cell = row.createCell(4);
-				cell.setCellValue("Y");
+				cell.setCellValue("010-1234-1234");
 				cell = row.createCell(5);
 				cell.setCellValue("2019-01-01");
+				cell = row.createCell(6);
+				cell.setCellValue("1991-03-02");
+				cell = row.createCell(7);
+				cell.setCellValue("남자");
+				cell = row.createCell(8);
+				cell.setCellValue("신입사원임 잘해주시길");
+				cell = row.createCell(9);
+				cell.setCellValue("영업1팀");
+				cell = row.createCell(10);
+				cell.setCellValue("사원");
+				cell = row.createCell(11);
+				cell.setCellValue("Y");
 				
 				row = sheet1.createRow(2);
 				cell = row.createCell(0);

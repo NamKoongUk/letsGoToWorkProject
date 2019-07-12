@@ -76,6 +76,14 @@ public interface EmployeeService {
 
 	int insertPrsnlManager(ArrayList<Object> empList);
 
+	ArrayList<EmployeeResult> selectPrnlEmp();
+
+	int deletePrsnlManager(ArrayList<Object> empList);
+
+	ArrayList<EmployeeResult> selectEmpList(PageInfo pi);
+
+	int checkEmpWork(int empNo);
+
 
 
 
