@@ -9,6 +9,7 @@ import org.omg.CORBA.Object;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.community.model.dao.CommunityDao;
 import com.kh.lgtw.community.model.vo.Community;
 import com.kh.lgtw.community.model.vo.CommunityAttachment;
@@ -186,28 +187,11 @@ public class CommunityServiceImpl  implements CommunityService{
 
 
 
-	@Override
-	public int selectCommentCount(Map<String, Object> params) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 
 
-	@Override
-	public ArrayList<HashMap<String, Object>> selectCommentList(Map<String, Object> params) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-
-
-	@Override
-	public ArrayList<HashMap<String, Object>> selectComment(Map<String, Object> params) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 
 
 	@Override
@@ -219,10 +203,24 @@ public class CommunityServiceImpl  implements CommunityService{
 
 
 	@Override
-	public ArrayList<CommunityComment> selectcommentList(Integer contentno) {
+	public ArrayList<HashMap<String, java.lang.Object>> selectcommentList(PageInfo pi, Integer contentno) {
 		// TODO Auto-generated method stub
-		return null;
+		return cd.selectcommentList(pi,contentno,sqlSession );
 	}
+
+
+
+
+
+
+	
+
+
+	
+
+
+
+
 
 
 

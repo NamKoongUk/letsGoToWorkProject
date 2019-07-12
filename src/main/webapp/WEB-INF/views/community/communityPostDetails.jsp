@@ -79,8 +79,8 @@
                
                 
                 <br>
-                <div >
-                <c:forEach var="c" items="${list }">  
+                <div>
+                <%-- <c:forEach var="c" items="${list }">  
                    <c:if test="${c.status eq 'N'}"> 
                    <table class="table table-striped"  >
                     <thead>
@@ -90,7 +90,7 @@
                          <th></th>
                          <!-- <th></th>  -->   
                       </tr> 
-                      <%-- <c:forEach var="cc" items="${commentlist }"> --%>
+                      <c:forEach var="cc" items="${commentlist }">
                       <tr> 
                       <c:if test="${!empty sessionScope.loginEmp.empNo}">
                
@@ -101,7 +101,7 @@
                       
                       </c:if>
                       </tr>
-                      <%-- </c:forEach> --%>
+                      </c:forEach>
                    
                       
                       
@@ -109,11 +109,11 @@
                       <tr>  
                       <c:forEach var="cc" items="${commentlist }">
                       <c:if test="${empty sessionScope.loginEmp || !empty sessionScope.loginEmp.empNo}"> 
-                         <tr>  
+                         <tr id="replyTr">  
                          <td width=10%><input type="hidden" value="${cc.cwriter }">${cc.empname}</td>
                                
            
-                         <td  id="replyList" > </td>
+                         <td  id="replyList" > ${cc.ccontent} </td>
                          
          
                          <td  id="updateReply" style="display:none"><input type="text" value="${cc.ccontent}"> </td>
@@ -133,7 +133,7 @@
                       </c:if>
                          
                         
-                        <%--  <c:if test="${sessionScope.loginEmp.empNo eq cc.cwriter }"> 
+                         <c:if test="${sessionScope.loginEmp.empNo eq cc.cwriter }"> 
                          <tr><th>댓글 수정</th></tr>
                          <tr>
                          <td>${sessionScope.loginEmp.empName}</td> 
@@ -146,7 +146,7 @@
                          </td>
                          </tr>
                          </c:if> 
-                          --%>
+                         
                        
                        </c:forEach>
                        </tr>   
@@ -154,7 +154,11 @@
                 </thead>   
             </table>
             </c:if>
-            </c:forEach>
+            </c:forEach> --%>
+            <table id="replyTable" class="table table-striped">
+            
+            
+            </table>
            </div>
            <div class="modal fade" id="myModal" role="dialog">
                      <div class="modal-dialog">
@@ -193,7 +197,7 @@
    </div>
    
    <jsp:include page="../common/footer.jsp"/>
-   <!-- <script> 
+    <script> 
          $("button[name='updateBtn']").click(function(){
             var contentno = $("#contentNOHidden").val();
             
@@ -352,7 +356,7 @@
          
          
       </script>
- -->
+ 
  
  
  <script>
@@ -369,10 +373,18 @@
  		
  		$.ajax({
  			type:"get",
- 			url:"commentList.co",
+ 			url:"${contextPath}/commentList.co",
  			data:{curPage:num,contentno:contentno},		
- 			success:function(result){ 
- 			console.log(result);
+ 			success:function(data){ 
+ 			console.log(data); 
+ 			
+ 			createCommentList(data.list); 
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
  			
  			/* for(var i in result){
  				output += "<td>"+result[i];
@@ -382,8 +394,47 @@
  				
  			}
  		
- 		});
+ 		}); 
+ 		
+ 		
+ 		
+ 		
+ 		
+ 	} 
+ 	
+ 	function createCommentList(commentInfo){
+ 	console.log(commentInfo);
+ 	
+ 	var $replyTable = $("#replyTable");
+ 	
+ 		for (var i= 0 ; i<commentInfo.length; i++){
+ 			var $replyTd = $("<tr>");
+ 			var $nameTd = $("<td>").text(commentInfo[i].empname);
+ 			var $contentTd = $("<td>").text(commentInfo[i].ccontent);
+ 			var $updateBtn = $("<button>").text("수정")
+ 								.attr({"class":"btn btn-info btn-lg","onclick":"updateBtn(this)","id":"updateBtn"});
+ 			var $deleteBtn = $("<button>").text("삭제")
+ 			                   .attr({"class":"btn btn-info btn-lg","onclick":"sendAndDelete(this)","id":"deleteReply"});
+ 			
+ 			 
+ 			
+ 			var $updateBtnTd = $("<td>").append($updateBtn).append($deleteBtn); ;
+ 			/* var $deleteBtnTd = $("<td>").append($deleteBtn);  */
+ 			
+ 			
+ 			$replyTd.append($nameTd);
+ 			$replyTd.append($contentTd);
+ 			$replyTd.append($updateBtnTd);
+ 			/* $replyTd.append($deleteBtnTd); */
+ 			
+ 			$replyTable.append($replyTd);
+ 		}
  	}
+ 	
+ 	
+ 	
+ 	
+ 	
  	
  	
  
