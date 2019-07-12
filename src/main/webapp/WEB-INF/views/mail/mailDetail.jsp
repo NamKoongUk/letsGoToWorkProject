@@ -7,38 +7,101 @@
 <meta charset="UTF-8">
 <link rel="shortcut icon" href="${ contextPath }/resources/images/favicon.ico">
 <style>
-	#mailTable{
-		width: 80%;
-		border-collapse : collapse;
+#mailTable {
+	width: 85%;
+	border-collapse: collapse;
+	border-top: 2px solid black;
+	border-bottom: 2px solid black;
+	font-size: 1.2em;
+}
+
+#mailTable tr {
+	border-bottom: 1px solid #ddd;
+}
+
+#mailTable tr:nth-child(3) {
+	min-height: 200px;
+}
+
+#mailTable td, #mailTable th {
+	padding: 10px;
+	text-align: left;
+}
+
+#mailTable th {
+	min-width: 25%;
+}
+
+#mailTable td {
+	min-width: 25%;
+}
+
+input[type=file] {
+	display: inline-block !important;
+	height: 40px !important;
+	width: 350px !important;
+	margin-bottom: 8px;
+}
+
+.fileSize {
+	text-align: right;
+}
+
+.btnArea {
+	margin-top: 30px;
+	margin-bottom: 50px;
+}
+
+#detailInfoArea h3 {
+	max-width: 80%;
+	text-align: center;
+	margin: 0 auto 20px;;
+}
+
+@media screen and (max-width: 1300px) and (min-width: 600px) {
+	#mailTable {
+		width: 85%;
+		border-collapse: collapse;
 		border-top: 2px solid black;
 		border-bottom: 2px solid black;
-	}   
-	#mailTable tr{
-		border-bottom : 1px solid #ddd;
+		font-size: 1.2em;
 	}
-	#mailTable tr:nth-child(3){
-		height : 200px;
+	#mailTable tr {
+		border-bottom: 1px solid #ddd;
+	}
+	#mailTable tr:nth-child(3) {
+		min-height: 200px;
 	}
 	#mailTable td{
-		padding: 15px;
+		padding: 10px;
 		text-align: left;
 	}
-	#mailTable th{
-		padding-left : 15px;
+	#mailTable th {
+		min-width: 25%;
+		padding-left: 10px;
 	}
-	input[type=file]{
-		display : inline-block !important;
-		height : 40px !important;
-		width : 350px !important;
-		margin-bottom : 8px;
+	#mailTable td {
+		min-width: 25%;
 	}
-	.fileSize{
-		text-align:right;
+	input[type=file] {
+		display: inline-block !important;
+		height: 40px !important;
+		width: 350px !important;
+		margin-bottom: 8px;
 	}
-	.btnArea{
-		margin-top : 30px;
-		margin-bottom : 50px;
+	.fileSize {
+		text-align: right;
 	}
+	.btnArea {
+		margin-top: 30px;
+		margin-bottom: 50px;
+	}
+	#detailInfoArea h3 {
+		max-width: 80%;
+		text-align: center;
+		margin: 0 auto 20px;;
+	}
+}
 </style>
 <title>LetsGoToWork</title>
 </head>
@@ -58,14 +121,15 @@
 					<button class="btn btn-md">삭제</button>
 				</div>
 				<div id="detailInfoArea">
-					<h3 align="center"><c:out value="${ mail.mTitle }"/>
+					<h3 align="center">
+						<c:out value="${ mail.mTitle }"/>
 						<input type="hidden" name="mailNo" value="${ mail.mailNo }"/>
 					</h3>
 					<table id="mailTable" align="center">
 						<tr>
 							<!-- 받은 메일이나 보낸 메일에 따라 다르다. -->
 							<c:if test="${ mail.mailType eq '받은메일'}">
-								<th>보낸사람</th>
+								<th width="25%">보낸사람</th>
 								<td><c:out value="${ mail.sendMail }"/></td>
 								<th>받은날짜</th>
 								<td><c:out value="${ mail.sendDate }"/></td>
@@ -80,7 +144,7 @@
 						<tr>
 							<th>첨부파일</th>
 							<td colspan="3">
-								파일 원본이름이름
+								첨부파일 이름이 나와야 하는데 아직은 알할거임....
 								<span class="fileSize"></span>
 							</td>
 						</tr>
@@ -99,40 +163,8 @@
 		</section>
 	</div>
 	<script>
-		// 받는 사람 이메일을 추가하는 작업
-		$("span.plusEmail").click(function(){
-			$(this).parent().append('<br><input type="email" name="email"/><span class="plusEmail">+</span>');
-			$(this).remove();
-			return;
-		});
-		
-		// 첨부파일 처리
-		$("[name=mailAttachment]").change(function(){
-			var size = $($(this)[0].files)[0].size;
-			console.log("현재 파일의 사이즈는 " + size);
-			if(size > 1024 * 1024 * 20){
-				alert("이미지 파일의 용량이 너무 큽니다. \n20MB이하의 파일만 첨부해주세요.");
-				$(this).val("");
-				return;
-			}else if(size > 1024 * 1024){
-				size = Math.floor((size /(1024 * 1024) * 100)) / 100 + "MB";
-				console.log("MB");
-				console.log(size);
-			}else{
-				console.log("KB");
-				size = Math.floor(size / (1024) * 100) / 100 + "KB";
-				console.log(size);
-			}
-			$(this).parent().find("span.fileSize").text(size);
-		});
-		
-		// 내용 추가
-		$(document).ready(function(){
-			console.log("실행");
-			$("#contentArea").append("${ mail.mContent }");
-		});
+		// 시간남으면 뒤로가기 버튼 클릭시  리다이렉트 시키는 처리하기
 	</script>
-
 	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

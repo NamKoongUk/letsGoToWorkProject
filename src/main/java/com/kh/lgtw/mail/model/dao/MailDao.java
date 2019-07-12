@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.Message;
+
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.lgtw.approval.model.vo.PageInfo;
@@ -31,5 +33,11 @@ public interface MailDao {
 	ArrayList<Mail> selectSearchMailList(SqlSession sqlSession, PageInfo pi, HashMap<String, Object> listCondition);
 
 	int getMailSearchListCount(SqlSession sqlSession, HashMap<String, Object> listCondition);
+
+	int insertReciveMail(SqlSession sqlSession, Mail reciveMail);
+
+	HashMap<String, Object> selectSendEmpName(SqlSession sqlSession, String sendMail);
+
+	HashMap<String, Object> selectReciveEmpName(SqlSession sqlSession, String reciveMail);
 
 }

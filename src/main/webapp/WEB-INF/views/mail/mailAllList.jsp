@@ -103,11 +103,23 @@
 									</c:if>
 								</td>
 								<td>
-									<c:if test="${ mail.mailType eq '보낸메일' }">
-										<c:out value="${ mail.reciveMail }"/>
+									<c:if test="${ empty mail.empName }">
+										<c:if test="${ mail.mailType eq '보낸메일' }">
+											<c:out value="${ mail.reciveMail }"/>
+										</c:if>
+										<c:if test="${ mail.mailType eq '받은메일' }">
+											<c:out value="${ mail.sendMail }"/>
+										</c:if>
 									</c:if>
-									<c:if test="${ mail.mailType eq '받은메일' }">
-										<c:out value="${ mail.sendMail }"/>
+									<c:if test="${ !empty mail.empName }">
+										<c:if test="${ mail.mailType eq '보낸메일' }">
+											<c:out value="${ mail.empName } - ${ mail.deptName } ${ mail.jobName }"/><br>
+											(<c:out value="${ mail.reciveMail }"/>)
+										</c:if>
+										<c:if test="${ mail.mailType eq '받은메일' }">
+											<c:out value="${ mail.empName } - ${ mail.deptName } ${ mail.jobName }"/><br>
+											(<c:out value="${ mail.sendMail }"/>)
+										</c:if>
 									</c:if>
 								</td>
 								<td><c:out value="${ mail.mailType }"/></td>

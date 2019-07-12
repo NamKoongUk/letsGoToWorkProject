@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.Message;
+
 import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.mail.model.exception.StatusTypeException;
 import com.kh.lgtw.mail.model.vo.Absence;
@@ -29,5 +31,7 @@ public interface MailService{
 	ArrayList<Mail> selectSearchMailList(PageInfo pi, HashMap<String, Object> listCondition);
 
 	int getMailSearchListCount(HashMap<String, Object> listCondition);
+
+	int insertReciveMail(Mail reciveMail);
 
 }
