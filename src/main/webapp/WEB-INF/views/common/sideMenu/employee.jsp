@@ -33,7 +33,7 @@
 			</button>
 			<div id="Demo2" class="w3-container w3-hide w3-animate-opacity contentSelectArea">
 				<ul>
-					<li class="list" onclick="location.href='${contextPath}/showHolidayApply.me'">휴가 신청</li>
+					<li class="list" onclick="location.href='${contextPath}/showHolidayApply.em'">휴가 신청</li>
 					<li class="list" onclick="location.href='${contextPath}/showHolidayList.em'">휴가 현황</li>
 					<li class="list" onclick="location.href='${contextPath}/showAttendStatus.em'">근태 현황</li>
 				</ul>
@@ -55,7 +55,7 @@
 			<div id="Demo4" class="w3-container w3-hide w3-animate-opacity contentSelectArea">
 				<ul>
 					<li class="list" onclick="location.href='${contextPath}/showHolidayTotal.em'">휴가 관리</li>
-					<li class="list" onclick="location.href='#'">직원 휴가 관리</li>
+					<li class="list" onclick="location.href='${contextPath}/showHolidayApplyAdmin.em'">직원 휴가 관리</li>
 				</ul>
 			</div>
 			<button onclick="myFunction('Demo5')" class="accordionBtn">
