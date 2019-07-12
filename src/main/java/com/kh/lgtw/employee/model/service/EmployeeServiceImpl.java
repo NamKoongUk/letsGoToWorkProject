@@ -164,9 +164,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 								case 0 : excelEmp.setEmpId(value); break;
 								case 1 : excelEmp.setEmpPwd(passwordEncoder.encode(value)); break;
 								case 2 : excelEmp.setEmpName(value); break;
-								case 3 : excelEmp.setEmpPhone(value); break;
-								case 4 : excelEmp.setStatus(value); break;
+								case 3 : excelEmp.setEmail(value); break;
+								case 4 : excelEmp.setEmpPhone(value); break;
 								case 5 : excelEmp.setEnrollDate(Date.valueOf(value));break;
+								case 6 : excelEmp.setEmpBirth(value); break;
+								case 7 : excelEmp.setGender(value); break;
+								case 8 : excelEmp.setOtherInfo(value); break;
+								case 9 : excelEmp.setDeptName(value); break;
+								case 10 : excelEmp.setJobName(value); break;
+								case 11 : excelEmp.setStatus(value); break;
 								default: break;
 								}
 							}
@@ -187,6 +193,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		for(int i = 0; i<list.size(); i++) {
 			System.out.println("서비스 리스트 확인 : " +list.get(i).getEmpName());
+			System.out.println("부서 직급 확인 :" + list.get(i).getDeptName()+","+list.get(i).getJobName());
 			
 		}
 		
@@ -545,6 +552,29 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public int insertPrsnlManager(ArrayList<Object> empList) {
 		return empDao.insertPrsnlManager(sqlSession, empList);
+	}
+
+	@Override
+	public ArrayList<EmployeeResult> selectPrnlEmp() {
+		ArrayList<EmployeeResult> empPrnl = new ArrayList<EmployeeResult>();
+		empPrnl = empDao.selectPrnlEmp(sqlSession);
+		
+		return empPrnl;
+	}
+
+	@Override
+	public int deletePrsnlManager(ArrayList<Object> empList) {
+		return empDao.deletePrsnlManager(sqlSession, empList);
+	}
+
+	@Override
+	public ArrayList<EmployeeResult> selectEmpList(PageInfo pi) {
+		return empDao.selectEmpList(sqlSession,pi);
+	}
+
+	@Override
+	public int checkEmpWork(int empNo) {
+		return empDao.checkEmpWork(sqlSession, empNo);
 	}
 
 	

@@ -30,6 +30,12 @@
 		<result property="empNo" column="EMPNO"/>
 	</resultMap>
 	
+	<resultMap type="java.util.HashMap" id="resultMailEmpInfoSet">
+		<result property="empName" column="EMP_NAME"/>
+		<result property="deptName" column="DEPT_NAME"/>
+		<result property="jobName" column="JOB_NAME"/>
+	</resultMap>
+	
 	<!-- 쿼리문 -->
 	<!-- 페이징-리스트 갯수 조회 -->
 	<select id="getMailListCount" resultType="_int">
@@ -40,7 +46,7 @@
 	
 	<!-- 메일 리스트 조회 -->
 	<select id="selectMailList" parameterType="PageInfo" resultMap="resultMailSet">
-		SELECT * 
+		SELECT *
 		FROM MAIL 
 		WHERE DSTATUS = 'N'
 		ORDER BY MAIL_NO DESC
@@ -63,7 +69,7 @@
 	<!-- 메일 상세 페이지 조회 -->
 	<select id="selectMailDetail" parameterType="int" resultMap="resultMailSet">
 		SELECT *
-		FROM MAIL 
+		FROM MAIL
 		WHERE DSTATUS = 'N'
 		AND MAIL_NO = #{ mailNo }
 	</select>
@@ -145,6 +151,55 @@
 			</when>
 		</choose>
 		ORDER BY MAIL_NO DESC 
+	</select>
+	
+	<insert id="insertReciveMail" parameterType="Mail">
+		INSERT INTO MAIL(MAIL_NO, MTITLE, MCONTENT, SEND_MAIL, RECIVE_MAIL, MAIL_TYPE, MSIZE, SEND_DATE)
+		VALUES (SEQ_MAIL_NO.NEXTVAL, #{ mTitle }, #{ objContent }, #{ sendMail }, #{ reciveMail }, #{ mailType }, #{ mSize }, #{ sendStringDate })
+	</insert>
+	
+	<select id="selectSendEmpName" resultMap="resultMailEmpInfoSet">
+		WITH TREE_DEPT AS (SELECT(SELECT D2.DEPT_NAME 
+                                     FROM DEPT D2 
+                                     WHERE D1.TOP_DEPT = D2.DEPT_CODE) AS TOP, 
+                                     LEVEL LV, D1.DEPT_NAME AS ORIGIN, DEPT_CODE
+                           FROM DEPT D1
+                           START WITH D1.DEPT_NAME = '출근합시다'
+                           CONNECT BY PRIOR D1.DEPT_CODE = D1.TOP_DEPT)
+		SELECT CASE
+                  WHEN TD.LV = 1 THEN TD.ORIGIN
+                  WHEN TD.LV = 2 THEN TD.ORIGIN
+                  ELSE TOP
+               END AS DEPT_NAME, E.EMP_NAME, J.JOB_NAME
+		FROM TREE_DEPT TD 
+		RIGHT JOIN DEPT_HISTORY DH ON(TD.DEPT_CODE = DH.DEPT_CODE)
+		JOIN EMPLOYEE E ON (E.EMPNO = DH.EMPNO)
+		JOIN PROMOTION_HISTORY PH ON (E.EMPNO = PH.EMPNO)
+		JOIN JOB J ON (J.JOB_CODE = PH.JOB_CODE)
+		WHERE E.EMAIL = #{ sendMail }
+		AND E.STATUS = 'Y'
+	</select>
+	
+	<select id="selectReciveEmpName" resultMap="resultMailEmpInfoSet">
+		WITH TREE_DEPT AS (SELECT (SELECT D2.DEPT_NAME 
+                                    FROM DEPT D2 
+                                    WHERE D1.TOP_DEPT = D2.DEPT_CODE) AS TOP, 
+                                    LEVEL LV, D1.DEPT_NAME AS ORIGIN, DEPT_CODE
+                          FROM DEPT D1
+                          START WITH D1.DEPT_NAME = '출근합시다'
+                          CONNECT BY PRIOR D1.DEPT_CODE = D1.TOP_DEPT)
+		SELECT CASE
+	              WHEN TD.LV = 1 THEN TD.ORIGIN
+	              WHEN TD.LV = 2 THEN TD.ORIGIN
+	              ELSE TOP
+	           END AS DEPT_NAME, E.EMP_NAME, J.JOB_NAME
+		FROM TREE_DEPT TD 
+		RIGHT JOIN DEPT_HISTORY DH ON(TD.DEPT_CODE = DH.DEPT_CODE)
+		JOIN EMPLOYEE E ON (E.EMPNO = DH.EMPNO)
+		JOIN PROMOTION_HISTORY PH ON (E.EMPNO = PH.EMPNO)
+		JOIN JOB J ON (J.JOB_CODE = PH.JOB_CODE)
+		WHERE E.EMAIL = #{ reciveMail }
+		AND E.STATUS = 'Y'
 	</select>
 </mapper>
 

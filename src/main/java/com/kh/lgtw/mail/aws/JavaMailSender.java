@@ -46,7 +46,7 @@ public class JavaMailSender extends JavaMailSenderImpl{
 		
 		try {
 			ProfileCredentialsProvider credentialsProvider = new ProfileCredentialsProvider();
-			System.out.println("ProfileCredential생성 : " + credentialsProvider);
+			System.out.println("sendMAil ProfileCredential생성 : " + credentialsProvider);
 			
 			try {
 				// 자격증명 가져오기 
@@ -78,10 +78,8 @@ public class JavaMailSender extends JavaMailSenderImpl{
 	// 참고 자료 : https://stackoverflow.com/questions/7963439/example-of-sending-an-email-with-attachment-via-amazon-in-java
 	// 첨부파일 존재하는 메일 전송하기 
 	public void send(SimpleMailMessage simpleMailMessage, File attachment){
-		System.out.println("JavaMailSender에서 send메소드 실행됨!!");
-		
 		javax.mail.Message mimeMessage = new MimeMessage(Session.getDefaultInstance(new Properties()));
-		System.out.println("AWS Session을 가져와야 하는 곳 : " + Session.getDefaultInstance(new Properties()));
+		// System.out.println("AWS Session을 가져와야 하는 곳 : " + Session.getDefaultInstance(new Properties()));
 
 		try {
 			mimeMessage.setFrom(new InternetAddress(simpleMailMessage.getFrom()));
@@ -108,7 +106,7 @@ public class JavaMailSender extends JavaMailSenderImpl{
 		
 		try {
 			ProfileCredentialsProvider credentialsProvider = new ProfileCredentialsProvider();
-			System.out.println("ProfileCredential생성 : " + credentialsProvider);
+			// System.out.println("ProfileCredential생성 : " + credentialsProvider);
 			
 			try {
 				// 자격증명 가져오기 
@@ -162,13 +160,20 @@ public class JavaMailSender extends JavaMailSenderImpl{
 		Message message = new Message()
 				.withSubject(createContent(simpleMailMessage.getSubject()))
 				.withBody(new Body().withHtml(createContent(simpleMailMessage.getText()))); // body는 html형식으로 전송
-		System.out.println(message.getBody());
+//		System.out.println(message.getBody()); 
+//		System.out.println("** 메시지 보낼 때 message 객체 출력 ");
+//		System.out.println(message);
+//		System.out.println("\n 메시지 객체 끝 \n\n");
+//		System.out.println("");
 		
+		SendEmailRequest emailRequest = new SendEmailRequest().withSource(simpleMailMessage.getFrom())
+				.withDestination(destination)
+				.withMessage(message);
+		
+		// System.out.println("** emailRequest : \n" + emailRequest);
 		
 		// 전송할 메일내용을 세팅
-		return new SendEmailRequest().withSource(simpleMailMessage.getFrom())
-							.withDestination(destination)
-							.withMessage(message);
+		return emailRequest;
 	}
 	
 	// SimpleEmailService에 Content객체로 바꿔준다.

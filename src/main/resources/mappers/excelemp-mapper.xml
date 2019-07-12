@@ -9,15 +9,28 @@
 		<result column="EMP_ID" property="empId"/>
 		<result column="EMP_PWD" property="empPwd"/>
 		<result column="EMP_NAME" property="empName"/>
+		<result column="EMAIL" property="email"/>
 		<result column="EMP_PHONE" property="empPhone"/>
 		<result column="STATUS" property="status"/>
 		<result column="ENROLL_DATE" property="enrollDate"/>
+		<result column="BIRTH" property="empBirth"/>
+		<result column="GENDER" property="gender"/>
+		<result column="OTHER_INFO" property="otherInfo"/>
+		<result column="DEPT_NAME" property="deptName"/>
+		<result column="JOB_NAME" property="jobName"/>
 	</resultMap>
 
-	<insert id="insertEmpExcel" parameterType="excelemp">
-	  	INSERT INTO EMPLOYEE(EMPNO, EMP_ID, EMP_PWD, EMP_NAME, EMP_PHONE, STATUS, ENROLL_DATE)
-	  	VALUES (SEQ_EMPNO.NEXTVAL,#{empId},#{empPwd},#{empName},#{empPhone},#{status},#{enrollDate})
+	<insert id="insertEmpExcel" parameterType="ExcelEmp">
+	  	INSERT INTO EMPLOYEE(EMPNO, EMP_ID, EMP_PWD, EMP_NAME, EMAIL, EMP_PHONE, ENROLL_DATE, BIRTH, GENDER,OTHER_INFO,STATUS)
+	  	VALUES (SEQ_EMPNO.NEXTVAL,#{empId},#{empPwd},#{empName},#{email},#{empPhone},#{enrollDate},#{empBirth},#{gender},#{otherInfo},#{status})
   </insert> 
+  <insert id="insertexcelEmpDept" parameterType="ExcelEmp">
+  	insert into dept_history values(SEQ_DH_NO.NEXTVAL,SEQ_EMPNO.CURRVAL,SYSDATE,(SELECT DEPT_CODE FROM DEPT WHERE DEPT_NAME =#{deptName}))
+  </insert>
+  <insert id="insertexcelEmpJob" parameterType="ExcelEmp">
+  	insert into promotion_history values(SEQ_PH_NO.NEXTVAL,SEQ_EMPNO.CURRVAL,SYSDATE,(SELECT JOB_CODE FROM JOB WHERE JOB_NAME =#{jobName}))
+  </insert>
+  
 	
 	
 	
