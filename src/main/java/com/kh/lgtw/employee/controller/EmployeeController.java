@@ -78,7 +78,7 @@ public class EmployeeController {
 			Employee loginEmp = empService.loginCheck(employee);
 			
 			model.addAttribute("loginEmp", loginEmp);
-			return "main/main";
+			return "redirect:index.jsp";
 			
 		} catch (LoginException e) {
 			model.addAttribute("msg", e.getMessage());

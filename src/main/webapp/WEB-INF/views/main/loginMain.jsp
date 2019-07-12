@@ -95,10 +95,10 @@
 			<form id="loginForm" action="login.em" method="post">
 				<table id="loginTable">
 					<tr>
-						<td><input type="text" name="empId" placeholder="아이디를 입력하주세요" class="form-control" value="admin"/></td>
+						<td><input type="text" name="empId" placeholder="아이디를 입력하주세요" class="form-control" value="gora7"/></td>
 					</tr>			
 					<tr>
-						<td><input type="password" name="empPwd" placeholder="비밀번호를 입력해주세요" class="form-control" value="admin"/></td>
+						<td><input type="password" name="empPwd" placeholder="비밀번호를 입력해주세요" class="form-control" value="1234"/></td>
 					</tr>
 					<tr>
 						<td><button id="loginBtn" class="btn" type="submit">로그인</button></td>

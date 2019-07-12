@@ -370,7 +370,7 @@
 							if(${sessionScope.loginEmp.empNo} != data.empList[i].empNo){
 								console.log(data.empList[i].empName);
 								var $option = $("<option id='" + data.empList[i].empNo + "' value='" + data.empList[i].empNo + "'>");
-								$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].jobName + " )" + "</label>"));
+								$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].email + " )" + "</label>"));
 								
 								$("select[name='empList']").append($option);
 							}

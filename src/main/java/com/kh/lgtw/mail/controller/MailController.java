@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.amazonaws.services.s3.model.Bucket;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.common.Pagination;
 import com.kh.lgtw.employee.model.service.EmployeeService;
@@ -195,6 +197,11 @@ public class MailController {
 		// 전송이 완료되었을 때 데이터 베이스에 정보 저장 
 		ms.sendMail(mail);
 		
+		/*-------------------------------------------------------------------------------*/
+		// s3테스트를 위한 코드들 
+		// 메일 전송이 완료되면 저장들어온 메일리스트를 불러온다.
+		// 버킷 리스트 가져오기 
+		
 		return "redirect:/mail";
 	}
 	
@@ -343,14 +350,62 @@ public class MailController {
 		return "";
 	}
 	
-	// s3테스트
+	// s3 버킷으로 들어오 메시지를 DB에 넣어주는 메소드
 	@RequestMapping("mail/s3")
 	public String runS3Method() {
-		Bucket mailBucket = s3.getBucket("lgtw-mail");
+		// **** 프로세스  **** 
+		// 리스트를 조회할때 버킷을 조회해서 받은 파일이 존재하면 -> eml파일로 복사후 삭제과정
+		// eml파일로 복사후 eml형식을 받아와 메시지 객체에 저장한다. 
+		List<S3ObjectSummary> objects = s3.getObjects("lgtw-mail");
+		System.out.println("버킷 객체 리스트 가져오기 : " + objects);
 		
-		// 버킷 내용 호출 
-		s3.getObjects("lgtw-mail");
+		if(objects.size() <= 0) {
+			System.out.println("버킷에 객체가 존재하지 않습니다.");
+			return "redirect:/allList.ma";
+		}
 		
-		return "redirect:/mail";
+		for(S3ObjectSummary object : objects) {
+			// 객체의 내용을 출력
+			s3.downloadObject(object.getBucketName(), object.getKey());
+			
+			// eml파일로 복사 
+			s3.updateObjectForEmlExt(object.getKey());
+			
+			// 확인을 완료하면 버킷에서 삭제한다. 
+			s3.deleteObject(object.getBucketName(), object.getKey());
+		}
+		
+		List<S3ObjectSummary> emlObjects = s3.getObjects("lgtw-mail-eml");
+		System.out.println("eml 리스트 가져오기 : " + emlObjects);
+		
+		for(S3ObjectSummary object : emlObjects) {
+			// 객체의 내용을 출력
+			s3.downloadObject(object.getBucketName(), object.getKey());
+			
+			// eml파일 처리하는 메소드 
+			Message message= s3.getEmlFile(object.getKey());
+			
+			Mail reciveMail = new Mail();
+			try {
+				reciveMail.setMailType("받은메일");
+				reciveMail.setObjContent(message.getContent());
+				reciveMail.setmTitle(message.getSubject());
+				reciveMail.setmSize(message.getSize());
+				reciveMail.setSendStringDate(message.getSentDate());
+				reciveMail.setSendMail(message.getFrom()[0].toString());
+				reciveMail.setReciveMail(message.getAllRecipients()[0].toString());
+			} catch (IOException | MessagingException e) {
+				e.printStackTrace();
+			}
+
+			// 메시지 객체에 저장해서 데이터를 불러온 후에 데이터베이스에 맞춰서 저장
+			ms.insertReciveMail(reciveMail);
+			
+			// eml파일 삭제
+			s3.deleteObject(object.getBucketName(), object.getKey());
+		}
+		
+		// 리스트 조회
+		return "redirect:/allList.ma";
 	}
 }
