@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.Message;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +32,25 @@ public class MailServiceImpl implements MailService{
 	// 페이징 처리한 전체 이메일 리스트 조회
 	@Override
 	public ArrayList<Mail> selectMailList(PageInfo pi) {
-		return md.selectMailList(sqlSession, pi);
+		ArrayList<Mail> list = md.selectMailList(sqlSession, pi);
+		
+		// 사원의 메일인경우 사원이름을 같이 불러온다.
+		for(int i = 0; i < list.size(); i++) {
+			Mail mail = list.get(i);
+			if(mail.getMailType().equals("받은메일")) {
+				HashMap<String, Object> empInfo = md.selectSendEmpName(sqlSession, mail.getSendMail());
+				mail.setDeptName((String)empInfo.get("deptName"));
+				mail.setEmpName((String)empInfo.get("empName"));
+				mail.setJobName((String)empInfo.get("jobName"));
+			}else{
+				HashMap<String, Object> empInfo = md.selectReciveEmpName(sqlSession, mail.getReciveMail());
+				mail.setDeptName((String)empInfo.get("deptName"));
+				mail.setEmpName((String)empInfo.get("empName"));
+				mail.setJobName((String)empInfo.get("jobName"));
+			}
+			System.out.println("mail : " + mail);
+		}
+		return list;
 	}
 
 	// 메일 상태 변경
@@ -73,6 +93,12 @@ public class MailServiceImpl implements MailService{
 	@Override
 	public int getMailSearchListCount(HashMap<String, Object> listCondition) {
 		return md.getMailSearchListCount(sqlSession, listCondition);
+	}
+
+	// s3에서 메시지 객체를 불러와 데이터 베이스에 저장
+	@Override
+	public int insertReciveMail(Mail reciveMail) {
+		return md.insertReciveMail(sqlSession, reciveMail);
 	}
 
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.Message;
+
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -109,6 +111,25 @@ public class MailDaoImpl implements MailDao{
 	@Override
 	public int getMailSearchListCount(SqlSession sqlSession, HashMap<String, Object> listCondition) {
 		return sqlSession.selectOne("Mail.getMailSearchListCount");
+	}
+
+	// s3에서 받아온 정보를 데이터베이스에 insert
+	@Override
+	public int insertReciveMail(SqlSession sqlSession, Mail reciveMail) {
+		System.out.println("Message : " + reciveMail);
+		return sqlSession.insert("Mail.insertReciveMail", reciveMail);
+	}
+
+	// 보낸 사원의 이름을 조회
+	@Override
+	public HashMap<String, Object> selectSendEmpName(SqlSession sqlSession, String sendMail) {
+		return sqlSession.selectOne("Mail.selectSendEmpName", sendMail);
+	}
+
+	// 받는 사원의 이름을 조회
+	@Override
+	public HashMap<String, Object> selectReciveEmpName(SqlSession sqlSession, String reciveMail) {
+		return sqlSession.selectOne("Mail.selectReciveEmpName", reciveMail);
 	}
 
 	
