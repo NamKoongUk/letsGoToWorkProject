@@ -15,6 +15,9 @@
 		vertical-align:middle !important;
 		font-size:7;
 	}
+	a{
+		font-size:17px;
+	}
 	
 </style>
 </head>
@@ -28,6 +31,11 @@
 			<h2 class="title" align="center">${ requestScope.map.afName }</h2>
 			
 			<div class="content">
+				<c:if test="${ sessionScope.loginEmp.empNo == requestScope.map.adWriter && requestScope.map.adRead == 'N' }">
+					<a href="#" onclick="updateAd(${ requestScope.map.adNo });">수정하기</a> &nbsp; <a href="#" onclick="cancleAd(${ requestScope.map.adNo });">기안취소</a>
+				</c:if>
+				   
+				<a href="#" class="pull-right" onclick="adCopy(${ requestScope.map.adNo });">기안복사</a>
 					<table class="table table-bordered">
 						<tr>
 				        <td class="head">기안부서</td>
@@ -915,6 +923,20 @@
 	</div>
 	
 	<script>
+		function adCopy(adNo){
+			location.href="${contextPath}/copyAd.ap?adNo=" + adNo;
+		}
+		
+		function updateAd(adNo){
+			location.href="${contextPath}/updateAd.ap?adNo=" + adNo;
+		}
+		
+		function cancleAd(adNo){			
+			if(confirm("정말로 취소하시겠습니까?(취소한 기안문서는 임시저장함에 저장됩니다)")){
+				location.href="${contextPath}/cancleAd.ap?adNo=" + adNo;				
+			}
+		}
+	
 		$(".deleteReply").click(function(){
 			var arNo = $(this).parents().children().eq(0).val();
 			

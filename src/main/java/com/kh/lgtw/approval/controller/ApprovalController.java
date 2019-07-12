@@ -463,14 +463,26 @@ public class ApprovalController {
 	@RequestMapping("showSaveDcm.ap")
 	public String showSaveDcm(HttpServletRequest request, Model model) {
 
-//		Employee e = (Employee)request.getSession().getAttribute("loginUser");
-//		
-//		PageInfo pi = new PageInfo();
-//		pi.setSortInfo(request.getParameter("sortInfo"));
-//		pi.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
-//		pi.setEid(e.getEid());
+		Employee e = (Employee)request.getSession().getAttribute("loginEmp");
+		
+		int currentPage = 1;
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		
+		int listCount = as.selectSaveDcm(e.getEmpNo());
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+	
+		pi.setEmpNo(e.getEmpNo());
 
-		// ArrayList<HashMap<String, Object>> list = as.showSaveDcm(pi);
+		ArrayList<HashMap<String, Object>> list = as.showSaveDcm(pi);
+		ArrayList<HashMap<String, Object>> formList = as.selectFormList();
+		System.out.println(list);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("formList", formList);
+		model.addAttribute("pi", pi);
 
 		return "finDcm/saveDcm";
 	}
@@ -787,9 +799,11 @@ public class ApprovalController {
 	// -----------------------------문서 상세보기 및 결재기능--------------------------------------
 	// 문서 상세보기
 	@RequestMapping("showDetailDcm.ap")
-	public String showDetailDcm(Model model, String adNo) {
-
-		HashMap<String, Object> map = as.showDetailDcm(adNo);
+	public String showDetailDcm(Model model, String adNo, HttpSession session) {
+		
+		int empNo = ((Employee)session.getAttribute("loginEmp")).getEmpNo();
+		
+		HashMap<String, Object> map = as.showDetailDcm(adNo, empNo);
 		HashMap<String, ArrayList<HashMap<String, Object>>> appList = as.selectAppList(adNo);
 		System.out.println("map : " + map);	
 		model.addAttribute("map", map);
@@ -1107,10 +1121,76 @@ public class ApprovalController {
 			}
 		}
 		
+	}
+	
+	@RequestMapping(value = "updateApproval.ap")
+	public String updateApproval(AppDocument ad, HttpServletRequest request) {
+		System.out.println(ad);
+		String[] circle = request.getParameterValues("circleEmp");
+		String[] approval = request.getParameterValues("approvalEmp");
+		String[] reference = request.getParameterValues("referenceEmp");
+		String[] payAgree = request.getParameterValues("payAgreeEmp");
+		String[] apply = request.getParameterValues("applyEmp");
+		String[] process =  request.getParameterValues("processEmp");
+		String[] send = request.getParameterValues("sendEmp");
+		String[] agree = request.getParameterValues("agreeEmp");
 		
+		String signCode = request.getParameter("signCode");
+
+		Map<String, Object> appDcm = new HashMap<String, Object>();
+		appDcm.put("ad", ad);
+		System.out.println(ad);
+		int count = 0;
 		
+		switch (signCode) {
+		case "circle": appDcm.put("circle", circle);
+				appDcm.put("type", 1);
+				break;
+				
+		case "approvalSend": appDcm.put("approval", approval);
+				if(reference != null) {
+					appDcm.put("reference", reference);					
+				}
+				appDcm.put("send", send);
+				appDcm.put("type", 2);
+				break;
+				
+		case "normalApproval": appDcm.put("approval", approval);
+				if(agree != null) {
+					appDcm.put("agree", agree);					
+				}
+				if(reference != null) {
+					appDcm.put("reference", reference);					
+				}
+				appDcm.put("type", 3);
+			break;
+			
+		case "agreementApproval": appDcm.put("approval", approval);
+				appDcm.put("payAgree", payAgree);
+				if(agree != null) {
+					appDcm.put("agree", agree);					
+				}
+				if(reference != null) {
+					appDcm.put("reference", reference);					
+				}	
+				appDcm.put("type", 4);
+			break;
+			
+		case "applyDcm": appDcm.put("apply", apply);
+				appDcm.put("process", process);
+				if(reference != null) {
+					appDcm.put("reference", reference);					
+				}
+				appDcm.put("type", 5);
+			break;
+
+		}
+		System.out.println(appDcm);
+		int result = as.updateApprovalDcm(appDcm);
 		
+		System.out.println(result);
 		
+		return "redirect:showWaitDcm.ap";		
 	}
 	
 
@@ -1241,7 +1321,38 @@ public class ApprovalController {
          e.printStackTrace();
       }
    }
-
+   
+   @RequestMapping("copyAd.ap")
+   public String copyAd(@RequestParam String adNo, Model model) {
+	   
+	   HashMap<String, Object> map = as.showDetailDcm(adNo);
+	   ArrayList<HashMap<String, Object>> list = as.selectFormList();
+	   model.addAttribute("list", list);
+	   model.addAttribute("map", map);
+	   model.addAttribute("msg", "작성하기");
+	   
+	   return "updateApproval";
+   }
+   
+   @RequestMapping("updateAd.ap")
+   public String updateAd(@RequestParam String adNo, Model model) {
+	   
+	   HashMap<String, Object> map = as.showDetailDcm(adNo);
+	   ArrayList<HashMap<String, Object>> list = as.selectFormList();
+	   model.addAttribute("list", list);
+	   model.addAttribute("map", map);
+	   model.addAttribute("msg", "수정하기");
+	   
+	   return "updateApproval";
+   }
+   
+   @RequestMapping("cancleAd.ap")
+   public String cancleAd(@RequestParam String adNo, Model model) {
+	   
+	   int result = as.cancleAppDcm(adNo);;
+	   
+	   return "finDcm/saveDcm";
+   }
 }
 
 

@@ -225,4 +225,32 @@ public interface ApprovalDao {
 
 	int selectAllPrograssDcm(HashMap<String, Object> map, SqlSession session);
 
+	int readAppDcm(SqlSession session, String adNo, int empNo);
+
+	int cancleAppDcm(String adNo, SqlSession session);
+
+	int selectSaveDcm(int empNo, SqlSession session);
+
+	ArrayList<HashMap<String, Object>> showSaveDcm(PageInfo pi, SqlSession session);
+
+	int deleteAppList(String adNo, SqlSession session);
+
+	int updateApprovalDcm(AppDocument appDocument, SqlSession session);
+
+	int updateReferenceList(Map<String, Object> appDcm, SqlSession session);
+
+	int updateProcessList(Map<String, Object> appDcm, SqlSession session);
+
+	int updateApplyList(Map<String, Object> appDcm, SqlSession session);
+
+	int updateApprovalList(Map<String, Object> appDcm, SqlSession session);
+
+	int updatePayAgreeList(Map<String, Object> appDcm, SqlSession session);
+
+	int updateAgreeList(Map<String, Object> appDcm, SqlSession session);
+
+	int updateCircleList(Map<String, Object> appDcm, SqlSession session);
+
+	int updateSendList(Map<String, Object> appDcm, SqlSession session);
+
 }
