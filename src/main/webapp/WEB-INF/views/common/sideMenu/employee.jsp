@@ -45,7 +45,7 @@
 				<ul>
 					<li class="list" onclick="location.href='${contextPath}/showdeptGroupAdmin.em'">조직관리</li>
 					<li class="list" onclick="location.href='${contextPath}/showEmployeeAdmin.em'">사용자 관리</li>
-					<li class="list" onclick="location.href='${contextPath}/showlevelCaptain.em'">직급/부서장 관리</li>
+					<li class="list" onclick="location.href='${contextPath}/showlevelCaptain.em'">부서장 관리</li>
 					<li class="list" onclick="location.href='${contextPath}/showPrsnlManager.em'">인사관리자</li>
 				</ul>
 			</div>

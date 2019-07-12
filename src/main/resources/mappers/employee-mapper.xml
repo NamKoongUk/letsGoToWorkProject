@@ -101,6 +101,14 @@
 		<result column="EMPNO" property="empNo"/>
 	</resultMap>
 	
+	<resultMap type="java.util.HashMap" id="deptResultSet">
+		<id property="deptCode" column="DEPT_CODE"/>
+		<result property="deptName" column="DEPT_NAME"/>
+		<result property="topDept" column="TOP_DEPT"/>
+		<result property="managerEmpno" column="MANAGER_EMPNO"/>
+		<result property="stat" column="STAT"/>
+	</resultMap>
+	
 
 	<!-- 로그인시 사원 객체 조회 -->
 	<select id="loginCheck" resultMap="employeeResultSet" parameterType="Employee">
@@ -257,6 +265,94 @@
 		SELECT ATTACHMENT_NO, ORIGIN_NAME, CHANGE_NAME, EMPNO
 		FROM ATTACHMENT
 		WHERE FILE_TYPE='ProfileImage'
+	</select>
+	
+	<select id="getSearchEmpCount" resultType="_int" parameterType="EmployeeResult">
+		SELECT COUNT(*)
+		FROM EMPLOYEE E
+		LEFT JOIN promotion_history PH ON(E.EMPNO=PH.EMPNO)
+		LEFT JOIN JOB J ON(ph.job_code=J.JOB_CODE)
+		LEFT JOIN DEPT_HISTORY DH ON (E.EMPNO=DH.EMPNO)
+		LEFT JOIN DEPT D ON (DH.DEPT_CODE=D.DEPT_CODE)
+		WHERE E.EMP_ID != 'admin'
+		AND E.STATUS = 'Y'
+		<choose>
+			<when test="deptName != 'all'">
+				AND D.DEPT_NAME=#{deptName}
+			</when>
+			<when test="jobName != 'all'">
+				AND J.JOB_NAME=#{jobName}
+			</when>
+			<when test="empName != null">
+				AND E.EMP_NAME=#{empName}
+			</when>
+		</choose>
+	</select>
+	
+	<select id="searchEmpUser" resultMap="empListResult" parameterType="EmployeeResult">
+		SELECT E.EMPNO, E.EMP_ID, E.EMP_NAME, E.BIRTH, E.GENDER, E.EMP_PHONE, E.OFFICE_TEL, E.ADDRESS, E.EMAIL, E.OTHER_INFO, E.PERSONAL_INFO_CHECK, J.JOB_CODE, J.JOB_NAME, D.DEPT_CODE, D.DEPT_NAME
+		FROM EMPLOYEE E
+		LEFT JOIN promotion_history PH ON(E.EMPNO=PH.EMPNO)
+		LEFT JOIN JOB J ON(ph.job_code=J.JOB_CODE)
+		LEFT JOIN DEPT_HISTORY DH ON (E.EMPNO=DH.EMPNO)
+		LEFT JOIN DEPT D ON (DH.DEPT_CODE=D.DEPT_CODE)
+		WHERE E.STATUS='Y' AND E.EMP_ID != 'admin'
+		<choose>
+			<when test="deptName != 'all'">
+				AND D.DEPT_NAME=#{deptName}
+			</when>
+			<when test="jobName != 'all'">
+				AND J.JOB_NAME=#{jobName}
+			</when>
+			<when test="empName != null">
+				AND E.EMP_NAME=#{empName}
+			</when>
+		</choose>
+        ORDER BY EMPNO
+	</select>
+	
+	<select id="allEmpList" resultMap="empListResult">
+		SELECT E.EMPNO, E.EMP_ID, E.EMP_NAME, D.DEPT_NAME, J.JOB_NAME, E.OFFICE_TEL, E.EMP_PHONE, E.STATUS
+		FROM EMPLOYEE E
+		LEFT JOIN promotion_history PH ON(E.EMPNO=PH.EMPNO)
+		LEFT JOIN JOB J ON(ph.job_code=J.JOB_CODE)
+		LEFT JOIN DEPT_HISTORY DH ON (E.EMPNO=DH.EMPNO)
+		LEFT JOIN DEPT D ON (DH.DEPT_CODE=D.DEPT_CODE)
+		WHERE E.STATUS ='Y' AND E.EMP_ID != 'admin'
+	</select>
+	
+	<update id="insertPrsnlManager" parameterType="_int">
+		UPDATE EMPLOYEE SET MANAGER_TYPE = '인사관리자' WHERE EMPNO = #{empNo}
+	</update>
+	
+	<select id="selectPrsnlEmp" resultMap="empListResult">
+		SELECT E.EMPNO, E.EMP_ID, E.EMP_NAME, D.DEPT_NAME, J.JOB_NAME, E.OFFICE_TEL, E.EMP_PHONE, E.STATUS
+		FROM EMPLOYEE E
+		LEFT JOIN promotion_history PH ON(E.EMPNO=PH.EMPNO)
+		LEFT JOIN JOB J ON(ph.job_code=J.JOB_CODE)
+		LEFT JOIN DEPT_HISTORY DH ON (E.EMPNO=DH.EMPNO)
+		LEFT JOIN DEPT D ON (DH.DEPT_CODE=D.DEPT_CODE)
+		WHERE E.STATUS ='Y' AND E.EMP_ID != 'admin'
+		AND E.MANAGER_TYPE = '인사관리자'
+	</select>
+	
+	<update id="deletePrsnlManager" parameterType="_int">
+		UPDATE EMPLOYEE SET MANAGER_TYPE = NULL WHERE EMPNO = #{empNo}
+	</update>
+	
+	<select id="selectEmpList" resultMap="empListResult">
+		select E.EMPNO, E.EMP_ID, E.EMP_NAME, D.DEPT_NAME, J.JOB_NAME, E.OFFICE_TEL, E.EMP_PHONE, E.STATUS
+		FROM EMPLOYEE E
+		LEFT JOIN promotion_history PH ON(E.EMPNO=PH.EMPNO)
+		LEFT JOIN JOB J ON(ph.job_code=J.JOB_CODE)
+		LEFT JOIN DEPT_HISTORY DH ON (E.EMPNO=DH.EMPNO)
+		LEFT JOIN DEPT D ON (DH.DEPT_CODE=D.DEPT_CODE)
+		WHERE E.STATUS='Y' AND E.EMP_ID != 'admin'
+        ORDER BY J.JOB_CODE
+	</select>
+	
+	<select id="checkEmpWork" resultType="_int" parameterType="_int">
+		select count(*) from attendance where =#{empNo} 
 	</select>
 	
 	

@@ -5,18 +5,6 @@
 <html>
 <head>
 <style>
-	/* .grid-container {
-	  display: grid;
-	  grid-template-columns: 300px 1fr;
-	  grid-template-rows: 1fr;
-	  grid-template-areas: "deptList empProfile";
-	}
-	
-	.deptList { 
-		grid-area: deptList; 
-		}
-	
-	.empProfile { grid-area: empProfile; } */
 	
 	#deptTable td{
 		font-size:150%;

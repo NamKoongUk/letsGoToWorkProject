@@ -38,6 +38,9 @@
 	#plusArea{
 		margin-bottom:1%;
 	}
+	#resultTable{
+		width:90%;
+	}
 </style>
 </head>
 <body>
@@ -53,19 +56,21 @@
 					<a href="#" onclick="showModal()">관리자 추가</a> &nbsp;&nbsp; <a href="#" onclick="deleteManager();">관리자 삭제</a> 
 				</div>
 				<form>
-					<table class="table">
+					<table id="resultTable" class="table">
 						<tr class="info">
 							<th><input type="checkbox" id="checkAll"></th>
 							<th>소속</th>
 							<th>이름</th>
 							<th>직급</th>
 						</tr>
-						<tr>
-							<td><input type="checkbox" name="check"></td>
-							<td>인사팀장</td>
-							<td>임나연</td>
-							<td>과장</td>
-						</tr>
+						<c:forEach var="emp" items="${empPrnl }">
+							<tr>
+								<td><input type="checkbox" name="check" value="${emp.empNo }"></td>
+								<td><c:out value="${emp.deptName }"></c:out></td>
+								<td><c:out value="${emp.empName }"></c:out></td>
+								<td><c:out value="${emp.jobName }"></c:out></td>
+							</tr>
+						</c:forEach>
 					</table>
 				</form>
 			</div>
@@ -108,7 +113,7 @@
 					      	</div>
 					     </div>
 						     <div class="modal-footer">
-						     	<button type="button" class="btn btn-default" onclick="insertApprovalMng();" data-dismiss="modal">추가하기</button>
+						     	<button type="button" class="btn btn-default" onclick="insertPrsnlMng();" data-dismiss="modal">추가하기</button>
 			          			<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
 			          			
 			       			 </div>
@@ -290,7 +295,7 @@
 	});
 	
 	//관리자 추가
-	function insertApprovalMng(){
+	function insertPrsnlMng(){
 		var empArr = new Array();
 		
 		$(".circleList").children().each(function(){
@@ -339,7 +344,7 @@
 			}
 			
 			$.ajax({
-				url:"${contextPath}/approval/deleteManager",
+				url:"${contextPath}/employee/deletePrsnlManager",
 				type:"post",
 			    contentType: 'application/json; charset=utf-8',
 	            data: JSON.stringify(object),

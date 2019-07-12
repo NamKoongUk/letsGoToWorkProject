@@ -75,6 +75,8 @@ public class EmployeeDaoImpl implements EmployeeDao{
 			System.out.println("포문시작");
 			sqlSession.insert("ExcelEmp.insertEmpExcel", list.get(i));
 			sqlSession.insert("Employee.insertEmpProfile", attach);
+			sqlSession.insert("ExcelEmp.insertexcelEmpDept", list.get(i));
+			sqlSession.insert("ExcelEmp.insertexcelEmpJob", list.get(i));
 		}
 		
 		System.out.println("포문완료");
@@ -238,10 +240,45 @@ public class EmployeeDaoImpl implements EmployeeDao{
 			int empNo = Integer.parseInt((String)empList.get(i));
 			
 			result += sqlSession.update("Employee.insertPrsnlManager",empNo);
+			System.out.println("추가중"+i+empNo);
+		}
+		
+		return result;
+	}
+
+	@Override
+	public ArrayList<EmployeeResult> selectPrnlEmp(SqlSession sqlSession) {
+		return (ArrayList)sqlSession.selectList("Employee.selectPrsnlEmp");
+	}
+
+	@Override
+	public int deletePrsnlManager(SqlSession sqlSession, ArrayList<Object> empList) {
+		int result= 0;
+		
+		for(int i = 0; i<empList.size(); i++) {
+			
+			int empNo = Integer.parseInt((String)empList.get(i));
+			
+			result += sqlSession.update("Employee.deletePrsnlManager", empNo);
+			System.out.println("삭제중"+i+empNo);
 			
 		}
 		
 		return result;
+	}
+
+	@Override
+	public ArrayList<EmployeeResult> selectEmpList(SqlSession sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		
+		return (ArrayList)sqlSession.selectList("Employee.selectEmpList",null,rowBounds);
+	}
+
+	@Override
+	public int checkEmpWork(SqlSession sqlSession, int empNo) {
+		return sqlSession.selectOne("Employee.checkEmpWork",empNo);
 	}
 
 

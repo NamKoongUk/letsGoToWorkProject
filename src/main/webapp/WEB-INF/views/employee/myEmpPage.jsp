@@ -55,7 +55,9 @@
 						<c:if test="${attach.originName eq 'users.jpg' }">
 							<img id="profileIcon" name="changeName" src="${contextPath }/resources/images/profile/users.jpg" width="150px;" height="200px;">
 						</c:if>
+						<c:if test="${attach.originName ne 'users.jpg' }">
 							<img id="profileIcon" name="changeName" src="${contextPath }/resources/images/profile/${attach.changeName}.jpg" width="150px;" height="200px;">
+						</c:if>
 					</div>
 					<div id="empInfoTable">
 					<table>

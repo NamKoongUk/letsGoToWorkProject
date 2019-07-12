@@ -41,15 +41,15 @@ import com.amazonaws.util.StringUtils;
 import static com.kh.lgtw.common.CommonUtils.*; 
 
 // 메일 수신을 위한 s3 버킷 접근 
-@Component
+// @Component
 public class AwsS3 {
 	private AmazonS3 conn;
 	private AmazonS3 s3Client;
 	
 	public AwsS3() {
 		// 생성자가 작동하면 기본적으로 빌드를 한다.
-		buildS3();
-		this.s3Client = this.conn;
+		// buildS3();
+
 	}
 	
 	// 빌드하기 
