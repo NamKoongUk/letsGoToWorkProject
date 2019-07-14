@@ -124,7 +124,7 @@
 								      		<select class="form-control list circleList" name="circleList" size="10" style="width:100%; height:420px;" multiple>
 								      			<c:if test="${ requestScope.map.signCode == 'circle' }">
 								      				<c:forEach var="al" items="${ requestScope.map.appList }">
-								      					<option id="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
+								      					<option id="${ al.alEmpNo }" value="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
 								      				</c:forEach>
 								      			</c:if>
 								      		</select>					      			
@@ -149,7 +149,7 @@
 								      			<c:if test="${ requestScope.map.signCode == 'normalApproval' }">
 								      				<c:forEach var="al" items="${ requestScope.map.appList }">
 								      					<c:if test="${ al.alRoll == '결재자' }">
-									      					<option id="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
+									      					<option id="${ al.alEmpNo }" value="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
 								      					</c:if>
 								      				</c:forEach>
 								      			</c:if>
@@ -171,7 +171,7 @@
 								      			<c:if test="${ requestScope.map.signCode == 'normalApproval' }">
 								      				<c:forEach var="al" items="${ requestScope.map.appList }">
 								      					<c:if test="${ al.alRoll == '합의자' }">
-									      					<option id="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
+									      					<option id="${ al.alEmpNo }" value="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
 								      					</c:if>
 								      				</c:forEach>
 								      			</c:if>
@@ -193,7 +193,7 @@
 								      			<c:if test="${ requestScope.map.signCode == 'normalApproval' }">
 								      				<c:forEach var="al" items="${ requestScope.map.appList }">
 								      					<c:if test="${ al.alRoll == '참조자' }">
-									      					<option id="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
+									      					<option id="${ al.alEmpNo }" value="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
 								      					</c:if>
 								      				</c:forEach>
 								      			</c:if>
@@ -220,7 +220,7 @@
 								      			<c:if test="${ requestScope.map.signCode == 'agreementApproval' }">
 								      				<c:forEach var="al" items="${ requestScope.map.appList }">
 								      					<c:if test="${ al.alRoll == '결재자' }">
-									      					<option id="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
+									      					<option id="${ al.alEmpNo }" value="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
 								      					</c:if>
 								      				</c:forEach>
 								      			</c:if>
@@ -243,7 +243,7 @@
 								      			<c:if test="${ requestScope.map.signCode == 'agreementApproval' }">
 								      				<c:forEach var="al" items="${ requestScope.map.appList }">
 								      					<c:if test="${ al.alRoll == '재무합의자' }">
-									      					<option id="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
+									      					<option id="${ al.alEmpNo }" value="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
 								      					</c:if>
 								      				</c:forEach>
 								      			</c:if>
@@ -265,7 +265,7 @@
 								      			<c:if test="${ requestScope.map.signCode == 'agreementApproval' }">
 								      				<c:forEach var="al" items="${ requestScope.map.appList }">
 								      					<c:if test="${ al.alRoll == '합의자' }">
-									      					<option id="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
+									      					<option id="${ al.alEmpNo }" value="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
 								      					</c:if>
 								      				</c:forEach>
 								      			</c:if>
@@ -287,7 +287,7 @@
 								      			<c:if test="${ requestScope.map.signCode == 'agreementApproval' }">
 								      				<c:forEach var="al" items="${ requestScope.map.appList }">
 								      					<c:if test="${ al.alRoll == '참조자' }">
-									      					<option id="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
+									      					<option id="${ al.alEmpNo }" value="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
 								      					</c:if>
 								      				</c:forEach>
 								      			</c:if>
@@ -313,7 +313,7 @@
 								      			<c:if test="${ requestScope.map.signCode == 'applyDcm' }">
 								      				<c:forEach var="al" items="${ requestScope.map.appList }">
 								      					<c:if test="${ al.alRoll == '신청자' }">
-									      					<option id="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
+									      					<option id="${ al.alEmpNo }" value="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
 								      					</c:if>
 								      				</c:forEach>
 								      			</c:if>
@@ -335,7 +335,7 @@
 								      			<c:if test="${ requestScope.map.signCode == 'applyDcm' }">
 								      				<c:forEach var="al" items="${ requestScope.map.appList }">
 								      					<c:if test="${ al.alRoll == '처리자' }">
-									      					<option id="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
+									      					<option id="${ al.alEmpNo }" value="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
 								      					</c:if>
 								      				</c:forEach>
 								      			</c:if>
@@ -357,7 +357,7 @@
 								      			<c:if test="${ requestScope.map.signCode == 'applyDcm' }">
 								      				<c:forEach var="al" items="${ requestScope.map.appList }">
 								      					<c:if test="${ al.alRoll == '참조자' }">
-									      					<option id="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
+									      					<option id="${ al.alEmpNo }" value="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
 								      					</c:if>
 								      				</c:forEach>
 								      			</c:if>
@@ -383,7 +383,7 @@
 								      			<c:if test="${ requestScope.map.signCode == 'approvalSend' }">
 								      				<c:forEach var="al" items="${ requestScope.map.appList }">
 								      					<c:if test="${ al.alRoll == '결재자' }">
-									      					<option id="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
+									      					<option id="${ al.alEmpNo }" value="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
 								      					</c:if>
 								      				</c:forEach>
 								      			</c:if>
@@ -405,7 +405,7 @@
 								      			<c:if test="${ requestScope.map.signCode == 'approvalSend' }">
 								      				<c:forEach var="al" items="${ requestScope.map.appList }">
 								      					<c:if test="${ al.alRoll == '참조자' }">
-									      					<option id="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
+									      					<option id="${ al.alEmpNo }" value="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
 								      					</c:if>
 								      				</c:forEach>
 								      			</c:if>
@@ -427,7 +427,7 @@
 								      			<c:if test="${ requestScope.map.signCode == 'approvalSend' }">
 								      				<c:forEach var="al" items="${ requestScope.map.appList }">
 								      					<c:if test="${ al.alRoll == '수신자' }">
-									      					<option id="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
+									      					<option id="${ al.alEmpNo }" value="${ al.alEmpNo }">${ al.approvaler }(${ al.jobName }/${ al.appDept })</option>
 								      					</c:if>
 								      				</c:forEach>
 								      			</c:if>
@@ -466,8 +466,7 @@
 				        <div class="form-group">
 				            <div class="col-lg-12" align="right">
 				        
-				            	<button type="button" class="btn btn-md" id="save">임시저장</button>
-				            	<button type="button" class="btn btn-md btn-default">취소</button>
+				            	<button type="button" class="btn btn-md btn-default" onclick="history.back(-1);">취소</button>
 				            	<c:if test="${ requestScope.msg == '작성하기'}">
 					                <button type="submit" class="btn btn-md btn-primary">기안하기</button>				            	
 				            	</c:if>
@@ -575,7 +574,7 @@
 			var $label = $("<label style='margin-left:5px; margin-right:5px;' class='lab'>");
 			var empNo = $(this).val();
 			var check = 0;
-			$("input[type=hidden]").each(function(){
+			$(".emp").each(function(){
 				if($(this).val() == empNo){
 					check = 1;
 				}
@@ -585,7 +584,7 @@
 			if(check <= 0 ){
 				if($(this).parent().attr("name") == 'circleList'){
                  	$label.append($(this).text());
-                 	$label.append($("<input type='hidden' name='circleEmp' value='" + $(this).val() + "'>"));
+                 	$label.append($("<input class='emp' type='hidden' name='circleEmp' value='" + $(this).val() + "'>"));
                  	$label.append($("<a href='#' onclick='deleteTag(this);' style='color:red;'>x</a>")); 	
                  	
                  	$("#circleEmp").append($label);
@@ -598,24 +597,24 @@
 					var empName = emp[0];
 					var empJob = emp[1].split("/");
 					var empJobName = empJob[1].split(")")[0];
-					console.log($("<input type='hidden' name='approvalEmp' value='" + $(this).val() + "'>"));
+					console.log($("<input class='emp' type='hidden' name='approvalEmp' value='" + $(this).val() + "'>"));
 					console.log("jobNameTd : " + jobNameTd);
 					
 					jobNameTd[approvalCount + 1].append(empJobName);
 					empNameTd[approvalCount].append(empName);
-					$(".signArea").append($("<input type='hidden' name='approvalEmp' value='" + $(this).val() + "'>"));
+					$(".signArea").append($("<input class='emp' type='hidden' name='approvalEmp' value='" + $(this).val() + "'>"));
 					approvalCount++;
 				}else if($(this).parent().attr("name") == 'agreeList'){
 					var emp = $(this).text().split("(");
 					var empName = emp[0];
 					
 					agreeTd[agreeCount + 1].append(empName);
-					$(".signArea").append($("<input type='hidden' name='agreeEmp' value='" + $(this).val() + "'>"));
+					$(".signArea").append($("<input class='emp' type='hidden' name='agreeEmp' value='" + $(this).val() + "'>"));
 					agreeCount++;
 					
 				}else if($(this).parent().attr("name") == 'referenceList'){
 					$label.append($(this).text());
-                 	$label.append($("<input type='hidden' name='referenceEmp' value='" + $(this).val() + "'>"));
+                 	$label.append($("<input class='emp' type='hidden' name='referenceEmp' value='" + $(this).val() + "'>"));
                  	$label.append($("<a href='#' onclick='deleteTag(this);' style='color:red;'>x</a>"))
                  	
                  	$("#refEmpName").append($label);
@@ -631,7 +630,7 @@
 					
 					payAgreeJobNameTd[payAgreeCount + 1].append(empJobName);
 					payAgreeEmpNameTd[payAgreeCount].append(empName);
-					$(".signArea").append($("<input type='hidden' name='payAgreeEmp' value='" + $(this).val() + "'>"));
+					$(".signArea").append($("<input class='emp' type='hidden' name='payAgreeEmp' value='" + $(this).val() + "'>"));
 					payAgreeCount++;
 				}else if($(this).parent().attr("name") == 'applyList'){
 					var emp = $(this).text().split("(");
@@ -643,7 +642,7 @@
 					
 					applyJobNameTd[applyCount + 1].append(empJobName);
 					applyEmpNameTd[applyCount].append(empName);
-					$(".signArea").append($("<input type='hidden' name='applyEmp' value='" + $(this).val() + "'>"));
+					$(".signArea").append($("<input class='emp' type='hidden' name='applyEmp' value='" + $(this).val() + "'>"));
 					applyCount++;
 					
 				}else if($(this).parent().attr("name") == 'proceesList'){
@@ -656,12 +655,12 @@
 					
 					processJobNameTd[processCount + 1].append(empJobName);
 					processEmpNameTd[processCount].append(empName);
-					$(".signArea").append($("<input type='hidden' name='processEmp' value='" + $(this).val() + "'>"));
+					$(".signArea").append($("<input class='emp' type='hidden' name='processEmp' value='" + $(this).val() + "'>"));
 					processCount++;
 					
 				}else if($(this).parent().attr("name") == 'sendList'){
 					$label.append($(this).text());
-                 	$label.append($("<input type='hidden' name='sendEmp' value='" + $(this).val() + "'>"));
+                 	$label.append($("<input class='emp' type='hidden' name='sendEmp' value='" + $(this).val() + "'>"));
                  	$label.append($("<a href='#' onclick='deleteTag(this);' style='color:red;'>x</a>"))
                  	
                  	$("#sendEmpName").append($label);
