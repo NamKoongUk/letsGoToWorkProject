@@ -328,11 +328,6 @@
 		VALUES(SEQ_AD_NO.NEXTVAL, #{adWriter}, #{adTitle}, #{adContent}, SYSDATE, NULL, #{afNo}, '대기', '1', 'N')
 	</insert>
 	
-	<insert id="saveApprovalDcm" parameterType="AppDocument">
-		INSERT INTO APP_DOCUMENT
-		VALUES(SEQ_AD_NO.NEXTVAL, #{adWriter}, #{adTitle}, #{adContent}, SYSDATE, NULL, #{afNo}, '저장', '1', 'N')
-	</insert>
-	
 	<update id="updateApprovalDcm" parameterType="AppDocument">
 		UPDATE APP_DOCUMENT SET AD_WRITER = #{adWriter}, AD_TITLE = #{adTitle}, AD_CONTENT = #{adContent}, AD_START_DATE = SYSDATE, AF_NO = #{afNo}, AD_STATUS = '대기' 
 		WHERE AD_NO = #{adNo}
@@ -348,12 +343,12 @@
 	
 	<insert id="updateApprovalList" parameterType="java.util.HashMap">
 		INSERT INTO APPROVAL_LIST
-		VALUES(SEQ_AL_NO.NEXTVAL, NULL, #{alRoll}, #{alEmpno}, #{status}, #{adNo}, #{alLevel})
+		VALUES(SEQ_AL_NO.NEXTVAL, NULL, #{alRoll}, #{alEmpno}, #{status}, #{ad.adNo}, #{alLevel})
 	</insert>
 	 
 	
 	<select id="detailDcm" parameterType="java.lang.String" resultMap="appDocument2">
-		SELECT AD.*, AF.*, SF.*, E.EMP_NAME AS AD_DCM_WRITER, D.DEPT_NAME, E2.EMP_NAME AS APPROVALER, J.JOB_NAME ,AL.*, A.*, D2.DEPT_NAME AS APP_DEPT, S.*
+		SELECT AD.*, AF.*, SF.*, E.EMP_NAME AS AD_DCM_WRITER, D.DEPT_NAME, E2.EMP_NAME AS APPROVALER, J.JOB_NAME ,AL.*, A.*, D2.DEPT_NAME AS APP_DEPT
 		FROM APP_DOCUMENT AD
 		JOIN APPROVAL_LIST AL ON (AL.AD_NO = AD.AD_NO)
 		JOIN EMPLOYEE E2 ON (AL.AL_EMPNO = E2.EMPNO)
@@ -873,7 +868,7 @@
 		AND AD_STATUS != '완료' 
 		AND AD_STATUS != '반려'
 		AND AD_STATUS != '저장'
-		ORDER BY AD_START_DATE DESC
+		ORDER BY AD_START_DATE
 	</select>
 	
 	<select id="selectAllPrograssDcm" parameterType="_int" resultType="_int">

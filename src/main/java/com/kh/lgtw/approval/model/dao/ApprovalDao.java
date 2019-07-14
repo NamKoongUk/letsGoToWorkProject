@@ -253,6 +253,4 @@ public interface ApprovalDao {
 
 	int updateSendList(Map<String, Object> appDcm, SqlSession session);
 
-	int saveApprovalDcm(AppDocument appDocument, SqlSession session);
-
 }
