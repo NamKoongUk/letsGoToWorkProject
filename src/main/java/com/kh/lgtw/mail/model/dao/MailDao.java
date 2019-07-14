@@ -7,8 +7,10 @@ import java.util.Map;
 import javax.mail.Message;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.lgtw.approval.model.vo.PageInfo;
+import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.mail.model.exception.StatusTypeException;
 import com.kh.lgtw.mail.model.vo.Absence;
 import com.kh.lgtw.mail.model.vo.ListCondition;
@@ -39,5 +41,9 @@ public interface MailDao {
 	HashMap<String, Object> selectSendEmpName(SqlSession sqlSession, String sendMail);
 
 	HashMap<String, Object> selectReciveEmpName(SqlSession sqlSession, String reciveMail);
+
+	int insertAttachment(SqlSession sqlSession, Attachment mailAtt);
+
+	int selectMailNo(SqlSession sqlSession);
 
 }

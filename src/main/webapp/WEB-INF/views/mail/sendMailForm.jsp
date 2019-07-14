@@ -76,7 +76,7 @@
 						<tr>
 							<th>보내는 사람</th>
 							<td colspan="2">
-								<input type="email" class="form-control" name="sendMail" value="${ loginEmp.email }<%--  ( ${ loginEmp.empName } ) --%>"/>
+								<input type="email" class="form-control" name="sendMail" value="${ loginEmp.email }" readOnly/>
 							</td>
 						</tr>
 						<tr>
@@ -141,11 +141,9 @@
 									</button>
 								</div>
 								<div class="col-sm-10">
-									<label class="col-sm-12">보내는 사람</label> <select
-										class="form-control list circleList" name="setEmpList"
-										size="10" style="width: 100%; height: 190px;" id="setEmpList"
-										multiple>
-									</select> <br>
+									<label class="col-sm-12">보내는 사람</label> 
+									<select class="form-control list circleList" name="setEmpList"
+										size="10" style="width: 100%; height: 190px;" id="setEmpList" multiple></select> <br>
 								</div>
 							</div>
 						</div>
@@ -154,7 +152,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-				<button type="button" onclick="insertInSignForm();"
+				<button type="button" onclick="insertEmailAddress();"
 					class="btn btn-primary" data-dismiss="modal">확인</button>
 			</div>
 		</div>
@@ -217,11 +215,12 @@
 	        });
 	    });
 		
+		// 주소록 버튼 선택시 -> 최 상위 부서 출력
 		function selectEmp(){
+			console.log("selectEmp");
 			$(".signArea").children("input[type='hidden']").remove();
 			$(".lab").remove();
 			
-		    /* $(".signForm").find("select").children().remove(); */
 			$("#deptList").children().remove();
 			$.ajax({
 				url:"${contextPath}/approval/selectEmp",
@@ -269,10 +268,7 @@
 	 				console.log($(this).parent().parent().find("select[name='setEmpList']"));
 	 				
 	 				for(var i = 0; i < selectEmp.length; i++) {
-	 					
 	 					var emp = $("#" + selectEmp[i]).clone();
-	 					
-	 					console.log("들어는 오냐??");
 	 					setEmpList.append(emp);
 	 				}
 	 				
@@ -286,10 +282,7 @@
 	 				console.log($(this).parent().parent().find("select[name='readEmpList']"));
 	 				
 	 				for(var i = 0; i < selectEmp.length; i++) {
-	 					
 	 					var emp = $("#" + selectEmp[i]).clone();
-	 					
-	 					console.log("들어는 오냐??");
 	 					readEmpList.append(emp);
 	 				}
 	 			}else if($(this).attr("name") == "readOutputCircle"){
@@ -303,7 +296,9 @@
 	 		}
 	 	});
 		
+		// 하위부서 출력 함수
 		function underDept(img){
+			console.log("underDept");
 			console.log(img.id);
 			var deptCode = img.id;
 			
@@ -337,7 +332,9 @@
 			} 
 		}
 		
+		// 사원 조회
 		function underEmp(span, event){
+			console.log("underEmp");
 			console.log(span.id);
 			var deptCode = span.id;
 			if(deptCode != 'D') {
@@ -352,7 +349,7 @@
 							if(${sessionScope.loginEmp.empNo} != data.empList[i].empNo){
 								console.log(data.empList[i].empName);
 								var $option = $("<option id='" + data.empList[i].empNo + "' value='" + data.empList[i].empNo + "'>");
-								$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].email + " )" + "</label>"));
+								$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/" + data.empList[i].email + ")" + "</label>"));
 								
 								$("select[name='empList']").append($option);
 							}
@@ -370,7 +367,7 @@
 							if(${sessionScope.loginEmp.empNo} != data.empList[i].empNo){
 								console.log(data.empList[i].empName);
 								var $option = $("<option id='" + data.empList[i].empNo + "' value='" + data.empList[i].empNo + "'>");
-								$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/ " + data.empList[i].email + " )" + "</label>"));
+								$option.append($("<label>" + data.empList[i].empName + "(" + data.empList[i].deptName + "/" + data.empList[i].email + ")" + "</label>"));
 								
 								$("select[name='empList']").append($option);
 							}
@@ -379,7 +376,19 @@
 				});
 			}
 		}
-
+		
+		// 확인버튼 클릭스 -> 주소록에 선택한 사원 추가
+		function insertEmailAddress(){
+			var inputEmpInfo = $("#setEmpList").children().children().text();
+			
+			console.log(inputEmpInfo);
+			// console.log(inputEmpInfo.lastIndexOf("/"));
+			// console.log(inputEmpInfo.lastIndexOf(")"));
+			var email = inputEmpInfo.substring(inputEmpInfo.lastIndexOf("/") + 1, inputEmpInfo.lastIndexOf(")"));
+			var empName = inputEmpInfo.substring(0, inputEmpInfo.indexOf("()"));
+			console.log(empName);
+			$("[name=reciveMail]").val(email);
+		}
 	</script>
 
 	<jsp:include page="../common/footer.jsp" />

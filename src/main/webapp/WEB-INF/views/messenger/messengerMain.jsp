@@ -12,6 +12,7 @@
 <script src="${ contextPath }/resources/js/datepicker/datepicker.min.js"></script>
 <script src="${ contextPath }/resources/js/datepicker/i18n/datepicker.en.js"></script>
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+<link rel="shortcut icon" href="${ contextPath }/resources/images/favicon.ico">
 <title>LetsGoToWork</title>
 <style>
 

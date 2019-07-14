@@ -9,9 +9,11 @@ import javax.mail.Message;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.lgtw.approval.model.vo.PageInfo;
 import com.kh.lgtw.common.SqlQuery;
+import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.mail.model.exception.StatusTypeException;
 import com.kh.lgtw.mail.model.vo.Absence;
 import com.kh.lgtw.mail.model.vo.ListCondition;
@@ -70,7 +72,7 @@ public class MailDaoImpl implements MailDao{
 	// 메일 상세페이지 조회
 	@Override
 	public Mail selectMailDetail(SqlSession sqlSession, int mailNo) {
-		Mail m = sqlSession.selectOne("Mail.selectMailDetail", mailNo);
+		Mail m = sqlSession.selectOne("Mail.selectMailDetail2", mailNo);
 		int result = sqlSession.update("Mail.updateReadStatus", mailNo);
 		
 		System.out.println(" m : " + m);
@@ -95,6 +97,12 @@ public class MailDaoImpl implements MailDao{
 	@Override
 	public int sendMail(SqlSession sqlSession, Mail mail) {
 		return sqlSession.insert("Mail.sendMail", mail);
+	}
+	
+	// 첨부파일 저장 
+	@Override
+	public int insertAttachment(SqlSession sqlSession, Attachment mailAtt) {
+		return sqlSession.insert("Mail.insertAttachment", mailAtt);
 	}
 
 	// 검색 메일 조회
@@ -132,6 +140,10 @@ public class MailDaoImpl implements MailDao{
 		return sqlSession.selectOne("Mail.selectReciveEmpName", reciveMail);
 	}
 
-	
+	// 마지막에 넣은 메일 번호 가져오기
+	@Override
+	public int selectMailNo(SqlSession sqlSession) {
+		return sqlSession.selectOne("Mail.selectMailNo");
+	}
 
 }

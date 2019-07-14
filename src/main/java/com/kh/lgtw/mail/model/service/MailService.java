@@ -6,7 +6,10 @@ import java.util.Map;
 
 import javax.mail.Message;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.kh.lgtw.approval.model.vo.PageInfo;
+import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.mail.model.exception.StatusTypeException;
 import com.kh.lgtw.mail.model.vo.Absence;
 import com.kh.lgtw.mail.model.vo.ListCondition;
@@ -27,11 +30,16 @@ public interface MailService{
 	ArrayList<Absence> selectAbcenceList(int empNo);
 
 	int sendMail(Mail mail);
+	
+	int sendMail(Mail mail, Attachment mailAtt);
 
 	ArrayList<Mail> selectSearchMailList(PageInfo pi, HashMap<String, Object> listCondition);
 
 	int getMailSearchListCount(HashMap<String, Object> listCondition);
 
 	int insertReciveMail(Mail reciveMail);
+
+	int selectMailNo();
+
 
 }

@@ -20,6 +20,30 @@
 		<result property="reservationTime" column="RESERVATION_TIME"/>
 	</resultMap>
 	
+	<resultMap type="com.kh.lgtw.mail.model.vo.Mail" id="resultMailAttSet">
+		<id property="mailNo" column="Mail_No"/>
+		<result property="mTitle" column="MTITLE"/>
+		<result property="mContent" column="MCONTENT"/>
+		<result property="sendMail" column="SEND_MAIL"/>
+		<result property="reciveMail" column="RECIVE_MAIL"/>
+		<result property="dStatus" column="DSTATUS"/>
+		<result property="sendDate" column="SEND_DATE"/>
+		<result property="rStatus" column="RSTATUS"/>
+		<result property="mailType" column="MAIL_TYPE"/>
+		<result property="mSize" column="MSIZE"/>
+		<result property="reservationCheck" column="RESERVATION_CHECK"/>
+		<result property="reservationDate" column="RESERVATION_DATE"/>
+		<result property="reservationTime" column="RESERVATION_TIME"/>
+		<collection property="mailAtt" resultMap="attachmentSet"/>
+	</resultMap>
+	
+	<resultMap type="com.kh.lgtw.common.model.vo.Attachment" id="attachmentSet">
+		<id property="attNo" column="ATTACHMENT_NO"/>
+		<result property="originName" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="filePath" column="FILEPATH"/>
+	</resultMap>
+	
 	<resultMap type="com.kh.lgtw.mail.model.vo.Absence" id="resultAbsenceSet">
 		<id property="aNo" column="ANO"/>
 		<result property="startDate" column="START_DATE"/>
@@ -72,6 +96,16 @@
 		FROM MAIL
 		WHERE DSTATUS = 'N'
 		AND MAIL_NO = #{ mailNo }
+	</select>
+	
+	<!-- 메일 상세페이지 조회하기 -> 첨부파일 포함해서 조회  -->
+	<select id="selectMailDetail2" parameterType="int" resultMap="resultMailAttSet">
+		SELECT M.MAIL_NO, M.MTITLE, M.MCONTENT, M.SEND_MAIL, M.RECIVE_MAIL, M.DSTATUS, M.SEND_DATE, 
+			   M.RSTATUS, M.MSIZE, ATT.ATTACHMENT_NO, ATT.ORIGIN_NAME, ATT.CHANGE_NAME, ATT.FILEPATH
+		FROM MAIL M
+		LEFT JOIN ATTACHMENT ATT ON (M.MAIL_NO = ATT.MAIL_NO)
+		WHERE M.DSTATUS = 'N'
+		AND M.MAIL_NO = #{ mailNo }
 	</select>
 	
 	<!-- 부재중 정보 추가 -->
@@ -153,11 +187,13 @@
 		ORDER BY MAIL_NO DESC 
 	</select>
 	
+	<!-- S3에서 불러온 데이터를 DB에 저장 -->
 	<insert id="insertReciveMail" parameterType="Mail">
 		INSERT INTO MAIL(MAIL_NO, MTITLE, MCONTENT, SEND_MAIL, RECIVE_MAIL, MAIL_TYPE, MSIZE, SEND_DATE)
 		VALUES (SEQ_MAIL_NO.NEXTVAL, #{ mTitle }, #{ objContent }, #{ sendMail }, #{ reciveMail }, #{ mailType }, #{ mSize }, #{ sendStringDate })
 	</insert>
 	
+	<!-- 보낸 사원에 대한 정보 조회 -->
 	<select id="selectSendEmpName" resultMap="resultMailEmpInfoSet">
 		WITH TREE_DEPT AS (SELECT(SELECT D2.DEPT_NAME 
                                      FROM DEPT D2 
@@ -180,6 +216,7 @@
 		AND E.STATUS = 'Y'
 	</select>
 	
+	<!-- 받은 사원에 대한 정보 조회 -->
 	<select id="selectReciveEmpName" resultMap="resultMailEmpInfoSet">
 		WITH TREE_DEPT AS (SELECT (SELECT D2.DEPT_NAME 
                                     FROM DEPT D2 
@@ -200,6 +237,20 @@
 		JOIN JOB J ON (J.JOB_CODE = PH.JOB_CODE)
 		WHERE E.EMAIL = #{ reciveMail }
 		AND E.STATUS = 'Y'
+	</select>
+	
+	<!-- 위에 두 쿼리문을 묶어서 if로 처리할 수 있음..... -> 시간나면 처리하기  -->
+	
+	<!-- 메일 첨부파일 저장하기 -->
+	<insert id="insertAttachment" parameterType="Attachment">
+		INSERT INTO ATTACHMENT(ATTACHMENT_NO, ORIGIN_NAME, CHANGE_NAME, FILEPATH, FILE_TYPE, MAIL_NO)
+		VALUES(SEQ_ATTACHMENT_NO.NEXTVAL, #{originName}, #{changeName}, #{filePath}, '메일', (SELECT MAX(MAIL_NO) FROM MAIL))
+	</insert>
+	
+	<select id="selectMailNo" resultType="_int">
+		SELECT MAX(MAIL_NO) 
+		FROM MAIL
+		WHERE DSTATUS = 'N' 
 	</select>
 </mapper>
 

@@ -12,94 +12,72 @@
 	border-collapse: collapse;
 	border-top: 2px solid black;
 	border-bottom: 2px solid black;
-	font-size: 1.2em;
+	font-size: 1.2em; 
 }
-
 #mailTable tr {
 	border-bottom: 1px solid #ddd;
+	width : 100%;
 }
-
-#mailTable tr:nth-child(3) {
-	min-height: 200px;
+#mailTable tr:nth-child(4) {
+	min-height: 300px;
+	
 }
-
-#mailTable td, #mailTable th {
+#mailTable td {
 	padding: 10px;
 	text-align: left;
 }
-
 #mailTable th {
-	min-width: 25%;
+	text-align:center;
+	padding-left: 13px;
+	width : 20%;
 }
-
 #mailTable td {
-	min-width: 25%;
+	min-width: 10%;
 }
-
 input[type=file] {
 	display: inline-block !important;
 	height: 40px !important;
 	width: 350px !important;
 	margin-bottom: 8px;
 }
-
 .fileSize {
 	text-align: right;
 }
-
 .btnArea {
-	margin-top: 30px;
-	margin-bottom: 50px;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	margin-left : 10%;
+	font-size : .8em;
 }
-
 #detailInfoArea h3 {
 	max-width: 80%;
 	text-align: center;
 	margin: 0 auto 20px;;
 }
-
-@media screen and (max-width: 1300px) and (min-width: 600px) {
-	#mailTable {
-		width: 85%;
-		border-collapse: collapse;
-		border-top: 2px solid black;
-		border-bottom: 2px solid black;
-		font-size: 1.2em;
+pre{
+	display : block;
+	background-color : white !important;
+	font-family: 'Noto Sans KR', sans-serif !important;
+	font-size : 1em !important;
+	max-width : 750px;
+	overflow : scroll;
+}
+#contextArea > *{
+	text-align:center;
+}
+@media (max-width: 1100px) {
+	pre{
+		max-width : 520px;
+		margin : 0;
 	}
-	#mailTable tr {
-		border-bottom: 1px solid #ddd;
+	.reciveDate{
+		width : 80px;
 	}
-	#mailTable tr:nth-child(3) {
-		min-height: 200px;
+	th{
+		width : 30%;
 	}
-	#mailTable td{
-		padding: 10px;
-		text-align: left;
-	}
-	#mailTable th {
-		min-width: 25%;
-		padding-left: 10px;
-	}
-	#mailTable td {
-		min-width: 25%;
-	}
-	input[type=file] {
-		display: inline-block !important;
-		height: 40px !important;
-		width: 350px !important;
-		margin-bottom: 8px;
-	}
-	.fileSize {
-		text-align: right;
-	}
-	.btnArea {
-		margin-top: 30px;
-		margin-bottom: 50px;
-	}
-	#detailInfoArea h3 {
-		max-width: 80%;
-		text-align: center;
-		margin: 0 auto 20px;;
+	#mailTable *{
+		font-size : 95%;
 	}
 }
 </style>
@@ -112,8 +90,6 @@ input[type=file] {
 		<jsp:include page="../common/sideMenu/mail.jsp"/>
 
 		<section class="col-sm-10">
-			<br>
-			<br>
 			<div class="content">
 				<div class="btnArea" align="left">
 					<button class="btn btn-md">답장</button>
@@ -128,36 +104,39 @@ input[type=file] {
 					<table id="mailTable" align="center">
 						<tr>
 							<!-- 받은 메일이나 보낸 메일에 따라 다르다. -->
-							<c:if test="${ mail.mailType eq '받은메일'}">
-								<th width="25%">보낸사람</th>
+								<th>보낸사람</th>
 								<td><c:out value="${ mail.sendMail }"/></td>
-								<th>받은날짜</th>
-								<td><c:out value="${ mail.sendDate }"/></td>
-							</c:if>
-							<c:if test="${ mail.mailType eq '보낸메일'}">
-								<th>받는사람</th>
-								<td><c:out value="${ mail.reciveMail }"/></td>
-								<th>보낸날짜</th>
-								<td><c:out value="${ mail.sendDate }"/></td>
-							</c:if>
+								<th rowspan="2" style="border-left: 1px solid #ddd" class="reciveDate">받은날짜</th>
+								<td rowspan="2"><c:out value="${ mail.sendDate }"/></td>
+						</tr>
+						<tr>
+							<th>받는사람</th>
+							<td><c:out value="${ mail.reciveMail }"/></td>
 						</tr>
 						<tr>
 							<th>첨부파일</th>
 							<td colspan="3">
 								첨부파일 이름이 나와야 하는데 아직은 알할거임....
-								<span class="fileSize"></span>
+								<%-- <c:out var="attName" value="${ mail.mailAtt.originName }"/> --%>
+ 								<span class="fileSize">
+ 								<!-- 첨부파일 사이즈 추가하기  -->
+ 									<%-- <c:out var="mailSize" value="${ mail.mSize }"/>  --%>
+ 								</span>
+ 								<span onclick="location.href='${ contextPath }/mail/attDownload'">다운로드받기</span>
 							</td>
 						</tr>
 						<tr>
 							<th>내용</th>
 							<td colspan="3" id="contentArea">
+								<pre>
 								${ mail.mContent }
+								</pre>
 							</td>
 						</tr>
 					</table>
 				</div>
 				<div id="reserveArea">	
-					<
+					
 				</div>
 			</div>
 		</section>

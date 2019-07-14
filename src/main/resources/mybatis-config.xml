@@ -57,7 +57,7 @@
 		<typeAlias type="com.kh.lgtw.scheduler.model.vo.GroupMember" alias="GroupMember"/>
 		
 		<!-- 기타 VO -->
-		<!-- <typeAlias type="java.util.String" alias="StringVal"/> -->
+		<typeAlias type="com.kh.lgtw.common.model.vo.Attachment" alias="Attachment"/>
 	</typeAliases>
 	
 	<!-- mapper파일 등록 -->	

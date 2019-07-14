@@ -2,6 +2,8 @@ package com.kh.lgtw.mail.model.vo;
 
 import java.sql.Date;
 
+import com.kh.lgtw.common.model.vo.Attachment;
+
 public class Mail implements java.io.Serializable{
 	private int mailNo; 				// 메일번호
 	private String mTitle;				// 제목
@@ -21,53 +23,16 @@ public class Mail implements java.io.Serializable{
 	private String empName;				// 사원 이름
 	private String deptName;			// 부서명
 	private String jobName;				// 직책이름
+	private Attachment mailAtt;			// 메일 첨부파일이 존재하는 경우
 
 	public Mail() {}
 
-	public Mail(int mailNo, String mTitle, String mContent, Object objContent, String sendMail, String reciveMail,
-			String dStatus, Date sendDate, java.util.Date sendStringDate, String rStatus, String mailType, int mSize,
-			String reservationCheck, Date reservationDate, Date reservationTime) {
-		super();
-		this.mailNo = mailNo;
-		this.mTitle = mTitle;
-		this.mContent = mContent;
-		this.objContent = objContent;
-		this.sendMail = sendMail;
-		this.reciveMail = reciveMail;
-		this.dStatus = dStatus;
-		this.sendDate = sendDate;
-		this.sendStringDate = sendStringDate;
-		this.rStatus = rStatus;
-		this.mailType = mailType;
-		this.mSize = mSize;
-		this.reservationCheck = reservationCheck;
-		this.reservationDate = reservationDate;
-		this.reservationTime = reservationTime;
+	public Attachment getMailAtt() {
+		return mailAtt;
 	}
 
-	public Mail(int mailNo, String mTitle, String mContent, Object objContent, String sendMail, String reciveMail,
-			String dStatus, Date sendDate, java.util.Date sendStringDate, String rStatus, String mailType, int mSize,
-			String reservationCheck, Date reservationDate, Date reservationTime, String empName, String deptName,
-			String jobName) {
-		super();
-		this.mailNo = mailNo;
-		this.mTitle = mTitle;
-		this.mContent = mContent;
-		this.objContent = objContent;
-		this.sendMail = sendMail;
-		this.reciveMail = reciveMail;
-		this.dStatus = dStatus;
-		this.sendDate = sendDate;
-		this.sendStringDate = sendStringDate;
-		this.rStatus = rStatus;
-		this.mailType = mailType;
-		this.mSize = mSize;
-		this.reservationCheck = reservationCheck;
-		this.reservationDate = reservationDate;
-		this.reservationTime = reservationTime;
-		this.empName = empName;
-		this.deptName = deptName;
-		this.jobName = jobName;
+	public void setMailAtt(Attachment mailAtt) {
+		this.mailAtt = mailAtt;
 	}
 
 	public String getJobName() {
@@ -221,7 +186,7 @@ public class Mail implements java.io.Serializable{
 				+ sendDate + ", sendStringDate=" + sendStringDate + ", rStatus=" + rStatus + ", mailType=" + mailType
 				+ ", mSize=" + mSize + ", reservationCheck=" + reservationCheck + ", reservationDate=" + reservationDate
 				+ ", reservationTime=" + reservationTime + ", empName=" + empName + ", deptName=" + deptName
-				+ ", jobName=" + jobName + "]";
+				+ ", jobName=" + jobName + ", mailAtt=" + mailAtt + "]";
 	}
 
 }

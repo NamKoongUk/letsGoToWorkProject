@@ -66,6 +66,7 @@
 		
 		<section class="col-sm-10">
 		<br>
+		<button onclick="location.href='${contextPath}/mail/sendFin'">보내기완료 페이지</button>
 			<div class="content" align="center">
 				<form class="searchArea form-group" align="left" action="${ contextPath }/mail/search">
 					<input type="hidden" name="listType" value="${ pageType }"/>

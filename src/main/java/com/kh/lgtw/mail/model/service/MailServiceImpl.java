@@ -9,8 +9,10 @@ import javax.mail.Message;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.lgtw.approval.model.vo.PageInfo;
+import com.kh.lgtw.common.model.vo.Attachment;
 import com.kh.lgtw.mail.model.dao.MailDao;
 import com.kh.lgtw.mail.model.exception.StatusTypeException;
 import com.kh.lgtw.mail.model.vo.Absence;
@@ -37,18 +39,20 @@ public class MailServiceImpl implements MailService{
 		// 사원의 메일인경우 사원이름을 같이 불러온다.
 		for(int i = 0; i < list.size(); i++) {
 			Mail mail = list.get(i);
+			HashMap<String, Object> empInfo = null;
+			
 			if(mail.getMailType().equals("받은메일")) {
-				HashMap<String, Object> empInfo = md.selectSendEmpName(sqlSession, mail.getSendMail());
-				mail.setDeptName((String)empInfo.get("deptName"));
-				mail.setEmpName((String)empInfo.get("empName"));
-				mail.setJobName((String)empInfo.get("jobName"));
+				empInfo = md.selectSendEmpName(sqlSession, mail.getSendMail());
 			}else{
-				HashMap<String, Object> empInfo = md.selectReciveEmpName(sqlSession, mail.getReciveMail());
-				mail.setDeptName((String)empInfo.get("deptName"));
-				mail.setEmpName((String)empInfo.get("empName"));
-				mail.setJobName((String)empInfo.get("jobName"));
+				empInfo = md.selectReciveEmpName(sqlSession, mail.getReciveMail());
 			}
-			System.out.println("mail : " + mail);
+			
+			if(empInfo == null) {
+				continue;
+			}
+			mail.setDeptName((String)empInfo.get("deptName"));
+			mail.setEmpName((String)empInfo.get("empName"));
+			mail.setJobName((String)empInfo.get("jobName"));
 		}
 		return list;
 	}
@@ -82,6 +86,20 @@ public class MailServiceImpl implements MailService{
 	public int sendMail(Mail mail) {
 		return md.sendMail(sqlSession, mail);
 	}
+	
+	// 첨부파일이 있는 메일 전송하기 
+	@Override
+	public int sendMail(Mail mail, Attachment mailAtt) {
+		// 트랜젝션 처리하기 		
+		int result1 = md.sendMail(sqlSession, mail);
+		int result2 = md.insertAttachment(sqlSession, mailAtt);
+		System.out.println("메일 파일 저장 : " + result1 + "  " + result2);
+		if(result1 > 0 && result2 > 0) {
+			return 1;
+		}else {
+			return 0;
+		}
+	}
 
 	// 검색 메일 조회 - HashMap으로 
 	@Override
@@ -101,4 +119,9 @@ public class MailServiceImpl implements MailService{
 		return md.insertReciveMail(sqlSession, reciveMail);
 	}
 
+	// 방금 마지막 메일 번호 가져오기
+	@Override
+	public int selectMailNo() {
+		return md.selectMailNo(sqlSession);
+	}
 }

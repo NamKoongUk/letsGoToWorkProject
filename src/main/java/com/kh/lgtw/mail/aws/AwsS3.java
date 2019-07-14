@@ -212,7 +212,8 @@ public class AwsS3 {
 	public void fileUpload(String filePath) {
 		String bucketName = "lgtw-send-mail";
 		String keyName = "보낸메일-" + getServerTime();
-		System.out.println("파일 이름 추출" + filePath.substring(filePath.lastIndexOf("/"), filePath.lastIndexOf(".")));
+		System.out.println("filePath : " + filePath);
+		System.out.println("파일 이름 추출" + filePath.substring(filePath.lastIndexOf("/") + 1, filePath.lastIndexOf(".")));
 
 		File file = new File(filePath);
 		long contentLength = file.length();
