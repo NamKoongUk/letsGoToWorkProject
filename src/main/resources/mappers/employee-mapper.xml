@@ -109,19 +109,6 @@
 		<result property="stat" column="STAT"/>
 	</resultMap>
 	
-	<!-- 욱 휴가 -->
-	<!-- <resultMap type="java.util.HashMap" id="holidayResultSet">
-		<id column="EMPNO" property="empNo"/>
-		<result column="EMP_NAME" property="empName"/>
-		<result column="DEPT_NAME" property="deptName"/>
-		<result column="JOB_NAME" property="jobName"/>
-		<result column="MANAGER_EMPNO" property="managerNo"/>
-		<result column="MANAGER_NAME" property="managerName"/>
-		<result column="HIH_NO" property="hihNo"/>
-		<result column="HIH_TOTAL_DATE" property="hihTotalDate"/>
-		<result column="HIH_APPLY_DATE" property="hihApplyDate"/>
-	</resultMap> -->
-	
 
 	<!-- 로그인시 사원 객체 조회 -->
 	<select id="loginCheck" resultMap="employeeResultSet" parameterType="Employee">
@@ -367,38 +354,6 @@
 	<select id="checkEmpWork" resultType="_int" parameterType="_int">
 		select count(*) from attendance where =#{empNo} 
 	</select>
-	
-	<!-- 휴가추가 - 욱 -->
-	<insert id="insertHolidayAdmin">
-		INSERT INTO HI_HISTORY(
-			SELECT 
-			SEQ_HIH_NO.NEXTVAL,
-       		'연차',
-	        CASE 
-	        	<![CDATA[    
-		          WHEN TRUNC(SYSDATE + 1 - ENROLL_DATE) < 365  THEN 0
-		          WHEN TRUNC(SYSDATE + 1 - ENROLL_DATE) > 365*5 THEN 20
-		          WHEN TRUNC(SYSDATE + 1 - ENROLL_DATE) > 365*4 THEN 19
-		          WHEN TRUNC(SYSDATE + 1 - ENROLL_DATE) > 365*3 THEN 18
-		          WHEN TRUNC(SYSDATE + 1 - ENROLL_DATE) > 365*2 THEN 17
-		          WHEN TRUNC(SYSDATE + 1 - ENROLL_DATE) > 365*1 THEN 16
-		         
-	         ELSE 0 END HOLIDATE,
-	       	E.EMPNO,
-	       	SYSDATE
-		FROM EMPLOYEE E LEFT JOIN HI_HISTORY HH ON (E.EMPNO = HH.EMPNO)
-		WHERE (TO_CHAR(HH.HIH_APPLY_DATE,'YYYY') <> TO_CHAR(TO_DATE(SYSDATE),'YYYY') OR HH.HIH_NO IS NULL)
-		]]>
-		AND E.STATUS = 'Y')
-	</insert>
-	
-	<!-- <select id="showHolidayApply" parameterType="_int" resultType="">
-		
-	</select> -->
-	
-	
-	
-	
 	
 	
 </mapper>

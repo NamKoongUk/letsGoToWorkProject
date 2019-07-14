@@ -54,8 +54,8 @@
 			</button>
 			<div id="Demo4" class="w3-container w3-hide w3-animate-opacity contentSelectArea">
 				<ul>
-					<li class="list" onclick="location.href='${contextPath}/showHolidayApplyAdmin.em'">휴가 생성</li>
 					<li class="list" onclick="location.href='${contextPath}/showHolidayTotal.em'">휴가 관리</li>
+					<li class="list" onclick="location.href='${contextPath}/showHolidayApplyAdmin.em'">직원 휴가 관리</li>
 				</ul>
 			</div>
 			<button onclick="myFunction('Demo5')" class="accordionBtn">
