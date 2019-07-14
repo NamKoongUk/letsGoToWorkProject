@@ -171,16 +171,12 @@ public class ApprovalServiceImpl implements ApprovalService{
 //		return ad.showRefuseDcm(pi, session);
 //	}
 //
-	@Override
-	public int selectSaveDcm(int empNo) {
-		// TODO Auto-generated method stub
-		return ad.selectSaveDcm(empNo, session);
-	}
-	@Override
-	public ArrayList<HashMap<String, Object>> showSaveDcm(PageInfo pi) {
-		// TODO Auto-generated method stub
-		return ad.showSaveDcm(pi, session);
-	}
+//	//완료문서-임시저장문서
+//	@Override
+//	public ArrayList<HashMap<String, Object>> showSaveDcm(PageInfo pi) {
+//		// TODO Auto-generated method stub
+//		return ad.showSaveDcm(pi, session);
+//	}
 //	//------------------------관리자설정-----------------------------
 //	//전자결재 관리자
 //	@Override
@@ -317,21 +313,9 @@ public class ApprovalServiceImpl implements ApprovalService{
 //	//-----------------------------문서 상세보기 및 결재기능--------------------------------------
 	//문서 상세보기
 	@Override
-	public HashMap<String, Object> showDetailDcm(String adNo, int empNo) {
-		
-		HashMap<String, Object> map = ad.showDetailDcm(session, adNo);
-		
-		if(map != null) {
-			int result = ad.readAppDcm(session, adNo, empNo);
-		}
-		
-		return map;
-	}
 	public HashMap<String, Object> showDetailDcm(String adNo) {
-		
-		HashMap<String, Object> map = ad.showDetailDcm(session, adNo);
-		
-		return map;
+		// TODO Auto-generated method stub
+		return ad.showDetailDcm(session, adNo);
 	}
 	//결재리스트 불러오기
 	@Override
@@ -690,57 +674,6 @@ public class ApprovalServiceImpl implements ApprovalService{
 		}
 		return result1;
 	}
-	//문서 업데이트
-	@Override
-	public int updateApprovalDcm(Map<String, Object> appDcm) {
-		int result = 0;
-		int count = 0;
-		int result1 = ad.updateApprovalDcm((AppDocument)appDcm.get("ad"), session);
-		
-		int result2 = ad.deleteAppList(((AppDocument)appDcm.get("ad")).getAdNo(), session);
-		
-		if(result1 > 0) {
-			
-			switch((int)appDcm.get("type")) {
-			case 1 : result += ad.updateCircleList(appDcm, session);
-					count = 1;
-				break;
-			case 2 : result += ad.updateApprovalList(appDcm, session);
-					if(appDcm.get("reference") != null) {
-						result += ad.updateReferenceList(appDcm, session);						
-					}
-					 result += ad.updateSendList(appDcm, session);
-					 count = 3;
-				break;
-			case 3 : result += ad.updateApprovalList(appDcm, session);
-					result += ad.updateAgreeList(appDcm, session);
-					if(appDcm.get("reference") != null) {
-						result += ad.updateReferenceList(appDcm, session);						
-					}
-					count = 3;
-				break;
-			case 4 : result += ad.updateApprovalList(appDcm, session);
-					result += ad.updatePayAgreeList(appDcm, session);
-					result += ad.updateAgreeList(appDcm, session);
-					if(appDcm.get("reference") != null) {
-						result += ad.updateReferenceList(appDcm, session);						
-					}
-					count = 4;
-				break;
-			case 5 : result += ad.updateApplyList(appDcm, session);
-					result += ad.updateProcessList(appDcm, session);
-					if(appDcm.get("reference") != null) {
-						result += ad.updateReferenceList(appDcm, session);						
-					}
-					count = 3;
-				break;
-			}
-		}
-		
-		return result;
-	}
-
-
 	
 //	//문서양식 불러오기
 //	@Override
@@ -906,12 +839,6 @@ public class ApprovalServiceImpl implements ApprovalService{
 		// TODO Auto-generated method stub
 		return ad.downloadFile(adNo, session);
 	}
-	@Override
-	public int cancleAppDcm(String adNo) {
-		// TODO Auto-generated method stub
-		return ad.cancleAppDcm(adNo, session);
-	}
-
 
 
 	

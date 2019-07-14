@@ -112,7 +112,7 @@ public interface ApprovalService {
 
 	ArrayList<HashMap<String, Object>> showWaitCirculationDcm(PageInfo pi);
 
-	HashMap<String, Object> showDetailDcm(String adNo, int empNo);
+	HashMap<String, Object> showDetailDcm(String adNo);
 
 	int selectWaitDcm(int empNo);
 
@@ -187,16 +187,6 @@ public interface ApprovalService {
 	Attachment downloadFile(int adNo);
 
 	int selectAllPrograssDcm(int empNo, HashMap<String, Object> map);
-
-	HashMap<String, Object> showDetailDcm(String adNo);
-
-	int cancleAppDcm(String adNo);
-
-	int selectSaveDcm(int empNo);
-
-	ArrayList<HashMap<String, Object>> showSaveDcm(PageInfo pi);
-
-	int updateApprovalDcm(Map<String, Object> appDcm);
 
 	
 

@@ -122,7 +122,6 @@
 		<result property="jobName" column="JOB_NAME"/>
 		<result property="alStatus" column="AL_STATUS"/>
 		<result property="approvaler" column="APPROVALER"/>
-		<result property="appDept" column="APP_DEPT"/>
 	</resultMap>
 	
 	<resultMap type="java.util.HashMap" id="appDocument2">
@@ -135,12 +134,10 @@
 		<result property="adStatus" column="AD_STATUS"/>
 		<result property="adWriterName" column="AD_DCM_WRITER"/>
 		<result property="afName" column="AF_NAME"/>
-		<result property="afNo" column="AF_NO"/>
 		<result property="securityCode" column="SECURITY_CODE"/>
 		<result property="securityGrade" column="SECURITY_GRADE"/>
 		<result property="afDate" column="AF_DATE"/>
 		<result property="adLevel" column="AD_LEVEL"/>
-		<result property="adRead" column="AD_READ"/>
 		<result property="deptCode" column="DEPT_CODE"/>
 		<result property="deptName" column="DEPT_NAME"/>
 		<result property="adStatus" column="AD_STATUS"/>
@@ -325,13 +322,8 @@
 	
 	<insert id="writeApproval" parameterType="AppDocument">
 		INSERT INTO APP_DOCUMENT
-		VALUES(SEQ_AD_NO.NEXTVAL, #{adWriter}, #{adTitle}, #{adContent}, SYSDATE, NULL, #{afNo}, '대기', '1', 'N')
+		VALUES(SEQ_AD_NO.NEXTVAL, #{adWriter}, #{adTitle}, #{adContent}, SYSDATE, NULL, #{afNo}, '대기', '1')
 	</insert>
-	
-	<update id="updateApprovalDcm" parameterType="AppDocument">
-		UPDATE APP_DOCUMENT SET AD_WRITER = #{adWriter}, AD_TITLE = #{adTitle}, AD_CONTENT = #{adContent}, AD_START_DATE = SYSDATE, AF_NO = #{afNo}, AD_STATUS = '대기' 
-		WHERE AD_NO = #{adNo}
-	</update>
 	
 	<insert id="insertApprovalList" parameterType="java.util.HashMap">
 		<selectKey resultType="string" keyProperty="appDcmId" order="BEFORE">
@@ -339,24 +331,16 @@
 		</selectKey>
 		INSERT INTO APPROVAL_LIST
 		VALUES(SEQ_AL_NO.NEXTVAL, NULL, #{alRoll}, #{alEmpno}, #{status}, #{appDcmId}, #{alLevel})
-	</insert>
-	
-	<insert id="updateApprovalList" parameterType="java.util.HashMap">
-		INSERT INTO APPROVAL_LIST
-		VALUES(SEQ_AL_NO.NEXTVAL, NULL, #{alRoll}, #{alEmpno}, #{status}, #{ad.adNo}, #{alLevel})
-	</insert>
-	 
+	</insert> 
 	
 	<select id="detailDcm" parameterType="java.lang.String" resultMap="appDocument2">
-		SELECT AD.*, AF.*, SF.*, E.EMP_NAME AS AD_DCM_WRITER, D.DEPT_NAME, E2.EMP_NAME AS APPROVALER, J.JOB_NAME ,AL.*, A.*, D2.DEPT_NAME AS APP_DEPT
+		SELECT AD.*, AF.*, SF.*, E.EMP_NAME AS AD_DCM_WRITER, D.DEPT_NAME, E2.EMP_NAME AS APPROVALER, J.JOB_NAME ,AL.*, A.*
 		FROM APP_DOCUMENT AD
 		JOIN APPROVAL_LIST AL ON (AL.AD_NO = AD.AD_NO)
 		JOIN EMPLOYEE E2 ON (AL.AL_EMPNO = E2.EMPNO)
 		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
 		LEFT JOIN DEPT_HISTORY DH ON(E.EMPNO = DH.EMPNO)
 		LEFT JOIN DEPT D ON (D.DEPT_CODE = DH.DEPT_CODE)
-        LEFT JOIN DEPT_HISTORY DH2 ON(E2.EMPNO = DH2.EMPNO)
-		LEFT JOIN DEPT D2 ON (D2.DEPT_CODE = DH2.DEPT_CODE)
         LEFT JOIN PROMOTION_HISTORY PH ON (PH.EMPNO = E2.EMPNO)
         LEFT JOIN JOB J ON(J.JOB_CODE = PH.JOB_CODE)
 		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
@@ -417,7 +401,6 @@
 		WHERE AL_EMPNO = #{empNo}
 		AND AD_STATUS = AL_STATUS
 		AND AD_STATUS != '반려'
-		AND AD_STATUS != '저장'
 		<!-- AND (AD_STATUS = '대기' OR AD_STATUS = '합의대기' OR AD_STATUS = '재무합의대기') -->
 		AND (AL_ROLL = '합의자' OR AL_ROLL = '결재자' OR AL_ROLL = '재무합의자' OR AL_ROLL = '수신자' OR AL_ROLL = '신청자')
 		AND AD_LEVEL = AL_LEVEL
@@ -434,7 +417,6 @@
 		WHERE AL_EMPNO = #{empNo}
 		AND AD_STATUS = AL_STATUS
 		AND AD_STATUS != '반려'
-		AND AD_STATUS != '저장'
 		<!-- AND (AD_STATUS = '대기' OR AD_STATUS = '합의대기' OR AD_STATUS = '재무합의대기') -->
 		AND (AL_ROLL = '합의자' OR AL_ROLL = '결재자' OR AL_ROLL = '재무합의자' OR AL_ROLL = '수신자' OR AL_ROLL = '신청자' OR AL_ROLL = '처리자')
 		AND AD_LEVEL = AL_LEVEL
@@ -451,7 +433,6 @@
 		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
 		WHERE AL_EMPNO = #{empNo}
 		AND AD_STATUS != '반려'
-		AND AD_STATUS != '저장'
 		AND (AL_STATUS = AD_STATUS
 			AND (AL_ROLL = '합의자' OR AL_ROLL = '결재자' OR AL_ROLL = '재무합의자' OR AL_ROLL = '수신자' OR AL_ROLL = '신청자')
 			AND	AD_LEVEL < AL_LEVEL
@@ -470,7 +451,6 @@
 		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
 		WHERE AL_EMPNO = #{empNo}
 		AND AD_STATUS != '반려'
-		AND AD_STATUS != '저장'
 		AND (AL_STATUS = AD_STATUS
 			AND (AL_ROLL = '합의자' OR AL_ROLL = '결재자' OR AL_ROLL = '재무합의자' OR AL_ROLL = '수신자' OR AL_ROLL = '신청자')
 			AND	AD_LEVEL < AL_LEVEL
@@ -492,7 +472,6 @@
 		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
 		WHERE AL_EMPNO = #{empNo}
 		AND AD_STATUS != '반려'
-		AND AD_STATUS != '저장'
 		AND AL_STATUS = '결재'
 		AND (AD_STATUS = '대기' OR AD_STATUS = '합의대기' OR AD_STATUS = '재무합의대기' OR AD_STATUS = '처리대기' OR AD_STATUS = '수신대기')
 		AND (AL_ROLL = '합의자' OR AL_ROLL = '결재자' OR AL_ROLL = '재무합의자' OR AL_ROLL = '수신자' OR AL_ROLL = '신청자')
@@ -509,7 +488,6 @@
 		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
 		WHERE AL_EMPNO = #{empNo}
 		AND AD_STATUS != '반려'
-		AND AD_STATUS != '저장'
 		AND AL_STATUS = '결재'
 		AND (AD_STATUS = '대기' OR AD_STATUS = '합의대기' OR AD_STATUS = '재무합의대기' OR AD_STATUS = '처리대기' OR AD_STATUS = '수신대기')
 		AND (AL_ROLL = '합의자' OR AL_ROLL = '결재자' OR AL_ROLL = '재무합의자' OR AL_ROLL = '수신자' OR AL_ROLL = '신청자')
@@ -531,12 +509,10 @@
 		WHERE AL_EMPNO = #{empNo}
 		<if test="sfCode == 'circle'">
 			AND SF.SIGN_CODE = 'circle'
-			AND AD_STATUS != '저장'
 			AND AL_STATUS = '결재'
 		</if>
 		<if test="sfCode == 'reception'">
 			AND (AD_STATUS = '수신대기' OR AD_STATUS = '완료')
-			AND AD_STATUS != '저장'
 			AND AL_STATUS = '결재'
 			AND AL_ROLL = '수신자'
 		</if>
@@ -572,11 +548,10 @@
 		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
 		WHERE AL_EMPNO = #{empNo}
 		AND AD_STATUS != '완료'
-		AND AD_STATUS != '저장'
 		AND AD_STATUS != '반려'
 		<if test="sfCode == 'circle'">
 		AND AL_STATUS = '회람대기'
-		AND AD_STATUS = '대기'
+		AND AD_STATUS = '회람대기'
 		AND SF.SIGN_CODE = 'circle'
 		</if>
 		<if test="sfCode == 'reception'">
@@ -597,8 +572,7 @@
 		WHERE AL_EMPNO = #{empNo}
 		AND AL_STATUS = '회람대기'
 		AND AD_STATUS != '반려'
-		AND AD_STATUS != '저장'
-		AND AD_STATUS = '대기'
+		AND AD_STATUS = '회람대기'
 		AND SF.SIGN_CODE = 'circle'
 	</select>
 	
@@ -610,10 +584,9 @@
 		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
 		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
 		WHERE AL_EMPNO = #{empNo}
-		AND AL_STATUS = '수신대기'
+		AND AL_STATUS = '대기'
 		AND AD_STATUS != '반려'
-		AND AD_STATUS != '저장'
-		AND AD_STATUS = '수신대기'
+		AND AD_STATUS = '대기'
 		AND SF.SIGN_CODE = 'reception'
 		ORDER BY AD_START_DATE DESC
 	</select>
@@ -631,7 +604,6 @@
                     FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                     WHERE AL.AD_NO = #{adNo}
                     AND AD_STATUS != '반려'
-                    AND AD_STATUS != '저장'
                     AND (AL.AL_ROLL = '결재자' 
                     OR AL.AL_ROLL = '합의자' 
                     OR AL.AL_ROLL = '재무합의자' 
@@ -640,7 +612,6 @@
                                                 FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                                                 WHERE AL.AD_NO = #{adNo}
                                                 AND AD_STATUS != '반려'
-                                                AND AD_STATUS != '저장'
                                                 AND (AL.AL_ROLL = '결재자' 
                                                 OR AL.AL_ROLL = '합의자' 
                                                 OR AL.AL_ROLL = '재무합의자' 
@@ -657,12 +628,10 @@
                     FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                     WHERE AL.AD_NO = #{adNo}
                     AND AD_STATUS != '반려'
-                    AND AD_STATUS != '저장'
                     AND AL.AL_ROLL = '결재자') = (SELECT COUNT(*) 
                                                 FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                                                 WHERE AL.AD_NO = #{adNo}
                                                 AND AD_STATUS != '반려'
-                                                AND AD_STATUS != '저장'
                                                 AND AL.AL_ROLL = '결재자'
                                                 AND AL.AL_STATUS = '결재') THEN 'Y'
                                                 ELSE 'N'
@@ -695,7 +664,6 @@
 		JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
 		WHERE AD.AD_NO = #{adNo}
 		AND AD_STATUS != '반려'
-		AND AD_STATUS != '저장'
 		AND AL.AL_ROLL = '재무합의자'
 	</select>
 	
@@ -711,12 +679,10 @@
                     FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                     WHERE AL.AD_NO = #{adNo}
                     AND AD_STATUS != '반려'
-                    AND AD_STATUS != '저장'
                     AND AL.AL_ROLL = '회람자') = (SELECT COUNT(*) 
                                                 FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                                                 WHERE AL.AD_NO = #{adNo}
                                                 AND AD_STATUS != '반려'
-                                                AND AD_STATUS != '저장'
                                                 AND (AL.AL_ROLL = '회람자')
                                                 AND AL.AL_STATUS = '결재') THEN 'Y'
                                                 ELSE 'N'
@@ -729,12 +695,10 @@
                     FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                     WHERE AL.AD_NO = #{adNo}
                     AND AD_STATUS != '반려'
-                    AND AD_STATUS != '저장'
                     AND AL.AL_ROLL = '수신자') = (SELECT COUNT(*) 
                                                 FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                                                 WHERE AL.AD_NO = #{adNo}
                                                 AND AD_STATUS != '반려'
-                                                AND AD_STATUS != '저장'
                                                 AND (AL.AL_ROLL = '수신자')
                                                 AND AL.AL_STATUS = '결재') THEN 'Y'
                                                 ELSE 'N'
@@ -747,12 +711,10 @@
                     FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                     WHERE AL.AD_NO = #{adNo}
                     AND AD_STATUS != '반려'
-                    AND AD_STATUS != '저장'
                     AND AL.AL_ROLL = '합의자') = (SELECT COUNT(*) 
                                                 FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                                                 WHERE AL.AD_NO = #{adNo}
                                                 AND AD_STATUS != '반려'
-                                                AND AD_STATUS != '저장'
                                                 AND AL.AL_ROLL = '합의자'
                                                 AND AL.AL_STATUS = '결재') THEN 'Y'
                                                 ELSE 'N'
@@ -765,12 +727,10 @@
                     FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                     WHERE AL.AD_NO = #{adNo}
                     AND AD_STATUS != '반려'
-                    AND AD_STATUS != '저장'
                     AND AL.AL_ROLL = '재무합의자') = (SELECT COUNT(*) 
                                                 FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                                                 WHERE AL.AD_NO = #{adNo}
                                                 AND AD_STATUS != '반려'
-                                                AND AD_STATUS != '저장'
                                                 AND AL.AL_ROLL = '재무합의자'
                                                 AND AL.AL_STATUS = '결재') THEN 'Y'
                                                 ELSE 'N'
@@ -783,12 +743,10 @@
                     FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                     WHERE AL.AD_NO = #{adNo}
                     AND AD_STATUS != '반려'
-                    AND AD_STATUS != '저장'
                     AND AL.AL_ROLL = '신청자') = (SELECT COUNT(*) 
                                                 FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                                                 WHERE AL.AD_NO = #{adNo}
                                                 AND AD_STATUS != '반려'
-                                                AND AD_STATUS != '저장'
                                                 AND AL.AL_ROLL = '신청자'
                                                 AND AL.AL_STATUS = '결재') THEN 'Y'
                                                 ELSE 'N'
@@ -801,12 +759,10 @@
                     FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                     WHERE AL.AD_NO = #{adNo}
                     AND AD_STATUS != '반려'
-                    AND AD_STATUS != '저장'
                     AND AL.AL_ROLL = '처리자') = (SELECT COUNT(*) 
                                                 FROM APPROVAL_LIST AL JOIN APP_DOCUMENT AD ON(AL.AD_NO = AD.AD_NO)
                                                 WHERE AL.AD_NO = #{adNo}
                                                 AND AD_STATUS != '반려'
-                                                AND AD_STATUS != '저장'
                                                 AND AL.AL_ROLL = '처리자'
                                                 AND AL.AL_STATUS = '결재') THEN 'Y'
                                                 ELSE 'N'
@@ -855,7 +811,6 @@
 		WHERE AD_WRITER = #{empNo}
 		AND AD_STATUS != '완료' 
 		AND AD_STATUS != '반려'
-		AND AD_STATUS != '저장'
 	</select>
 	
 	<select id="showMyWriteDcm" parameterType="PageInfo" resultMap="appDocument">
@@ -867,7 +822,6 @@
 		WHERE AD_WRITER = #{empNo}
 		AND AD_STATUS != '완료' 
 		AND AD_STATUS != '반려'
-		AND AD_STATUS != '저장'
 		ORDER BY AD_START_DATE
 	</select>
 	
@@ -878,8 +832,8 @@
 		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
 		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
 		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
-		WHERE (AL_EMPNO = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려' AND AD_STATUS != '저장')
-        OR (AD_WRITER = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려' AND AD_STATUS != '저장')
+		WHERE (AL_EMPNO = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려')
+        OR (AD_WRITER = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려')
 	</select>
 	
 	<select id="selectAllPrograssDcmAndCategory" resultType="_int" parameterType="java.util.HashMap">
@@ -891,8 +845,8 @@
 		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
 		JOIN DEPT_HISTORY DH ON(dh.empno = E.EMPNO)
         JOIN DEPT D ON(D.DEPT_CODE = DH.DEPT_CODE)
-		WHERE ((AL_EMPNO = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려' AND AD_STATUS != '저장')
-        OR (AD_WRITER = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려' AND AD_STATUS != '저장'))
+		WHERE ((AL_EMPNO = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려')
+        OR (AD_WRITER = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려'))
         <if test="afNo != null and !afNo.equals('all')">
 	        AND AF.AF_NO = #{afNo}
         </if>
@@ -914,8 +868,8 @@
 		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
 		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
 		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
-		WHERE ((AL_EMPNO = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려' AND AD_STATUS != '저장')
-        OR (AD_WRITER = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려' AND AD_STATUS != '저장'))
+		WHERE ((AL_EMPNO = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려')
+        OR (AD_WRITER = #{empNo} AND AD_STATUS != '완료' AND AD_STATUS != '반려'))
         <if test="filterInfo != null and !filterInfo.equals('all')">
         	AND AF.AF_NO = #{filterInfo}
         </if>
@@ -1109,38 +1063,6 @@
 		SELECT *
 		FROM ATTACHMENT
 		WHERE AD_NO = #{adNo}
-	</select>
-	
-	<update id="updateReadDcm" parameterType="java.util.HashMap">
-		UPDATE APP_DOCUMENT SET AD_READ = 'Y' WHERE AD_NO = #{adNo} AND AD_WRITER != #{empNo}
-	</update>
-	
-	<update id="saveDcm" parameterType="java.lang.String">
-		UPDATE APP_DOCUMENT SET AD_STATUS = '저장' WHERE AD_NO = #{adNo}
-	</update>
-	
-	<select id="selectSaveDcm" parameterType="_int" resultType="_int">
-		SELECT COUNT(DISTINCT AD.AD_NO)
-		FROM APP_DOCUMENT AD
-		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
-		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
-		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
-        JOIN SECURITY S ON(S.SECURITY_CODE = AF.SECURITY_CODE)
-        WHERE AD_STATUS = '저장'
-        AND AD.AD_WRITER = #{empNo}
-        ORDER BY AD_START_DATE DESC
-	</select>
-	
-	<select id="showSaveDcm" parameterType="PageInfo" resultMap="appDocument2">
-		SELECT *
-		FROM APP_DOCUMENT AD
-		JOIN EMPLOYEE E ON(AD.AD_WRITER = E.EMPNO)
-		JOIN APP_FORM AF ON (AD.AF_NO = AF.AF_NO)
-		JOIN SIGN_FORM SF ON (AF.SIGN_CODE = SF.SIGN_CODE)
-        JOIN SECURITY S ON(S.SECURITY_CODE = AF.SECURITY_CODE)
-        WHERE AD_STATUS = '저장'
-        AND AD.AD_WRITER = #{empNo}
-        ORDER BY AD_START_DATE DESC
 	</select>
 	
 </mapper>
