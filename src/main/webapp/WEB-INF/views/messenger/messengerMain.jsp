@@ -95,7 +95,7 @@ body {
 								<th width="15%">날짜</th>
 							</tr>
 						</thead>
-						<tbody id="9">
+						<tbody id="messengerArea">
 						</tbody>
 					</table>
 					<br>
