@@ -199,6 +199,8 @@ public class SchedulerDaoImpl implements SchedulerDao{
 		int result2 = 0;
 		int result3 = 0;
 		
+		int result4 = sqlSession.update("Scheduler.updateGscr", scheduler);
+		
 		int result1 = sqlSession.delete("Scheduler.deleteGMList", scheduler);
 		if(result1 > 0) {
 			for(int i = 0; i < setEmpList.size(); i++) {

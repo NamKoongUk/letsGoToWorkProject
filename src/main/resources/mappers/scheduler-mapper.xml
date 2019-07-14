@@ -318,6 +318,12 @@
 		WHERE SCHEDULER_NO = #{schedulerNo}
 	</delete>
 	
+	<update id="updateGscr"	parameterType="Scheduler">
+		UPDATE SCHEDULER
+		SET SCHEDULER_NAME = #{schedulerName}, SCHEDULER_COLOR = #{schedulerColor}
+		WHERE SCHEDULER_NO = #{schedulerNo}
+	</update>
+	
 </mapper>
  
  
