@@ -222,7 +222,7 @@ public class SchedulerController {
 		scheduler.setSchedulerNo(Integer.parseInt(schedulerNo));
 		scheduler.setSchedulerName(schedulerName);
 		scheduler.setSchedulerColor(schedulerColor);
-		System.out.println(scheduler);
+		
 		int result = ss.updateGroupScheduler(scheduler, setEmpList, readEmpList);
 		
 		if(result > 0) {
