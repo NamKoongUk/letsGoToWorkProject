@@ -198,8 +198,6 @@ public interface ApprovalService {
 
 	int updateApprovalDcm(Map<String, Object> appDcm);
 
-	int saveApprovalDcm(Map<String, Object> appDcm);
-
 	
 
 }

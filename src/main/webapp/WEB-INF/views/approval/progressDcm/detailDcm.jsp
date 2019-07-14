@@ -19,10 +19,6 @@
 		font-size:17px;
 	}
 	
-	@media print {
-	  div.noprint { display:none; }
-	}
-	
 </style>
 </head>
 <body>
@@ -31,18 +27,16 @@
 	<div class="row wrap">
 		<jsp:include page="../../common/sideMenu/approval.jsp"/>
 		
-		<section class="col-sm-10" id="printArea">
-			<h2 class="title" align="center">${ requestScope.map.adTitle }</h2>
+		<section class="col-sm-10">
+			<h2 class="title" align="center">${ requestScope.map.afName }</h2>
 			
 			<div class="content">
-				<div class="noprint">
 				<c:if test="${ sessionScope.loginEmp.empNo == requestScope.map.adWriter && requestScope.map.adRead == 'N' }">
-					<a href="#" onclick="updateAd(${ requestScope.map.adNo });">수정하기</a> &nbsp; <a href="#" onclick="cancleAd(${ requestScope.map.adNo });">기안취소</a> &nbsp;
+					<a href="#" onclick="updateAd(${ requestScope.map.adNo });">수정하기</a> &nbsp; <a href="#" onclick="cancleAd(${ requestScope.map.adNo });">기안취소</a>
 				</c:if>
-				<a href="#" class="print" onclick="print();">인쇄하기</a>   
+				   
 				<a href="#" class="pull-right" onclick="adCopy(${ requestScope.map.adNo });">기안복사</a>
-				</div>
-					<table class="table table-bordered" id="info">
+					<table class="table table-bordered">
 						<tr>
 				        <td class="head">기안부서</td>
 				        <td>
@@ -66,22 +60,11 @@
 				      <tr>
 				        <td class="head">보존기간</td>
 				        <td>
-				        	<c:if test="${ requestScope.map.afDate == '1years' }">
-								<p>1년</p>				        	
-				        	</c:if>
-				        	<c:if test="${ requestScope.map.afDate == '3years' }">
-								<p>3년</p>				        	
-				        	</c:if>
-				        	<c:if test="${ requestScope.map.afDate == '5years' }">
-								<p>5년</p>				        	
-				        	</c:if>
-				        	<c:if test="${ requestScope.map.afDate == '10years' }">
-								<p>10년</p>				        	
-				        	</c:if>
+							<p>${ requestScope.map.afDate }</p>
 						</td>
 						<td class="head">보안등급</td>
 						<td>
-							<p><c:out value="${ requestScope.map.securityGrade }"/></p>
+							<p><c:out value="${ requestScope.map.securityCode }"/>등급</p>
 						</td>
 				      </tr>
 					</table>
@@ -763,6 +746,7 @@
 					
 					
 					<div id="area">
+						<label>제목 : ${ requestScope.map.adTitle }</label>
 					    <div>${ requestScope.map.adContent }</div>
 		 				<br><br>
 					</div>
@@ -938,10 +922,7 @@
 	  </div>
 	</div>
 	
-	<script>		
-		setTimeout(function(){objWin.print();objWin.close();}, 1000);
-
-	
+	<script>
 		function adCopy(adNo){
 			location.href="${contextPath}/copyAd.ap?adNo=" + adNo;
 		}

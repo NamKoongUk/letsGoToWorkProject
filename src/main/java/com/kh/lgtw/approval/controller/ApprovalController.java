@@ -1105,19 +1105,19 @@ public class ApprovalController {
 					return "redirect:showWaitDcm.ap";
 				} catch (IllegalStateException | IOException e) {
 					new File(filePath + "\\" + changeName).delete();
-					return "redirect:myWriteDcm.ap";
+					return "redirect:showWaitDcm.ap";
 				}
 			}else {
-				return "redirect:myWriteDcm.ap";	
+				return "redirect:showWaitDcm.ap";	
 			}
 			
 		}else {
 			int result = as.writeApproval(appDcm);
 			
 			if(result > 0) {
-				return "redirect:myWriteDcm.ap";		
+				return "redirect:showWaitDcm.ap";		
 			}else {
-				return "redirect:myWriteDcm.ap";		
+				return "redirect:showWaitDcm.ap";		
 			}
 		}
 		
@@ -1125,7 +1125,7 @@ public class ApprovalController {
 	
 	@RequestMapping(value = "updateApproval.ap")
 	public String updateApproval(AppDocument ad, HttpServletRequest request) {
-		System.out.println("adNo가 들어오는가? : " + ad);
+		System.out.println(ad);
 		String[] circle = request.getParameterValues("circleEmp");
 		String[] approval = request.getParameterValues("approvalEmp");
 		String[] reference = request.getParameterValues("referenceEmp");
@@ -1190,7 +1190,7 @@ public class ApprovalController {
 		
 		System.out.println(result);
 		
-		return "redirect:myWriteDcm.ap";		
+		return "redirect:showWaitDcm.ap";		
 	}
 	
 
@@ -1226,79 +1226,12 @@ public class ApprovalController {
 	}
 
 	// 문서 저장
-	@RequestMapping(value = "saveApprovalDcm.ap")
-	public String saveApprovalDcm(AppDocument ad, HttpServletRequest request, 
-			@RequestParam(name="contract", required=false) MultipartFile contract) {
-		System.out.println(ad);
-		String[] circle = request.getParameterValues("circleEmp");
-		String[] approval = request.getParameterValues("approvalEmp");
-		String[] reference = request.getParameterValues("referenceEmp");
-		String[] payAgree = request.getParameterValues("payAgreeEmp");
-		String[] apply = request.getParameterValues("applyEmp");
-		String[] process =  request.getParameterValues("processEmp");
-		String[] send = request.getParameterValues("sendEmp");
-		String[] agree = request.getParameterValues("agreeEmp");
-		
-		String signCode = request.getParameter("signCode");
+	@RequestMapping("saveApprovalDcm.ap")
+	public String saveApprovalDcm(AppDocument ad, HttpSession session) {
 
-		Map<String, Object> appDcm = new HashMap<String, Object>();
-		appDcm.put("ad", ad);
-		
-		int count = 0;
-		
-		switch (signCode) {
-		case "circle": appDcm.put("circle", circle);
-				appDcm.put("type", 1);
-				break;
-				
-		case "approvalSend": appDcm.put("approval", approval);
-				if(reference != null) {
-					appDcm.put("reference", reference);					
-				}
-				appDcm.put("send", send);
-				appDcm.put("type", 2);
-				break;
-				
-		case "normalApproval": appDcm.put("approval", approval);
-				if(agree != null) {
-					appDcm.put("agree", agree);					
-				}
-				if(reference != null) {
-					appDcm.put("reference", reference);					
-				}
-				appDcm.put("type", 3);
-			break;
-			
-		case "agreementApproval": appDcm.put("approval", approval);
-				appDcm.put("payAgree", payAgree);
-				if(agree != null) {
-					appDcm.put("agree", agree);					
-				}
-				if(reference != null) {
-					appDcm.put("reference", reference);					
-				}	
-				appDcm.put("type", 4);
-			break;
-			
-		case "applyDcm": appDcm.put("apply", apply);
-				appDcm.put("process", process);
-				if(reference != null) {
-					appDcm.put("reference", reference);					
-				}
-				appDcm.put("type", 5);
-			break;
+		// int result = as.saveApprovalDcm(ad);
 
-		}
-
-		int result = as.saveApprovalDcm(appDcm);
-		
-		if(result > 0) {
-			return "redirect:showSaveDcm.ap";		
-		}else {
-			return "redirect:showSaveDcm.ap";		
-		}
-		
-		
+		return "";
 	}
 
 	// 결재문서 작성완료
@@ -1418,7 +1351,7 @@ public class ApprovalController {
 	   
 	   int result = as.cancleAppDcm(adNo);;
 	   
-	   return "redirect:showSaveDcm.ap";
+	   return "finDcm/saveDcm";
    }
 }
 
