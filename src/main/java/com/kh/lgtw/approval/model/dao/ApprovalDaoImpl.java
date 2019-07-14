@@ -599,6 +599,12 @@ public class ApprovalDaoImpl implements ApprovalDao{
 		
 		return session.insert("Approval.writeApproval", appDocument);
 	}
+	
+	@Override
+	public int saveApprovalDcm(AppDocument appDocument, SqlSession session) {
+		
+		return session.insert("Approval.saveApprovalDcm", appDocument);
+	}
 
 	@Override
 	public int insertCircleList(Map<String, Object> appDcm, SqlSession session) {
@@ -923,7 +929,7 @@ public class ApprovalDaoImpl implements ApprovalDao{
 			map.put("alLevel", i + 1);
 			map.put("status", "대기");
 			map.put("adNo", ((AppDocument)appDcm.get("ad")).getAdNo());
-			
+			System.out.println(map);
 			result1 = session.insert("Approval.updateApprovalList", map);
 		}
 		

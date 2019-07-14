@@ -739,6 +739,57 @@ public class ApprovalServiceImpl implements ApprovalService{
 		
 		return result;
 	}
+	
+	@Override
+	public int saveApprovalDcm(Map<String, Object> appDcm) {
+		int result = 0;
+		int count = 0;
+		int result1 = ad.saveApprovalDcm((AppDocument)appDcm.get("ad"), session);
+
+		if(result1 > 0) {
+			
+			switch((int)appDcm.get("type")) {
+			case 1 : result += ad.insertCircleList(appDcm, session);
+					count = 1;
+				break;
+			case 2 : result += ad.insertApprovalList(appDcm, session);
+					count += 1;
+					if(appDcm.get("reference") != null) {
+						result += ad.insertReferenceList(appDcm, session);
+						count += 1;
+					}
+					 result += ad.insertSendList(appDcm, session);
+					 count += 1;
+				break;
+			case 3 : result += ad.insertApprovalList(appDcm, session);
+					result += ad.insertAgreeList(appDcm, session);
+					count += 2;
+					if(appDcm.get("reference") != null) {
+						result += ad.insertReferenceList(appDcm, session);	
+						count += 1;
+					}
+				break;
+			case 4 : result += ad.insertApprovalList(appDcm, session);
+					result += ad.insertPayAgreeList(appDcm, session);
+					result += ad.insertAgreeList(appDcm, session);
+					count += 3;
+					if(appDcm.get("reference") != null) {
+						result += ad.insertReferenceList(appDcm, session);	
+						count += 1;
+					}
+				break;
+			case 5 : result += ad.insertApplyList(appDcm, session);
+					result += ad.insertProcessList(appDcm, session);
+					count += 2;
+					if(appDcm.get("reference") != null) {
+						result += ad.insertReferenceList(appDcm, session);						
+						count += 1;
+					}
+				break;
+			}
+		}
+		return result1;
+	}
 
 
 	
