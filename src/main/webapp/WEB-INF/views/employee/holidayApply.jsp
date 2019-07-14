@@ -184,10 +184,10 @@
 		
 		<section class="col-sm-10">
 		<br>
-			<form id="holidayApply" style="margin-left:15px;">
+			<form style="margin-left:15px;">
 				<fieldset style="border:0 none">
 					<span class="detail_select">
-                		<a href="javascript:void(0)" onclick="formSubmit()">기안하기</a>
+                		<a href="javascript:void(0)">기안하기</a>
            		 	</span>
 				</fieldset>
 			</form>
@@ -500,19 +500,6 @@
 				chooseDay.eq(i).children().remove();
 			}
 			$("#choice_day_count").text(0);
-		}
-		
-		
-		
-		
-		function formSubmit(){
-			$("#tbody_selector").children().children();
-			
-			console.log($("#tbody_selector").children().children());
-			
-			$("#holidayApply").append();
-			
-			
 		}
 	
 	</script>

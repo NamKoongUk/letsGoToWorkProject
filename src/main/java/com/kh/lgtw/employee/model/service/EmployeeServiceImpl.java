@@ -578,19 +578,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	
-	//휴가추가 - 욱
-	@Override
-	public int holidayInsertAdmin() {
-		return empDao.holidayInsertAdmin(sqlSession);
-	}
-	
-	//휴가 신청 조회 - 욱
-	@Override
-	public HashMap<String, Object> showHolidayApply(int empNo) {
-		return empDao.showHolidayApply(sqlSession, empNo);
-	}
-
-	
 
 
 

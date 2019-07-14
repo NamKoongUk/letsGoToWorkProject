@@ -280,19 +280,6 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	public int checkEmpWork(SqlSession sqlSession, int empNo) {
 		return sqlSession.selectOne("Employee.checkEmpWork",empNo);
 	}
-	
-	//휴가 추가 - 욱
-	@Override
-	public int holidayInsertAdmin(SqlSession sqlSession) {
-		
-		return sqlSession.insert("Employee.insertHolidayAdmin");
-	}
-	
-	//휴가 신청 조회 - 욱
-	@Override
-	public HashMap<String, Object> showHolidayApply(SqlSession sqlSession, int empNo) {
-		return sqlSession.selectOne("Employee.showHolidayApply",empNo);
-	}
 
 
 
